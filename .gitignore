@@ -1,0 +1,60 @@
+# Ambientes e artefatos locais
+.venv/
+venv/
+.buildvenv/
+build/
+dist/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+node_modules/
+*.spec
+!Ritmo.spec
+
+# Dados de estudo e diagnósticos
+*.db
+*.db-*
+*.sqlite*
+storage/*.csv
+storage/uploads/
+storage/materials/
+storage/backups/
+storage/.migration_disabled
+materials/
+backups/
+data/
+*.log
+
+# Preferências e segredos
+config/local.json
+.env
+.env.*
+!.env.example
+*.dpapi
+*.pem
+*.p12
+*.pfx
+source_checkout.txt
+
+# Pesos, runtime e downloads
+*.gguf
+*.part
+*.zip
+RitmoModels/
+models/
+runtime/
+downloads/
+installation.json
+
+# Materiais e mídia do usuário
+*.mp3
+*.mp4
+*.wav
+*.pdf
+*.docx
+
+# Sistema
+Thumbs.db
+.DS_Store

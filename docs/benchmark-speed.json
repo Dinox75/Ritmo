@@ -1,0 +1,110 @@
+[
+  {
+    "model": "qwen3-1.7b-q8_0",
+    "run": 1,
+    "seconds": 0.91,
+    "completion_tokens": 72,
+    "observed_tokens_per_second": 79.1,
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 86,
+      "prompt_ms": 263.624,
+      "prompt_per_token_ms": 3.0653953488372094,
+      "prompt_per_second": 326.2221952477771,
+      "predicted_n": 72,
+      "predicted_ms": 629.362,
+      "predicted_per_token_ms": 8.86425352112676,
+      "predicted_per_second": 112.8126578979983
+    }
+  },
+  {
+    "model": "qwen3-1.7b-q8_0",
+    "run": 2,
+    "seconds": 0.67,
+    "completion_tokens": 74,
+    "observed_tokens_per_second": 110.4,
+    "timings": {
+      "cache_n": 85,
+      "prompt_n": 1,
+      "prompt_ms": 9.153,
+      "prompt_per_token_ms": 9.153,
+      "prompt_per_second": 109.25379656943078,
+      "predicted_n": 74,
+      "predicted_ms": 639.407,
+      "predicted_per_token_ms": 8.759,
+      "predicted_per_second": 114.1682840506907
+    }
+  },
+  {
+    "model": "qwen3-1.7b-q8_0",
+    "run": 3,
+    "seconds": 0.65,
+    "completion_tokens": 74,
+    "observed_tokens_per_second": 113.3,
+    "timings": {
+      "cache_n": 85,
+      "prompt_n": 1,
+      "prompt_ms": 9.087,
+      "prompt_per_token_ms": 9.087,
+      "prompt_per_second": 110.04732034774953,
+      "predicted_n": 74,
+      "predicted_ms": 641.242,
+      "predicted_per_token_ms": 8.78413698630137,
+      "predicted_per_second": 113.84157619120396
+    }
+  },
+  {
+    "model": "qwen3-4b-q4_k_m",
+    "run": 1,
+    "seconds": 1.52,
+    "completion_tokens": 83,
+    "observed_tokens_per_second": 54.6,
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 86,
+      "prompt_ms": 456.051,
+      "prompt_per_token_ms": 5.302918604651163,
+      "prompt_per_second": 188.57540055827093,
+      "predicted_n": 83,
+      "predicted_ms": 1043.706,
+      "predicted_per_token_ms": 12.728121951219512,
+      "predicted_per_second": 78.5661862631814
+    }
+  },
+  {
+    "model": "qwen3-4b-q4_k_m",
+    "run": 2,
+    "seconds": 0.64,
+    "completion_tokens": 48,
+    "observed_tokens_per_second": 74.7,
+    "timings": {
+      "cache_n": 85,
+      "prompt_n": 1,
+      "prompt_ms": 15.286,
+      "prompt_per_token_ms": 15.286,
+      "prompt_per_second": 65.41933795629988,
+      "predicted_n": 48,
+      "predicted_ms": 599.969,
+      "predicted_per_token_ms": 12.765297872340426,
+      "predicted_per_second": 78.33738076467283
+    }
+  },
+  {
+    "model": "qwen3-4b-q4_k_m",
+    "run": 3,
+    "seconds": 1.06,
+    "completion_tokens": 82,
+    "observed_tokens_per_second": 77.5,
+    "timings": {
+      "cache_n": 85,
+      "prompt_n": 1,
+      "prompt_ms": 13.366,
+      "prompt_per_token_ms": 13.366,
+      "prompt_per_second": 74.81669908723627,
+      "predicted_n": 82,
+      "predicted_ms": 1029.672,
+      "predicted_per_token_ms": 12.712,
+      "predicted_per_second": 78.66582756450597
+    }
+  }
+]

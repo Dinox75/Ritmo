@@ -1,0 +1,2 @@
+# Apenas para o teste opcional de interface em Microsoft Edge; não entra no executável.
+playwright==1.64.0

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12373e">
+  <meta name="description" content="Ritmo, seu espaço local para estudar com constância.">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/progress.css">
+  <link rel="stylesheet" href="/desktop.css">
+  <link rel="stylesheet" href="/ux.css">
+  <title>Ritmo · estudar com intenção</title>
+</head>
+<body>
+  <a class="skip-link" href="#app-main">Pular para o conteúdo</a>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Ritmo — Início"><span class="brandmark" aria-hidden="true">R</span><span>Ritmo <small>estudo pessoal</small></span></a>
+    <nav class="topnav" aria-label="Telas do Ritmo">
+      <a class="nav-link" data-view-target="inicio" href="#inicio">Início</a>
+      <a class="nav-link" data-view-target="estudar" href="#estudar">Estudar</a>
+      <a class="nav-link" data-view-target="plano" href="#plano">Meu plano</a>
+      <a class="nav-link" data-view-target="materiais" href="#materiais">Materiais</a>
+      <a class="nav-link" data-view-target="anotacoes" href="#anotacoes">Anotações</a>
+      <a class="nav-link" data-view-target="evolucao" href="#evolucao">Evolução</a>
+      <a class="nav-link" data-view-target="configuracoes" href="#configuracoes">Configurações</a>
+    </nav>
+    <button class="quit-button" id="quit-btn" type="button">Sair</button>
+  </header>
+
+  <main id="app-main" tabindex="-1">
+    <div id="message" role="status" aria-live="polite"></div>
+    <p id="app-loading" class="loading-state" role="status">Carregando seus dados…</p>
+    <aside id="session-ribbon" class="session-ribbon" hidden>
+      <span id="ribbon-text"></span><a href="#estudar">Voltar à sessão</a>
+    </aside>
+
+    <section class="view" id="view-inicio" data-view="inicio" aria-labelledby="inicio-title" hidden>
+      <div class="view-heading"><p class="eyebrow">SEU ESPAÇO DE ESTUDO</p><h1 id="inicio-title">Início</h1><p>Um passo de cada vez, com o que importa agora.</p></div>
+      <div class="home-grid">
+        <article class="card home-focus">
+          <p class="eyebrow">AGORA</p><h2 id="home-session-title">Vamos começar?</h2>
+          <p id="home-session-detail">Escolha uma matéria para iniciar sua primeira sessão.</p>
+          <p id="home-recent" class="home-recent"></p>
+          <div id="home-idle-actions" hidden><label for="home-subject">Matéria para uma nova sessão</label><select id="home-subject"></select></div>
+          <div class="home-actions"><button id="home-primary" class="primary" type="button">Voltar à sessão</button><button id="home-create" class="secondary" type="button">Criar matéria</button></div>
+          <p id="home-error" class="field-error" role="alert"></p>
+        </article>
+        <article class="card home-today"><p class="eyebrow">FOCO DE HOJE</p><strong id="today-time">00:00:00</strong><p id="today-detail">Tempo registrado em sessões de foco hoje, no seu fuso.</p></article>
+      </div>
+      <article class="progress-card home-progress" aria-labelledby="home-progress-title">
+        <div><p class="eyebrow">ÚLTIMOS 7 DIAS</p><h2 id="home-progress-title">Seu progresso</h2><strong id="home-progress-time">00:00:00</strong><span id="home-progress-detail">Carregando meta…</span></div>
+        <div class="progress-right"><div class="progress-track" aria-hidden="true"><div id="home-progress-fill"></div></div><a class="secondary action-link" href="#evolucao">Ver evolução</a></div>
+      </article>
+      <article class="card next-step"><h2>Próximo passo</h2><p id="home-next">Adicione uma matéria em Meu plano para começar.</p><a id="home-next-link" href="#plano">Abrir Meu plano</a></article>
+    </section>
+
+    <section class="view" id="view-estudar" data-view="estudar" aria-labelledby="study-title" hidden>
+      <div class="view-heading"><p class="eyebrow">ESTUDAR</p><h1 id="study-title">Sua sessão</h1><p>O tempo de foco e as pausas ficam separados.</p></div>
+      <div class="study-layout">
+        <article class="card study-card">
+          <div id="start-panel">
+            <h2>Começar a estudar</h2><p class="hint">Escolha uma matéria. Você pode criar uma em Meu plano.</p>
+            <form id="start-form" novalidate>
+              <label for="subject-select">Matéria</label><select id="subject-select" aria-describedby="start-error"><option value="">Escolha uma matéria</option></select>
+              <p id="start-error" class="field-error" role="alert"></p>
+              <button class="primary full" id="start-btn" type="submit">Iniciar sessão</button>
+            </form>
+          </div>
+          <div id="session-panel" hidden>
+            <div class="session-topline"><span id="session-status" class="status-pill">Em foco</span><span id="session-started"></span></div>
+            <h2 id="session-subject">Matéria</h2><p class="timer-label">Tempo de foco</p><div class="timer" id="timer">00:00:00</div>
+            <p class="session-pause">Tempo em pausa: <strong id="pause-time">00:00:00</strong></p>
+            <div class="session-actions"><button id="pause-btn" class="secondary" type="button">Pausar</button><button id="finish-btn" class="finish-button" type="button">Concluir sessão</button></div>
+            <p id="session-error" class="field-error" role="alert"></p>
+          </div>
+        </article>
+        <div class="study-side"><article class="card quick-note" id="quick-note-wrap" hidden>
+          <h2>Anotação rápida</h2><p class="hint">Será vinculada a esta matéria e sessão.</p>
+          <form id="quick-note-form" novalidate><label for="quick-note-body">O que você quer lembrar?</label><textarea id="quick-note-body" rows="5" aria-describedby="quick-note-error"></textarea><p id="quick-note-error" class="field-error" role="alert"></p><button id="quick-note-save" class="primary" type="submit">Salvar anotação</button></form>
+        </article><article class="card study-context" id="study-context" hidden><h2>Contexto da matéria</h2><h3>Notas desta sessão</h3><ul id="session-notes" class="compact-list"></ul><h3>Notas anteriores desta matéria</h3><ul id="previous-notes" class="compact-list"></ul><h3>Materiais da matéria</h3><ul id="study-materials" class="compact-list"></ul><a href="#materiais">Abrir Materiais</a></article></div>
+      </div>
+      <article class="card tutor-card" id="tutor-card"><div class="tutor-heading"><div><p class="eyebrow">ORIENTAÇÃO OPCIONAL</p><h2>Tutor local</h2></div><a href="#configuracoes">Configurar modelo</a></div><p id="tutor-availability" class="hint">Carregando configuração do tutor…</p>
+        <div class="tutor-controls"><div><label for="tutor-subject">Matéria</label><select id="tutor-subject"></select></div><div><label for="tutor-thread">Conversa</label><select id="tutor-thread"></select></div><div><label for="tutor-mode">Modo</label><select id="tutor-mode"><option value="duvida">Tirar dúvida</option><option value="aula">Aula guiada</option></select></div></div>
+        <p id="tutor-context" class="hint"></p><fieldset id="tutor-materials"><legend>Materiais usados como contexto local</legend><div id="tutor-material-options"></div></fieldset><p class="hint">A mensagem, o histórico recente e até 6 trechos dos materiais marcados são processados neste computador. Sem material selecionado, o modelo usa conhecimento geral e pode errar.</p>
+        <div id="tutor-history" class="tutor-history" role="log" aria-label="Histórico do tutor" aria-live="polite"></div>
+        <form id="tutor-form" novalidate><label for="tutor-draft">Sua mensagem</label><textarea id="tutor-draft" rows="3" maxlength="4000" placeholder="Pergunte sobre a matéria ou peça uma aula curta"></textarea><p id="tutor-error" class="field-error" role="alert"></p><p id="tutor-response-status" class="hint" role="status"></p><div class="tutor-actions"><button id="tutor-send" class="primary" type="submit">Enviar ao tutor</button><button id="tutor-retry" class="secondary" type="button" hidden>Tentar novamente</button></div></form>
+        <section class="study-memory"><div class="tutor-heading"><div><h3>Revisões pessoais</h3><p class="hint">Registre sua tentativa e a dificuldade relatada. O próximo lembrete é uma sugestão: 1, 3 ou 7 dias.</p></div><button id="memory-export" class="text-button" type="button">Exportar JSON</button></div><form id="memory-form" novalidate><label for="memory-topic">Tópico</label><input id="memory-topic" maxlength="120" placeholder="Ex.: condição E"><button id="memory-from-chat" class="text-button" type="button">Usar última tentativa do chat</button><label for="memory-exercise">Exercício proposto</label><textarea id="memory-exercise" rows="2" maxlength="2000"></textarea><label for="memory-attempt">Sua tentativa</label><textarea id="memory-attempt" rows="2" maxlength="2000"></textarea><label for="memory-feedback">Correção recebida</label><textarea id="memory-feedback" rows="2" maxlength="2000"></textarea><label for="memory-evidence">Sua evidência ou dúvida</label><textarea id="memory-evidence" rows="2" maxlength="1000" placeholder="Ex.: confundi saldo com valor positivo"></textarea><label for="memory-outcome">Dificuldade relatada</label><select id="memory-outcome"><option value="dificil">Difícil · revisar amanhã</option><option value="parcial">Parcial · revisar em 3 dias</option><option value="confortavel">Confortável · revisar em 7 dias</option></select><label for="memory-progress">Progresso que você observou (opcional)</label><textarea id="memory-progress" rows="2" maxlength="2000"></textarea><p id="memory-error" class="field-error" role="alert"></p><button id="memory-save" class="secondary" type="submit">Registrar revisão</button><button id="memory-cancel" class="text-button" type="button" hidden>Cancelar edição</button></form><ul id="memory-list" class="compact-list"></ul></section>
+      </article>
+      <article id="session-summary" class="card session-summary" hidden>
+        <p class="eyebrow">ÚLTIMA SESSÃO CONCLUÍDA</p><h2 id="summary-subject"></h2>
+        <p id="summary-date"></p><div class="summary-times"><div><span>Foco</span><strong id="summary-focus"></strong></div><div><span>Pausa</span><strong id="summary-pause"></strong></div></div>
+        <a href="#evolucao">Ver histórico e correções</a>
+      </article>
+    </section>
+
+    <section class="view" id="view-plano" data-view="plano" aria-labelledby="plano-title" hidden>
+      <div class="view-heading"><p class="eyebrow">ORGANIZAÇÃO</p><h1 id="plano-title">Meu plano</h1><p>Matérias e meta semanal para acompanhar seu estudo.</p></div>
+      <div class="content-grid">
+        <article class="card"><h2>Matérias</h2>
+          <form id="subject-form" class="stacked-form" novalidate><label for="subject-name">Nova matéria</label><div class="inline-form"><input id="subject-name" maxlength="120" placeholder="Ex.: Python" aria-describedby="subject-error"><button id="subject-submit" class="primary" type="submit">Adicionar matéria</button></div><p id="subject-error" class="field-error" role="alert"></p></form><p id="subject-created" role="status" hidden>Matéria criada. <a href="#estudar" id="study-created">Começar a estudar</a></p>
+          <ul id="subjects-list" class="simple-list"></ul>
+          <details class="archive"><summary>Matérias arquivadas</summary><ul id="archived-list" class="simple-list"></ul></details>
+        </article>
+        <article class="card"><h2>Meta semanal</h2><p class="hint">O progresso mostra os últimos 7 dias. A meta pode ser alterada quando quiser.</p>
+          <form id="goal-form" class="stacked-form" novalidate><label for="goal-hours">Horas de foco por semana</label><div class="inline-form"><input id="goal-hours" inputmode="decimal" value="8" aria-describedby="goal-error"><button id="goal-submit" class="primary" type="submit">Salvar meta</button></div><p id="goal-error" class="field-error" role="alert"></p></form>
+          <p id="goal-current" class="hint"></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="view-materiais" data-view="materiais" aria-labelledby="materials-title" hidden>
+      <div class="view-heading"><p class="eyebrow">BIBLIOTECA LOCAL</p><h1 id="materials-title">Materiais</h1><p>Importe PDF, DOCX ou TXT para ler e pesquisar o texto extraído. O arquivo original fica guardado neste computador.</p></div>
+      <div class="materials-layout">
+        <div class="materials-sidebar"><article class="card"><h2>Importar arquivo</h2><p class="hint">Até 5 MB. PDFs digitalizados precisam de OCR, ainda indisponível. O original e os trechos permanecem neste computador.</p>
+          <form id="material-form" novalidate><label for="material-subject">Matéria</label><select id="material-subject"></select><label for="material-name">Nome no Ritmo</label><input id="material-name" maxlength="160" placeholder="Opcional: usa o nome do arquivo"><label for="material-file">Arquivo PDF, DOCX ou TXT</label><input id="material-file" type="file" accept=".pdf,.docx,.txt" aria-describedby="material-error"><p id="material-error" class="field-error" role="alert"></p><button id="material-import" class="primary" type="submit">Importar material</button></form></article>
+          <article class="card"><h2>Sua biblioteca</h2><label for="material-filter">Filtrar por matéria</label><select id="material-filter"></select><ul id="materials-list" class="material-list"></ul></article></div>
+        <article class="card material-reader" id="material-reader"><h2 id="reader-title">Escolha um material</h2><p id="reader-meta" class="hint">Os trechos extraídos aparecerão aqui.</p><div id="reader-controls" hidden><a id="material-original" class="secondary action-link" href="#" download>Baixar original</a><button id="material-guided" class="secondary" type="button">Aula guiada sobre este material</button><button id="material-rename" class="text-button" type="button">Renomear</button><button id="material-remove" class="text-button" type="button">Remover material</button><label for="material-search">Buscar neste material</label><input id="material-search" type="search" placeholder="Buscar palavras nos trechos"><p id="material-search-count" role="status"></p><div id="material-search-nav" hidden><button id="material-prev" class="secondary" type="button">Anterior</button><span id="material-position" aria-live="polite"></span><button id="material-next" class="secondary" type="button">Próxima</button></div><p class="hint">Selecione uma frase no texto e use “Anotar seleção”. Sem seleção, a busca usa a frase encontrada; “Anotar trecho” continua disponível.</p></div><p id="reader-error" class="field-error" role="alert"></p><div id="material-chunks" class="material-chunks"></div><form id="material-note-form" class="material-note-form" hidden novalidate><h3 id="material-note-title">Anotar trecho</h3><blockquote id="material-quote"></blockquote><label for="material-note-body">Sua anotação</label><textarea id="material-note-body" rows="4"></textarea><p id="material-note-error" class="field-error" role="alert"></p><button id="material-note-save" class="primary" type="submit">Salvar anotação vinculada</button><button id="material-note-cancel" class="secondary" type="button">Cancelar</button></form></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-anotacoes" data-view="anotacoes" aria-labelledby="notes-title" hidden>
+      <div class="view-heading"><p class="eyebrow">REGISTROS</p><h1 id="notes-title">Anotações</h1><p>Guarde ideias e encontre o que escreveu.</p></div>
+      <div class="content-grid notes-layout">
+        <article class="card"><h2>Nova anotação</h2>
+          <form id="note-form" novalidate><label for="note-subject">Matéria</label><select id="note-subject" aria-describedby="note-error"><option value="">Escolha uma matéria</option></select><p id="note-session-hint" class="hint"></p>
+            <label for="note-body">Texto</label><textarea id="note-body" rows="7" placeholder="Escreva com suas palavras…" aria-describedby="note-error"></textarea><p id="note-error" class="field-error" role="alert"></p><button id="note-submit" class="primary" type="submit">Salvar anotação</button></form>
+        </article>
+        <article class="card"><h2>Suas anotações</h2><div class="note-filters"><div><label for="note-search">Buscar no texto ou na matéria</label><input id="note-search" type="search" placeholder="Buscar anotações"></div><div><label for="note-filter-subject">Filtrar por matéria</label><select id="note-filter-subject"></select></div></div><ul id="notes-list" class="note-list"></ul></article>
+      </div>
+    </section>
+
+    <section class="view" id="view-evolucao" data-view="evolucao" aria-labelledby="history-title" hidden>
+      <div class="view-heading"><p class="eyebrow">TEMPO REALIZADO</p><h1 id="history-title">Evolução</h1><p>Tempo registrado em foco, pausas e ajustes com motivo. Estes números não medem produtividade.</p></div>
+      <article class="progress-card evolution-progress"><div><p class="eyebrow">ÚLTIMOS 7 DIAS</p><strong id="progress-time">00:00:00</strong><span id="progress-detail">Carregando…</span><p>Tempo em pausa: <strong id="progress-pause">00:00:00</strong></p></div><div class="progress-right"><div class="progress-track" aria-hidden="true"><div id="progress-fill"></div></div><a href="#plano">Alterar meta semanal</a></div></article>
+      <article class="card history-card"><h2>Histórico de sessões</h2><p class="hint">As 50 sessões mais recentes. Cada correção mantém o motivo no histórico.</p><ul id="sessions-list" class="session-list"></ul></article>
+    </section>
+
+    <section class="view" id="view-configuracoes" data-view="configuracoes" aria-labelledby="settings-title" hidden>
+      <div class="view-heading"><p class="eyebrow">CONTROLE LOCAL</p><h1 id="settings-title">Configurações</h1><p>Você escolhe o que observar e pode consultar o diagnóstico quando precisar.</p></div>
+      <article class="card settings-card"><h2>Sensores opcionais</h2><p class="hint">Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.</p>
+        <form id="sensor-form" novalidate>
+          <label class="switch-row"><span><strong>Janela ativa</strong><small>Registra o programa quando a janela muda.</small></span><input type="checkbox" id="window-enabled"></label>
+          <label class="switch-row sub-option"><span>Título da janela <small>Pode conter dados sensíveis; desligado por padrão.</small></span><input type="checkbox" id="title-enabled"></label>
+          <label class="switch-row"><span><strong>Teclado e mouse</strong><small>Registra apenas entrada recente ou ausência de entrada.</small></span><input type="checkbox" id="idle-enabled"></label>
+          <label class="switch-row"><span><strong>Webcam</strong><small>Verifica presença sem guardar imagens.</small></span><input type="checkbox" id="presence-enabled"></label>
+          <div class="camera-panel"><label for="camera-index">Câmera usada pelo sensor</label><select id="camera-index"></select><p id="camera-devices" class="hint"></p><p class="hint">O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identificar a câmera. A escolha não ativa o sensor.</p><button class="secondary" id="camera-test" type="button">Testar imagem desta câmera</button><p id="camera-status" role="status"></p><div id="camera-preview" hidden><img id="camera-image" alt="Imagem capturada somente para identificar a câmera"><button id="camera-close" class="text-button" type="button">Fechar teste</button></div></div>
+          <label class="switch-row"><span><strong>Trocas de janela</strong><small>Conta mudanças observadas, sem julgar distração.</small></span><input type="checkbox" id="multitask-enabled"></label>
+          <details class="advanced"><summary>Ajustes de frequência</summary><div class="number-grid">
+            <label>Janela: intervalo (s)<input type="number" id="window-interval" min="0.1" max="3600" step="0.1"></label><label>Entrada: intervalo (s)<input type="number" id="idle-interval" min="0.1" max="3600" step="0.1"></label><label>Entrada: limiar (s)<input type="number" id="idle-threshold" min="1" max="86400" step="1"></label><label>Webcam: intervalo (s)<input type="number" id="presence-interval" min="0.1" max="3600" step="0.1"></label><label>Trocas: período (s)<input type="number" id="observation-seconds" min="1" max="3600" step="1"></label><label>Trocas: mínimo para aviso<input type="number" id="alert-switches" min="1" max="100" step="1"></label>
+          </div></details><p id="sensor-error" class="field-error" role="alert"></p><button id="save-sensors" class="primary" type="submit">Salvar sensores</button>
+        </form>
+      </article>
+      <article class="card tutor-settings"><h2>Tutor local</h2><p class="hint">O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime e Qwen3 4B); depois, o chat funciona sem internet. Pesos e runtime ficam fora dos seus dados e do pacote.</p><p id="tutor-config-status" role="status"></p><form id="tutor-config-form" novalidate><label for="tutor-model">Modelo</label><select id="tutor-model"><option value="qwen3-4b-q4_k_m">Qwen3 4B · Q4_K_M (recomendado)</option><option value="qwen3-1.7b-q8_0">Qwen3 1.7B · Q8_0 (mais leve)</option></select><label for="tutor-model-root">Pasta dos modelos</label><input id="tutor-model-root" type="text" spellcheck="false" required><p class="hint">Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é explícito e verificado por SHA-256.</p><p id="tutor-config-error" class="field-error" role="alert"></p><button id="tutor-config-save" class="primary" type="submit">Salvar escolha</button><button id="tutor-install" class="secondary" type="button">Instalar modelo escolhido</button><progress id="tutor-install-progress" max="100" value="0" hidden></progress><p id="tutor-install-status" role="status"></p></form><details><summary>Fontes e limites do tutor</summary><p class="hint" id="tutor-knowledge-date"></p><ul id="tutor-knowledge" class="compact-list"></ul><p class="hint">O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluído; para números, consulte a publicação original e seu período.</p></details><details><summary>Atualizações locais de ensino e trabalho</summary><p class="hint">Adicione manualmente um resumo de fonte oficial. Cada registro ganha versão e data; não há download automático. Confira a publicação e os termos de uso antes de salvar.</p><form id="knowledge-update-form" novalidate><label for="knowledge-category">Área</label><select id="knowledge-category"><option value="academic">Ensino superior</option><option value="labor">Trabalho formal</option></select><label for="knowledge-kind">Natureza</label><select id="knowledge-kind"><option value="observed">Dado observado</option><option value="trend">Tendência interpretada</option><option value="forecast">Previsão</option><option value="advice">Conselho</option></select><label for="knowledge-name">Fonte</label><input id="knowledge-name" maxlength="160" placeholder="Ex.: INEP · Censo da Educação Superior"><label for="knowledge-url">URL oficial gov.br</label><input id="knowledge-url" type="url" maxlength="500" placeholder="https://www.gov.br/..."><label for="knowledge-published">Data de publicação</label><input id="knowledge-published" type="date"><label for="knowledge-observed">Dados observados até</label><input id="knowledge-observed" type="date"><label for="knowledge-license">Licença ou condição de uso verificada</label><input id="knowledge-license" maxlength="160"><label for="knowledge-scope">Escopo e limitações</label><textarea id="knowledge-scope" rows="2" maxlength="500"></textarea><label for="knowledge-summary">Resumo próprio do que a fonte afirma</label><textarea id="knowledge-summary" rows="3" maxlength="1500"></textarea><p id="knowledge-update-error" class="field-error" role="alert"></p><button id="knowledge-update-save" class="secondary" type="submit">Revisar e adicionar versão</button></form><ul id="knowledge-updates" class="compact-list"></ul></details></article>
+      <article class="card maintenance-card"><h2>Manutenção e dados</h2>
+        <section class="maintenance-section" aria-labelledby="diagnostics-title"><h3 id="diagnostics-title">Diagnóstico</h3><p class="hint">Estado dos sensores, eventos recentes e log de erros.</p><button class="secondary" id="refresh-diagnostics" type="button">Atualizar diagnóstico</button><ul id="health-list" class="health-list"></ul><details class="advanced"><summary>Eventos recentes e log</summary><ul id="event-list" class="event-list"></ul><pre id="log-view"></pre></details></section>
+        <section class="maintenance-section" aria-labelledby="import-title"><h3 id="import-title">Importar CSV do WorkWatch</h3><p class="hint">O original será preservado. Revise o relatório de linhas após importar.</p><label for="legacy-file">Arquivo CSV (até 5 MB)</label><input type="file" id="legacy-file" accept=".csv,text/csv" aria-describedby="import-error"><p id="import-error" class="field-error" role="alert"></p><button class="secondary" id="import-btn" type="button">Importar CSV</button><p id="import-report" role="status"></p></section>
+        <section class="maintenance-section" aria-labelledby="backup-title"><h3 id="backup-title">Backup local</h3><p class="hint">Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é manual e está descrita no README.</p><button class="secondary" id="backup-btn" type="button">Criar backup</button><button class="text-button" id="open-backups-folder" type="button">Abrir pasta de backups</button><p id="backup-report" role="status"></p></section>
+        <section class="maintenance-section danger-zone" aria-labelledby="erase-title"><h3 id="erase-title">Apagar dados</h3><p class="hint">Remove os dados usados por este aplicativo após confirmação. Uma cópia antiga no checkout WorkWatch, se existir, permanece.</p><button class="text-button" id="open-data-folder" type="button">Abrir pasta de dados</button><button class="danger-button" id="erase-data" type="button">Apagar dados do aplicativo</button><p id="erase-error" class="field-error" role="alert"></p></section>
+      </article>
+    </section>
+  </main>
+  <footer>Ritmo · evolução local do WorkWatch · seus dados ficam neste computador</footer>
+  <script src="/app.js" defer></script>
+  <script src="/tutor.js" defer></script>
+</body>
+</html>

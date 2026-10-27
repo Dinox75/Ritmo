@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "checked_at": "2026-10-26",
+  "update_policy": "Manual; app does not fetch sources during conversation.",
+  "pedagogy": [
+    {
+      "name": "IES What Works Clearinghouse: Organizing Instruction and Study to Improve Student Learning",
+      "url": "https://ies.ed.gov/ncee/wwc/PracticeGuide/1",
+      "year": 2007,
+      "license": "Publisher copyright; only citation metadata and original summary reused",
+      "scope": "Guide for instructional practice, with graded evidence for spacing, worked examples, testing and explanatory questions.",
+      "use": "Offer a worked example, then a short attempt and later recall. Adapt to the learner's request; do not claim guaranteed learning.",
+      "reuse": "Metadata and original summary only; no guide text or figures bundled."
+    },
+    {
+      "name": "Cepeda et al.: Distributed practice in verbal recall tasks",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/16719566/",
+      "year": 2006,
+      "license": "Publisher copyright; only citation metadata and original summary reused",
+      "scope": "Review and quantitative synthesis of spacing effects in verbal recall experiments.",
+      "use": "Suggest revisiting a topic after a delay; the app's 1/3/7-day intervals are a heuristic, not a validated personal optimum.",
+      "reuse": "Citation metadata and original summary only."
+    },
+    {
+      "name": "Hattie and Timperley: The Power of Feedback",
+      "url": "https://journals.sagepub.com/doi/10.3102/003465430298487",
+      "year": 2007,
+      "license": "Publisher copyright; only citation metadata and original summary reused",
+      "scope": "Research review on feedback and learning.",
+      "use": "Correct the reasoning specifically and give an actionable next step without inferring ability or character.",
+      "reuse": "Citation metadata and original summary only."
+    }
+  ],
+  "academic_and_labor_sources": [
+    {
+      "name": "INEP Censo da Educação Superior: microdados",
+      "url": "https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-da-educacao-superior",
+      "last_listed_year_at_check": 2024,
+      "license": "Public government catalog metadata; dataset terms must be checked separately",
+      "scope": "Higher education institutions, courses, entrants, enrolments and graduates; education supply and participation, not job demand.",
+      "use": "Point to the appropriate observed education source and state the dataset year.",
+      "reuse": "Source catalog only. Check the specific dataset's download terms before importing any data."
+    },
+    {
+      "name": "MTE Novo Caged / PDET",
+      "url": "https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/estatisticas-trabalho/o-pdet/o-que-e-o-novo-caged",
+      "license": "Public government catalog metadata; dataset terms must be checked separately",
+      "scope": "Formal employment admissions and dismissals compiled from administrative systems; not all work or a forecast of vacancies.",
+      "use": "Point to the observed formal-employment source and distinguish it from vacancies or a forecast.",
+      "reuse": "Source catalog only. Identified worker records are not bundled or imported."
+    },
+    {
+      "name": "MTE dados abertos",
+      "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/dados-abertos/dados-abertos",
+      "license": "Public government catalog metadata; dataset terms must be checked separately",
+      "scope": "Portal and reuse guidance for public MTE datasets; confirm the release date and methodology for any numerical claim.",
+      "use": "Check publication and reuse information before a future explicit import.",
+      "reuse": "Source catalog only; no statistics are shipped with the app."
+    }
+  ]
+}

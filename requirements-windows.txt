@@ -1,0 +1,8 @@
+# Agente de sensores opcional. Versões diretas presentes no venv original.
+# Requer Python 3.10/3.11 no Windows; instalação e câmera precisam de validação manual.
+pygetwindow==0.0.9
+psutil==7.1.3
+pywin32==306
+opencv-contrib-python==4.11.0.86
+cvzone==1.6.1
+mediapipe==0.10.21

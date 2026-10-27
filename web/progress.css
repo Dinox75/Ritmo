@@ -1,0 +1,5 @@
+.progress-card{background:#e9efe6;border:1px solid #d9e3d8;border-radius:20px;margin-top:20px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.progress-card strong{font:600 32px Georgia,serif;display:block;margin:5px 0}.progress-card span{color:#6b8278;font-size:13px}.progress-right{width:min(420px,50%)}.progress-track{height:11px;background:#cbdaca;border-radius:30px;overflow:hidden;margin-bottom:14px}.progress-track div{height:100%;width:0;background:#4d9173;border-radius:30px;transition:width .3s}.progress-card form{display:flex;align-items:center;gap:10px}.progress-card label{margin:0;white-space:nowrap}.progress-card input{max-width:75px;padding:8px}.progress-card button{padding:9px 12px;white-space:nowrap}
+@media(max-width:780px){.progress-card{display:block;padding:20px}.progress-right{width:100%;margin-top:20px}}
+@media(max-width:420px){.progress-card form{flex-wrap:wrap}.progress-card label{width:100%}}
+.text-button{display:block;background:none;color:#557f72;font-size:12px;padding:4px 0;margin-top:4px}

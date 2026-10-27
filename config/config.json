@@ -1,0 +1,30 @@
+{
+    "window_tracker": {
+        "enabled": false,
+        "interval_seconds": 5,
+        "capture_titles": false
+    },
+
+    "presence_detector": {
+        "enabled": false,
+        "interval_seconds": 10,
+        "camera_index": 0
+    },
+
+    "idle_tracker": {
+        "enabled": false,
+        "interval_seconds": 5,
+        "threshold_seconds": 60
+    },
+
+    "tutor": {
+    "provider": "local",
+    "model": "qwen3-4b-q4_k_m"
+    },
+
+    "multitask_analyzer": {
+    "enabled": false,
+    "observation_seconds": 60,
+    "alert_switches": 4
+    }
+}
