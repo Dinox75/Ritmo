@@ -79,7 +79,7 @@ function renderTutorHistory() {
           link.textContent = `[${source.ordinal}] ${source.material_name} · ${source.locator}`;
           if (link.tagName === 'A') {
             link.href = '#materiais';
-            link.onclick = () => { setTimeout(() => openMaterial(source.material_id, source.chunk_id), 0); };
+            link.onclick = () => { setTimeout(() => openMaterial(source.material_id, source.chunk_id, source.excerpt), 0); };
           }
           const excerpt = document.createElement('small'); excerpt.textContent = source.excerpt;
           li.append(link, excerpt); sources.append(li);
