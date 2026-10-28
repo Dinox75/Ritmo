@@ -162,6 +162,18 @@ class TutorCase(unittest.TestCase):
             restored.write_bytes(archive.read("database/ritmo.db"))
         self.assertEqual(len(TutorStore(Database(restored)).get_thread(thread["id"])["messages"]), 4)
 
+    def test_guided_new_question_does_not_become_an_attempt(self):
+        store = TutorStore(self.db)
+        thread = store.create_thread(self.subject["id"])
+        store.set_mode(thread["id"], "aula")
+        service = TutorService(self.db, config_path=self.config,
+                               provider=lambda *_: "Vamos estudar. Qual é sua hipótese?")
+        service.send(thread["id"], "req-new-question-1", "Ensine lógica booleana")
+        result = service.send(thread["id"], "req-new-question-2",
+                              "Qual é a diferença entre E e OU?")
+        self.assertEqual([item["kind"] for item in result["messages"]],
+                         ["question", "lesson_prompt", "question", "lesson_prompt"])
+
     def test_http_api_local_config_and_memory(self):
         calls = []
         def controlled(*args):
