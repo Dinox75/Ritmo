@@ -84,6 +84,27 @@ def screenshots(page, folder, report):
               theme: document.documentElement.dataset.theme})""")
             if metrics["document"] > width:
                 raise AssertionError(f"Rolagem horizontal em {view}, {width}px: {metrics}")
+            if view == "estudar":
+                layout = page.evaluate("""() => {
+                  const dock = document.querySelector('#sidebar-session');
+                  const panel = document.querySelector('#session-panel');
+                  const reader = document.querySelector('.study-inline-reader').getBoundingClientRect();
+                  const tutor = document.querySelector('#tutor-card').getBoundingClientRect();
+                  const settings = document.querySelector('nav a[data-view-target="configuracoes"]').getBoundingClientRect();
+                  return {dockVisible: !dock.hidden, inDock: panel.parentElement === dock,
+                    dockTop: dock.getBoundingClientRect().top, settingsBottom: settings.bottom,
+                    readerWidth: reader.width, tutorWidth: tutor.width,
+                    sameRow: Math.abs(reader.top - tutor.top) < 2,
+                    pauseIcon: getComputedStyle(document.querySelector('#pause-btn'), '::before').content};
+                }""")
+                if width >= 1120:
+                    assert layout["dockVisible"] and layout["inDock"], layout
+                    assert layout["dockTop"] >= layout["settingsBottom"], layout
+                    assert layout["sameRow"] and layout["readerWidth"] >= 600, layout
+                    assert layout["pauseIcon"] != "none", layout
+                else:
+                    assert not layout["dockVisible"] and not layout["inDock"], layout
+                metrics["study_layout"] = layout
             target = folder / f"ritmo-pr3-{width}-{view}.png"
             page.screenshot(path=str(target), full_page=width == 390)
             report["screens"].append({"width": width, "view": view, "metrics": metrics,
@@ -176,6 +197,7 @@ def run(executable, shots):
                 report["checks"].append("contraste de rótulos no tema escuro")
 
                 assert page.evaluate("audioNode === null && (!localAudio || localAudio.paused)")
+                page.locator("#session-audio summary").click()
                 for mode in ("rain", "brown"):
                     page.locator("#focus-sound").select_option(mode)
                     page.locator("#focus-play").click()
