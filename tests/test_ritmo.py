@@ -205,6 +205,7 @@ class DatabaseCase(unittest.TestCase):
             self.assertTrue(json.load(response)["ready"])
         app.close()
         with socket.socket() as listener:
+            listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             listener.bind(("127.0.0.1", port))
 
     def test_installed_package_finds_original_checkout(self):
