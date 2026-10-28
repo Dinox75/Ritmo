@@ -27,6 +27,7 @@
       <a class="nav-link" data-view-target="evolucao" href="#evolucao">Evolução</a>
       <a class="nav-link" data-view-target="configuracoes" href="#configuracoes">Configurações</a>
     </nav>
+    <aside class="sidebar-session" id="sidebar-session" aria-label="Sessão em andamento" hidden></aside>
     <button class="theme-quick" id="theme-quick" type="button" aria-label="Alternar tema claro e escuro">Tema escuro</button>
     <button class="quit-button" id="quit-btn" type="button">Sair</button>
   </header>
@@ -76,7 +77,7 @@
             <p class="session-pause">Tempo em pausa: <strong id="pause-time">00:00:00</strong></p>
             <div class="session-actions"><button id="pause-btn" class="secondary" type="button">Pausar</button><button id="finish-btn" class="finish-button" type="button">Concluir sessão</button></div>
             <p id="session-error" class="field-error" role="alert"></p>
-            <div class="focus-player"><h3>Som ambiente <small>opcional</small></h3><label for="focus-sound">Escolher som</label><select id="focus-sound"><option value="off">Sem som</option><option value="rain">Chuva suave</option><option value="brown">Ruído marrom</option><option value="file">Meu arquivo de áudio</option></select><input id="focus-file" type="file" accept="audio/*" hidden aria-label="Escolher arquivo de áudio local"><div class="focus-player-actions"><button id="focus-play" class="secondary" type="button">Reproduzir</button><label for="focus-volume">Volume</label><input id="focus-volume" type="range" min="0" max="100" value="35"></div><p id="focus-audio-status" class="hint" role="status">Desligado por padrão. O áudio permanece neste computador.</p></div>
+            <details class="session-audio" id="session-audio" open><summary id="audio-summary">Som ambiente · opcional</summary><div class="focus-player"><label for="focus-sound">Escolher som</label><select id="focus-sound"><option value="off">Sem som</option><option value="rain">Chuva suave</option><option value="brown">Ruído marrom</option><option value="file">Meu arquivo de áudio</option></select><input id="focus-file" type="file" accept="audio/*" hidden aria-label="Escolher arquivo de áudio local"><div class="focus-player-actions"><button id="focus-play" class="secondary" type="button">Reproduzir</button><label for="focus-volume">Volume</label><input id="focus-volume" type="range" min="0" max="100" value="35"></div><p id="focus-audio-status" class="hint" role="status">Desligado por padrão. O áudio permanece neste computador.</p></div></details>
             <div id="focus-reminder" class="focus-reminder" role="status" hidden><span id="focus-reminder-text"></span><button id="focus-reminder-pause" class="secondary" type="button">Fazer pausa</button><button id="focus-reminder-dismiss" class="text-button" type="button">Continuar</button></div>
           </div>
         </article>

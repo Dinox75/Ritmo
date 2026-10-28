@@ -38,6 +38,8 @@ Os sensores de janela, ociosidade e presença começam **desligados**. A câmera
 
 Em **Estudar**, o cronômetro mantém foco e pausa separados. O leitor mostra os materiais da matéria ao lado do tutor. O player oferece chuva suave e ruído marrom gerados no próprio aplicativo ou um arquivo de áudio escolhido no computador. O som começa somente após clicar em **Reproduzir**, pausa com a sessão e para ao concluí-la. O arquivo escolhido não é importado nem incluído no backup.
 
+Em janelas largas, o controle compacto de foco fica na navegação lateral, abaixo de Configurações; o ícone de pausa muda para retomada conforme a sessão. O player fica disponível em **Som ambiente**, e as anotações aparecem abaixo da leitura. Em telas menores, os controles permanecem na área de estudo. O botão mantém nome acessível mesmo quando usa apenas ícone.
+
 Em **Configurações → Ambiente de estudo**, escolha o tema, a intensidade visual (85–100%), o som e volume iniciais, lembretes de pausa e tempo excedido e um toque curto ao concluir. A intensidade visual afeta apenas a janela do Ritmo, não o monitor. Os lembretes aparecem na interface e não alteram o cronômetro. Som, lembretes e toque começam desligados. Os sons são ambientes opcionais; o aplicativo não promete efeito terapêutico.
 
 ## Arquitetura
