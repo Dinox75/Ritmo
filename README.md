@@ -25,7 +25,7 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | Matérias, metas, foco, pausa, notas e evolução | **Disponível** | Interface e persistência SQLite, com correções de tempo registradas. |
 | Leitor de PDF, DOCX e TXT | **Disponível** | Extração de texto, busca, seleção e notas com referência ao trecho. |
 | Backup e restauração manual | **Disponível** | ZIP com banco, materiais originais e configuração, quando houver. |
-| Tutor por matéria e sessão | **Disponível** | Dúvidas, aula guiada, histórico, busca FTS5 e referências aos materiais marcados. |
+| Tutor por matéria e sessão | **Em validação pedagógica** | Dúvidas, aula guiada, histórico, busca FTS5 e referências funcionam; respostas reais ainda têm falhas de didática e fundamentação. |
 | IA local | **Disponível** | Qwen3 GGUF servido por llama.cpp no computador, instalado por ação explícita. |
 | Portabilidade da IA e sensores | **Em validação** | O pacote CUDA e o fluxo Windows foram testados; outros computadores, câmera física e permissões exigem verificação. |
 | Atualizações acadêmicas e de trabalho | **Em validação** | Cadastro manual e versionado de resumos de fontes oficiais; a conferência do conteúdo cabe ao usuário. |
@@ -90,6 +90,7 @@ Depois da instalação dos pesos, perguntas ao tutor são processadas localmente
 - A primeira resposta pode demorar enquanto o modelo carrega. Falta de pesos, memória ou compatibilidade não bloqueia o estudo manual.
 - O suporte foi verificado em um computador Windows com GPU NVIDIA compatível com o runtime incluído. Não há validação geral de CPU, outras GPUs ou outros sistemas.
 - Os [ensaios locais](docs/benchmark-local.json) e as [medições de velocidade](docs/benchmark-speed.json) usam poucos casos sintéticos; não demonstram precisão geral.
+- A [avaliação do tutor com modelos reais](docs/tutor-evaluation.md) executou nove cenários sintéticos no Qwen3 4B e 1.7B, antes e depois de ajustes no guia e no contexto. O 4B esperou a tentativa na abertura após o ajuste; o 1.7B ainda antecipou a solução. Ambos corrigiram uma tentativa parcialmente errada e ignoraram uma instrução hostil em um TXT neste ensaio. Citações no corpo e respostas sobre dados atuais sem fonte continuam problemáticas. Consulte respostas, pontuações, tokens e `timings` antes de confiar num resultado.
 - Informações sobre cursos e mercado não são atualizadas automaticamente. Um resumo cadastrado manualmente precisa de fonte, data, escopo e revisão humana.
 
 ## Roadmap
@@ -102,7 +103,7 @@ As fases descrevem **código entregue** e o que ainda precisa ser medido. Busca 
 
 ### Fase B — Tutor de estudos
 
-**Estado:** disponível. Chat por matéria/sessão, dúvida, aula guiada, seleção de materiais, busca de trechos e referências estão no código. Há testes com provedor controlado e ensaios reais **locais** com Qwen3, registrados nos JSONs de benchmark; não há chamada atual à API OpenAI. **Próximo:** ampliar avaliação de respostas com fontes contraditórias. **Dependência:** conjunto revisado de perguntas e materiais sintéticos. **Aceite:** referências abrem o trecho correto e respostas sem fundamento não recebem citação indevida.
+**Estado:** interface e fluxo disponíveis, qualidade pedagógica em validação. Chat por matéria/sessão, dúvida, aula guiada, seleção de materiais, busca de trechos e referências estão no código. O [ensaio reproduzível](docs/tutor-evaluation.md) incluiu respostas reais locais dos dois Qwen3 e avaliação manual, além dos testes com provedor controlado; nenhuma chamada atual usa a API OpenAI. **Próximo:** impedir antecipação da solução no 1.7B, conter afirmações atuais sem fonte e ampliar casos contraditórios. **Dependência:** conjunto revisado de perguntas e materiais sintéticos. **Aceite:** referência correta no texto e no painel, uma pergunta sem resposta na abertura e nenhuma estatística ou disponibilidade oficial inventada.
 
 ### Fase C — IA local
 
