@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/progress.css">
   <link rel="stylesheet" href="/desktop.css">
   <link rel="stylesheet" href="/ux.css">
+  <link rel="stylesheet" href="/atmosphere.css">
   <title>Ritmo · estudar com intenção</title>
 </head>
 <body>
@@ -26,6 +27,7 @@
       <a class="nav-link" data-view-target="evolucao" href="#evolucao">Evolução</a>
       <a class="nav-link" data-view-target="configuracoes" href="#configuracoes">Configurações</a>
     </nav>
+    <button class="theme-quick" id="theme-quick" type="button" aria-label="Alternar tema claro e escuro">Tema escuro</button>
     <button class="quit-button" id="quit-btn" type="button">Sair</button>
   </header>
 
@@ -58,7 +60,7 @@
 
     <section class="view" id="view-estudar" data-view="estudar" aria-labelledby="study-title" hidden>
       <div class="view-heading"><p class="eyebrow">ESTUDAR</p><h1 id="study-title">Sua sessão</h1><p>O tempo de foco e as pausas ficam separados.</p></div>
-      <div class="study-layout">
+      <div class="study-workspace"><div class="study-layout">
         <article class="card study-card">
           <div id="start-panel">
             <h2>Começar a estudar</h2><p class="hint">Escolha uma matéria. Você pode criar uma em Meu plano.</p>
@@ -74,6 +76,8 @@
             <p class="session-pause">Tempo em pausa: <strong id="pause-time">00:00:00</strong></p>
             <div class="session-actions"><button id="pause-btn" class="secondary" type="button">Pausar</button><button id="finish-btn" class="finish-button" type="button">Concluir sessão</button></div>
             <p id="session-error" class="field-error" role="alert"></p>
+            <div class="focus-player"><h3>Som ambiente <small>opcional</small></h3><label for="focus-sound">Escolher som</label><select id="focus-sound"><option value="off">Sem som</option><option value="rain">Chuva suave</option><option value="brown">Ruído marrom</option><option value="file">Meu arquivo de áudio</option></select><input id="focus-file" type="file" accept="audio/*" hidden aria-label="Escolher arquivo de áudio local"><div class="focus-player-actions"><button id="focus-play" class="secondary" type="button">Reproduzir</button><label for="focus-volume">Volume</label><input id="focus-volume" type="range" min="0" max="100" value="35"></div><p id="focus-audio-status" class="hint" role="status">Desligado por padrão. O áudio permanece neste computador.</p></div>
+            <div id="focus-reminder" class="focus-reminder" role="status" hidden><span id="focus-reminder-text"></span><button id="focus-reminder-pause" class="secondary" type="button">Fazer pausa</button><button id="focus-reminder-dismiss" class="text-button" type="button">Continuar</button></div>
           </div>
         </article>
         <div class="study-side"><article class="card quick-note" id="quick-note-wrap" hidden>
@@ -81,6 +85,7 @@
           <form id="quick-note-form" novalidate><label for="quick-note-body">O que você quer lembrar?</label><textarea id="quick-note-body" rows="5" aria-describedby="quick-note-error"></textarea><p id="quick-note-error" class="field-error" role="alert"></p><button id="quick-note-save" class="primary" type="submit">Salvar anotação</button></form>
         </article><article class="card study-context" id="study-context" hidden><h2>Contexto da matéria</h2><h3>Notas desta sessão</h3><ul id="session-notes" class="compact-list"></ul><h3>Notas anteriores desta matéria</h3><ul id="previous-notes" class="compact-list"></ul><h3>Materiais da matéria</h3><ul id="study-materials" class="compact-list"></ul><a href="#materiais">Abrir Materiais</a></article></div>
       </div>
+      <article class="card study-inline-reader" aria-labelledby="study-reader-title"><div class="study-reader-heading"><div><p class="eyebrow">MATERIAL EM ESTUDO</p><h2 id="study-reader-title">Leitura</h2></div><a href="#materiais">Biblioteca completa</a></div><label for="study-reader-select">Material da matéria</label><select id="study-reader-select"><option value="">Escolha um material</option></select><div id="study-reader-content" class="study-reader-content"><p class="hint">Selecione um material para ler sem sair da sessão.</p></div></article>
       <article class="card tutor-card" id="tutor-card"><div class="tutor-heading"><div><p class="eyebrow">ORIENTAÇÃO OPCIONAL</p><h2>Tutor local</h2></div><a href="#configuracoes">Configurar modelo</a></div><p id="tutor-availability" class="hint">Carregando configuração do tutor…</p>
         <div class="tutor-controls"><div><label for="tutor-subject">Matéria</label><select id="tutor-subject"></select></div><div><label for="tutor-thread">Conversa</label><select id="tutor-thread"></select></div><div><label for="tutor-mode">Modo</label><select id="tutor-mode"><option value="duvida">Tirar dúvida</option><option value="aula">Aula guiada</option></select></div></div>
         <p id="tutor-context" class="hint"></p><fieldset id="tutor-materials"><legend>Materiais usados como contexto local</legend><div id="tutor-material-options"></div></fieldset><p class="hint">A mensagem, o histórico recente e até 6 trechos dos materiais marcados são processados neste computador. Sem material selecionado, o modelo usa conhecimento geral e pode errar.</p>
@@ -88,6 +93,7 @@
         <form id="tutor-form" novalidate><label for="tutor-draft">Sua mensagem</label><textarea id="tutor-draft" rows="3" maxlength="4000" placeholder="Pergunte sobre a matéria ou peça uma aula curta"></textarea><p id="tutor-error" class="field-error" role="alert"></p><p id="tutor-response-status" class="hint" role="status"></p><div class="tutor-actions"><button id="tutor-send" class="primary" type="submit">Enviar ao tutor</button><button id="tutor-retry" class="secondary" type="button" hidden>Tentar novamente</button></div></form>
         <section class="study-memory"><div class="tutor-heading"><div><h3>Revisões pessoais</h3><p class="hint">Registre sua tentativa e a dificuldade relatada. O próximo lembrete é uma sugestão: 1, 3 ou 7 dias.</p></div><button id="memory-export" class="text-button" type="button">Exportar JSON</button></div><form id="memory-form" novalidate><label for="memory-topic">Tópico</label><input id="memory-topic" maxlength="120" placeholder="Ex.: condição E"><button id="memory-from-chat" class="text-button" type="button">Usar última tentativa do chat</button><label for="memory-exercise">Exercício proposto</label><textarea id="memory-exercise" rows="2" maxlength="2000"></textarea><label for="memory-attempt">Sua tentativa</label><textarea id="memory-attempt" rows="2" maxlength="2000"></textarea><label for="memory-feedback">Correção recebida</label><textarea id="memory-feedback" rows="2" maxlength="2000"></textarea><label for="memory-evidence">Sua evidência ou dúvida</label><textarea id="memory-evidence" rows="2" maxlength="1000" placeholder="Ex.: confundi saldo com valor positivo"></textarea><label for="memory-outcome">Dificuldade relatada</label><select id="memory-outcome"><option value="dificil">Difícil · revisar amanhã</option><option value="parcial">Parcial · revisar em 3 dias</option><option value="confortavel">Confortável · revisar em 7 dias</option></select><label for="memory-progress">Progresso que você observou (opcional)</label><textarea id="memory-progress" rows="2" maxlength="2000"></textarea><p id="memory-error" class="field-error" role="alert"></p><button id="memory-save" class="secondary" type="submit">Registrar revisão</button><button id="memory-cancel" class="text-button" type="button" hidden>Cancelar edição</button></form><ul id="memory-list" class="compact-list"></ul></section>
       </article>
+      </div>
       <article id="session-summary" class="card session-summary" hidden>
         <p class="eyebrow">ÚLTIMA SESSÃO CONCLUÍDA</p><h2 id="summary-subject"></h2>
         <p id="summary-date"></p><div class="summary-times"><div><span>Foco</span><strong id="summary-focus"></strong></div><div><span>Pausa</span><strong id="summary-pause"></strong></div></div>
@@ -139,6 +145,7 @@
 
     <section class="view" id="view-configuracoes" data-view="configuracoes" aria-labelledby="settings-title" hidden>
       <div class="view-heading"><p class="eyebrow">CONTROLE LOCAL</p><h1 id="settings-title">Configurações</h1><p>Você escolhe o que observar e pode consultar o diagnóstico quando precisar.</p></div>
+      <article class="card experience-settings"><h2>Ambiente de estudo</h2><p class="hint">Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.</p><form id="experience-form"><label for="experience-theme">Tema</label><select id="experience-theme"><option value="dark">Escuro</option><option value="light">Claro</option><option value="system">Acompanhar o sistema</option></select><label for="experience-brightness">Intensidade visual do aplicativo <output id="brightness-value">100%</output></label><input id="experience-brightness" type="range" min="85" max="100" step="1"><label for="experience-sound">Som ambiente inicial</label><select id="experience-sound"><option value="off">Sem som</option><option value="rain">Chuva suave</option><option value="brown">Ruído marrom</option></select><label for="experience-volume">Volume inicial <output id="volume-value">35%</output></label><input id="experience-volume" type="range" min="0" max="100" step="1"><label class="switch-row"><span><strong>Lembretes de pausa e tempo excedido</strong><small>Avisos na interface. Não pausam a sessão automaticamente.</small></span><input id="experience-reminders" type="checkbox"></label><div class="number-grid"><label for="experience-break">Sugerir pausa após (min)<input id="experience-break" type="number" min="5" max="180"></label><label for="experience-excess">Avisar tempo excedido após mais (min)<input id="experience-excess" type="number" min="5" max="120"></label></div><label class="switch-row"><span><strong>Som ao concluir a sessão</strong><small>Toque curto, somente se ativado.</small></span><input id="experience-completion" type="checkbox"></label><p id="experience-error" class="field-error" role="alert"></p><button class="primary" type="submit">Salvar ambiente</button></form></article>
       <article class="card settings-card"><h2>Sensores opcionais</h2><p class="hint">Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.</p>
         <form id="sensor-form" novalidate>
           <label class="switch-row"><span><strong>Janela ativa</strong><small>Registra o programa quando a janela muda.</small></span><input type="checkbox" id="window-enabled"></label>

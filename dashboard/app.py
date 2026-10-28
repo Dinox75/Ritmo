@@ -30,6 +30,7 @@ STATIC = {
     "/progress.css": ("progress.css", "text/css; charset=utf-8"),
     "/desktop.css": ("desktop.css", "text/css; charset=utf-8"),
     "/ux.css": ("ux.css", "text/css; charset=utf-8"),
+    "/atmosphere.css": ("atmosphere.css", "text/css; charset=utf-8"),
     "/manifest.json": ("manifest.json", "application/manifest+json"),
     "/sw.js": ("sw.js", "text/javascript; charset=utf-8"),
     "/icon.svg": ("icon.svg", "image/svg+xml"),
@@ -141,6 +142,8 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                     result = database.get_ui_state()
                 elif parts == ["api", "config"]:
                     result = load_config(config_path)
+                elif parts == ["api", "experience"]:
+                    result = load_config(config_path)["experience"]
                 elif parts == ["api", "diagnostics"]:
                     events = database.list_events(20)
                     log_lines = LOG_FILE.read_text(encoding="utf-8", errors="replace").splitlines()[-50:] if LOG_FILE.exists() else []
@@ -273,6 +276,13 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 if agent is not None:
                     agent.restart(config)
                 self._send(200, config)
+                return
+            if parts == ["api", "experience"] and self.command == "PATCH":
+                config = load_config(config_path)
+                if set(data) - set(config["experience"]):
+                    raise ValueError("opção desconhecida da experiência")
+                config["experience"].update(data)
+                self._send(200, save_config(config, config_path or LOCAL_CONFIG)["experience"])
                 return
             if parts == ["api", "tutor", "config"] and self.command == "PATCH":
                 self._send(200, tutor.configure(data))
