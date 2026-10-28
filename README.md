@@ -24,6 +24,7 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | --- | --- | --- |
 | Matérias, metas, foco, pausa, notas e evolução | **Disponível** | Interface e persistência SQLite, com correções de tempo registradas. |
 | Leitor de PDF, DOCX e TXT | **Disponível** | Extração de texto, busca, seleção e notas com referência ao trecho. |
+| Ambiente de estudo | **Validado no pacote Windows local** | Tema escuro ou claro, intensidade visual do aplicativo, cronômetro junto à leitura e ao tutor, som ambiente opcional e lembretes configuráveis. A [revalidação da PR #3](docs/qa-windows-pr3.md) cobre 85% de intensidade, rolagem nas três larguras e saída de áudio no dispositivo Realtek. |
 | Backup e restauração manual | **Disponível** | ZIP com banco, materiais originais e configuração, quando houver. |
 | Tutor por matéria e sessão | **Disponível** | Dúvidas, aula guiada, histórico, busca FTS5 e referências aos materiais marcados. |
 | IA local | **Disponível** | Qwen3 GGUF servido por llama.cpp no computador, instalado por ação explícita. |
@@ -32,6 +33,12 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | Ajuste de pesos e atualização automática de fontes | **Planejado** | Há um pipeline experimental, mas nenhum adaptador foi treinado ou integrado. |
 
 Os sensores de janela, ociosidade e presença começam **desligados**. A câmera é opcional. Tempo de foco e imagem não são usados para deduzir emoção, inteligência ou capacidade.
+
+### Ambiente de estudo
+
+Em **Estudar**, o cronômetro mantém foco e pausa separados. O leitor mostra os materiais da matéria ao lado do tutor. O player oferece chuva suave e ruído marrom gerados no próprio aplicativo ou um arquivo de áudio escolhido no computador. O som começa somente após clicar em **Reproduzir**, pausa com a sessão e para ao concluí-la. O arquivo escolhido não é importado nem incluído no backup.
+
+Em **Configurações → Ambiente de estudo**, escolha o tema, a intensidade visual (85–100%), o som e volume iniciais, lembretes de pausa e tempo excedido e um toque curto ao concluir. A intensidade visual afeta apenas a janela do Ritmo, não o monitor. Os lembretes aparecem na interface e não alteram o cronômetro. Som, lembretes e toque começam desligados. Os sons são ambientes opcionais; o aplicativo não promete efeito terapêutico.
 
 ## Arquitetura
 
@@ -75,9 +82,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_windows.ps1
 
 O script cria `.buildvenv`, empacota com PyInstaller, testa o executável com dados temporários, instala a pasta do aplicativo e atualiza um atalho na Área de Trabalho. O pacote não é assinado. Esse comando altera a instalação local; o fluxo de desenvolvimento acima não exige executá-lo.
 
+Quando este repositório está em `Ritmo\Repositorio` ao lado de `Dados`, `Modelos` e `Aplicativo`, o script mantém o pacote e as versões anteriores nessa pasta do Ritmo. A [validação Windows da PR #3](docs/qa-windows-pr3.md) cobre o fluxo de estudo empacotado com dados sintéticos; a saída acústica nos alto-falantes não foi medida.
+
 ## Dados
 
-No desenvolvimento, o banco fica em `storage/ritmo.db` e as preferências locais em `config/local.json`. No pacote Windows, ficam em `%LOCALAPPDATA%\Ritmo`: banco, materiais originais, log, configuração e backups. Os modelos são mantidos em uma pasta escolhida **fora do repositório e da pasta de dados**. [config/local.example.json](config/local.example.json) mostra uma configuração sem credenciais.
+No desenvolvimento, o banco fica em `storage/ritmo.db` e as preferências locais em `config/local.json`. No pacote Windows padrão, banco, materiais originais, log, configuração e backups ficam em `%LOCALAPPDATA%\Ritmo`. Na instalação portátil ao lado deste repositório, ficam em `Ritmo\Dados`. Os modelos são mantidos em uma pasta escolhida **fora do repositório e da pasta de dados**. [config/local.example.json](config/local.example.json) mostra uma configuração sem credenciais.
 
 **Criar backup** produz um ZIP com uma cópia SQLite consistente, os materiais e a configuração, se existir. Pesos e runtime não entram no ZIP. Para restaurar, feche o aplicativo, guarde uma cópia da pasta atual e restaure o conteúdo do ZIP antes de abrir novamente.
 

@@ -97,6 +97,28 @@ def validate_config(config):
     from local_ai.installer import default_root, validate_root
     model_root = str(validate_root(tutor.get("model_root") or default_root()))
     config["tutor"] = {"provider": "local", "model": model, "model_root": model_root}
+    experience = config.get("experience", {})
+    if not isinstance(experience, dict):
+        raise ValueError("configuração da experiência inválida")
+    defaults = {"theme": "dark", "brightness": 100, "soundscape": "off", "volume": 35,
+                "reminders_enabled": False, "break_minutes": 25, "excess_minutes": 15,
+                "completion_sound": False}
+    if set(experience) - set(defaults):
+        raise ValueError("opção desconhecida da experiência")
+    experience = defaults | experience
+    if experience["theme"] not in {"light", "dark", "system"}:
+        raise ValueError("tema inválido")
+    if experience["soundscape"] not in {"off", "rain", "brown"}:
+        raise ValueError("som ambiente inválido")
+    for name, minimum, maximum in (("brightness", 85, 100), ("volume", 0, 100),
+                                    ("break_minutes", 5, 180), ("excess_minutes", 5, 120)):
+        value = experience[name]
+        if type(value) is not int or not minimum <= value <= maximum:
+            raise ValueError(f"{name} deve estar entre {minimum} e {maximum}")
+    for name in ("reminders_enabled", "completion_sound"):
+        if type(experience[name]) is not bool:
+            raise ValueError(f"{name} deve ser booleano")
+    config["experience"] = experience
     return config
 
 

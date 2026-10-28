@@ -7,6 +7,9 @@ let progress = null, dayProgress = null, activeView = null;
 let uiState = {view: 'inicio', subject_id: null, revision: 0};
 let uiSave = Promise.resolve();
 let sessionActionPending = false, refreshRevision = 0;
+let experience = null, activeSound = null, audioContext = null, audioNode = null;
+let localAudio = null, localAudioUrl = null, audioWanted = false, readerRevision = 0;
+let soundRevision = 0;
 
 async function api(path, method = 'GET', data) {
   const response = await fetch('/api' + path, {
@@ -185,6 +188,12 @@ function renderSession() {
     $('ribbon-text').textContent = `${current.subject_name} · ${current.status === 'focus' ? 'em foco' : 'em pausa'}`;
     tick();
   }
+  if (!current || current.status !== 'focus') {
+    stopSound(); $('focus-reminder').hidden = true;
+    $('focus-audio-status').textContent = current ? 'Som pausado junto com a sessão.' : 'Som desligado.';
+  }
+  else if (audioWanted) startSound().catch(() => {});
+  $('focus-play').disabled = !current || current.status !== 'focus' || $('focus-sound').value === 'off';
   $('session-ribbon').hidden = !current || activeView === 'estudar';
   const finished = sessions.find(item => item.status === 'complete');
   $('session-summary').hidden = !!current || !finished;
@@ -217,6 +226,7 @@ function renderSession() {
       li.append(link); materialList.append(li);
     });
   }
+  renderStudyReader();
 }
 
 function tick() {
@@ -229,6 +239,145 @@ function tick() {
   const corrected = sums.focus + current.adjustments.reduce((sum, item) => sum + item.delta_seconds, 0);
   $('timer').textContent = duration(corrected);
   $('pause-time').textContent = duration(sums.pause);
+  checkFocusReminder(sums.focus);
+}
+
+function renderStudyReader() {
+  const select = $('study-reader-select');
+  const available = materials.filter(item => item.subject_id === (current?.subject_id || uiState.subject_id));
+  const selected = available.some(item => item.id === select.value) ? select.value : (available[0]?.id || '');
+  select.replaceChildren(new Option('Escolha um material', ''));
+  available.forEach(item => select.add(new Option(item.name, item.id)));
+  select.value = selected;
+  loadStudyReader(selected);
+}
+
+async function loadStudyReader(id) {
+  const revision = ++readerRevision, container = $('study-reader-content');
+  container.replaceChildren();
+  if (!id) { container.textContent = 'Adicione um material à matéria para lê-lo durante a sessão.'; return; }
+  container.textContent = 'Carregando material…';
+  try {
+    const material = await api('/materials/' + encodeURIComponent(id));
+    if (revision !== readerRevision || $('study-reader-select').value !== id) return;
+    container.replaceChildren();
+    if (!material.chunks?.length) { container.textContent = 'Sem texto extraível. Abra o material original na Biblioteca.'; return; }
+    material.chunks.forEach(chunk => {
+      const section = document.createElement('section'), label = document.createElement('small'), body = document.createElement('pre');
+      section.className = 'reader-section'; label.textContent = chunk.locator || 'Trecho'; body.textContent = chunk.body;
+      section.append(label, body); container.append(section);
+    });
+  } catch (error) { if (revision === readerRevision) container.textContent = error.message; }
+}
+
+function applyExperience(value) {
+  const previousSound = experience?.soundscape;
+  const syncSessionSound = !experience || $('focus-sound').value === previousSound;
+  experience = value;
+  const theme = value.theme === 'system'
+    ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : value.theme;
+  document.documentElement.dataset.theme = theme;
+  document.documentElement.style.setProperty('--ui-dim', String((100 - value.brightness) / 100));
+  $('theme-quick').textContent = theme === 'dark' ? 'Tema escuro' : 'Tema claro';
+  $('experience-theme').value = value.theme;
+  $('experience-brightness').value = value.brightness;
+  $('brightness-value').textContent = value.brightness + '%';
+  $('experience-sound').value = value.soundscape;
+  $('experience-volume').value = value.volume;
+  $('volume-value').textContent = value.volume + '%';
+  $('experience-reminders').checked = value.reminders_enabled;
+  $('experience-break').value = value.break_minutes;
+  $('experience-excess').value = value.excess_minutes;
+  $('experience-completion').checked = value.completion_sound;
+  if (syncSessionSound) $('focus-sound').value = value.soundscape;
+  $('focus-play').disabled = !current || current.status !== 'focus' || $('focus-sound').value === 'off';
+  $('focus-volume').value = value.volume;
+  if (localAudio) localAudio.volume = value.volume / 100;
+  if (audioNode?.gain) audioNode.gain.gain.value = value.volume / 100 * .18;
+}
+
+function stopSound() {
+  soundRevision++;
+  if (audioNode?.source) { try { audioNode.source.stop(); } catch { /* já encerrado */ } }
+  audioNode = null;
+  if (localAudio) localAudio.pause();
+  $('focus-play').textContent = 'Reproduzir';
+}
+
+async function startSound() {
+  const choice = $('focus-sound').value;
+  const revision = soundRevision;
+  if (!audioWanted || !current || current.status !== 'focus' || choice === 'off') return;
+  if (choice === 'file') {
+    if (!localAudioUrl) { $('focus-audio-status').textContent = 'Escolha um arquivo de áudio deste computador.'; return; }
+    localAudio ||= new Audio();
+    if (localAudio.src !== localAudioUrl) localAudio.src = localAudioUrl;
+    localAudio.loop = true; localAudio.volume = Number($('focus-volume').value) / 100;
+    await localAudio.play();
+    if (revision !== soundRevision || current?.status !== 'focus' || !audioWanted) { localAudio.pause(); return; }
+  } else {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) throw new Error('Áudio indisponível neste navegador.');
+    audioContext ||= new AudioContextClass();
+    await audioContext.resume();
+    if (revision !== soundRevision || current?.status !== 'focus' || !audioWanted || $('focus-sound').value !== choice) return;
+    if (!audioNode) {
+      const buffer = audioContext.createBuffer(1, audioContext.sampleRate * 2, audioContext.sampleRate);
+      const samples = buffer.getChannelData(0);
+      let brown = 0;
+      for (let i = 0; i < samples.length; i++) {
+        const white = Math.random() * 2 - 1;
+        brown = (brown + .02 * white) / 1.02;
+        samples[i] = choice === 'brown' ? brown * 3.5 : white * .28;
+      }
+      const source = audioContext.createBufferSource(), filter = audioContext.createBiquadFilter();
+      const gain = audioContext.createGain();
+      source.buffer = buffer; source.loop = true;
+      filter.type = 'lowpass'; filter.frequency.value = choice === 'brown' ? 380 : 2800;
+      gain.gain.value = Number($('focus-volume').value) / 100 * .18;
+      source.connect(filter).connect(gain).connect(audioContext.destination);
+      source.start(); audioNode = {source, gain};
+    }
+  }
+  $('focus-play').textContent = 'Pausar som';
+  $('focus-audio-status').textContent = 'Som opcional em reprodução local. Pausa junto com a sessão.';
+}
+
+function checkFocusReminder(focusSeconds) {
+  if (!experience?.reminders_enabled || current?.status !== 'focus') return;
+  const breakLimit = experience.break_minutes * 60;
+  const excessLimit = (experience.break_minutes + experience.excess_minutes) * 60;
+  const key = current.id + ':';
+  const seen = marker => sessionStorage.getItem('ritmo-reminder:' + key + marker);
+  const mark = marker => sessionStorage.setItem('ritmo-reminder:' + key + marker, '1');
+  if (focusSeconds >= excessLimit && !seen('excess')) {
+    mark('break'); mark('excess');
+    $('focus-reminder-text').textContent = 'Você passou do tempo de foco planejado. Quer fazer uma pausa?';
+    $('focus-reminder').hidden = false;
+  } else if (focusSeconds >= breakLimit && !seen('break')) {
+    mark('break');
+    $('focus-reminder-text').textContent = 'Seu bloco de foco terminou. Você pode fazer uma pausa ou continuar.';
+    $('focus-reminder').hidden = false;
+  }
+}
+
+function completionChime() {
+  if (!experience?.completion_sound) return;
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return;
+  audioContext ||= new AudioContextClass();
+  audioContext.resume().then(() => {
+    for (const [index, frequency] of [440, 660].entries()) {
+      const oscillator = audioContext.createOscillator(), gain = audioContext.createGain();
+      oscillator.type = 'sine'; oscillator.frequency.value = frequency;
+      const at = audioContext.currentTime + index * .16;
+      gain.gain.setValueAtTime(.0001, at);
+      gain.gain.exponentialRampToValueAtTime(.08, at + .03);
+      gain.gain.exponentialRampToValueAtTime(.0001, at + .25);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(at); oscillator.stop(at + .26);
+    }
+  }).catch(() => {});
 }
 
 function renderProgress(value) {
@@ -734,6 +883,7 @@ async function changeSession(action) {
   fieldError('session-error', '');
   try {
     await api('/sessions/' + sessionId + '/' + action, 'POST', {});
+    if (action === 'finish') { audioWanted = false; stopSound(); completionChime(); }
     await refresh();
     message({pause: 'Sessão pausada.', resume: 'Sessão retomada.',
       finish: 'Sessão concluída. Confira o resumo abaixo.'}[action]);
@@ -749,6 +899,76 @@ async function changeSession(action) {
 }
 $('pause-btn').onclick = () => changeSession(current?.status === 'pause' ? 'resume' : 'pause');
 $('finish-btn').onclick = () => changeSession('finish');
+$('focus-reminder-pause').onclick = () => changeSession('pause');
+$('focus-reminder-dismiss').onclick = () => { $('focus-reminder').hidden = true; };
+$('study-reader-select').onchange = () => loadStudyReader($('study-reader-select').value);
+
+$('theme-quick').onclick = async () => {
+  if (!experience) return;
+  const previous = experience;
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyExperience({...previous, theme});
+  try { applyExperience(await api('/experience', 'PATCH', {theme})); }
+  catch (error) { applyExperience(previous); message(error.message, 'error'); }
+};
+$('experience-brightness').oninput = () => {
+  document.documentElement.style.setProperty('--ui-dim', String((100 - Number($('experience-brightness').value)) / 100));
+  $('brightness-value').textContent = $('experience-brightness').value + '%';
+};
+$('experience-volume').oninput = () => { $('volume-value').textContent = $('experience-volume').value + '%'; };
+$('experience-form').onsubmit = event => {
+  event.preventDefault();
+  const values = {
+    theme: $('experience-theme').value, brightness: Number($('experience-brightness').value),
+    soundscape: $('experience-sound').value, volume: Number($('experience-volume').value),
+    reminders_enabled: $('experience-reminders').checked,
+    break_minutes: Number($('experience-break').value),
+    excess_minutes: Number($('experience-excess').value),
+    completion_sound: $('experience-completion').checked
+  };
+  busy($('experience-form').querySelector('button[type="submit"]'), 'Salvando…', async () => {
+    applyExperience(await api('/experience', 'PATCH', values));
+    fieldError('experience-error', ''); message('Ambiente de estudo salvo.');
+  }, text => fieldError('experience-error', text));
+};
+$('focus-sound').onchange = () => {
+  stopSound(); audioWanted = false;
+  if ($('focus-sound').value === 'file' && !localAudioUrl) $('focus-file').click();
+  $('focus-play').disabled = !current || current.status !== 'focus' || $('focus-sound').value === 'off';
+  $('focus-audio-status').textContent = $('focus-sound').value === 'off' ? 'Som desligado.' :
+    'Pronto para reproduzir. O som só começa quando você clicar no player.';
+};
+$('focus-file').onchange = () => {
+  const file = $('focus-file').files[0];
+  if (!file) { $('focus-sound').value = 'off'; $('focus-play').disabled = true; return; }
+  if (!file.type.startsWith('audio/') || file.size > 50_000_000) {
+    $('focus-audio-status').textContent = 'Escolha um áudio de até 50 MB.';
+    $('focus-sound').value = 'off'; $('focus-play').disabled = true; return;
+  }
+  if (localAudioUrl) URL.revokeObjectURL(localAudioUrl);
+  localAudioUrl = URL.createObjectURL(file);
+  $('focus-audio-status').textContent = file.name + ' pronto. O arquivo fica no seu computador e não é importado.';
+};
+$('focus-play').onclick = async () => {
+  if (audioNode || (localAudio && !localAudio.paused)) {
+    audioWanted = false; stopSound(); $('focus-audio-status').textContent = 'Som pausado.'; return;
+  }
+  audioWanted = true;
+  try { await startSound(); }
+  catch (error) { audioWanted = false; stopSound(); $('focus-audio-status').textContent = error.message; }
+};
+$('focus-volume').oninput = () => {
+  const volume = Number($('focus-volume').value);
+  if (localAudio) localAudio.volume = volume / 100;
+  if (audioNode?.gain) audioNode.gain.gain.value = volume / 100 * .18;
+};
+$('focus-volume').onchange = async () => {
+  try { applyExperience(await api('/experience', 'PATCH', {volume: Number($('focus-volume').value)})); }
+  catch (error) { message(error.message, 'error'); }
+};
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => {
+  if (experience?.theme === 'system') applyExperience(experience);
+});
 
 function saveNote(form) {
   const quick = form.id === 'quick-note-form';
@@ -844,6 +1064,9 @@ $('quit-btn').onclick = () => busy($('quit-btn'), 'Saindo…', async () => {
 
 window.addEventListener('hashchange', () => showView(location.hash.slice(1)));
 window.addEventListener('pagehide', () => {
+  stopSound();
+  if (localAudioUrl) URL.revokeObjectURL(localAudioUrl);
+  audioContext?.close().catch(() => {});
   fetch('/api/ui-state', {method: 'PATCH', headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(uiState), keepalive: true}).catch(() => {});
 });
@@ -856,6 +1079,7 @@ async function boot() {
     uiState = await api('/ui-state');
     await refresh();
     renderConfig(await api('/config'));
+    applyExperience(await api('/experience'));
     $('app-loading').hidden = true;
     showView(VIEWS.has(location.hash.slice(1)) ? location.hash.slice(1) : uiState.view,
       {persist: VIEWS.has(location.hash.slice(1)) && location.hash.slice(1) !== uiState.view, focus: false});

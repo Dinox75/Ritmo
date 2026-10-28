@@ -205,6 +205,7 @@ class DatabaseCase(unittest.TestCase):
             self.assertTrue(json.load(response)["ready"])
         app.close()
         with socket.socket() as listener:
+            listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             listener.bind(("127.0.0.1", port))
 
     def test_installed_package_finds_original_checkout(self):
@@ -310,6 +311,16 @@ class DatabaseCase(unittest.TestCase):
             config["idle_tracker"]["threshold_seconds"] = 90
             self.assertEqual(call("/api/config", "PATCH", config)["idle_tracker"]["threshold_seconds"], 90)
             self.assertEqual(agent.config["idle_tracker"]["threshold_seconds"], 90)
+            experience = call("/api/experience")
+            self.assertEqual(experience["theme"], "dark")
+            self.assertEqual(experience["soundscape"], "off")
+            changed = call("/api/experience", "PATCH", {"theme": "light", "break_minutes": 40})
+            self.assertEqual((changed["theme"], changed["break_minutes"]), ("light", 40))
+            self.assertEqual(call("/api/experience")["theme"], "light")
+            with self.assertRaises(urllib.error.HTTPError) as error:
+                call("/api/experience", "PATCH", {"brightness": 10})
+            self.assertEqual(error.exception.code, 400)
+            self.assertEqual(call("/api/experience"), changed)
             report = call("/api/import-legacy", "POST", {"name": "old.csv", "content":
                           "2025-11-16,11:11:40,Uma janela,code.exe\n"})
             self.assertEqual(report["rows_accepted"], 1)
