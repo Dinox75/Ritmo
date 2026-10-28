@@ -1,4 +1,4 @@
-<p align="center"><img src="web/icon.svg" alt="Marca do Ritmo: livro aberto com ponto âmbar de cadência" width="80"></p>
+<p align="center"><img src="web/icon.svg" alt="Marca do Ritmo: letra R âmbar sobre um livro aberto" width="80"></p>
 
 # Ritmo
 
@@ -25,7 +25,7 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | Matérias, metas, foco, pausa, notas e evolução | **Disponível** | Interface e persistência SQLite, com correções de tempo registradas. |
 | Leitor de PDF, DOCX e TXT | **Disponível** | Extração de texto, busca, seleção e notas com referência ao trecho. |
 | Ambiente de estudo | **Validado no pacote Windows local** | Tema escuro ou claro, intensidade visual do aplicativo, cronômetro junto à leitura e ao tutor, som ambiente opcional e lembretes configuráveis. A [revalidação da PR #3](docs/qa-windows-pr3.md) cobre 85% de intensidade, rolagem nas três larguras e saída de áudio no dispositivo Realtek. |
-| Identidade visual | **Proposta em revisão** | Livro aberto com ponto de cadência; ícones SVG/PNG para web e Android, ICO para Windows e movimento discreto no cabeçalho. |
+| Identidade visual | **Proposta em revisão** | R âmbar sobre livro aberto; ícones SVG/PNG para web e Android, ICO para Windows e movimento discreto no cabeçalho. |
 | Backup e restauração manual | **Disponível** | ZIP com banco, materiais originais e configuração, quando houver. |
 | Tutor por matéria e sessão | **Disponível** | Dúvidas, aula guiada, histórico, busca FTS5 e referências aos materiais marcados. |
 | IA local | **Disponível** | Qwen3 GGUF servido por llama.cpp no computador, instalado por ação explícita. |
@@ -43,7 +43,7 @@ Em **Configurações → Ambiente de estudo**, escolha o tema, a intensidade vis
 
 ### Marca e plataformas
 
-A marca representa o conteúdo aberto e a constância dos blocos de estudo. O ícone do executável e do atalho Windows é gerado a partir de `web/icon-512.png` por `scripts/make_icon.py`. O manifesto oferece PNGs normais e versões com área segura para recorte no Android. Os SVGs são as fontes vetoriais; ao alterá-los, exporte novamente os PNGs de 192 e 512 px antes de gerar o ICO. Os arquivos têm fundo sólido e não dependem de fontes instaladas.
+A letra R identifica o Ritmo; o livro centralizado atrás representa o material de estudo. O ícone do executável e do atalho Windows é gerado a partir de `web/icon-512.png` por `scripts/make_icon.py`. O manifesto oferece PNGs normais e versões com área segura para recorte no Android. Os SVGs são as fontes vetoriais; ao alterá-los, exporte novamente os PNGs de 192 e 512 px antes de gerar o ICO. Os arquivos têm fundo sólido e não dependem de fontes instaladas.
 
 No cabeçalho, a marca leva ao Início, reage a foco, ponteiro e toque e mostra um anel discreto durante o estudo. A preferência de movimento reduzido desliga essas animações. Os ícones do sistema operacional permanecem estáticos. O manifesto prepara os ícones de uma instalação web no Android, mas **não constitui um aplicativo Android nativo nem valida a instalação no aparelho**.
 

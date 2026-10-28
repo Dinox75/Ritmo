@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
-  <title id="title">Ritmo: livro aberto e ponto de cadência</title>
+  <title id="title">Ritmo: letra R sobre um livro aberto</title>
   <rect width="256" height="256" rx="58" fill="#10343a"/>
-  <path d="M47 80c26-12 53-9 81 8v99c-27-17-55-20-81-9V80Z" fill="#edf3e9"/>
-  <path d="M209 80c-26-12-53-9-81 8v99c27-17 55-20 81-9V80Z" fill="#dce9df"/>
-  <path d="M128 88v99" stroke="#517b72" stroke-width="7"/>
-  <path d="M75 188c19-2 36 2 53 11 17-9 34-13 53-11" fill="none" stroke="#d8aa5a" stroke-width="9" stroke-linecap="round"/>
-  <circle cx="128" cy="54" r="12" fill="#e8b75f"/>
+  <path d="M42 100c26-11 55-8 86 9v82c-29-16-58-19-86-8V100Z" fill="#e8f0e8"/>
+  <path d="M214 100c-26-11-55-8-86 9v82c29-16 58-19 86-8V100Z" fill="#d2e2da"/>
+  <path d="M128 110v81" stroke="#62897e" stroke-width="5"/>
+  <path d="M86 48v156M86 48h53c29 0 47 15 47 39s-18 40-47 40H86m42 1 53 76" fill="none" stroke="#10343a" stroke-width="29" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M86 48v156M86 48h53c29 0 47 15 47 39s-18 40-47 40H86m42 1 53 76" fill="none" stroke="#e8b75f" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
