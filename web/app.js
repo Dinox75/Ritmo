@@ -173,7 +173,23 @@ function noteSourceLink(note) {
   return link;
 }
 
+const sessionHome = $('session-panel').parentElement;
+const sidebarMedia = matchMedia('(min-width:1120px)');
+let dockLayout = null;
+function positionSessionPanel() {
+  const dock = $('sidebar-session'), panel = $('session-panel');
+  const target = sidebarMedia.matches ? dock : sessionHome;
+  if (panel.parentElement !== target) target.append(panel);
+  if (dockLayout !== sidebarMedia.matches) {
+    $('session-audio').open = !sidebarMedia.matches;
+    dockLayout = sidebarMedia.matches;
+  }
+  dock.hidden = !sidebarMedia.matches || !current;
+}
+sidebarMedia.addEventListener?.('change', positionSessionPanel);
+
 function renderSession() {
+  positionSessionPanel();
   $('start-panel').hidden = !!current;
   $('session-panel').hidden = !current;
   $('quick-note-wrap').hidden = !current;
@@ -185,6 +201,9 @@ function renderSession() {
     $('session-status').classList.toggle('paused', current.status === 'pause');
     $('session-started').textContent = 'Iniciada em ' + localDate(current.started_at);
     $('pause-btn').textContent = current.status === 'focus' ? 'Pausar' : 'Retomar';
+    $('pause-btn').classList.toggle('is-paused', current.status === 'pause');
+    $('pause-btn').setAttribute('aria-label', current.status === 'pause' ? 'Retomar sessão' : 'Pausar sessão');
+    $('pause-btn').title = current.status === 'pause' ? 'Retomar sessão' : 'Pausar sessão';
     $('ribbon-text').textContent = `${current.subject_name} · ${current.status === 'focus' ? 'em foco' : 'em pausa'}`;
     tick();
   }
@@ -302,6 +321,7 @@ function stopSound() {
   audioNode = null;
   if (localAudio) localAudio.pause();
   $('focus-play').textContent = 'Reproduzir';
+  $('audio-summary').textContent = 'Som ambiente · opcional';
 }
 
 async function startSound() {
@@ -340,6 +360,7 @@ async function startSound() {
     }
   }
   $('focus-play').textContent = 'Pausar som';
+  $('audio-summary').textContent = 'Som ambiente · tocando';
   $('focus-audio-status').textContent = 'Som opcional em reprodução local. Pausa junto com a sessão.';
 }
 
