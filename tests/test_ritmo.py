@@ -281,6 +281,19 @@ class DatabaseCase(unittest.TestCase):
                 self.assertIn("Sua sessão", response.read().decode("utf-8"))
             with urllib.request.urlopen(base + "/app.js") as response:
                 self.assertIn("renderProgress", response.read().decode("utf-8"))
+            with urllib.request.urlopen(base + "/manifest.json") as response:
+                manifest = json.load(response)
+            icons = {(icon["src"], icon["purpose"]) for icon in manifest["icons"]}
+            self.assertIn(("/icon-maskable-512.png", "maskable"), icons)
+            self.assertIn(("/icon-192.png", "any"), icons)
+            for path, dimension in (("/icon-192.png", 192), ("/icon-512.png", 512),
+                                    ("/icon-maskable-192.png", 192), ("/icon-maskable-512.png", 512)):
+                with urllib.request.urlopen(base + path) as response:
+                    self.assertEqual(response.headers.get_content_type(), "image/png")
+                    header = response.read(24)
+                self.assertEqual(header[:8], b"\x89PNG\r\n\x1a\n")
+                self.assertEqual(int.from_bytes(header[16:20], "big"), dimension)
+                self.assertEqual(int.from_bytes(header[20:24], "big"), dimension)
             subject = call("/api/subjects", "POST", {"name": "Automação"})
             session = call("/api/sessions", "POST", {"subject_id": subject["id"]})
             note = call("/api/notes", "POST", {"subject_id": subject["id"],

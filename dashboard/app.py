@@ -31,9 +31,15 @@ STATIC = {
     "/desktop.css": ("desktop.css", "text/css; charset=utf-8"),
     "/ux.css": ("ux.css", "text/css; charset=utf-8"),
     "/atmosphere.css": ("atmosphere.css", "text/css; charset=utf-8"),
+    "/brand.css": ("brand.css", "text/css; charset=utf-8"),
     "/manifest.json": ("manifest.json", "application/manifest+json"),
     "/sw.js": ("sw.js", "text/javascript; charset=utf-8"),
     "/icon.svg": ("icon.svg", "image/svg+xml"),
+    "/icon-maskable.svg": ("icon-maskable.svg", "image/svg+xml"),
+    "/icon-192.png": ("icon-192.png", "image/png"),
+    "/icon-512.png": ("icon-512.png", "image/png"),
+    "/icon-maskable-192.png": ("icon-maskable-192.png", "image/png"),
+    "/icon-maskable-512.png": ("icon-maskable-512.png", "image/png"),
 }
 
 
