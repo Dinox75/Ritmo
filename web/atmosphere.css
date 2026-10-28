@@ -1,5 +1,6 @@
 /* Ambiente de estudo: direção escura selecionada, com alternativa clara. */
-body{filter:brightness(var(--ui-brightness,1))}
+/* Camada da janela, sem criar um containing block para a navegação fixa. */
+html::after{content:"";position:fixed;inset:0;z-index:1000;pointer-events:none;background:rgba(0,0,0,var(--ui-dim,0))}
 .theme-quick{background:transparent;border:1px solid #b6c9c1;color:inherit;font-size:12px;white-space:nowrap}
 .study-workspace{display:grid;grid-template-columns:minmax(220px,270px) minmax(340px,1fr) minmax(300px,360px);gap:18px;align-items:start}
 .study-workspace .study-layout,.study-workspace .study-layout.has-session{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}

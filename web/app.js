@@ -277,7 +277,7 @@ function applyExperience(value) {
   const theme = value.theme === 'system'
     ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : value.theme;
   document.documentElement.dataset.theme = theme;
-  document.documentElement.style.setProperty('--ui-brightness', String(value.brightness / 100));
+  document.documentElement.style.setProperty('--ui-dim', String((100 - value.brightness) / 100));
   $('theme-quick').textContent = theme === 'dark' ? 'Tema escuro' : 'Tema claro';
   $('experience-theme').value = value.theme;
   $('experience-brightness').value = value.brightness;
@@ -912,7 +912,7 @@ $('theme-quick').onclick = async () => {
   catch (error) { applyExperience(previous); message(error.message, 'error'); }
 };
 $('experience-brightness').oninput = () => {
-  document.documentElement.style.setProperty('--ui-brightness', String(Number($('experience-brightness').value) / 100));
+  document.documentElement.style.setProperty('--ui-dim', String((100 - Number($('experience-brightness').value)) / 100));
   $('brightness-value').textContent = $('experience-brightness').value + '%';
 };
 $('experience-volume').oninput = () => { $('volume-value').textContent = $('experience-volume').value + '%'; };

@@ -81,6 +81,27 @@ def screenshots(page, folder, report):
             page.screenshot(path=str(target), full_page=width == 390)
             report["screens"].append({"width": width, "view": view, "metrics": metrics,
                                        "image": target.name})
+            if view == "configuracoes":
+                page.locator("#experience-brightness").focus()
+                page.keyboard.press("Home")  # 85%, para verificar a camada visual ativa.
+                fixed = page.evaluate("""() => {
+                  scrollTo({top: 0, behavior: 'instant'});
+                  const nav = document.querySelector(innerWidth <= 780 ? '.topnav' : '.topbar');
+                  const before = nav.getBoundingClientRect().top;
+                  scrollTo({top: 400, behavior: 'instant'});
+                  return {before, after: nav.getBoundingClientRect().top, scrolled: scrollY,
+                    dim: getComputedStyle(document.documentElement, '::after').backgroundColor,
+                    bodyFilter: getComputedStyle(document.body).filter};
+                }""")
+                assert fixed["scrolled"] > 0, fixed
+                assert abs(fixed["before"] - fixed["after"]) <= 1, fixed
+                assert fixed["bodyFilter"] == "none", fixed
+                assert fixed["dim"] != "rgba(0, 0, 0, 0)", fixed
+                report["screens"][-1]["fixed_navigation"] = fixed
+                page.locator("#experience-brightness").focus()
+                page.keyboard.press("End")
+                page.evaluate("scrollTo({top: 0, behavior: 'instant'})")
+    report["checks"].append("navegação fixa após rolagem com intensidade visual em 85%")
     page.set_viewport_size({"width": 1366, "height": 850})
     page.locator('nav a[data-view-target="estudar"]').click()
 
