@@ -17,8 +17,13 @@ def _fold(value):
 
 def _terms(question):
     values = re.findall(r"\w+", _fold(question), flags=re.UNICODE)
-    return list(dict.fromkeys(value for value in values if (len(value) >= 3 or value.isdigit())
-                              and value not in STOPWORDS))[:10]
+    terms = list(dict.fromkeys(value for value in values if (len(value) >= 3 or value.isdigit())
+                               and value not in STOPWORDS))
+    # E e OU normalmente são conectivos descartados, mas numa pergunta explícita
+    # sobre os operadores eles são justamente os termos que ligam ao material.
+    if re.search(r"\bE\b", question) and re.search(r"\bOU\b", question):
+        terms = ["e", "ou", *terms]
+    return terms[:10]
 
 
 def _excerpt(body, terms, limit=650):
