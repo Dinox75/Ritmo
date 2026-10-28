@@ -173,7 +173,23 @@ function noteSourceLink(note) {
   return link;
 }
 
+const sessionHome = $('session-panel').parentElement;
+const sidebarMedia = matchMedia('(min-width:1120px)');
+let dockLayout = null;
+function positionSessionPanel() {
+  const dock = $('sidebar-session'), panel = $('session-panel');
+  const target = sidebarMedia.matches ? dock : sessionHome;
+  if (panel.parentElement !== target) target.append(panel);
+  if (dockLayout !== sidebarMedia.matches) {
+    $('session-audio').open = !sidebarMedia.matches;
+    dockLayout = sidebarMedia.matches;
+  }
+  dock.hidden = !sidebarMedia.matches || !current;
+}
+sidebarMedia.addEventListener?.('change', positionSessionPanel);
+
 function renderSession() {
+  positionSessionPanel();
   $('start-panel').hidden = !!current;
   $('session-panel').hidden = !current;
   $('quick-note-wrap').hidden = !current;
@@ -185,6 +201,9 @@ function renderSession() {
     $('session-status').classList.toggle('paused', current.status === 'pause');
     $('session-started').textContent = 'Iniciada em ' + localDate(current.started_at);
     $('pause-btn').textContent = current.status === 'focus' ? 'Pausar' : 'Retomar';
+    $('pause-btn').classList.toggle('is-paused', current.status === 'pause');
+    $('pause-btn').setAttribute('aria-label', current.status === 'pause' ? 'Retomar sessão' : 'Pausar sessão');
+    $('pause-btn').title = current.status === 'pause' ? 'Retomar sessão' : 'Pausar sessão';
     $('ribbon-text').textContent = `${current.subject_name} · ${current.status === 'focus' ? 'em foco' : 'em pausa'}`;
     tick();
   }
@@ -302,6 +321,7 @@ function stopSound() {
   audioNode = null;
   if (localAudio) localAudio.pause();
   $('focus-play').textContent = 'Reproduzir';
+  $('audio-summary').textContent = 'Som ambiente · opcional';
 }
 
 async function startSound() {
@@ -340,6 +360,7 @@ async function startSound() {
     }
   }
   $('focus-play').textContent = 'Pausar som';
+  $('audio-summary').textContent = 'Som ambiente · tocando';
   $('focus-audio-status').textContent = 'Som opcional em reprodução local. Pausa junto com a sessão.';
 }
 
@@ -490,7 +511,7 @@ function renderMaterialList() {
   });
 }
 
-async function openMaterial(id, jumpChunkId = null) {
+async function openMaterial(id, jumpChunkId = null, citationExcerpt = null) {
   fieldError('reader-error', '');
   try {
     currentMaterial = await api('/materials/' + id);
@@ -503,7 +524,30 @@ async function openMaterial(id, jumpChunkId = null) {
     $('material-search').value = '';
     if (currentMaterial.status !== 'ready') fieldError('reader-error', currentMaterial.error || 'Não há texto extraído. O original continua disponível.');
     renderMaterialChunks(); renderMaterialList();
-    if (jumpChunkId) $('chunk-' + jumpChunkId)?.scrollIntoView({block: 'center'});
+    if (jumpChunkId) {
+      const section = $('chunk-' + jumpChunkId);
+      const chunk = currentMaterial.chunks.find(item => item.id === jumpChunkId);
+      let target = section;
+      if (citationExcerpt && chunk && section) {
+        const tokens = citationExcerpt.trim().split(/\s+/).filter(Boolean);
+        const escaped = tokens.map(token => token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        const pattern = escaped.length && citationExcerpt.length <= 1000 ? new RegExp(escaped.join('\\s+'), 'gu') : null;
+        const matches = pattern ? [...chunk.body.matchAll(pattern)].slice(0, 2) : [];
+        if (matches.length === 1) {
+          const match = matches[0], start = match.index, end = start + match[0].length;
+          const body = section.querySelector('p'), mark = document.createElement('mark');
+          mark.className = 'citation-highlight'; mark.textContent = chunk.body.slice(start, end);
+          body.replaceChildren(document.createTextNode(chunk.body.slice(0, start)), mark,
+            document.createTextNode(chunk.body.slice(end)));
+          target = mark;
+        } else {
+          fieldError('reader-error', 'Não foi possível identificar a frase citada com segurança. Confira o trecho completo abaixo.');
+        }
+      } else if (citationExcerpt) {
+        fieldError('reader-error', 'O trecho citado não está disponível neste material.');
+      }
+      target?.scrollIntoView({block: 'center'});
+    }
   } catch (error) { fieldError('reader-error', error.message); }
 }
 

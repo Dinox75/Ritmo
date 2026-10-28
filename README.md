@@ -34,9 +34,13 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 
 Os sensores de janela, ociosidade e presença começam **desligados**. A câmera é opcional. Tempo de foco e imagem não são usados para deduzir emoção, inteligência ou capacidade.
 
+Ao abrir uma referência do tutor, o leitor destaca o excerto recuperado se ele puder ser localizado de forma única no trecho original. Se não houver correspondência segura, o bloco é aberto com um aviso. O destaque identifica o texto recuperado; a interpretação do tutor deve ser conferida pelo estudante.
+
 ### Ambiente de estudo
 
 Em **Estudar**, o cronômetro mantém foco e pausa separados. O leitor mostra os materiais da matéria ao lado do tutor. O player oferece chuva suave e ruído marrom gerados no próprio aplicativo ou um arquivo de áudio escolhido no computador. O som começa somente após clicar em **Reproduzir**, pausa com a sessão e para ao concluí-la. O arquivo escolhido não é importado nem incluído no backup.
+
+Em janelas largas, o controle compacto de foco fica na navegação lateral, abaixo de Configurações; o ícone de pausa muda para retomada conforme a sessão. O player fica disponível em **Som ambiente**, e as anotações aparecem abaixo da leitura. Em telas menores, os controles permanecem na área de estudo. O botão mantém nome acessível mesmo quando usa apenas ícone.
 
 Em **Configurações → Ambiente de estudo**, escolha o tema, a intensidade visual (85–100%), o som e volume iniciais, lembretes de pausa e tempo excedido e um toque curto ao concluir. A intensidade visual afeta apenas a janela do Ritmo, não o monitor. Os lembretes aparecem na interface e não alteram o cronômetro. Som, lembretes e toque começam desligados. Os sons são ambientes opcionais; o aplicativo não promete efeito terapêutico.
 
@@ -82,7 +86,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build_windows.ps1
 
 O script cria `.buildvenv`, empacota com PyInstaller, testa o executável com dados temporários, instala a pasta do aplicativo e atualiza um atalho na Área de Trabalho. O pacote não é assinado. Esse comando altera a instalação local; o fluxo de desenvolvimento acima não exige executá-lo.
 
-Quando este repositório está em `Ritmo\Repositorio` ao lado de `Dados`, `Modelos` e `Aplicativo`, o script mantém o pacote e as versões anteriores nessa pasta do Ritmo. A [validação Windows da PR #3](docs/qa-windows-pr3.md) cobre o fluxo de estudo empacotado com dados sintéticos; a saída acústica nos alto-falantes não foi medida.
+Quando este repositório está em `Ritmo\Repositorio` ao lado de `Dados`, `Modelos` e `Aplicativo`, o script mantém o pacote e as versões anteriores nessa pasta do Ritmo. A [validação Windows da PR #3](docs/qa-windows-pr3.md) cobre o fluxo de estudo empacotado com dados sintéticos e a captura digital da saída de áudio; não houve medição acústica externa dos alto-falantes.
+
+A [validação da integração do espaço de estudo, referências e pesquisa](docs/qa-study-sources-2026-10-28.md) registra testes com o pacote Windows, a consulta externa opcional e um caso sintético com o Qwen3 4B local.
 
 ## Dados
 
@@ -96,12 +102,17 @@ Depois da instalação dos pesos, perguntas ao tutor são processadas localmente
 
 - PDFs digitalizados sem camada de texto ficam sem conteúdo extraível; não há OCR.
 - O modelo pode errar ou citar um trecho de forma inadequada. Abra a referência para conferir o original. Sem trecho relevante, a resposta deve indicar que não está baseada no material.
+- O tutor pode usar conhecimento geral e apontar possíveis divergências. A pesquisa externa opcional consulta a Wikipédia em português somente após o estudante revisar a consulta e clicar em **Pesquisar esta consulta**. A pesquisa envia apenas esse texto; os resultados escolhidos entram na próxima resposta local, com link e data de acesso. O aplicativo não envia materiais, notas ou conversas à Wikipédia. A data de acesso não confirma a exatidão nem a atualidade da página.
 - A primeira resposta pode demorar enquanto o modelo carrega. Falta de pesos, memória ou compatibilidade não bloqueia o estudo manual.
 - O suporte foi verificado em um computador Windows com GPU NVIDIA compatível com o runtime incluído. Não há validação geral de CPU, outras GPUs ou outros sistemas.
 - Os [ensaios locais](docs/benchmark-local.json) e as [medições de velocidade](docs/benchmark-speed.json) usam poucos casos sintéticos; não demonstram precisão geral.
 - Informações sobre cursos e mercado não são atualizadas automaticamente. Um resumo cadastrado manualmente precisa de fonte, data, escopo e revisão humana.
 
 ## Roadmap
+
+**Consulta externa para estudos — experimental:** a busca opcional usa a [API da Wikipédia em português](https://www.mediawiki.org/wiki/API:REST_API/Policies) e mostra até cinco resultados, com excertos introdutórios. Não exige chave nem pagamento; depende de Internet e está sujeita aos [limites de uso da Wikimedia](https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits). O texto da Wikipédia costuma estar sob [CC BY-SA 4.0, com atribuição e condições específicas por página](https://www.mediawiki.org/wiki/Wikimedia_APIs/Content_reuse); confira a licença e o histórico antes de reutilizar. O tutor pode comparar até três excertos escolhidos com o material, mas essa comparação é gerada por modelo e precisa de revisão humana. A pesquisa não equivale a uma verificação ampla da Web nem confirma fatos atuais de faculdade ou mercado. Quando a fonte não responde, o estudo local continua funcionando.
+
+Foi considerada a [Brave Search API](https://api-dashboard.search.brave.com/documentation/pricing), que oferece busca Web mais ampla, mas custa US$ 5 por 1.000 consultas (com crédito mensal informado no painel), requer conta e configuração de pagamento; não foi integrada. O Ritmo não usa essa API nem cobra por sua pesquisa atual. Para dados oficiais de ensino ou trabalho, o cadastro manual de atualizações com fonte, período e escopo permanece disponível.
 
 As fases descrevem **código entregue** e o que ainda precisa ser medido. Busca em documentos, memória e instruções do tutor não são treinamento dos pesos.
 
@@ -127,7 +138,7 @@ As fases descrevem **código entregue** e o que ainda precisa ser medido. Busca 
 
 ### Fase F — Informação acadêmica e carreira
 
-**Estado:** parcial. O catálogo de fontes e o cadastro manual de atualizações datadas estão disponíveis; integração automática não existe. **Próximo:** definir rotina de revisão de INEP/MTE e outras fontes pertinentes, com licença, data e escopo. **Dependência:** publicações oficiais e permissão de uso. **Aceite:** toda afirmação atual mostra fonte e período; orientação geral fica separada de estatísticas observadas, tendências e previsões, sem prometer resultado profissional.
+**Estado:** parcial. O catálogo e o cadastro manual de atualizações datadas estão disponíveis. A pesquisa opcional na Wikipédia é experimental; não substitui as publicações oficiais do INEP/MTE. **Próximo:** avaliar fontes oficiais consultáveis, licenças e períodos antes de oferecer afirmações atuais. **Dependência:** publicações oficiais e permissão de uso. **Aceite:** toda afirmação atual mostra fonte e período; orientação geral fica separada de estatísticas observadas, tendências e previsões, sem prometer resultado profissional.
 
 Também está pendente decidir e registrar uma licença **própria** para o Ritmo. O arquivo [LICENSE](LICENSE) preserva os termos registrados no WorkWatch de origem; não foi criada uma licença nova nesta separação.
 

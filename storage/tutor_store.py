@@ -52,6 +52,9 @@ class TutorStore:
                 message["sources"] = [dict(item) for item in db.execute(
                     "SELECT ordinal, material_id, chunk_id, material_name, locator, excerpt "
                     "FROM tutor_message_sources WHERE message_id=? ORDER BY ordinal", (message["id"],))]
+                message["external_sources"] = [dict(item) for item in db.execute(
+                    "SELECT ordinal, title, url, excerpt, provider, accessed_at, license "
+                    "FROM tutor_external_sources WHERE message_id=? ORDER BY ordinal", (message["id"],))]
             return rows
 
     def set_mode(self, thread_id, mode):
@@ -115,7 +118,7 @@ class TutorStore:
             db.execute("UPDATE tutor_threads SET updated_at=? WHERE id=?", (message["created_at"], thread_id))
             return message
 
-    def complete_message(self, user_message, answer, basis, sources, mode):
+    def complete_message(self, user_message, answer, basis, sources, mode, external_sources=None):
         if not isinstance(answer, str) or not answer.strip() or len(answer) > 12000:
             raise ValueError("resposta vazia ou longa demais")
         reply = {"id": new_id(), "thread_id": user_message["thread_id"], "role": "assistant",
@@ -132,6 +135,10 @@ class TutorStore:
                            ((reply["id"], index, source["material_id"], source["chunk_id"],
                              source["material_name"], source["locator"], source["excerpt"])
                             for index, source in enumerate(sources, 1)))
+            db.executemany("INSERT INTO tutor_external_sources VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                           ((reply["id"], index, source["title"], source["url"], source["excerpt"],
+                             source["provider"], source["accessed_at"], source["license"])
+                            for index, source in enumerate(external_sources or [], 1)))
             db.execute("UPDATE tutor_messages SET status='complete' WHERE id=?", (user_message["id"],))
             db.execute("UPDATE tutor_threads SET updated_at=? WHERE id=?", (reply["created_at"], reply["thread_id"]))
         return reply

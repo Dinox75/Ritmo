@@ -2,6 +2,45 @@
 let tutorThread = null, tutorThreads = [], tutorContextKey = '', tutorRequestId = null;
 let tutorPending = false, tutorLoadRevision = 0, tutorFailedDraft = '';
 let memoryItems = [], memoryEditing = null;
+let externalResults = [];
+
+function renderExternalResults() {
+  const container = $('external-results'); container.replaceChildren();
+  externalResults.forEach((source, index) => {
+    const row = document.createElement('div'), label = document.createElement('label');
+    const check = document.createElement('input'), link = document.createElement('a');
+    check.type = 'checkbox'; check.value = source.id; check.className = 'external-choice';
+    link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+    link.textContent = `[E${index + 1}] ${source.title}`;
+    const meta = document.createElement('small'), excerpt = document.createElement('p');
+    meta.textContent = `${source.provider} · acesso: ${source.accessed_at.slice(0, 10)} · ${source.license}`;
+    excerpt.textContent = source.excerpt;
+    label.append(check, link); row.append(label, meta, excerpt); container.append(row);
+  });
+  if (externalResults.length) {
+    const hint = document.createElement('p'); hint.className = 'hint';
+    hint.textContent = 'Marque até três fontes. Os excertos escolhidos serão usados somente na próxima resposta do tutor local.';
+    container.append(hint);
+  }
+}
+
+$('external-query').oninput = () => {
+  $('external-preview').textContent = $('external-query').value.trim() || '(vazia)';
+  externalResults = []; renderExternalResults(); $('external-status').textContent = '';
+};
+$('external-form').onsubmit = async event => {
+  event.preventDefault();
+  const query = $('external-query').value.trim();
+  if (query.length < 2) { $('external-status').textContent = 'Escreva uma consulta com pelo menos 2 caracteres.'; return; }
+  $('external-preview').textContent = query;
+  $('external-submit').disabled = true; $('external-status').textContent = 'Pesquisando somente a consulta exibida…';
+  try {
+    const response = await api('/external/search', 'POST', {query, confirmed: true});
+    externalResults = response.results; renderExternalResults();
+    $('external-status').textContent = externalResults.length ? `${externalResults.length} resultado(s). Confira o conteúdo e escolha as fontes.` : 'Nenhum resultado. O tutor local continua disponível.';
+  } catch (error) { externalResults = []; renderExternalResults(); $('external-status').textContent = error.message + ' O tutor local continua disponível.'; }
+  finally { $('external-submit').disabled = false; }
+};
 
 function tutorError(text) { $('tutor-error').textContent = text || ''; }
 
@@ -79,9 +118,20 @@ function renderTutorHistory() {
           link.textContent = `[${source.ordinal}] ${source.material_name} · ${source.locator}`;
           if (link.tagName === 'A') {
             link.href = '#materiais';
-            link.onclick = () => { setTimeout(() => openMaterial(source.material_id, source.chunk_id), 0); };
+            link.onclick = () => { setTimeout(() => openMaterial(source.material_id, source.chunk_id, source.excerpt), 0); };
           }
           const excerpt = document.createElement('small'); excerpt.textContent = source.excerpt;
+          li.append(link, excerpt); sources.append(li);
+        });
+        card.append(sources);
+      }
+      if (item.external_sources?.length) {
+        const sources = document.createElement('ul'); sources.className = 'tutor-sources';
+        item.external_sources.forEach(source => {
+          const li = document.createElement('li'), link = document.createElement('a'), excerpt = document.createElement('small');
+          link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+          link.textContent = `[E${source.ordinal}] ${source.title}`;
+          excerpt.textContent = `${source.provider} · acesso: ${source.accessed_at.slice(0, 10)} · ${source.license} · ${source.excerpt}`;
           li.append(link, excerpt); sources.append(li);
         });
         card.append(sources);
@@ -146,6 +196,8 @@ async function sendTutor() {
   const draft = $('tutor-draft'), body = draft.value.trim();
   if (!body) { tutorError('Escreva sua pergunta ou tentativa.'); draft.focus(); return; }
   if (!tutorThread) { tutorError('Escolha uma matéria antes de enviar.'); return; }
+  const external_source_ids = Array.from(document.querySelectorAll('.external-choice:checked')).map(item => item.value);
+  if (external_source_ids.length > 3) { tutorError('Escolha até três fontes externas.'); return; }
   if (!tutorRequestId || tutorFailedDraft !== body) tutorRequestId = crypto.randomUUID();
   tutorFailedDraft = body; tutorPending = true; tutorError('');
   $('tutor-send').disabled = $('tutor-retry').disabled = true;
@@ -154,8 +206,9 @@ async function sendTutor() {
   const phase = $('tutor-config-status').textContent.includes('Motor em execução') ? 'Gerando resposta' : 'Carregando modelo e gerando resposta';
   const elapsed = setInterval(() => { $('tutor-response-status').textContent = `${phase} · ${Math.round((performance.now() - started) / 1000)} s`; }, 500);
   try {
-    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body});
+    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids});
     draft.value = ''; tutorRequestId = null; tutorFailedDraft = ''; $('tutor-retry').hidden = true;
+    externalResults = []; renderExternalResults(); $('external-status').textContent = 'Fontes usadas nesta resposta. Nova consulta é opcional.';
     renderTutorThread();
     $('tutor-response-status').textContent = `Resposta local em ${((performance.now() - started) / 1000).toFixed(1)} s.`;
     loadTutorStatus();
