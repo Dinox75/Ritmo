@@ -1,5 +1,7 @@
 # Validação local do pacote Windows — PR #3
 
+> Este relatório se refere ao pacote testado antes do commit `3ccdcba`, que altera a camada de intensidade visual para preservar a navegação fixa. O novo commit tem teste de regressão no script de QA, mas ainda requer novo empacotamento e execução no Windows. O executável instalado descrito abaixo permanece a versão anterior.
+
 Data: 28/10/2026. Pacote PyInstaller `Ritmo.exe` SHA-256 `02c21628a78fc4e1c8e177e740c4987534ca4667f6c4aa0e42b8eb140c281ce9`. Executado neste computador Windows com WebView2 e Edge, usando uma pasta `%LOCALAPPDATA%` temporária e `.migration_disabled`. O ensaio não leu nem registrou banco, materiais, notas ou conversas pessoais.
 
 ## Resultado
