@@ -1,5 +1,7 @@
 """Conversas locais do tutor; nenhuma chamada de modelo acontece sob transação SQLite."""
 
+import re
+
 from storage.database import ConflictError, new_id, utc_now
 
 
@@ -107,7 +109,13 @@ class TutorStore:
                 return dict(existing) | {"status": "pending" if existing["status"] == "failed" else "complete"}
             last = db.execute("SELECT kind FROM tutor_messages WHERE thread_id=? AND role='assistant' "
                               "ORDER BY created_at DESC, rowid DESC LIMIT 1", (thread_id,)).fetchone()
-            kind = "attempt" if thread["mode"] == "aula" and last and last["kind"] in {"lesson_prompt", "feedback"} else "question"
+            new_question = re.match(
+                r"(?i)^(?:qual|quais|como|quando|onde|por que|por quê|o que|explique|ensine|nova dúvida)\b",
+                body,
+            )
+            kind = ("attempt" if thread["mode"] == "aula" and last
+                    and last["kind"] in {"lesson_prompt", "feedback"} and not new_question
+                    else "question")
             message = {"id": new_id(), "thread_id": thread_id, "role": "user", "kind": kind,
                        "body": body, "status": "pending", "request_id": request_id,
                        "in_reply_to": None, "basis": None, "created_at": utc_now()}
