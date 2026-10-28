@@ -17,7 +17,7 @@ if ($LASTEXITCODE -ne 0) {
 if ($LASTEXITCODE -ne 0) { throw 'Geração do ícone falhou.' }
 $localRoot = (Resolve-Path -LiteralPath $env:LOCALAPPDATA).Path
 $portableHome = Split-Path -Parent $projectRoot
-$portableLayout = (Split-Path -Leaf $projectRoot) -eq 'Codigo' -and
+$portableLayout = (Split-Path -Leaf $projectRoot) -in @('Codigo', 'Repositorio') -and
     (Test-Path -LiteralPath (Join-Path $portableHome 'Dados')) -and
     (Test-Path -LiteralPath (Join-Path $portableHome 'Modelos'))
 $scratchRoot = if ($env:RITMO_BUILD_ROOT) { [System.IO.Path]::GetFullPath($env:RITMO_BUILD_ROOT) } elseif ($portableLayout) { Join-Path $portableHome 'Build' } else { $localRoot }

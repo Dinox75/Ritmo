@@ -61,6 +61,10 @@ html[data-theme="dark"] .focus-reminder{background:#463b29;border-color:#9e7b40}
 html[data-theme="dark"] .study-reader-content .reader-section{border-color:#355056}
 html[data-theme="dark"] .theme-quick{border-color:#4b6970}
 html[data-theme="dark"] .tutor-history,html[data-theme="dark"] .study-memory,html[data-theme="dark"] .material-note-form{border-color:#355056}
+html[data-theme="dark"] .tutor-history{background:#10262b}
+html[data-theme="dark"] #tutor-materials{border-color:#4b6970}
+html[data-theme="dark"] #tutor-materials legend,html[data-theme="dark"] .tutor-message strong,html[data-theme="dark"] .number-grid label{color:#c4d9d2}
+html[data-theme="dark"] .tutor-message small,html[data-theme="dark"] .health-list small,html[data-theme="dark"] .material-chunk h3{color:#b8cbc6}
 html[data-theme="dark"] .camera-panel{background:#1b373c;color:#e7eee8;border-color:#355056}
 html[data-theme="dark"] .camera-panel #camera-status{color:#c4d9d2}
 html[data-theme="dark"] :focus-visible{outline-color:#e5b760!important}
