@@ -174,6 +174,7 @@ function noteSourceLink(note) {
 }
 
 function renderSession() {
+  document.body.dataset.studyState = current?.status || 'idle';
   $('start-panel').hidden = !!current;
   $('session-panel').hidden = !current;
   $('quick-note-wrap').hidden = !current;

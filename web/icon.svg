@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="48" fill="#12373e"/><text x="96" y="137" text-anchor="middle" fill="#e4bb7d" font-family="Georgia,serif" font-size="140" font-style="italic">R</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">Ritmo: livro aberto e ponto de cadência</title>
+  <rect width="256" height="256" rx="58" fill="#10343a"/>
+  <path d="M47 80c26-12 53-9 81 8v99c-27-17-55-20-81-9V80Z" fill="#edf3e9"/>
+  <path d="M209 80c-26-12-53-9-81 8v99c27-17 55-20 81-9V80Z" fill="#dce9df"/>
+  <path d="M128 88v99" stroke="#517b72" stroke-width="7"/>
+  <path d="M75 188c19-2 36 2 53 11 17-9 34-13 53-11" fill="none" stroke="#d8aa5a" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="128" cy="54" r="12" fill="#e8b75f"/>
+</svg>

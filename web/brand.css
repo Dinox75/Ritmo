@@ -1,0 +1,9 @@
+.brandmark{position:relative;flex:none;background:transparent;font-size:0;font-style:normal;overflow:visible}
+.brandmark img{display:block;width:100%;height:100%;border-radius:24%;transition:transform .22s ease}
+.brand:focus-visible .brandmark img{transform:rotate(-5deg) scale(1.06)}
+@media(hover:hover){.brand:hover .brandmark img{transform:rotate(-5deg) scale(1.06)}}
+.brand:active .brandmark img{transform:scale(.94)}
+.brandmark::after{content:"";position:absolute;inset:-4px;border:1px solid #e8b75f;border-radius:16px;opacity:0;pointer-events:none}
+body[data-study-state="focus"] .brandmark::after{animation:brand-beat 3.6s ease-out infinite}
+@keyframes brand-beat{0%,68%{opacity:0;transform:scale(.9)}74%{opacity:.6;transform:scale(1)}90%,100%{opacity:0;transform:scale(1.22)}}
+@media(prefers-reduced-motion:reduce){.brandmark img{transition:none}.brand:hover .brandmark img,.brand:focus-visible .brandmark img,.brand:active .brandmark img{transform:none}body[data-study-state="focus"] .brandmark::after{animation:none}}
