@@ -14,6 +14,7 @@ from storage.database import Database
 from storage.materials import import_material
 from storage.tutor_store import TutorStore
 from local_ai.runtime import ModelUnavailable
+from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import load_config, save_config
 
 try:
@@ -27,6 +28,59 @@ EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 
 @unittest.skipUnless(sync_playwright and EDGE.exists(), "QA visual requer Edge e Playwright")
 class TutorBrowserCase(unittest.TestCase):
+    def test_external_query_preview_contradiction_and_unavailable_source(self):
+        with tempfile.TemporaryDirectory(prefix="ritmo-external-ui-") as folder:
+            root = Path(folder)
+            db = Database(root / "ritmo.db"); db.initialize()
+            db.create_subject("Matéria sintética")
+            config = root / "config.json"; save_config(load_config(), config)
+            sent = []
+            def searcher(query):
+                sent.append(query)
+                if query == "fonte indisponível":
+                    raise ExternalUnavailable("Fonte indisponível")
+                return [{"title": "Fonte um", "url": "https://pt.wikipedia.org/wiki/Fonte_um",
+                         "excerpt": "O material diz A. <img src=x onerror=alert(1)>",
+                         "provider": "Wikipédia em português", "accessed_at": "2026-10-28T12:00:00+00:00",
+                         "license": "CC BY-SA 4.0"},
+                        {"title": "Fonte dois", "url": "https://pt.wikipedia.org/wiki/Fonte_dois",
+                         "excerpt": "O material diz B.", "provider": "Wikipédia em português",
+                         "accessed_at": "2026-10-28T12:00:00+00:00", "license": "CC BY-SA 4.0"}]
+            server = make_server(db, 0, config_path=config,
+                                 external_search=ExternalSearch(searcher),
+                                 tutor_provider=lambda *args: "As fontes divergem [E1] [E2]; não posso confirmar.")
+            worker = threading.Thread(target=server.serve_forever); worker.start()
+            try:
+                with sync_playwright() as playwright:
+                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    page = browser.new_page(viewport={"width": 1366, "height": 850})
+                    page.goto(f"http://127.0.0.1:{server.server_port}/")
+                    page.locator('nav a[data-view-target="estudar"]').click()
+                    page.locator("#external-research summary").click()
+                    page.locator("#external-query").fill("consulta privada")
+                    expect(page.locator("#external-preview")).to_have_text("consulta privada")
+                    self.assertEqual(sent, [])
+                    page.locator("#external-query").fill("saldo 15")
+                    self.assertEqual(sent, [])
+                    page.locator("#external-submit").click()
+                    expect(page.locator("#external-results label")).to_have_count(2)
+                    self.assertEqual(sent, ["saldo 15"])
+                    self.assertEqual(page.locator("#external-results img").count(), 0)
+                    page.locator(".external-choice").first.check()
+                    page.locator(".external-choice").last.check()
+                    page.wait_for_function("document.querySelector('#tutor-thread').value.length > 0")
+                    page.locator("#tutor-draft").fill("Compare estas fontes")
+                    page.locator("#tutor-send").click()
+                    expect(page.locator("#tutor-history .assistant a[target='_blank']")).to_have_count(2)
+                    expect(page.locator("#tutor-history .assistant")).to_contain_text("As fontes divergem")
+                    page.locator("#external-query").fill("fonte indisponível")
+                    page.locator("#external-submit").click()
+                    expect(page.locator("#external-status")).to_contain_text("Fonte indisponível")
+                    self.assertEqual(sent, ["saldo 15", "fonte indisponível"])
+                    browser.close()
+            finally:
+                server.shutdown(); server.server_close(); worker.join()
+
     def test_search_across_chunks_and_escaped_file_text(self):
         with tempfile.TemporaryDirectory(prefix="ritmo-tutor-chunks-") as folder:
             root = Path(folder)
@@ -221,7 +275,7 @@ class TutorBrowserCase(unittest.TestCase):
                     expect(page.locator("#tutor-material-options input").first).to_be_checked()
                     expect(page.locator("#tutor-draft")).to_have_value("Quero uma aula guiada sobre operadores.")
                     shots = os.environ.get("RITMO_QA_SCREENSHOTS")
-                    for width, height, label in ((1366, 850, "notebook"), (390, 844, "mobile")):
+                    for width, height, label in ((1366, 850, "notebook"), (1920, 1080, "wide"), (390, 844, "mobile")):
                         page.set_viewport_size({"width": width, "height": height})
                         for view in ("materiais", "estudar"):
                             page.locator(f'nav a[data-view-target="{view}"]').click()

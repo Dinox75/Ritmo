@@ -18,6 +18,7 @@ from local_ai.manager import InstallManager
 from local_ai.knowledge import catalog as knowledge_catalog
 from local_ai.runtime import LocalRuntime, ModelUnavailable
 from tutor.service import TutorService
+from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import DATA_DIR, FROZEN, LOCAL_CONFIG, LOG_FILE, load_config, save_config
 
 
@@ -38,8 +39,10 @@ STATIC = {
 
 
 def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=None,
-                 tutor_provider=None, tutor_runtime=None, install_manager=None):
-    tutor = TutorService(database, config_path=config_path, provider=tutor_provider, runtime=tutor_runtime)
+                 tutor_provider=None, tutor_runtime=None, install_manager=None, external_search=None):
+    external = external_search or ExternalSearch()
+    tutor = TutorService(database, config_path=config_path, provider=tutor_provider, runtime=tutor_runtime,
+                         external=external)
     installer = install_manager or InstallManager()
     class Handler(BaseHTTPRequestHandler):
         def _send(self, status, data):
@@ -202,8 +205,11 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                                                         progress_observed=data.get("progress_observed", ""))
                 elif parts == ["api", "tutor", "knowledge-updates"]:
                     result = database.add_knowledge_update(data)
+                elif parts == ["api", "external", "search"]:
+                    result = external.search(data.get("query"), data.get("confirmed"))
                 elif len(parts) == 5 and parts[:3] == ["api", "tutor", "threads"] and parts[4] == "messages":
-                    result = tutor.send(parts[3], data.get("request_id"), data.get("body"))
+                    result = tutor.send(parts[3], data.get("request_id"), data.get("body"),
+                                        data.get("external_source_ids"))
                 elif parts == ["api", "cameras", "test"]:
                     result = test_camera(data.get("index"))
                 elif parts == ["api", "import-legacy"]:
@@ -335,6 +341,8 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 self._send(409, {"error": str(error)})
             except ModelUnavailable as error:
                 self._send(503, {"error": str(error)})
+            except ExternalUnavailable as error:
+                self._send(503, {"error": str(error)})
             except (ValueError, KeyError, TypeError, json.JSONDecodeError, sqlite3.IntegrityError) as error:
                 self._send(400, {"error": str(error)})
             except Exception:
@@ -349,11 +357,11 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
 
 
 def make_server(database, port=8765, *, agent=None, on_quit=None, on_erase=None, config_path=None,
-                tutor_provider=None, tutor_runtime=None, install_manager=None):
+                tutor_provider=None, tutor_runtime=None, install_manager=None, external_search=None):
     tutor_runtime = tutor_runtime or LocalRuntime(load_config(config_path)["tutor"]["model_root"])
     server = ThreadingHTTPServer(("127.0.0.1", port),
                                  make_handler(database, agent, on_quit, on_erase, config_path,
-                                              tutor_provider, tutor_runtime, install_manager))
+                                              tutor_provider, tutor_runtime, install_manager, external_search))
     server.tutor_runtime = tutor_runtime
     server.daemon_threads = True
     return server

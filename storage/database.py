@@ -54,7 +54,7 @@ class Database:
         with self.connect() as db:
             db.execute("PRAGMA journal_mode=WAL")
             version = db.execute("PRAGMA user_version").fetchone()[0]
-            if version > 7:
+            if version > 8:
                 raise RuntimeError("banco criado por versão mais recente")
             if version == 0:
                 db.executescript("""
@@ -229,6 +229,16 @@ class Database:
                         summary TEXT NOT NULL,
                         added_at TEXT NOT NULL);
                     PRAGMA user_version=7;
+                """)
+            if version < 8:
+                db.executescript("""
+                    CREATE TABLE IF NOT EXISTS tutor_external_sources (
+                        message_id TEXT NOT NULL REFERENCES tutor_messages(id) ON DELETE CASCADE,
+                        ordinal INTEGER NOT NULL,
+                        title TEXT NOT NULL, url TEXT NOT NULL, excerpt TEXT NOT NULL,
+                        provider TEXT NOT NULL, accessed_at TEXT NOT NULL, license TEXT NOT NULL,
+                        PRIMARY KEY(message_id, ordinal));
+                    PRAGMA user_version=8;
                 """)
             # Após reiniciar, nenhuma chamada de provedor antiga continua ativa.
             db.execute("UPDATE tutor_messages SET status='failed' WHERE status='pending'")
