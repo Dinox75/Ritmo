@@ -1,6 +1,33 @@
 # Validação local do pacote Windows — PR #3
 
-> Este relatório se refere ao pacote testado antes do commit `3ccdcba`, que altera a camada de intensidade visual para preservar a navegação fixa. O novo commit tem teste de regressão no script de QA, mas ainda requer novo empacotamento e execução no Windows. O executável instalado descrito abaixo permanece a versão anterior.
+## Revalidação do HEAD `ce6df52` em 28/10/2026
+
+Novo pacote PyInstaller: `Ritmo.exe` SHA-256 `0326451c191c71e1b137bdab154f40fae52a2a8321e4b6b1697b4e17a14fcbaf`. Os ensaios usaram `%LOCALAPPDATA%` temporário e `.migration_disabled`, sem ler materiais, notas ou conversas pessoais.
+
+| Cenário | Resultado do novo pacote |
+| --- | --- |
+| `smoke_windows.py` | Inicialização pronta e encerramento da porta: aprovado. |
+| `qa_packaged_windows.py` | Fluxo de pausa/reabertura, materiais, notas, backup e porta: aprovado. |
+| `qa_study_atmosphere_packaged.py` | Cronômetro, pausa/retomada, player, volume, lembretes, conclusão, reabertura e janela nativa: aprovados. |
+| Estudar e Configurações a 85% | Em 390, 1366 e 1920 px, a página rolou 400 px e a navegação manteve a mesma coordenada vertical. Em 390 px, topo da navegação: 741 → 741; em 1366 e 1920 px: 0 → 0. A camada visual aplicou `rgba(0, 0, 0, 0.15)` e não houve rolagem horizontal. Foram examinadas capturas antes e depois da rolagem. |
+| Saída para os alto-falantes | Na janela nativa WebView2, a “Mixagem estéreo” do dispositivo padrão Realtek registrou chuva, ruído marrom e WAV sintético. RMS de base 0,000036; em reprodução: 0,00937, 0,02621 e 0,09088, respectivamente; após parar: no máximo 0,000053. O WAV mostrou pico em 220,7 Hz, compatível com seu tom sintético de 220 Hz. |
+| Suíte do repositório | 31 testes aprovados. |
+
+A captura de áudio foi feita no retorno digital da saída Realtek, sem gravar as amostras ou captar o microfone. Ela confirma sinal encaminhado ao dispositivo padrão e seu silêncio após parar; não substitui uma medição acústica externa dos alto-falantes. O ensaio usa um índice de “Mixagem estéreo” específico deste computador. A [documentação de depuração do WebView2](https://learn.microsoft.com/en-us/microsoft-edge/webview2/how-to/debug-visual-studio-code) descreve a porta local de depuração usada apenas durante esse teste.
+
+Com as dependências Windows e QA instaladas, os comandos adicionais foram:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\qa_packaged_audio_output.py <caminho-do-Ritmo.exe> <relatorio-temporario.json> --loopback-input 31
+```
+
+O script de áudio usa um WAV gerado em memória, descarta as amostras da mixagem após calcular as métricas e remove a pasta temporária. O índice `31` corresponde à “Mixagem estéreo” Realtek deste computador e precisa ser escolhido novamente em outra máquina. O pacote não foi assinado nem publicado como release.
+
+Após a aprovação do pacote preparado, foi feito um novo backup SQLite consistente do banco pessoal (`PRAGMA integrity_check=ok`) e da configuração. A instalação anterior foi preservada. O executável instalado manteve o SHA-256 acima; os hashes do banco e da configuração não mudaram durante a troca. No caminho instalado, `smoke_windows.py`, `qa_packaged_windows.py`, o teste de ambiente e a captura de áudio passaram novamente com dados temporários. Na captura instalada, o RMS em reprodução foi 0,00943 (chuva), 0,02580 (ruído marrom) e 0,09083 (WAV), voltando a no máximo 0,000053 depois da parada.
+
+Uma execução inicial do teste de ambiente no caminho instalado parou antes da rolagem porque o foco do controle de intensidade se perdeu ao enviar a tecla Home para a página. O teste passou a enviar a tecla diretamente ao controle; duas execuções posteriores passaram. O executável não foi alterado por esse ajuste do teste.
+
+## Ensaio anterior, antes da correção da navegação
 
 Data: 28/10/2026. Pacote PyInstaller `Ritmo.exe` SHA-256 `02c21628a78fc4e1c8e177e740c4987534ca4667f6c4aa0e42b8eb140c281ce9`. Executado neste computador Windows com WebView2 e Edge, usando uma pasta `%LOCALAPPDATA%` temporária e `.migration_disabled`. O ensaio não leu nem registrou banco, materiais, notas ou conversas pessoais.
 

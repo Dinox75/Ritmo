@@ -66,6 +66,13 @@ def assert_native_window(pid):
 
 
 def screenshots(page, folder, report):
+    page.locator('nav a[data-view-target="configuracoes"]').click()
+    expect(page.locator("#view-configuracoes")).to_be_visible()
+    page.locator("#experience-brightness").press("Home")
+    brightness = page.locator("#experience-brightness").input_value()
+    assert brightness == "85", {"brightness": brightness,
+                                "min": page.locator("#experience-brightness").get_attribute("min"),
+                                "view": page.evaluate("document.querySelector('.view:not([hidden])')?.id")}
     for width, height in ((390, 844), (1366, 850), (1920, 1080)):
         page.set_viewport_size({"width": width, "height": height})
         for view in ("estudar", "configuracoes"):
@@ -81,27 +88,29 @@ def screenshots(page, folder, report):
             page.screenshot(path=str(target), full_page=width == 390)
             report["screens"].append({"width": width, "view": view, "metrics": metrics,
                                        "image": target.name})
-            if view == "configuracoes":
-                page.locator("#experience-brightness").focus()
-                page.keyboard.press("Home")  # 85%, para verificar a camada visual ativa.
-                fixed = page.evaluate("""() => {
-                  scrollTo({top: 0, behavior: 'instant'});
-                  const nav = document.querySelector(innerWidth <= 780 ? '.topnav' : '.topbar');
-                  const before = nav.getBoundingClientRect().top;
-                  scrollTo({top: 400, behavior: 'instant'});
-                  return {before, after: nav.getBoundingClientRect().top, scrolled: scrollY,
-                    dim: getComputedStyle(document.documentElement, '::after').backgroundColor,
-                    bodyFilter: getComputedStyle(document.body).filter};
-                }""")
-                assert fixed["scrolled"] > 0, fixed
-                assert abs(fixed["before"] - fixed["after"]) <= 1, fixed
-                assert fixed["bodyFilter"] == "none", fixed
-                assert fixed["dim"] != "rgba(0, 0, 0, 0)", fixed
-                report["screens"][-1]["fixed_navigation"] = fixed
-                page.locator("#experience-brightness").focus()
-                page.keyboard.press("End")
-                page.evaluate("scrollTo({top: 0, behavior: 'instant'})")
-    report["checks"].append("navegação fixa após rolagem com intensidade visual em 85%")
+            fixed = page.evaluate("""() => {
+              scrollTo({top: 0, behavior: 'instant'});
+              const nav = document.querySelector(innerWidth <= 780 ? '.topnav' : '.topbar');
+              const before = nav.getBoundingClientRect().top;
+              scrollTo({top: 400, behavior: 'instant'});
+              return {before, after: nav.getBoundingClientRect().top, scrolled: scrollY,
+                position: getComputedStyle(nav).position,
+                dim: getComputedStyle(document.documentElement, '::after').backgroundColor,
+                bodyFilter: getComputedStyle(document.body).filter};
+            }""")
+            assert fixed["scrolled"] > 0, (width, view, fixed)
+            assert fixed["position"] == "fixed", (width, view, fixed)
+            assert abs(fixed["before"] - fixed["after"]) <= 1, (width, view, fixed)
+            assert fixed["bodyFilter"] == "none", (width, view, fixed)
+            assert fixed["dim"] != "rgba(0, 0, 0, 0)", (width, view, fixed)
+            scrolled = folder / f"ritmo-pr3-{width}-{view}-scrolled.png"
+            page.screenshot(path=str(scrolled), full_page=False)
+            report["screens"][-1]["fixed_navigation"] = fixed
+            report["screens"][-1]["scrolled_image"] = scrolled.name
+            page.evaluate("scrollTo({top: 0, behavior: 'instant'})")
+    page.locator('nav a[data-view-target="configuracoes"]').click()
+    page.locator("#experience-brightness").press("End")
+    report["checks"].append("navegação fixa após rolagem em Estudar e Configurações a 85%, nas três larguras")
     page.set_viewport_size({"width": 1366, "height": 850})
     page.locator('nav a[data-view-target="estudar"]').click()
 

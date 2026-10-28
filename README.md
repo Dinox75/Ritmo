@@ -24,7 +24,7 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | --- | --- | --- |
 | Matérias, metas, foco, pausa, notas e evolução | **Disponível** | Interface e persistência SQLite, com correções de tempo registradas. |
 | Leitor de PDF, DOCX e TXT | **Disponível** | Extração de texto, busca, seleção e notas com referência ao trecho. |
-| Ambiente de estudo | **Revalidação Windows pendente** | Tema escuro ou claro, intensidade visual do aplicativo, cronômetro junto à leitura e ao tutor, som ambiente opcional e lembretes configuráveis. O [ensaio da PR #3](docs/qa-windows-pr3.md) cobre o pacote anterior à correção da navegação fixa. |
+| Ambiente de estudo | **Validado no pacote Windows local** | Tema escuro ou claro, intensidade visual do aplicativo, cronômetro junto à leitura e ao tutor, som ambiente opcional e lembretes configuráveis. A [revalidação da PR #3](docs/qa-windows-pr3.md) cobre 85% de intensidade, rolagem nas três larguras e saída de áudio no dispositivo Realtek. |
 | Backup e restauração manual | **Disponível** | ZIP com banco, materiais originais e configuração, quando houver. |
 | Tutor por matéria e sessão | **Disponível** | Dúvidas, aula guiada, histórico, busca FTS5 e referências aos materiais marcados. |
 | IA local | **Disponível** | Qwen3 GGUF servido por llama.cpp no computador, instalado por ação explícita. |
