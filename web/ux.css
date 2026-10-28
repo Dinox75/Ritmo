@@ -196,6 +196,7 @@ main{max-width:1720px;min-height:calc(100vh - 145px)}
 #material-position{font-weight:700;color:#234f43}
 .material-chunk mark{background:#f7d889;color:#17343a;border-radius:2px;padding:0 1px}
 .material-chunk mark.current-match{background:#d57b21;color:#fff;box-shadow:0 0 0 2px #d57b21}
+.material-chunk mark.citation-highlight{background:#f7d889;color:#17343a;box-shadow:0 0 0 2px #f7d889}
 .material-chunk button{margin:8px 12px 0 0}
 .material-reader #material-guided{display:inline-grid;place-items:center;margin:3px 10px 14px 0}
 .tutor-card{margin-top:22px!important}
