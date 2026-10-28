@@ -511,7 +511,7 @@ function renderMaterialList() {
   });
 }
 
-async function openMaterial(id, jumpChunkId = null) {
+async function openMaterial(id, jumpChunkId = null, citationExcerpt = null) {
   fieldError('reader-error', '');
   try {
     currentMaterial = await api('/materials/' + id);
@@ -524,7 +524,30 @@ async function openMaterial(id, jumpChunkId = null) {
     $('material-search').value = '';
     if (currentMaterial.status !== 'ready') fieldError('reader-error', currentMaterial.error || 'Não há texto extraído. O original continua disponível.');
     renderMaterialChunks(); renderMaterialList();
-    if (jumpChunkId) $('chunk-' + jumpChunkId)?.scrollIntoView({block: 'center'});
+    if (jumpChunkId) {
+      const section = $('chunk-' + jumpChunkId);
+      const chunk = currentMaterial.chunks.find(item => item.id === jumpChunkId);
+      let target = section;
+      if (citationExcerpt && chunk && section) {
+        const tokens = citationExcerpt.trim().split(/\s+/).filter(Boolean);
+        const escaped = tokens.map(token => token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+        const pattern = escaped.length && citationExcerpt.length <= 1000 ? new RegExp(escaped.join('\\s+'), 'gu') : null;
+        const matches = pattern ? [...chunk.body.matchAll(pattern)].slice(0, 2) : [];
+        if (matches.length === 1) {
+          const match = matches[0], start = match.index, end = start + match[0].length;
+          const body = section.querySelector('p'), mark = document.createElement('mark');
+          mark.className = 'citation-highlight'; mark.textContent = chunk.body.slice(start, end);
+          body.replaceChildren(document.createTextNode(chunk.body.slice(0, start)), mark,
+            document.createTextNode(chunk.body.slice(end)));
+          target = mark;
+        } else {
+          fieldError('reader-error', 'Não foi possível identificar a frase citada com segurança. Confira o trecho completo abaixo.');
+        }
+      } else if (citationExcerpt) {
+        fieldError('reader-error', 'O trecho citado não está disponível neste material.');
+      }
+      target?.scrollIntoView({block: 'center'});
+    }
   } catch (error) { fieldError('reader-error', error.message); }
 }
 

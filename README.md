@@ -34,6 +34,8 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 
 Os sensores de janela, ociosidade e presença começam **desligados**. A câmera é opcional. Tempo de foco e imagem não são usados para deduzir emoção, inteligência ou capacidade.
 
+Ao abrir uma referência do tutor, o leitor destaca o excerto recuperado se ele puder ser localizado de forma única no trecho original. Se não houver correspondência segura, o bloco é aberto com um aviso. O destaque identifica o texto recuperado; a interpretação do tutor deve ser conferida pelo estudante.
+
 ### Ambiente de estudo
 
 Em **Estudar**, o cronômetro mantém foco e pausa separados. O leitor mostra os materiais da matéria ao lado do tutor. O player oferece chuva suave e ruído marrom gerados no próprio aplicativo ou um arquivo de áudio escolhido no computador. O som começa somente após clicar em **Reproduzir**, pausa com a sessão e para ao concluí-la. O arquivo escolhido não é importado nem incluído no backup.
@@ -98,12 +100,15 @@ Depois da instalação dos pesos, perguntas ao tutor são processadas localmente
 
 - PDFs digitalizados sem camada de texto ficam sem conteúdo extraível; não há OCR.
 - O modelo pode errar ou citar um trecho de forma inadequada. Abra a referência para conferir o original. Sem trecho relevante, a resposta deve indicar que não está baseada no material.
+- O tutor pode usar conhecimento geral e apontar possíveis divergências, mas ainda não consulta fontes externas automaticamente. Sem fonte atual fornecida pelo usuário, ele não consegue confirmar se um material está desatualizado.
 - A primeira resposta pode demorar enquanto o modelo carrega. Falta de pesos, memória ou compatibilidade não bloqueia o estudo manual.
 - O suporte foi verificado em um computador Windows com GPU NVIDIA compatível com o runtime incluído. Não há validação geral de CPU, outras GPUs ou outros sistemas.
 - Os [ensaios locais](docs/benchmark-local.json) e as [medições de velocidade](docs/benchmark-speed.json) usam poucos casos sintéticos; não demonstram precisão geral.
 - Informações sobre cursos e mercado não são atualizadas automaticamente. Um resumo cadastrado manualmente precisa de fonte, data, escopo e revisão humana.
 
 ## Roadmap
+
+**Consulta externa para estudos — planejada:** permitir uma pesquisa por iniciativa do estudante, com apresentação da consulta antes do envio, fontes identificadas, data de acesso e links verificáveis. O tutor deverá comparar as evidências encontradas com o material, indicar incertezas e evitar afirmar que uma fonte comprova algo que ela não diz. Materiais e conversas não deverão ser enviados automaticamente; o modo local continua disponível. A escolha do provedor e a validação dessa função ainda estão pendentes.
 
 As fases descrevem **código entregue** e o que ainda precisa ser medido. Busca em documentos, memória e instruções do tutor não são treinamento dos pesos.
 
