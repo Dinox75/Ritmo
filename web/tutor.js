@@ -149,6 +149,7 @@ function renderTutorHistory() {
 }
 
 function renderTutorThread() {
+  $('tutor-message-kind-wrap').hidden = tutorThread?.mode !== 'aula';
   renderTutorThreads();
   $('tutor-mode').value = tutorThread?.mode || 'duvida';
   $('tutor-context').textContent = tutorThread?.session_id
@@ -174,6 +175,8 @@ async function loadTutorContext(subjectId, preferredThreadId = null) {
   if (revision !== tutorLoadRevision) return;
   const loadedThreads = await api('/tutor/threads?subject_id=' + encodeURIComponent(subjectId));
   if (revision !== tutorLoadRevision) return;
+  if (current?.subject_id === subjectId && loaded.session_id !== current.id)
+    return loadTutorContext(subjectId);
   tutorThread = loaded;
   tutorThreads = loadedThreads;
   renderTutorThread();
@@ -206,7 +209,9 @@ async function sendTutor() {
   const phase = $('tutor-config-status').textContent.includes('Motor em execução') ? 'Gerando resposta' : 'Carregando modelo e gerando resposta';
   const elapsed = setInterval(() => { $('tutor-response-status').textContent = `${phase} · ${Math.round((performance.now() - started) / 1000)} s`; }, 500);
   try {
-    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids});
+    const message_kind = tutorThread.mode === 'aula' ? $('tutor-message-kind').value || null : null;
+    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids, message_kind});
+    $('tutor-message-kind').value = '';
     draft.value = ''; tutorRequestId = null; tutorFailedDraft = ''; $('tutor-retry').hidden = true;
     externalResults = []; renderExternalResults(); $('external-status').textContent = 'Fontes usadas nesta resposta. Nova consulta é opcional.';
     renderTutorThread();

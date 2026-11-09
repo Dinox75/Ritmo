@@ -26,7 +26,7 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | Leitor de PDF, DOCX e TXT | **Disponível** | Extração de texto, busca, seleção e notas com referência ao trecho. |
 | Ambiente de estudo | **Validado no pacote Windows local** | Tema escuro ou claro, intensidade visual do aplicativo, cronômetro junto à leitura e ao tutor, som ambiente opcional e lembretes configuráveis. A [revalidação da PR #3](docs/qa-windows-pr3.md) cobre 85% de intensidade, rolagem nas três larguras e saída de áudio no dispositivo Realtek. |
 | Backup e restauração manual | **Disponível** | ZIP com banco, materiais originais e configuração, quando houver. |
-| Tutor por matéria e sessão | **Disponível** | Dúvidas, aula guiada, histórico, busca FTS5 e referências aos materiais marcados. |
+| Tutor por matéria e sessão | **Em validação pedagógica** | Dúvidas, aula guiada, histórico, busca FTS5 e referências funcionam; respostas reais ainda podem falhar na didática e fundamentação. |
 | IA local | **Disponível** | Qwen3 GGUF servido por llama.cpp no computador, instalado por ação explícita. |
 | Portabilidade da IA e sensores | **Em validação** | O pacote CUDA e o fluxo Windows foram testados; outros computadores, câmera física e permissões exigem verificação. |
 | Atualizações acadêmicas e de trabalho | **Em validação** | Cadastro manual e versionado de resumos de fontes oficiais; a conferência do conteúdo cabe ao usuário. |
@@ -106,6 +106,7 @@ Depois da instalação dos pesos, perguntas ao tutor são processadas localmente
 - A primeira resposta pode demorar enquanto o modelo carrega. Falta de pesos, memória ou compatibilidade não bloqueia o estudo manual.
 - O suporte foi verificado em um computador Windows com GPU NVIDIA compatível com o runtime incluído. Não há validação geral de CPU, outras GPUs ou outros sistemas.
 - Os [ensaios locais](docs/benchmark-local.json) e as [medições de velocidade](docs/benchmark-speed.json) usam poucos casos sintéticos; não demonstram precisão geral.
+- A [avaliação real da PR #2](docs/tutor-evaluation.md) documenta respostas, tempos e `timings` do Qwen3 4B e 1.7B. A [consolidação do tutor](docs/qa-tutor-consolidated.md) reúne os resultados mais recentes da versão com fontes externas. O 1.7B pode antecipar a solução de uma aula; citações e afirmações atuais exigem conferência humana.
 - Informações sobre cursos e mercado não são atualizadas automaticamente. Um resumo cadastrado manualmente precisa de fonte, data, escopo e revisão humana.
 
 ## Roadmap

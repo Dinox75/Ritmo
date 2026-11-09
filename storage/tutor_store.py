@@ -1,6 +1,26 @@
 """Conversas locais do tutor; nenhuma chamada de modelo acontece sob transação SQLite."""
 
+import re
+
 from storage.database import ConflictError, new_id, utc_now
+
+
+_QUESTION_WORDS = re.compile(
+    r"\b(?:qual|quais|como|quando|onde|por\s+qu[eê]|o\s+que|explique|ensine|"
+    r"d[uú]vida|pergunta|diferen[cç]a)\b", re.IGNORECASE)
+_ATTEMPT_START = re.compile(
+    r"^(?:sim|n[aã]o|acho|creio|penso|minha\s+resposta|tentei|"
+    r"a\s+resposta\s+[eé]|\d+[.,]?\d*\s+(?:[eé]|>|<|cabe|passa))\b", re.IGNORECASE)
+
+
+def _guided_message_kind(body):
+    """Heuristic fallback; the student may explicitly choose for ambiguous messages."""
+    text = body.strip()
+    if _ATTEMPT_START.search(text):
+        return "attempt"
+    if _QUESTION_WORDS.search(text) or "?" in text:
+        return "question"
+    return "attempt"
 
 
 class TutorStore:
@@ -88,11 +108,13 @@ class TutorStore:
             db.execute("UPDATE tutor_threads SET updated_at=? WHERE id=?", (utc_now(), thread_id))
         return self.get_thread(thread_id)
 
-    def begin_message(self, thread_id, request_id, body):
+    def begin_message(self, thread_id, request_id, body, kind=None):
         if not isinstance(request_id, str) or not 8 <= len(request_id) <= 100:
             raise ValueError("identificador da mensagem inválido")
         if not isinstance(body, str) or not body.strip() or len(body) > 4000:
             raise ValueError("mensagem deve ter até 4.000 caracteres")
+        if kind not in {None, "question", "attempt"}:
+            raise ValueError("tipo de mensagem inválido")
         body = body.strip()
         with self.database.connect() as db:
             db.execute("BEGIN IMMEDIATE")
@@ -110,7 +132,9 @@ class TutorStore:
                 return dict(existing) | {"status": "pending" if existing["status"] == "failed" else "complete"}
             last = db.execute("SELECT kind FROM tutor_messages WHERE thread_id=? AND role='assistant' "
                               "ORDER BY created_at DESC, rowid DESC LIMIT 1", (thread_id,)).fetchone()
-            kind = "attempt" if thread["mode"] == "aula" and last and last["kind"] in {"lesson_prompt", "feedback"} else "question"
+            waiting_for_attempt = (thread["mode"] == "aula" and last and
+                                   last["kind"] in {"lesson_prompt", "feedback"})
+            kind = ((kind or _guided_message_kind(body)) if waiting_for_attempt else "question")
             message = {"id": new_id(), "thread_id": thread_id, "role": "user", "kind": kind,
                        "body": body, "status": "pending", "request_id": request_id,
                        "in_reply_to": None, "basis": None, "created_at": utc_now()}
