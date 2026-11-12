@@ -269,7 +269,7 @@ class TutorService:
                 except InvalidOutput as error:
                     fallback = True
                     interventions.append(str(error))
-                    answer = safe_answer(task, str(error), lesson)
+                    answer = safe_answer(task, str(error), lesson, sources, external_sources)
             self.last_turn = {"raw": raw, "raw_attempts": raw_attempts, "displayed": answer, "task": task,
                               "safe_fallback": fallback,
                               "stage_before": stage, "stage_after": next_lesson["stage"],

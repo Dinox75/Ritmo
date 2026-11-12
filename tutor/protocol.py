@@ -185,11 +185,19 @@ def render(raw, task, sources, external_sources, lesson):
     return body, value
 
 
-def safe_answer(task, reason, lesson):
+def safe_answer(task, reason, lesson, sources=(), external_sources=()):
     if task == "comparison":
-        return ("Não consegui apresentar uma comparação com vínculos e limites válidos. "
-                "Os excertos recebidos estão abaixo para conferência. É preciso verificar "
-                "o que cada fonte afirma, seu contexto e período antes de escolher uma conclusão.")
+        # Discard the rejected model claims. These identifiers attribute literal
+        # excerpts, not invented support added to the model's ungrounded prose.
+        parts = ["A comparação gerada não foi aceita. Leitura literal dos excertos pelo aplicativo; "
+                 "as afirmações das fontes não foram verificadas:"]
+        parts += [f"Material de estudo [{i}]: «{source['excerpt']}»"
+                  for i, source in enumerate(sources[:2], 1)]
+        parts += [f"Fonte externa [E{i}]: «{source['excerpt']}»"
+                  for i, source in enumerate(external_sources[:2], 1)]
+        parts.append("Limites: falta conferir os documentos originais, a regra aplicável, o contexto "
+                     "e o período. Esses excertos não permitem escolher automaticamente qual fonte está correta.")
+        return "\n\n".join(parts)
     if task == "correction":
         return ("Não consegui produzir uma correção fundamentada desta tentativa. "
                 "O exercício continua pendente; confira a regra no trecho e reenvie sua tentativa. "

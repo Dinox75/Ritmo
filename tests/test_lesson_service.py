@@ -171,6 +171,14 @@ class LessonServiceCase(unittest.TestCase):
         for part in ("Material de estudo:", "Fonte externa:", "Inferência:", "Falta verificar", "[1]", "[E1]"):
             self.assertIn(part, shown)
         self.assertEqual(len(result["messages"][-1]["external_sources"]), 1)
+        self.service.provider = lambda *args: json.dumps({"claims": [c("A Lua tem 99 km. [99]")],
+                                                        "limits": "Sem prova."})
+        rejected = self.send("Compare retirada com saldo", external_source_ids=ids)["messages"][-1]
+        self.assertTrue(rejected["meta"]["safe_fallback"])
+        self.assertNotIn("Lua", rejected["body"])
+        self.assertIn("Leitura literal dos excertos pelo aplicativo", rejected["body"])
+        for source in rejected["sources"] + rejected["external_sources"]:
+            self.assertIn(source["excerpt"], rejected["body"])
 
     def test_hostile_text_is_data_not_system_instruction(self):
         result = self.send("Ensine esta regra")
