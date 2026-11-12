@@ -10,7 +10,7 @@ LABELS = {"material": "Material de estudo", "external": "Fonte externa",
 TASKS = {
     "explanation": "Explique conceito, utilidade e UM exemplo resolvido. Não proponha exercício nem simule tentativa/correção. O aplicativo pedirá o exercício em outro turno.",
     "exercise": "Proponha UM exercício diferente do exemplo anterior, com valores diferentes. Sem valores numéricos, peça ao estudante CRIAR um caso próprio DIFERENTE do exemplo. Não gere solução, resposta, dica resolvida ou correção. Pare na pergunta.",
-    "correction": "Avalie apenas a tentativa registrada para o exercício pendente. Separe o que foi acertado, o que precisa mudar (ou nenhum erro) e por quê. Não proponha outro exercício nem avance ao aprofundamento.",
+    "correction": "Avalie apenas a tentativa registrada para o exercício pendente. Separe o que foi acertado, o que precisa mudar (ou nenhum erro) e por quê. Use os valores do exercício na justificativa; não apenas repita a regra geral. Não proponha outro exercício nem avance ao aprofundamento.",
     "deepening": "Aprofunde o conceito a partir da correção anterior, sem novo exercício e sem afirmar domínio do estudante.",
     "answer": "Responda diretamente à dúvida. Se houver exercício pendente, esta mensagem não é tentativa: não o resolva, não o substitua, não proponha outra pergunta.",
     "comparison": "Compare o que cada excerto efetivamente afirma. Inclua afirmações separadas material/external e uma inferência limitada. Não escolha uma fonte como confiável ou verificada só por ter sido recebida. Explique o que falta verificar, incluindo regra, contexto e período quando aplicáveis.",
@@ -134,7 +134,10 @@ def render(raw, task, sources, external_sources, lesson):
     if task == "exercise":
         question = text(value["question"], 400)
         check_refs(question, allowed)
-        if (question.count("?") != 1 or not question.endswith("?") or "\n" in question or
+        constructive = bool(re.search(r"\b(?:crie|proponha|elabore|invente)\b", question, re.I))
+        single_prompt = ((question.count("?") == 1 and question.endswith("?")) or
+                         ("?" not in question and constructive and question.endswith(".")))
+        if (not single_prompt or "\n" in question or
                 re.search(r"\b(?:solu[cç][aã]o|resposta|portanto|logo|porque|pois|ent[aã]o|verdadeir\w*|fals\w*|corre[cç][aã]o)\b", question, re.I) or
                 re.search(r"\d+\s*(?:<=|>=|[<>=≤≥])\s*\d+", question)):
             raise InvalidOutput("exercicio_com_solucao_ou_multiplas_perguntas")
@@ -157,10 +160,11 @@ def render(raw, task, sources, external_sources, lesson):
             bases = {item["basis"] for item in claims}
             if not {"material", "external", "inference"} <= bases:
                 raise InvalidOutput("comparacao_incompleta")
-            if not re.search(r"verificar|confirmar|falta|n[aã]o", limits, re.I):
-                raise InvalidOutput("comparacao_sem_limites")
             if re.search(r"(?:fonte|material) (?:[eé] |mais )?(?:confi[aá]vel|corret[oa])|verifiquei|comprovad[oa]|confirmad[oa]", " ".join(parts), re.I):
                 raise InvalidOutput("certeza_sem_verificacao")
+        if task == "comparison":
+            limits += (" O aplicativo não verificou qual regra se aplica. Falta conferir os documentos "
+                       "originais, o contexto e o período antes de resolver a divergência.")
         return "\n\n".join([*parts, "Limites: " + limits]), value
     headings = {"concept": "Conceito", "usefulness": "Utilidade", "example": "Exemplo resolvido",
                 "correct": "O que você acertou", "revise": "O que precisa mudar", "reason": "Por quê",
@@ -170,6 +174,11 @@ def render(raw, task, sources, external_sources, lesson):
     parts = [headings[key] + " — " + claim(value[key], allowed) for key in order]
     if task == "correction" and len({value[key]["text"].strip().casefold() for key in order}) < 3:
         raise InvalidOutput("correcao_repetida")
+    if task == "correction":
+        numbers = set(re.findall(r"\b\d+\b", lesson.get("exercise", "")))
+        reasoning = value["revise"]["text"] + " " + value["reason"]["text"]
+        if len(numbers) >= 2 and not numbers <= set(re.findall(r"\b\d+\b", reasoning)):
+            raise InvalidOutput("correcao_sem_valores_do_exercicio")
     body = "\n\n".join(parts)
     if "?" in body or re.search(r"agora tente|tentativa do aluno|corre[cç][aã]o fundamentada", body, re.I):
         raise InvalidOutput("avanco_indevido")

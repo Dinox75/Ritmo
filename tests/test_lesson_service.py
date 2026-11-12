@@ -124,6 +124,9 @@ class LessonServiceCase(unittest.TestCase):
             result = self.send("Continuar", lesson_action="exercise")
             self.assertEqual(result["lesson"]["stage"], "exercise")
             self.assertNotEqual(result["messages"][-1]["body"], question)
+        self.service.provider = lambda *args: json.dumps({"question": "Crie um caso próprio diferente do exemplo e explique seu raciocínio."})
+        result = self.send("Continuar", lesson_action="exercise")
+        self.assertEqual(result["lesson"]["stage"], "waiting_attempt")
 
     def test_invalid_correction_does_not_count_attempt_or_replace_exercise(self):
         before = self.waiting()["lesson"]

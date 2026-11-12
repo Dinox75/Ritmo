@@ -264,6 +264,8 @@ class TutorService:
                                            attempts=lesson.get("attempts", 0) + 1)
                     elif task == "deepening":
                         next_lesson["stage"] = "deepening"
+                    if task == "comparison":
+                        interventions.append("limite_de_verificacao_explicito")
                 except InvalidOutput as error:
                     fallback = True
                     interventions.append(str(error))

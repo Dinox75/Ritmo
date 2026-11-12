@@ -203,6 +203,10 @@ class TutorBrowserCase(unittest.TestCase):
                     value["example"] = c("Com saldo 12, retirar 5 passa; 18 excede o saldo 15. [1]", "inference")
                 if "etapa: exercise." in instructions:
                     value["question"] = "Com saldo 20 e retirada 25, a operação passa?"
+                if "etapa: correction." in instructions:
+                    value = {"correct": c("Você tentou comparar os valores.", "inference"),
+                             "revise": c("25 é maior que 20. [1]", "inference"),
+                             "reason": c("A regra exige valor <= saldo; 25 <= 20 é falso. [1]")}
                 return json.dumps(value)
             server = make_server(db, 0, config_path=config, tutor_provider=controlled)
             worker = threading.Thread(target=server.serve_forever)
