@@ -26,7 +26,7 @@ A matéria e a tela escolhidas são lembradas ao reabrir. Uma sessão em andamen
 | Leitor de PDF, DOCX e TXT | **Disponível** | Extração de texto, busca, seleção e notas com referência ao trecho. |
 | Ambiente de estudo | **Validado no pacote Windows local** | Tema escuro ou claro, intensidade visual do aplicativo, cronômetro junto à leitura e ao tutor, som ambiente opcional e lembretes configuráveis. A [revalidação da PR #3](docs/qa-windows-pr3.md) cobre 85% de intensidade, rolagem nas três larguras e saída de áudio no dispositivo Realtek. |
 | Backup e restauração manual | **Disponível** | ZIP com banco, materiais originais e configuração, quando houver. |
-| Tutor por matéria e sessão | **Disponível** | Dúvidas, aula guiada, histórico, busca FTS5 e referências aos materiais marcados. |
+| Tutor por matéria e sessão | **Em validação pedagógica** | Dúvidas, aula guiada, histórico, busca FTS5 e referências funcionam; respostas reais ainda podem falhar na didática e fundamentação. |
 | IA local | **Disponível** | Qwen3 GGUF servido por llama.cpp no computador, instalado por ação explícita. |
 | Portabilidade da IA e sensores | **Em validação** | O pacote CUDA e o fluxo Windows foram testados; outros computadores, câmera física e permissões exigem verificação. |
 | Atualizações acadêmicas e de trabalho | **Em validação** | Cadastro manual e versionado de resumos de fontes oficiais; a conferência do conteúdo cabe ao usuário. |
@@ -59,6 +59,12 @@ flowchart LR
 ```
 
 O tutor recebe a pergunta, até 12 mensagens recentes e até seis trechos recuperados dos materiais marcados para a matéria. O modelo não tem ferramenta para executar comandos, instalar programas, ler arquivos arbitrários ou publicar dados.
+
+Na **Aula guiada**, o serviço guarda a etapa e o exercício em SQLite: explicação → preparar exercício → esperar tentativa → correção → aprofundamento. Use **Continuar para exercício** após a explicação e **Aprofundar** após a correção. Uma **Nova pergunta** durante a espera preserva o exercício e não conta como tentativa; o exercício volta ao reabrir a conversa. O exemplo resolvido é separado do exercício, cuja geração não pede solução ao modelo. Uma saída fora do contrato recebe no máximo uma revisão pelo modelo; se continuar inválida, o aplicativo mostra uma mensagem segura e mantém a etapa.
+
+As afirmações exibidas identificam material, fonte externa, conhecimento geral ou inferência. O modelo informa os identificadores no campo de referências ou no próprio texto; a interface os formata junto à afirmação e permite abrir o original. Cada identificador precisa existir entre os excertos recebidos. Essa validação confere o vínculo, **não comprova que o trecho sustenta a conclusão**. Listas vazias e citações ausentes não são preenchidas pelo aplicativo. O [relatório da PR #8](docs/qa-tutor-consolidated.md) inclui a comparação com o código anterior, gerações brutas, respostas exibidas, intervenções e limitações. O Qwen3 4B é o candidato principal; o 1.7B permanece experimental. Nenhum peso foi treinado.
+
+A [comparação de 12/11](docs/tutor-stages-evaluation.md) não aprovou nenhum modelo como professor confiável. O 4B preservou a espera e melhorou a atribuição, mas a correção parcial ficou bloqueada e duas comparações interpretaram mal o trecho. O 1.7B exibiu uma afirmação matemática falsa induzida por TXT hostil nas três repetições. A proteção estrutural melhora o fluxo, mas não impede todos os erros de conteúdo; consulte as regressões registradas antes de usar o tutor.
 
 ## Executar
 
@@ -106,6 +112,7 @@ Depois da instalação dos pesos, perguntas ao tutor são processadas localmente
 - A primeira resposta pode demorar enquanto o modelo carrega. Falta de pesos, memória ou compatibilidade não bloqueia o estudo manual.
 - O suporte foi verificado em um computador Windows com GPU NVIDIA compatível com o runtime incluído. Não há validação geral de CPU, outras GPUs ou outros sistemas.
 - Os [ensaios locais](docs/benchmark-local.json) e as [medições de velocidade](docs/benchmark-speed.json) usam poucos casos sintéticos; não demonstram precisão geral.
+- A [avaliação real da PR #2](docs/tutor-evaluation.md) documenta respostas, tempos e `timings` do Qwen3 4B e 1.7B. A [consolidação do tutor](docs/qa-tutor-consolidated.md) reúne os resultados mais recentes da versão com fontes externas. O 1.7B pode antecipar a solução de uma aula; citações e afirmações atuais exigem conferência humana.
 - Informações sobre cursos e mercado não são atualizadas automaticamente. Um resumo cadastrado manualmente precisa de fonte, data, escopo e revisão humana.
 
 ## Roadmap

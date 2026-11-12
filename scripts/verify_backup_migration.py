@@ -33,9 +33,9 @@ def main(backup, current):
         assert (before, sessions, version) == (archived, archived_sessions, archived_version)
         Database(restored).initialize()
         migrated, migrated_sessions, migrated_version = inspect(restored)
-        assert migrated_version == 8 and migrated_sessions == sessions
+        assert migrated_version == 9 and migrated_sessions == sessions
         assert all(migrated.get(table) == count for table, count in before.items())
-        print("Backup consistente; migracao 7 -> 8 preservou contagens e estados de sessao.")
+        print("Backup consistente; migracao para versao 9 preservou contagens e estados de sessao.")
 
 
 if __name__ == "__main__":

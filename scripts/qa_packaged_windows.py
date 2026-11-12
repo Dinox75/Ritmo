@@ -2,6 +2,7 @@
 
 import json
 import os
+import socket
 import sqlite3
 import subprocess
 import sys
@@ -22,26 +23,33 @@ def launch(executable, folder):
     environment = os.environ.copy()
     environment["LOCALAPPDATA"] = str(folder)
     process = subprocess.Popen([str(executable)], env=environment)
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     deadline = time.monotonic() + 90
-    while time.monotonic() < deadline:
-        if process.poll() is not None:
-            raise RuntimeError(f"Ritmo encerrou durante a inicialização: {process.returncode}")
-        for connection in psutil.net_connections(kind="tcp"):
-            if connection.pid != process.pid or connection.status != psutil.CONN_LISTEN:
-                continue
-            port = connection.laddr.port
-            try:
-                with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/app/status", timeout=1) as response:
-                    if response.status == 200:
-                        # A janela nativa ainda carrega CSS, JS e WebView2 neste ponto.
-                        # Aguarde antes de abrir um segundo navegador para o teste.
-                        time.sleep(4)
-                        if process.poll() is None:
-                            return process, port
-            except (OSError, TimeoutError):
-                pass
-        time.sleep(0.3)
-    raise TimeoutError("Ritmo não abriu o servidor local em 90 segundos")
+    try:
+        while time.monotonic() < deadline:
+            if process.poll() is not None:
+                raise RuntimeError(f"Ritmo encerrou durante a inicialização: {process.returncode}")
+            for connection in psutil.net_connections(kind="tcp"):
+                # Some Windows/psutil combinations report a listening socket as NONE.
+                # The HTTP readiness probe below confirms the endpoint itself.
+                if connection.pid != process.pid or not connection.laddr:
+                    continue
+                port = connection.laddr.port
+                try:
+                    with opener.open(f"http://127.0.0.1:{port}/api/app/status", timeout=1) as response:
+                        if response.status == 200:
+                            time.sleep(4)
+                            if process.poll() is None:
+                                return process, port
+                except (OSError, TimeoutError):
+                    pass
+            time.sleep(0.3)
+        raise TimeoutError("Ritmo não abriu o servidor local em 90 segundos")
+    except Exception:
+        if process.poll() is None:
+            process.terminate()
+            process.wait(timeout=15)
+        raise
 
 
 def quit_and_verify(page, process, port):
@@ -49,9 +57,14 @@ def quit_and_verify(page, process, port):
     process.wait(timeout=30)
     if process.returncode != 0:
         raise RuntimeError(f"Ritmo encerrou com código {process.returncode}")
-    if any(connection.status == psutil.CONN_LISTEN and connection.laddr.port == port
-           for connection in psutil.net_connections(kind="tcp")):
-        raise RuntimeError(f"Porta {port} continuou aberta após Sair")
+    # Windows may leave pid=0 LISTEN/TIME_WAIT entries after close. An exclusive
+    # bind distinguishes those stale records from a port still owned by a process.
+    with socket.socket() as listener:
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        try:
+            listener.bind(("127.0.0.1", port))
+        except OSError as error:
+            raise RuntimeError(f"Porta {port} continuou ocupada após Sair") from error
 
 
 def main():

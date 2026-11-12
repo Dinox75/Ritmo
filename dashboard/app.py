@@ -209,7 +209,7 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                     result = external.search(data.get("query"), data.get("confirmed"))
                 elif len(parts) == 5 and parts[:3] == ["api", "tutor", "threads"] and parts[4] == "messages":
                     result = tutor.send(parts[3], data.get("request_id"), data.get("body"),
-                                        data.get("external_source_ids"))
+                                        data.get("external_source_ids"), data.get("message_kind"), data.get("lesson_action"))
                 elif parts == ["api", "cameras", "test"]:
                     result = test_camera(data.get("index"))
                 elif parts == ["api", "import-legacy"]:
