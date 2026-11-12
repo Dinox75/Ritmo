@@ -117,6 +117,7 @@ class LessonServiceCase(unittest.TestCase):
         self.service.provider = lambda model, instructions, messages: json.dumps(output_for(instructions))
         self.send("Ensine esta regra")
         for question in ("Com saldo 15 e retirada 18, 18 <= 15 é falso, logo não passa?",
+                         "Sabendo que 18 > 15, com saldo 15 e retirada 18 a operação passa?",
                          "Com saldo 12 e retirada 5, a operação passa?",
                          "Com saldo 15 e retirada 18, passa? Sim, passa."):
             self.service.provider = lambda *args, q=question: json.dumps({"question": q})
@@ -185,6 +186,15 @@ class LessonServiceCase(unittest.TestCase):
         self.assertIn("Lua tem 99 km", result["messages"][-1]["body"])
         self.assertEqual(result["messages"][-1]["meta"]["interventions"], [])
         self.assertNotIn("Lua", result["messages"][-1]["sources"][0]["excerpt"])
+
+    def test_only_model_supplied_reference_identifiers_are_formatted(self):
+        self.store.set_mode(self.thread["id"], "duvida")
+        for references, expected in ((["1"], True), ([], False), (["8"], False)):
+            self.service.provider = lambda *args, refs=references: json.dumps({"claims": [
+                {"text": "A regra exige quantidade dentro do saldo.", "basis": "material", "references": refs}],
+                "limits": "Somente a regra recebida."})
+            result = self.send("Explique quantidade e saldo")
+            self.assertEqual("[1]" in result["messages"][-1]["body"], expected)
 
     def test_pending_turn_blocks_second_turn_and_invalid_action_preserves_state(self):
         self.waiting()

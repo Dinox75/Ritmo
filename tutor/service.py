@@ -165,7 +165,7 @@ class TutorService:
                             + ("Use somente as referências numeradas reais fornecidas." if sources else
                                "Não há trecho relevante dos materiais selecionados; deixe isso explícito." if selected else
                                "Não há materiais selecionados; identifique conhecimento geral ou inferências."))
-            instructions += instruction(task)
+            instructions += instruction(task, sources, external_sources)
             instructions += "\nReferências disponíveis: " + ", ".join(
                 [f"[{i}]" for i in range(1, len(sources)+1)] +
                 [f"[E{i}]" for i in range(1, len(external_sources)+1)])
