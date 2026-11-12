@@ -20,6 +20,8 @@ from local_ai.runtime import ModelUnavailable
 from tutor.service import TutorService
 from tutor.external import ExternalSearch, ExternalUnavailable, plain_text
 from utils.config import load_config, save_config
+from tests.test_lesson_service import output_for, explanation
+from storage.tutor_store import _guided_message_kind
 
 
 class TutorCase(unittest.TestCase):
@@ -62,7 +64,7 @@ class TutorCase(unittest.TestCase):
         self.db.initialize()
         self.db.initialize()
         with self.db.connect() as con:
-            self.assertEqual(con.execute("PRAGMA user_version").fetchone()[0], 8)
+            self.assertEqual(con.execute("PRAGMA user_version").fetchone()[0], 9)
             self.assertEqual(con.execute("PRAGMA integrity_check").fetchone()[0], "ok")
         restored = self.db.get_material(material["id"])["chunks"][0]
         self.assertIn("\n- saldo disponível\n- retirada 18", restored["body"])
@@ -141,9 +143,10 @@ class TutorCase(unittest.TestCase):
         self.assertEqual(thread["id"], store.create_thread(self.subject["id"], session["id"])["id"])
         store.set_mode(thread["id"], "aula")
         store.set_materials(thread["id"], [material["id"]])
-        replies = iter(["Conceito e exemplo. Tente responder: 18 cabe em 15? [1]",
+        replies = iter([json.dumps(explanation()),
+                        json.dumps({"question": "Com saldo 15 e retirada 18, a operação passa?"}),
                         ModelUnavailable("indisponível"),
-                        "Sua tentativa errou: 18 é maior que 15. [1]"])
+                        json.dumps(output_for("etapa: correction."))])
         instructions_seen = []
         def controlled(*args):
             instructions_seen.append(args[1])
@@ -155,36 +158,27 @@ class TutorCase(unittest.TestCase):
         self.assertEqual([item["kind"] for item in first["messages"]], ["question", "lesson_prompt"])
         self.assertEqual(first["messages"][-1]["basis"], "materials")
         self.assertEqual(first["messages"][-1]["sources"][0]["chunk_id"], material["chunks"][0]["id"])
+        service.send(thread["id"], "req-exercise-1", "Preparar exercício", lesson_action="exercise")
         with self.assertRaises(ModelUnavailable):
             service.send(thread["id"], "req-lesson-2", "Sim, 18 cabe")
         failed = store.get_thread(thread["id"])
         self.assertEqual(failed["messages"][-1]["status"], "failed")
         completed = service.send(thread["id"], "req-lesson-2", "Sim, 18 cabe")
         self.assertEqual([item["kind"] for item in completed["messages"][-2:]], ["attempt", "feedback"])
-        self.assertIn("Etapa deste turno: tentativa do aluno", instructions_seen[-1])
-        self.assertIn("valores diferentes", instructions_seen[-1])
+        self.assertIn("etapa: correction.", instructions_seen[-1])
         self.assertEqual(completed["messages"][-1]["basis"], "materials")
-        self.assertEqual(len(completed["messages"]), 4)
+        self.assertEqual(len(completed["messages"]), 6)
         self.assertEqual(self.db.get_session(session["id"])["intervals"], intervals_before)
-        self.assertEqual(len(TutorStore(Database(self.db.path)).get_thread(thread["id"])["messages"]), 4)
+        self.assertEqual(len(TutorStore(Database(self.db.path)).get_thread(thread["id"])["messages"]), 6)
         backup = self.db.create_backup()
         with zipfile.ZipFile(backup["path"]) as archive:
             self.assertNotIn("models", " ".join(archive.namelist()))
             restored = self.root / "backup.db"
             restored.write_bytes(archive.read("database/ritmo.db"))
-        self.assertEqual(len(TutorStore(Database(restored)).get_thread(thread["id"])["messages"]), 4)
+        self.assertEqual(len(TutorStore(Database(restored)).get_thread(thread["id"])["messages"]), 6)
 
     def test_guided_questions_attempts_and_explicit_ambiguity(self):
-        store = TutorStore(self.db)
-        thread = store.create_thread(self.subject["id"])
-        store.set_mode(thread["id"], "aula")
-        seen = []
-        def controlled(model, instructions, messages):
-            seen.append(instructions)
-            return "Conceito, exemplo e uma pergunta?"
-        service = TutorService(self.db, config_path=self.config, provider=controlled)
         cases = [
-            ("Ensine lógica booleana", None, "question"),
             ("Ainda tenho uma dúvida: qual a diferença entre E e OU?", None, "question"),
             ("18 é positivo, então posso retirar 18 com saldo 15?", None, "attempt"),
             ("Sim, 18 cabe", None, "attempt"),
@@ -195,11 +189,9 @@ class TutorCase(unittest.TestCase):
         ]
         for index, (body, choice, expected) in enumerate(cases):
             with self.subTest(body=body):
-                result = service.send(thread["id"], f"guided-case-{index:03}", body,
-                                      message_kind=choice)
-                self.assertEqual(result["messages"][-2]["kind"], expected)
-                self.assertIn("Etapa deste turno: " +
-                              ("tentativa" if expected == "attempt" else "pergunta"), seen[-1])
+                self.assertEqual(choice or _guided_message_kind(body), expected)
+        store = TutorStore(self.db); thread = store.create_thread(self.subject["id"])
+        service = TutorService(self.db, config_path=self.config, provider=lambda *args: "unused")
         with self.assertRaisesRegex(ValueError, "tipo de mensagem"):
             service.send(thread["id"], "guided-invalid-kind", "texto", message_kind="system")
 
@@ -211,7 +203,8 @@ class TutorCase(unittest.TestCase):
         generated = []
         def misleading(model, instructions, messages):
             generated.append(messages[-1]["content"])
-            return ("Resposta geral sobre fotossíntese."
+            return (json.dumps({"claims": [{"text": "Resposta geral sobre fotossíntese.", "basis": "general"}],
+                               "limits": "Conhecimento geral."})
                     if "Explique fotossíntese" in messages[-1]["content"] else
                     "O INEP confirma que não existe dado; a órbita tem 99 km.")
         service = TutorService(self.db, config_path=self.config, provider=misleading)
@@ -230,7 +223,7 @@ class TutorCase(unittest.TestCase):
         self.assertEqual(len(generated), 3)
         general = service.send(thread["id"], "grounding-general-004",
                                "Explique fotossíntese em geral")["messages"][-1]
-        self.assertEqual(general["body"], "Resposta geral sobre fotossíntese.")
+        self.assertIn("Conhecimento geral: Resposta geral sobre fotossíntese.", general["body"])
 
     def test_http_api_local_config_and_memory(self):
         calls = []

@@ -1,6 +1,7 @@
 /* Chat do tutor local. Trechos importados entram apenas como nós de texto. */
 let tutorThread = null, tutorThreads = [], tutorContextKey = '', tutorRequestId = null;
 let tutorPending = false, tutorLoadRevision = 0, tutorFailedDraft = '';
+let tutorFailedAction = null;
 let memoryItems = [], memoryEditing = null;
 let externalResults = [];
 
@@ -43,6 +44,23 @@ $('external-form').onsubmit = async event => {
 };
 
 function tutorError(text) { $('tutor-error').textContent = text || ''; }
+
+function renderCitedText(container, item) {
+  const pattern = /\[(E?)(\d+)\]/g;
+  let offset = 0;
+  for (const match of item.body.matchAll(pattern)) {
+    container.append(document.createTextNode(item.body.slice(offset, match.index)));
+    const source = (match[1] ? item.external_sources : item.sources)?.find(s => s.ordinal === Number(match[2]));
+    if (source && (match[1] || (source.material_id && source.chunk_id))) {
+      const link = document.createElement('a'); link.textContent = match[0]; link.className = 'inline-citation';
+      if (match[1]) { link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; }
+      else { link.href = '#materiais'; link.onclick = () => setTimeout(() => openMaterial(source.material_id, source.chunk_id, source.excerpt), 0); }
+      container.append(link);
+    } else container.append(document.createTextNode(match[0]));
+    offset = match.index + match[0].length;
+  }
+  container.append(document.createTextNode(item.body.slice(offset)));
+}
 
 function renderTutorStatus(status) {
   $('tutor-model').value = status.model;
@@ -104,10 +122,10 @@ function renderTutorHistory() {
     card.className = 'tutor-message ' + item.role;
     const eventNames = {question: 'Pergunta', attempt: 'Tentativa', feedback: 'Correção', lesson_prompt: 'Aula guiada', answer: 'Resposta'};
     label.textContent = `${item.role === 'user' ? 'Você' : 'Tutor'} · ${eventNames[item.kind] || item.kind}`;
-    body.textContent = item.body; card.append(label, body);
+    renderCitedText(body, item); card.append(label, body);
     if (item.role === 'assistant') {
       const basis = document.createElement('small');
-      basis.textContent = item.basis === 'materials' ? 'Trechos dos materiais selecionados' :
+      basis.textContent = item.meta?.interventions?.length ? 'O aplicativo usou uma saída segura; confira os excertos. A etapa foi preservada.' : item.basis === 'materials' ? 'Evidências recebidas dos materiais; o vínculo da citação não comprova a conclusão.' :
         item.basis === 'insufficient' ? 'Material selecionado sem trecho correspondente; confira a resposta' :
         'Sem material selecionado · conhecimento geral ou inferência';
       card.append(basis);
@@ -138,7 +156,7 @@ function renderTutorHistory() {
       }
     } else if (item.status === 'failed') {
       const retry = document.createElement('button'); retry.type = 'button'; retry.className = 'text-button'; retry.textContent = 'Repetir esta pergunta';
-      retry.onclick = () => { $('tutor-draft').value = item.body; tutorRequestId = item.request_id; tutorFailedDraft = item.body; sendTutor(); };
+      retry.onclick = () => { $('tutor-draft').value = item.body; tutorRequestId = item.request_id; tutorFailedDraft = item.body; sendTutor(item.meta?.lesson_action || null); };
       card.append(retry);
     } else if (item.status === 'pending') {
       const status = document.createElement('small'); status.textContent = 'Aguardando resposta…'; card.append(status);
@@ -149,6 +167,13 @@ function renderTutorHistory() {
 }
 
 function renderTutorThread() {
+  const lesson = tutorThread?.lesson || {stage: 'explanation'};
+  $('lesson-panel').hidden = tutorThread?.mode !== 'aula';
+  const labels = {explanation: 'Explicação pendente', exercise: 'Explicação concluída; prepare o exercício quando quiser.', waiting_attempt: 'Aguardando sua tentativa. Uma nova pergunta preserva este exercício.', correction: 'Correção concluída; aprofunde quando quiser.', deepening: 'Aprofundamento concluído; você pode preparar outro exercício.'};
+  $('lesson-status').textContent = labels[lesson.stage] || '';
+  $('lesson-exercise').textContent = lesson.stage === 'waiting_attempt' ? lesson.exercise : '';
+  $('lesson-continue').hidden = !['exercise', 'correction', 'deepening'].includes(lesson.stage);
+  $('lesson-continue').textContent = lesson.stage === 'correction' ? 'Aprofundar' : 'Continuar para exercício';
   $('tutor-message-kind-wrap').hidden = tutorThread?.mode !== 'aula';
   renderTutorThreads();
   $('tutor-mode').value = tutorThread?.mode || 'duvida';
@@ -194,15 +219,16 @@ window.refreshTutorContext = () => {
     .catch(error => { tutorError(error.message); });
 };
 
-async function sendTutor() {
+async function sendTutor(lessonAction = null) {
   if (tutorPending) return;
-  const draft = $('tutor-draft'), body = draft.value.trim();
+  const draft = $('tutor-draft'), body = lessonAction ? (lessonAction === 'deepen' ? 'Aprofundar a correção' : 'Preparar o exercício') : draft.value.trim();
   if (!body) { tutorError('Escreva sua pergunta ou tentativa.'); draft.focus(); return; }
   if (!tutorThread) { tutorError('Escolha uma matéria antes de enviar.'); return; }
   const external_source_ids = Array.from(document.querySelectorAll('.external-choice:checked')).map(item => item.value);
   if (external_source_ids.length > 3) { tutorError('Escolha até três fontes externas.'); return; }
   if (!tutorRequestId || tutorFailedDraft !== body) tutorRequestId = crypto.randomUUID();
   tutorFailedDraft = body; tutorPending = true; tutorError('');
+  tutorFailedAction = lessonAction;
   $('tutor-send').disabled = $('tutor-retry').disabled = true;
   $('tutor-send').textContent = 'Aguardando resposta…';
   const started = performance.now();
@@ -210,9 +236,10 @@ async function sendTutor() {
   const elapsed = setInterval(() => { $('tutor-response-status').textContent = `${phase} · ${Math.round((performance.now() - started) / 1000)} s`; }, 500);
   try {
     const message_kind = tutorThread.mode === 'aula' ? $('tutor-message-kind').value || null : null;
-    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids, message_kind});
+    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids, message_kind, lesson_action: lessonAction});
     $('tutor-message-kind').value = '';
-    draft.value = ''; tutorRequestId = null; tutorFailedDraft = ''; $('tutor-retry').hidden = true;
+    if (!lessonAction) draft.value = '';
+    tutorRequestId = null; tutorFailedDraft = ''; tutorFailedAction = null; $('tutor-retry').hidden = true;
     externalResults = []; renderExternalResults(); $('external-status').textContent = 'Fontes usadas nesta resposta. Nova consulta é opcional.';
     renderTutorThread();
     $('tutor-response-status').textContent = `Resposta local em ${((performance.now() - started) / 1000).toFixed(1)} s.`;
@@ -228,7 +255,8 @@ async function sendTutor() {
 }
 
 $('tutor-form').onsubmit = event => { event.preventDefault(); sendTutor(); };
-$('tutor-retry').onclick = sendTutor;
+$('tutor-retry').onclick = () => sendTutor(tutorFailedAction);
+$('lesson-continue').onclick = () => sendTutor(tutorThread?.lesson?.stage === 'correction' ? 'deepen' : 'exercise');
 $('tutor-draft').oninput = () => { if ($('tutor-draft').value.trim() !== tutorFailedDraft) { tutorRequestId = null; $('tutor-retry').hidden = true; } };
 $('tutor-subject').onchange = () => { tutorContextKey = ''; loadTutorContext($('tutor-subject').value).catch(error => tutorError(error.message)); };
 $('tutor-thread').onchange = async () => {

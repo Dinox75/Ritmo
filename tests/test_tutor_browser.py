@@ -1,6 +1,7 @@
 """Leitor e chat reais no Edge com provedor controlado e dados temporários."""
 
 import base64
+import json
 import os
 import tempfile
 import threading
@@ -16,6 +17,7 @@ from storage.tutor_store import TutorStore
 from local_ai.runtime import ModelUnavailable
 from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import load_config, save_config
+from tests.test_lesson_service import output_for, c
 
 try:
     from playwright.sync_api import expect, sync_playwright
@@ -48,7 +50,7 @@ class TutorBrowserCase(unittest.TestCase):
                          "accessed_at": "2026-10-28T12:00:00+00:00", "license": "CC BY-SA 4.0"}]
             server = make_server(db, 0, config_path=config,
                                  external_search=ExternalSearch(searcher),
-                                 tutor_provider=lambda *args: "As fontes divergem [E1] [E2]; não posso confirmar.")
+                                 tutor_provider=lambda *args: json.dumps({"claims": [c("As fontes divergem [E1] [E2]; não posso confirmar.", "external")], "limits": "Falta verificar o contexto."}))
             worker = threading.Thread(target=server.serve_forever); worker.start()
             try:
                 with sync_playwright() as playwright:
@@ -71,7 +73,8 @@ class TutorBrowserCase(unittest.TestCase):
                     page.wait_for_function("document.querySelector('#tutor-thread').value.length > 0")
                     page.locator("#tutor-draft").fill("Compare estas fontes")
                     page.locator("#tutor-send").click()
-                    expect(page.locator("#tutor-history .assistant a[target='_blank']")).to_have_count(2)
+                    expect(page.locator("#tutor-history .assistant .tutor-sources a[target='_blank']")).to_have_count(2)
+                    expect(page.locator("#tutor-history .inline-citation")).to_have_count(2)
                     expect(page.locator("#tutor-history .assistant")).to_contain_text("As fontes divergem")
                     page.locator("#external-query").fill("fonte indisponível")
                     page.locator("#external-submit").click()
@@ -195,8 +198,12 @@ class TutorBrowserCase(unittest.TestCase):
                 if "falha" in messages[-1]["content"] and fail_once["value"]:
                     fail_once["value"] = False
                     raise ModelUnavailable("indisponibilidade controlada")
-                return ("Conceito: a retirada exige comparar o valor com o saldo. "
-                        "Com 15, 18 excede o limite. Tente explicar a segunda condição. [1]")
+                value = output_for(instructions)
+                if "etapa: explanation." in instructions:
+                    value["example"] = c("Com saldo 12, retirar 5 passa; 18 excede o saldo 15. [1]", "inference")
+                if "etapa: exercise." in instructions:
+                    value["question"] = "Com saldo 20 e retirada 25, a operação passa?"
+                return json.dumps(value)
             server = make_server(db, 0, config_path=config, tutor_provider=controlled)
             worker = threading.Thread(target=server.serve_forever)
             worker.start()
@@ -251,14 +258,22 @@ class TutorBrowserCase(unittest.TestCase):
                     page.locator("#tutor-send").click()
                     expect(page.locator("#tutor-history .assistant")).to_contain_text("18 excede")
                     expect(page.locator("#tutor-history .tutor-sources a")).to_contain_text("operadores")
+                    page.locator("#tutor-history .inline-citation").first.click()
+                    expect(page.locator("#material-chunks mark.citation-highlight")).to_contain_text("retirada 18")
+                    page.locator('nav a[data-view-target="estudar"]').click()
+                    page.locator("#lesson-continue").click()
+                    expect(page.locator("#lesson-status")).to_contain_text("Aguardando sua tentativa")
+                    page.reload()
+                    page.locator('nav a[data-view-target="estudar"]').click()
+                    expect(page.locator("#lesson-exercise")).to_contain_text("saldo 20")
                     self.assertEqual(db.get_session(active["id"])["status"], "focus")
                     page.locator("#tutor-draft").fill("Minha tentativa: falha")
                     page.locator("#tutor-send").click()
                     expect(page.locator("#tutor-error")).to_contain_text("indisponibilidade controlada")
                     self.assertEqual(page.locator("#tutor-draft").input_value(), "Minha tentativa: falha")
                     page.locator("#tutor-retry").click()
-                    expect(page.locator("#tutor-history .assistant")).to_have_count(2)
-                    self.assertEqual(len(calls), 3)
+                    expect(page.locator("#tutor-history .assistant")).to_have_count(3)
+                    self.assertEqual(len(calls), 4)
                     page.locator("#tutor-history .tutor-sources a").first.click()
                     expect(page.locator("#view-materiais")).to_be_visible()
                     expect(page.locator("#material-chunks")).to_contain_text("retirada 18")
@@ -287,7 +302,7 @@ class TutorBrowserCase(unittest.TestCase):
                                 page.screenshot(path=str(Path(shots) / f"tutor-{label}-{view}.png"), full_page=True)
                     page.reload()
                     page.locator('nav a[data-view-target="estudar"]').click()
-                    expect(page.locator("#tutor-history .assistant")).to_have_count(2)
+                    expect(page.locator("#tutor-history .assistant")).to_have_count(3)
                     self.assertFalse(errors, errors)
                     browser.close()
             finally:

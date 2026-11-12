@@ -1,6 +1,7 @@
 """Conversas locais do tutor; nenhuma chamada de modelo acontece sob transação SQLite."""
 
 import re
+import json
 
 from storage.database import ConflictError, new_id, utc_now
 
@@ -60,7 +61,15 @@ class TutorStore:
             result["material_ids"] = [item[0] for item in db.execute(
                 "SELECT material_id FROM tutor_thread_materials WHERE thread_id=? ORDER BY material_id", (thread_id,))]
         result["messages"] = self.list_messages(thread_id)
+        lesson = self.get_lesson(thread_id)
+        result["lesson"] = {"stage": lesson["stage"], "exercise": lesson.get("exercise", ""),
+                            "attempts": lesson.get("attempts", 0)}
         return result
+
+    def get_lesson(self, thread_id):
+        with self.database.connect() as db:
+            row = db.execute("SELECT state_json FROM tutor_lesson_state WHERE thread_id=?", (thread_id,)).fetchone()
+        return json.loads(row[0]) if row else {"stage": "explanation", "attempts": 0}
 
     def list_messages(self, thread_id, *, limit=100):
         with self.database.connect() as db:
@@ -69,6 +78,9 @@ class TutorStore:
                 "WHERE thread_id=? ORDER BY created_at DESC, rowid DESC LIMIT ?) "
                 "ORDER BY created_at, rowid", (thread_id, limit))]
             for message in rows:
+                meta = db.execute("SELECT details_json FROM tutor_message_meta WHERE message_id=?",
+                                  (message["id"],)).fetchone()
+                message["meta"] = json.loads(meta[0]) if meta else {}
                 message["sources"] = [dict(item) for item in db.execute(
                     "SELECT ordinal, material_id, chunk_id, material_name, locator, excerpt "
                     "FROM tutor_message_sources WHERE message_id=? ORDER BY ordinal", (message["id"],))]
@@ -108,7 +120,7 @@ class TutorStore:
             db.execute("UPDATE tutor_threads SET updated_at=? WHERE id=?", (utc_now(), thread_id))
         return self.get_thread(thread_id)
 
-    def begin_message(self, thread_id, request_id, body, kind=None):
+    def begin_message(self, thread_id, request_id, body, kind=None, lesson_action=None):
         if not isinstance(request_id, str) or not 8 <= len(request_id) <= 100:
             raise ValueError("identificador da mensagem inválido")
         if not isinstance(body, str) or not body.strip() or len(body) > 4000:
@@ -123,6 +135,11 @@ class TutorStore:
                 raise ValueError("conversa não encontrada")
             existing = db.execute("SELECT * FROM tutor_messages WHERE request_id=?", (request_id,)).fetchone()
             if existing:
+                meta = db.execute("SELECT details_json FROM tutor_message_meta WHERE message_id=?",
+                                  (existing["id"],)).fetchone()
+                old_action = json.loads(meta[0]).get("lesson_action") if meta else None
+                if old_action != lesson_action:
+                    raise ConflictError("identificador já usado para outra etapa")
                 if existing["thread_id"] != thread_id or existing["body"] != body:
                     raise ConflictError("identificador já usado para outra mensagem")
                 if existing["status"] == "pending":
@@ -130,19 +147,28 @@ class TutorStore:
                 if existing["status"] == "failed":
                     db.execute("UPDATE tutor_messages SET status='pending' WHERE id=?", (existing["id"],))
                 return dict(existing) | {"status": "pending" if existing["status"] == "failed" else "complete"}
+            if db.execute("SELECT 1 FROM tutor_messages WHERE thread_id=? AND status='pending'",
+                          (thread_id,)).fetchone():
+                raise ConflictError("aguarde a resposta em andamento nesta conversa")
             last = db.execute("SELECT kind FROM tutor_messages WHERE thread_id=? AND role='assistant' "
                               "ORDER BY created_at DESC, rowid DESC LIMIT 1", (thread_id,)).fetchone()
-            waiting_for_attempt = (thread["mode"] == "aula" and last and
-                                   last["kind"] in {"lesson_prompt", "feedback"})
+            state = db.execute("SELECT state_json FROM tutor_lesson_state WHERE thread_id=?", (thread_id,)).fetchone()
+            waiting_for_attempt = (thread["mode"] == "aula" and state and
+                                   json.loads(state[0])["stage"] == "waiting_attempt")
             kind = ((kind or _guided_message_kind(body)) if waiting_for_attempt else "question")
+            if lesson_action:
+                kind = "question"
             message = {"id": new_id(), "thread_id": thread_id, "role": "user", "kind": kind,
                        "body": body, "status": "pending", "request_id": request_id,
                        "in_reply_to": None, "basis": None, "created_at": utc_now()}
             db.execute("INSERT INTO tutor_messages VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(message.values()))
+            db.execute("INSERT INTO tutor_message_meta VALUES (?, ?)",
+                       (message["id"], json.dumps({"lesson_action": lesson_action})))
             db.execute("UPDATE tutor_threads SET updated_at=? WHERE id=?", (message["created_at"], thread_id))
             return message
 
-    def complete_message(self, user_message, answer, basis, sources, mode, external_sources=None):
+    def complete_message(self, user_message, answer, basis, sources, mode, external_sources=None,
+                         *, lesson_state=None, meta=None):
         if not isinstance(answer, str) or not answer.strip() or len(answer) > 12000:
             raise ValueError("resposta vazia ou longa demais")
         reply = {"id": new_id(), "thread_id": user_message["thread_id"], "role": "assistant",
@@ -155,6 +181,12 @@ class TutorStore:
             if pending is None or pending["status"] != "pending":
                 raise ConflictError("mensagem já foi respondida")
             db.execute("INSERT INTO tutor_messages VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(reply.values()))
+            db.execute("INSERT INTO tutor_message_meta VALUES (?, ?)",
+                       (reply["id"], json.dumps(meta or {}, ensure_ascii=False)))
+            if lesson_state is not None:
+                db.execute("INSERT INTO tutor_lesson_state VALUES (?, ?) ON CONFLICT(thread_id) "
+                           "DO UPDATE SET state_json=excluded.state_json",
+                           (reply["thread_id"], json.dumps(lesson_state, ensure_ascii=False)))
             db.executemany("INSERT INTO tutor_message_sources VALUES (?, ?, ?, ?, ?, ?, ?)",
                            ((reply["id"], index, source["material_id"], source["chunk_id"],
                              source["material_name"], source["locator"], source["excerpt"])

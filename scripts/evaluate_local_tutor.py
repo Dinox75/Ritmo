@@ -69,7 +69,9 @@ def seeded_guided_thread(db, store, subject, material):
     store.complete_message(seed,
         "A regra exige quantidade > 0 E quantidade <= saldo. Exemplo resolvido: "
         "com saldo 15, retirar 10 passa. Agora tente: com saldo 15, retirar 18 passa?",
-        "materials", sources, "aula")
+        "materials", sources, "aula", lesson_state={"stage": "waiting_attempt", "attempts": 0,
+            "example": "Com saldo 15, retirar 10 passa.",
+            "exercise": "Com saldo 15, retirar 18 passa?", "sources": sources, "external_sources": []})
     return thread
 
 
@@ -97,6 +99,7 @@ def record(service, runtime, store, subject, case, mode, materials, question, *,
             "accessed_at": item["accessed_at"]} for item in reply["external_sources"]],
         "answer": reply["body"], "seconds": round(seconds, 3),
         "model_answer_before_guard": model_answer if model_answer != reply["body"] else None,
+        "lesson": result.get("lesson"), "interventions": reply.get("meta", {}).get("interventions", []),
         "usage": raw.get("usage"), "timings": raw.get("timings"),
         "finish_reason": (raw.get("choices") or [{}])[0].get("finish_reason"),
     }
