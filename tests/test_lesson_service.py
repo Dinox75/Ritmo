@@ -158,6 +158,11 @@ class LessonServiceCase(unittest.TestCase):
             self.assertNotIn("[1]", shown)
             self.assertNotIn("[9]", shown)
             self.assertTrue(result["messages"][-1]["meta"]["interventions"])
+        for malformed_basis in ([], {}):
+            self.service.provider = lambda *args, b=malformed_basis: json.dumps({
+                "claims": [c("A retirada exige saldo. [1]", b)], "limits": "Sem validação."})
+            result = self.send("Explique retirada e saldo")
+            self.assertTrue(result["messages"][-1]["meta"]["safe_fallback"])
 
     def test_comparison_keeps_sources_and_limits_without_claiming_verification(self):
         self.store.set_mode(self.thread["id"], "duvida")

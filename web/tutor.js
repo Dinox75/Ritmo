@@ -71,6 +71,10 @@ function renderTutorStatus(status) {
   $('tutor-availability').textContent = status.configured
     ? `Tutor local · ${status.model}. Conversa processada neste computador, sem custo de API.`
     : 'Tutor local ainda não instalado. Leitura, busca e anotações continuam disponíveis.';
+  if (status.model === 'qwen3-1.7b-q8_0') {
+    $('tutor-config-status').textContent += ' Modelo experimental: nos ensaios seguiu uma instrução hostil do material. Não aprovado como professor.';
+    $('tutor-availability').textContent += ' Modelo experimental; confira todas as respostas.';
+  }
 }
 
 async function loadTutorStatus() {

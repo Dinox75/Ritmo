@@ -60,6 +60,12 @@ flowchart LR
 
 O tutor recebe a pergunta, até 12 mensagens recentes e até seis trechos recuperados dos materiais marcados para a matéria. O modelo não tem ferramenta para executar comandos, instalar programas, ler arquivos arbitrários ou publicar dados.
 
+Na **Aula guiada**, o serviço guarda a etapa e o exercício em SQLite: explicação → preparar exercício → esperar tentativa → correção → aprofundamento. Use **Continuar para exercício** após a explicação e **Aprofundar** após a correção. Uma **Nova pergunta** durante a espera preserva o exercício e não conta como tentativa; o exercício volta ao reabrir a conversa. O exemplo resolvido é separado do exercício, cuja geração não pede solução ao modelo. Uma saída fora do contrato recebe no máximo uma revisão pelo modelo; se continuar inválida, o aplicativo mostra uma mensagem segura e mantém a etapa.
+
+As afirmações exibidas identificam material, fonte externa, conhecimento geral ou inferência. O modelo informa os identificadores no campo de referências ou no próprio texto; a interface os formata junto à afirmação e permite abrir o original. Cada identificador precisa existir entre os excertos recebidos. Essa validação confere o vínculo, **não comprova que o trecho sustenta a conclusão**. Listas vazias e citações ausentes não são preenchidas pelo aplicativo. O [relatório da PR #8](docs/qa-tutor-consolidated.md) inclui a comparação com o código anterior, gerações brutas, respostas exibidas, intervenções e limitações. O Qwen3 4B é o candidato principal; o 1.7B permanece experimental. Nenhum peso foi treinado.
+
+A [comparação de 12/11](docs/tutor-stages-evaluation.md) não aprovou nenhum modelo como professor confiável. O 4B preservou a espera e melhorou a atribuição, mas a correção parcial ficou bloqueada e duas comparações interpretaram mal o trecho. O 1.7B exibiu uma afirmação matemática falsa induzida por TXT hostil nas três repetições. A proteção estrutural melhora o fluxo, mas não impede todos os erros de conteúdo; consulte as regressões registradas antes de usar o tutor.
+
 ## Executar
 
 ### Desenvolvimento no Windows

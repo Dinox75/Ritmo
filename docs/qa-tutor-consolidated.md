@@ -1,5 +1,13 @@
 # Consolidação do tutor Windows — 09/11/2026
 
+## Continuação da PR #8 — 12/11/2026
+
+O controle das etapas da aula passou para o serviço, com estado e exercício persistidos no SQLite 9, ações separadas para exercício e aprofundamento e validação das saídas por etapa. Nova pergunta preserva o exercício pendente. As referências informadas pelo modelo são validadas e ficam junto das afirmações, com abertura do destaque original. Há uma revisão limitada pelo modelo antes da saída segura; uma comparação recusada usa leitura literal dos excertos, claramente atribuída ao aplicativo.
+
+O [relatório de etapas e fundamentação](tutor-stages-evaluation.md) registra o desenho, testes de regressão, comparação reproduzível com `4ad48e9`, gerações brutas, intervenções e julgamento por cenário. Os arquivos `tutor-stages-before.json` e `tutor-stages-after.json` são a comparação atual. Os resultados de 09/11 abaixo são históricos e não representam a versão nova.
+
+Nesta continuação não foi gerado pacote Windows nem atualizada a instalação pessoal. O executável e o hash abaixo pertencem à rodada de 09/11; a mudança de esquema foi testada apenas em banco sintético e cópia de backup temporário.
+
 ## Base e integração
 
 Branch `feat/ritmo-tutor-consolidated`, derivada da PR #7 (`f0b7f18`). A PR #2 (`1deff6c`) foi comparada arquivo a arquivo. Foram incorporados o guia de aula em turnos, instruções específicas para pergunta/tentativa, recuperação de `E` e `OU`, casos sintéticos e o avaliador real. O material histórico da PR #2 está em `tutor-evaluation.md`, `tutor-eval-baseline.json` e `tutor-eval-after.json`. A lógica de fontes externas, a migração SQLite 8, o destaque de referências e o layout da PR #7 permaneceram na base; não houve substituição dos respectivos arquivos por versões antigas. As PRs #4 e Android ficaram fora.

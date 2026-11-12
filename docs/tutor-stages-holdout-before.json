@@ -1,0 +1,997 @@
+{
+  "label": "4ad48e9",
+  "guide_sha256": "99d09cbe21369ccd10e40a1464e650712384d95c57c74ceadcc8d608b6d0ed8a",
+  "parameters": {
+    "temperature": 0.3,
+    "max_tokens": 420,
+    "enable_thinking": false,
+    "seed": "runtime default; repetitions are not independent statistical evidence"
+  },
+  "repeats": 3,
+  "models": [
+    {
+      "model": "qwen3-4b-q4_k_m",
+      "load_seconds": 8.764,
+      "runtime": "llama.cpp-b11896-cuda12.4-win64"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "load_seconds": 7.223,
+      "runtime": "llama.cpp-b11896-cuda12.4-win64"
+    }
+  ],
+  "rows": [
+    {
+      "case": "opening_temperature_holdout",
+      "holdout": true,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 1,
+      "material": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas.",
+      "question": "Ensine este material",
+      "turns": [
+        {
+          "body": "Ensine este material",
+          "raw": "**Aula guiada**  \n**Tema:** Condições lógicas para aceitação de um lote refrigerado  \n\n**Conceito:**  \nUm lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 e menor ou igual a 8.  \n\n**Utilidade:**  \nEssa regra é usada para garantir que a temperatura do lote esteja dentro de um intervalo seguro, evitando danos ao produto e assegurando a qualidade.  \n\n**Exemplo resolvido:**  \nCom 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.  \n\n**Exercício:**  \nCom 7 graus, o lote é aceito?  \n\n**Pergunta:**  \nCom 7 graus, o lote é aceito?",
+          "displayed": "**Aula guiada**  \n**Tema:** Condições lógicas para aceitação de um lote refrigerado  \n\n**Conceito:**  \nUm lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 e menor ou igual a 8.  \n\n**Utilidade:**  \nEssa regra é usada para garantir que a temperatura do lote esteja dentro de um intervalo seguro, evitando danos ao produto e assegurando a qualidade.  \n\n**Exemplo resolvido:**  \nCom 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.  \n\n**Exercício:**  \nCom 7 graus, o lote é aceito?  \n\n**Pergunta:**  \nCom 7 graus, o lote é aceito?",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "a6b4c1aab62947d89cb47a24ad5b8548",
+              "chunk_id": "63f9c8c3-b7c7-425c-9642-7af01482ccfd",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 13.045,
+          "usage": {
+            "completion_tokens": 218,
+            "prompt_tokens": 2185,
+            "total_tokens": 2403,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 2185,
+            "prompt_ms": 9583.447,
+            "prompt_per_token_ms": 4.386016933638444,
+            "prompt_per_second": 227.99729575381383,
+            "predicted_n": 218,
+            "predicted_ms": 3421.685,
+            "predicted_per_token_ms": 15.768133640552994,
+            "predicted_per_second": 63.41904646394978
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "**Aula guiada**  \n**Tema:** Condições lógicas para aceitação de um lote refrigerado  \n\n**Conceito:**  \nUm lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 e menor ou igual a 8.  \n\n**Utilidade:**  \nEssa regra é usada para garantir que a temperatura do lote esteja dentro de um intervalo seguro, evitando danos ao produto e assegurando a qualidade.  \n\n**Exemplo resolvido:**  \nCom 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.  \n\n**Exercício:**  \nCom 7 graus, o lote é aceito?  \n\n**Pergunta:**  \nCom 7 graus, o lote é aceito?",
+              "usage": {
+                "completion_tokens": 218,
+                "prompt_tokens": 2185,
+                "total_tokens": 2403,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0
+                }
+              },
+              "timings": {
+                "cache_n": 0,
+                "prompt_n": 2185,
+                "prompt_ms": 9583.447,
+                "prompt_per_token_ms": 4.386016933638444,
+                "prompt_per_second": 227.99729575381383,
+                "predicted_n": 218,
+                "predicted_ms": 3421.685,
+                "predicted_per_token_ms": 15.768133640552994,
+                "predicted_per_second": 63.41904646394978
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "comparison_lab_holdout",
+      "holdout": true,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 1,
+      "material": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.",
+      "question": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+      "turns": [
+        {
+          "body": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+          "raw": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nDe acordo com o material local [1], \"credencial válida sem supervisor presente não permite entrar no laboratório\". Já a fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem sobre a condição de entrada no laboratório. O material local indica que a presença do supervisor é obrigatória quando a credencial é válida, enquanto a fonte externa sugere que a presença do supervisor não é necessária se a credencial for válida. \n\nQual das duas fontes é mais precisa?",
+          "displayed": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nDe acordo com o material local [1], \"credencial válida sem supervisor presente não permite entrar no laboratório\". Já a fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem sobre a condição de entrada no laboratório. O material local indica que a presença do supervisor é obrigatória quando a credencial é válida, enquanto a fonte externa sugere que a presença do supervisor não é necessária se a credencial for válida. \n\nQual das duas fontes é mais precisa?",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "810a53526f794f9b82b1b268abf1ad77",
+              "chunk_id": "2eb5b735-bc52-4c63-9367-213878808101",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 4.927,
+          "usage": {
+            "completion_tokens": 149,
+            "prompt_tokens": 2415,
+            "total_tokens": 2564,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 484,
+            "prompt_ms": 2513.14,
+            "prompt_per_token_ms": 5.192438016528925,
+            "prompt_per_second": 192.58775874006224,
+            "predicted_n": 149,
+            "predicted_ms": 2376.778,
+            "predicted_per_token_ms": 16.05931081081081,
+            "predicted_per_second": 62.26917280452782
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nDe acordo com o material local [1], \"credencial válida sem supervisor presente não permite entrar no laboratório\". Já a fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem sobre a condição de entrada no laboratório. O material local indica que a presença do supervisor é obrigatória quando a credencial é válida, enquanto a fonte externa sugere que a presença do supervisor não é necessária se a credencial for válida. \n\nQual das duas fontes é mais precisa?",
+              "usage": {
+                "completion_tokens": 149,
+                "prompt_tokens": 2415,
+                "total_tokens": 2564,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 484,
+                "prompt_ms": 2513.14,
+                "prompt_per_token_ms": 5.192438016528925,
+                "prompt_per_second": 192.58775874006224,
+                "predicted_n": 149,
+                "predicted_ms": 2376.778,
+                "predicted_per_token_ms": 16.05931081081081,
+                "predicted_per_second": 62.26917280452782
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opening_temperature_holdout",
+      "holdout": true,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 2,
+      "material": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas.",
+      "question": "Ensine este material",
+      "turns": [
+        {
+          "body": "Ensine este material",
+          "raw": "Aula guiada: Vamos entender o conceito de lote refrigerado e as condições para aceitar um lote com base no material fornecido.\n\n**Conceito:** Um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 graus e menor ou igual a 8 graus.\n\n**Utilidade:** Essa regra é importante para garantir que os alimentos ou produtos refrigerados estejam dentro de um intervalo de temperatura seguro, evitando danos ou perda de qualidade.\n\n**Exemplo resolvido:** Se a temperatura for 5 graus, as duas condições (temperatura >= 2 e temperatura <= 8) são satisfeitas, então o lote é aceito.\n\n**Pergunta:** Se a temperatura for 9 graus, o lote é aceito? \n\nAguardo sua resposta.",
+          "displayed": "Aula guiada: Vamos entender o conceito de lote refrigerado e as condições para aceitar um lote com base no material fornecido.\n\n**Conceito:** Um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 graus e menor ou igual a 8 graus.\n\n**Utilidade:** Essa regra é importante para garantir que os alimentos ou produtos refrigerados estejam dentro de um intervalo de temperatura seguro, evitando danos ou perda de qualidade.\n\n**Exemplo resolvido:** Se a temperatura for 5 graus, as duas condições (temperatura >= 2 e temperatura <= 8) são satisfeitas, então o lote é aceito.\n\n**Pergunta:** Se a temperatura for 9 graus, o lote é aceito? \n\nAguardo sua resposta.",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "0ced3ddd007448c89c40bb60fa4e26ae",
+              "chunk_id": "cb5ee9f5-ae2f-45f4-a0c6-95fd8cb724d9",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 4.605,
+          "usage": {
+            "completion_tokens": 210,
+            "prompt_tokens": 2185,
+            "total_tokens": 2395,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 254,
+            "prompt_ms": 1242.576,
+            "prompt_per_token_ms": 4.892031496062992,
+            "prompt_per_second": 204.41405596116454,
+            "predicted_n": 210,
+            "predicted_ms": 3309.501,
+            "predicted_per_token_ms": 15.834933014354068,
+            "predicted_per_second": 63.15151438237969
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Aula guiada: Vamos entender o conceito de lote refrigerado e as condições para aceitar um lote com base no material fornecido.\n\n**Conceito:** Um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 graus e menor ou igual a 8 graus.\n\n**Utilidade:** Essa regra é importante para garantir que os alimentos ou produtos refrigerados estejam dentro de um intervalo de temperatura seguro, evitando danos ou perda de qualidade.\n\n**Exemplo resolvido:** Se a temperatura for 5 graus, as duas condições (temperatura >= 2 e temperatura <= 8) são satisfeitas, então o lote é aceito.\n\n**Pergunta:** Se a temperatura for 9 graus, o lote é aceito? \n\nAguardo sua resposta.",
+              "usage": {
+                "completion_tokens": 210,
+                "prompt_tokens": 2185,
+                "total_tokens": 2395,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 254,
+                "prompt_ms": 1242.576,
+                "prompt_per_token_ms": 4.892031496062992,
+                "prompt_per_second": 204.41405596116454,
+                "predicted_n": 210,
+                "predicted_ms": 3309.501,
+                "predicted_per_token_ms": 15.834933014354068,
+                "predicted_per_second": 63.15151438237969
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "comparison_lab_holdout",
+      "holdout": true,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 2,
+      "material": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.",
+      "question": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+      "turns": [
+        {
+          "body": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+          "raw": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nO material local indica que \"credencial válida sem supervisor presente não permite entrar no laboratório\" [1]. A fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem sobre a condição necessária para entrar no laboratório. O material local exige **ambas** as condições (credencial válida **e** supervisor presente) para o acesso, enquanto a fonte externa sugere que **uma** das condições é suficiente. \n\nQual das fontes é mais clara sobre a regra de acesso ao laboratório?",
+          "displayed": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nO material local indica que \"credencial válida sem supervisor presente não permite entrar no laboratório\" [1]. A fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem sobre a condição necessária para entrar no laboratório. O material local exige **ambas** as condições (credencial válida **e** supervisor presente) para o acesso, enquanto a fonte externa sugere que **uma** das condições é suficiente. \n\nQual das fontes é mais clara sobre a regra de acesso ao laboratório?",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "5bbf38ba8dd847fd945a70bab0400ebe",
+              "chunk_id": "afc006e2-9c33-4f20-bfc8-6e86da6704be",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 5.038,
+          "usage": {
+            "completion_tokens": 156,
+            "prompt_tokens": 2415,
+            "total_tokens": 2571,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 484,
+            "prompt_ms": 2512.684,
+            "prompt_per_token_ms": 5.191495867768595,
+            "prompt_per_second": 192.62270942147916,
+            "predicted_n": 156,
+            "predicted_ms": 2488.974,
+            "predicted_per_token_ms": 16.057896774193548,
+            "predicted_per_second": 62.27465614345509
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nO material local indica que \"credencial válida sem supervisor presente não permite entrar no laboratório\" [1]. A fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem sobre a condição necessária para entrar no laboratório. O material local exige **ambas** as condições (credencial válida **e** supervisor presente) para o acesso, enquanto a fonte externa sugere que **uma** das condições é suficiente. \n\nQual das fontes é mais clara sobre a regra de acesso ao laboratório?",
+              "usage": {
+                "completion_tokens": 156,
+                "prompt_tokens": 2415,
+                "total_tokens": 2571,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 484,
+                "prompt_ms": 2512.684,
+                "prompt_per_token_ms": 5.191495867768595,
+                "prompt_per_second": 192.62270942147916,
+                "predicted_n": 156,
+                "predicted_ms": 2488.974,
+                "predicted_per_token_ms": 16.057896774193548,
+                "predicted_per_second": 62.27465614345509
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opening_temperature_holdout",
+      "holdout": true,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 3,
+      "material": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas.",
+      "question": "Ensine este material",
+      "turns": [
+        {
+          "body": "Ensine este material",
+          "raw": "Aula guiada: Vamos entender como funciona a regra de aceitação de um lote refrigerado com base no material fornecido.\n\n**Conceito:**  \nUm lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 graus e menor ou igual a 8 graus.\n\n**Utilidade:**  \nEssa regra é usada para garantir que os produtos refrigerados estejam dentro de um intervalo de temperatura adequado, evitando danos ou perda de qualidade.\n\n**Exemplo resolvido:**  \nCom 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.\n\n**Exercício:**  \nCom 10 graus, o lote é aceito?  \nAguardem sua resposta.",
+          "displayed": "Aula guiada: Vamos entender como funciona a regra de aceitação de um lote refrigerado com base no material fornecido.\n\n**Conceito:**  \nUm lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 graus e menor ou igual a 8 graus.\n\n**Utilidade:**  \nEssa regra é usada para garantir que os produtos refrigerados estejam dentro de um intervalo de temperatura adequado, evitando danos ou perda de qualidade.\n\n**Exemplo resolvido:**  \nCom 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.\n\n**Exercício:**  \nCom 10 graus, o lote é aceito?  \nAguardem sua resposta.",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "02c9449bf2af43139272e17cd1a2b961",
+              "chunk_id": "fac67ab6-2339-4cf6-b760-19878532e1a6",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 4.552,
+          "usage": {
+            "completion_tokens": 208,
+            "prompt_tokens": 2185,
+            "total_tokens": 2393,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 254,
+            "prompt_ms": 1242.154,
+            "prompt_per_token_ms": 4.890370078740157,
+            "prompt_per_second": 204.48350204564008,
+            "predicted_n": 208,
+            "predicted_ms": 3273.893,
+            "predicted_per_token_ms": 15.815908212560387,
+            "predicted_per_second": 63.22747872334251
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Aula guiada: Vamos entender como funciona a regra de aceitação de um lote refrigerado com base no material fornecido.\n\n**Conceito:**  \nUm lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Isso significa que a temperatura precisa ser maior ou igual a 2 graus e menor ou igual a 8 graus.\n\n**Utilidade:**  \nEssa regra é usada para garantir que os produtos refrigerados estejam dentro de um intervalo de temperatura adequado, evitando danos ou perda de qualidade.\n\n**Exemplo resolvido:**  \nCom 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.\n\n**Exercício:**  \nCom 10 graus, o lote é aceito?  \nAguardem sua resposta.",
+              "usage": {
+                "completion_tokens": 208,
+                "prompt_tokens": 2185,
+                "total_tokens": 2393,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 254,
+                "prompt_ms": 1242.154,
+                "prompt_per_token_ms": 4.890370078740157,
+                "prompt_per_second": 204.48350204564008,
+                "predicted_n": 208,
+                "predicted_ms": 3273.893,
+                "predicted_per_token_ms": 15.815908212560387,
+                "predicted_per_second": 63.22747872334251
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "comparison_lab_holdout",
+      "holdout": true,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 3,
+      "material": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.",
+      "question": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+      "turns": [
+        {
+          "body": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+          "raw": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nO material local indica que \"credencial válida sem supervisor presente não permite entrar no laboratório\" [1]. A fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem-se sobre a condição necessária para entrar no laboratório. O material local sugere que tanto a credencial quanto o supervisor são requisitos, enquanto a fonte externa indica que apenas uma das duas condições é suficiente. \n\nQual das duas fontes é mais clara sobre a regra de entrada no laboratório?",
+          "displayed": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nO material local indica que \"credencial válida sem supervisor presente não permite entrar no laboratório\" [1]. A fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem-se sobre a condição necessária para entrar no laboratório. O material local sugere que tanto a credencial quanto o supervisor são requisitos, enquanto a fonte externa indica que apenas uma das duas condições é suficiente. \n\nQual das duas fontes é mais clara sobre a regra de entrada no laboratório?",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "97b8ab1e1a1146b68b75b1d895dfe7c8",
+              "chunk_id": "1d451a41-2044-4a4d-8559-012ae5cbb1cd",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 4.925,
+          "usage": {
+            "completion_tokens": 148,
+            "prompt_tokens": 2415,
+            "total_tokens": 2563,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 484,
+            "prompt_ms": 2510.932,
+            "prompt_per_token_ms": 5.187876033057851,
+            "prompt_per_second": 192.75711170194975,
+            "predicted_n": 148,
+            "predicted_ms": 2362.8,
+            "predicted_per_token_ms": 16.073469387755104,
+            "predicted_per_second": 62.214321990858295
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?\n\nO material local indica que \"credencial válida sem supervisor presente não permite entrar no laboratório\" [1]. A fonte externa [E1] afirma que \"credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor\". \n\nEssas duas fontes contradizem-se sobre a condição necessária para entrar no laboratório. O material local sugere que tanto a credencial quanto o supervisor são requisitos, enquanto a fonte externa indica que apenas uma das duas condições é suficiente. \n\nQual das duas fontes é mais clara sobre a regra de entrada no laboratório?",
+              "usage": {
+                "completion_tokens": 148,
+                "prompt_tokens": 2415,
+                "total_tokens": 2563,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 484,
+                "prompt_ms": 2510.932,
+                "prompt_per_token_ms": 5.187876033057851,
+                "prompt_per_second": 192.75711170194975,
+                "predicted_n": 148,
+                "predicted_ms": 2362.8,
+                "predicted_per_token_ms": 16.073469387755104,
+                "predicted_per_second": 62.214321990858295
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opening_temperature_holdout",
+      "holdout": true,
+      "model": "qwen3-1.7b-q8_0",
+      "repeat": 1,
+      "material": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas.",
+      "question": "Ensine este material",
+      "turns": [
+        {
+          "body": "Ensine este material",
+          "raw": "Aula guiada: conceito → utilidade → exemplo → tentativa do aluno → correção fundamentada → aprofundamento.\n\n**Conceito:**  \nO trecho explica que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, inclusive. Isso significa que a temperatura deve ser maior ou igual a 2 e menor ou igual a 8 graus.\n\n**Utilidade:**  \nEssa regra é usada para garantir que o produto esteja armazenado em condições adequadas, evitando danos por temperaturas extremas.\n\n**Exemplo:**  \nCom a temperatura de 5 graus, as duas condições são satisfeitas (5 >= 2 e 5 <= 8), então o lote é aceito.\n\n**Tentativa do aluno:**  \nCom a temperatura de 3 graus, as duas condições são satisfeitas (3 >= 2 e 3 <= 8), então o lote é aceito.\n\n**Correção fundamentada:**  \nA regra é válida, pois ambas as condições são verdadeiras. O lote é aceito.\n\n**Aprofundamento:**  \nSe a temperatura for 9 graus, a condição \"temperatura <= 8\" falha, então o lote não é aceito. Isso mostra que a regra é específica e precisa.\n\nQue valor de temperatura faria o lote ser rejeitado?",
+          "displayed": "Aula guiada: conceito → utilidade → exemplo → tentativa do aluno → correção fundamentada → aprofundamento.\n\n**Conceito:**  \nO trecho explica que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, inclusive. Isso significa que a temperatura deve ser maior ou igual a 2 e menor ou igual a 8 graus.\n\n**Utilidade:**  \nEssa regra é usada para garantir que o produto esteja armazenado em condições adequadas, evitando danos por temperaturas extremas.\n\n**Exemplo:**  \nCom a temperatura de 5 graus, as duas condições são satisfeitas (5 >= 2 e 5 <= 8), então o lote é aceito.\n\n**Tentativa do aluno:**  \nCom a temperatura de 3 graus, as duas condições são satisfeitas (3 >= 2 e 3 <= 8), então o lote é aceito.\n\n**Correção fundamentada:**  \nA regra é válida, pois ambas as condições são verdadeiras. O lote é aceito.\n\n**Aprofundamento:**  \nSe a temperatura for 9 graus, a condição \"temperatura <= 8\" falha, então o lote não é aceito. Isso mostra que a regra é específica e precisa.\n\nQue valor de temperatura faria o lote ser rejeitado?",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "03bef73dcabf4a6fa1d722f8627e7360",
+              "chunk_id": "3a864cbc-25bf-491d-880c-06954ecb63a5",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 7.481,
+          "usage": {
+            "completion_tokens": 312,
+            "prompt_tokens": 2185,
+            "total_tokens": 2497,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 2185,
+            "prompt_ms": 3759.346,
+            "prompt_per_token_ms": 1.720524485125858,
+            "prompt_per_second": 581.2181161297736,
+            "predicted_n": 312,
+            "predicted_ms": 3520.104,
+            "predicted_per_token_ms": 11.318662379421221,
+            "predicted_per_second": 88.34966239633829
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Aula guiada: conceito → utilidade → exemplo → tentativa do aluno → correção fundamentada → aprofundamento.\n\n**Conceito:**  \nO trecho explica que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, inclusive. Isso significa que a temperatura deve ser maior ou igual a 2 e menor ou igual a 8 graus.\n\n**Utilidade:**  \nEssa regra é usada para garantir que o produto esteja armazenado em condições adequadas, evitando danos por temperaturas extremas.\n\n**Exemplo:**  \nCom a temperatura de 5 graus, as duas condições são satisfeitas (5 >= 2 e 5 <= 8), então o lote é aceito.\n\n**Tentativa do aluno:**  \nCom a temperatura de 3 graus, as duas condições são satisfeitas (3 >= 2 e 3 <= 8), então o lote é aceito.\n\n**Correção fundamentada:**  \nA regra é válida, pois ambas as condições são verdadeiras. O lote é aceito.\n\n**Aprofundamento:**  \nSe a temperatura for 9 graus, a condição \"temperatura <= 8\" falha, então o lote não é aceito. Isso mostra que a regra é específica e precisa.\n\nQue valor de temperatura faria o lote ser rejeitado?",
+              "usage": {
+                "completion_tokens": 312,
+                "prompt_tokens": 2185,
+                "total_tokens": 2497,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0
+                }
+              },
+              "timings": {
+                "cache_n": 0,
+                "prompt_n": 2185,
+                "prompt_ms": 3759.346,
+                "prompt_per_token_ms": 1.720524485125858,
+                "prompt_per_second": 581.2181161297736,
+                "predicted_n": 312,
+                "predicted_ms": 3520.104,
+                "predicted_per_token_ms": 11.318662379421221,
+                "predicted_per_second": 88.34966239633829
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "comparison_lab_holdout",
+      "holdout": true,
+      "model": "qwen3-1.7b-q8_0",
+      "repeat": 1,
+      "material": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.",
+      "question": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+      "turns": [
+        {
+          "body": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+          "raw": "A afirmação no material [1] afirma que **\"O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.\"** Isso indica que **ambas as condições devem ser verdadeiras** para o acesso ser permitido.\n\nNo excerto externo [E1], a afirmação é **\"Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.\"** Isso sugere que **uma das condições é suficiente** para o acesso.\n\n### Análise:\n- O material [1] estabelece uma **regra estricta** (E), exigindo **ambas as condições**.\n- O excerto [E1] estabelece uma **regra mais laxa** (OU), exigindo **uma das condições**.\n\n### Conclusão:\nA regra do material [1] é mais **seletiva** e **rigorosa** em relação à regra do excerto [E1]. A regra do material [1] não permite o acesso sem o supervisor, mesmo que a credencial seja válida.\n\n### Pergunta para o aluno:\n**Qual das regras é mais rigorosa?**",
+          "displayed": "A afirmação no material [1] afirma que **\"O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.\"** Isso indica que **ambas as condições devem ser verdadeiras** para o acesso ser permitido.\n\nNo excerto externo [E1], a afirmação é **\"Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.\"** Isso sugere que **uma das condições é suficiente** para o acesso.\n\n### Análise:\n- O material [1] estabelece uma **regra estricta** (E), exigindo **ambas as condições**.\n- O excerto [E1] estabelece uma **regra mais laxa** (OU), exigindo **uma das condições**.\n\n### Conclusão:\nA regra do material [1] é mais **seletiva** e **rigorosa** em relação à regra do excerto [E1]. A regra do material [1] não permite o acesso sem o supervisor, mesmo que a credencial seja válida.\n\n### Pergunta para o aluno:\n**Qual das regras é mais rigorosa?**",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "01c7f85627484c288f4311397448c05a",
+              "chunk_id": "d176a925-b435-4050-85a9-6d3e855faf51",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 4.134,
+          "usage": {
+            "completion_tokens": 265,
+            "prompt_tokens": 2415,
+            "total_tokens": 2680,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 484,
+            "prompt_ms": 985.972,
+            "prompt_per_token_ms": 2.0371322314049585,
+            "prompt_per_second": 490.8861509251784,
+            "predicted_n": 265,
+            "predicted_ms": 3005.013,
+            "predicted_per_token_ms": 11.382624999999999,
+            "predicted_per_second": 87.85319730729951
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "A afirmação no material [1] afirma que **\"O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.\"** Isso indica que **ambas as condições devem ser verdadeiras** para o acesso ser permitido.\n\nNo excerto externo [E1], a afirmação é **\"Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.\"** Isso sugere que **uma das condições é suficiente** para o acesso.\n\n### Análise:\n- O material [1] estabelece uma **regra estricta** (E), exigindo **ambas as condições**.\n- O excerto [E1] estabelece uma **regra mais laxa** (OU), exigindo **uma das condições**.\n\n### Conclusão:\nA regra do material [1] é mais **seletiva** e **rigorosa** em relação à regra do excerto [E1]. A regra do material [1] não permite o acesso sem o supervisor, mesmo que a credencial seja válida.\n\n### Pergunta para o aluno:\n**Qual das regras é mais rigorosa?**",
+              "usage": {
+                "completion_tokens": 265,
+                "prompt_tokens": 2415,
+                "total_tokens": 2680,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 484,
+                "prompt_ms": 985.972,
+                "prompt_per_token_ms": 2.0371322314049585,
+                "prompt_per_second": 490.8861509251784,
+                "predicted_n": 265,
+                "predicted_ms": 3005.013,
+                "predicted_per_token_ms": 11.382624999999999,
+                "predicted_per_second": 87.85319730729951
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opening_temperature_holdout",
+      "holdout": true,
+      "model": "qwen3-1.7b-q8_0",
+      "repeat": 2,
+      "material": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas.",
+      "question": "Ensine este material",
+      "turns": [
+        {
+          "body": "Ensine este material",
+          "raw": "**Tirar dúvida:**  \nO trecho afirma que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Com 5 graus, as duas condições são satisfeitas, pois 5 >= 2 e 5 <= 8. Agora tente: com 3 graus, as duas condições são satisfeitas? Aguardo sua resposta.",
+          "displayed": "**Tirar dúvida:**  \nO trecho afirma que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Com 5 graus, as duas condições são satisfeitas, pois 5 >= 2 e 5 <= 8. Agora tente: com 3 graus, as duas condições são satisfeitas? Aguardo sua resposta.",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "572f5fac918149ef8a9a23e5e1d2d080",
+              "chunk_id": "ec8868a9-f2f2-4904-9ea6-7c354be9efcb",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 2.337,
+          "usage": {
+            "completion_tokens": 97,
+            "prompt_tokens": 2185,
+            "total_tokens": 2282,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 254,
+            "prompt_ms": 793.896,
+            "prompt_per_token_ms": 3.1255748031496062,
+            "prompt_per_second": 319.9411509819926,
+            "predicted_n": 97,
+            "predicted_ms": 1072.551,
+            "predicted_per_token_ms": 11.17240625,
+            "predicted_per_second": 89.50623327002633
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "**Tirar dúvida:**  \nO trecho afirma que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os extremos. Com 5 graus, as duas condições são satisfeitas, pois 5 >= 2 e 5 <= 8. Agora tente: com 3 graus, as duas condições são satisfeitas? Aguardo sua resposta.",
+              "usage": {
+                "completion_tokens": 97,
+                "prompt_tokens": 2185,
+                "total_tokens": 2282,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 254,
+                "prompt_ms": 793.896,
+                "prompt_per_token_ms": 3.1255748031496062,
+                "prompt_per_second": 319.9411509819926,
+                "predicted_n": 97,
+                "predicted_ms": 1072.551,
+                "predicted_per_token_ms": 11.17240625,
+                "predicted_per_second": 89.50623327002633
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "comparison_lab_holdout",
+      "holdout": true,
+      "model": "qwen3-1.7b-q8_0",
+      "repeat": 2,
+      "material": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.",
+      "question": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+      "turns": [
+        {
+          "body": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+          "raw": "A afirmação no material [1] afirma que **\"O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.\"** Isso significa que **ambas as condições devem ser verdadeiras** para o acesso ser permitido.\n\nNo excerto externo [E1], a afirmação é **\"Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.\"** Isso sugere que **uma das condições é suficiente** para o acesso.\n\n### Análise:\n- O material [1] estabelece **regra estricta**: **credencial válida E supervisor presente** são **ambas necessárias**.\n- O excerto [E1] propõe uma **regra mais leniente**: **credencial válida OU supervisor presente** são **suficientes**.\n\n### Conclusão:\n- O material [1] é mais **preciso** e **consistente** com a realidade descrita, pois estabelece uma **regra de necessidade**.\n- O excerto [E1] pode ser **inconsistente** com o material, pois sugere uma **regra de suficiência** que não é mencionada no material.\n\n### Pergunta para o aluno:\n**Qual das regras é mais coerente com o material fornecido?**",
+          "displayed": "A afirmação no material [1] afirma que **\"O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.\"** Isso significa que **ambas as condições devem ser verdadeiras** para o acesso ser permitido.\n\nNo excerto externo [E1], a afirmação é **\"Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.\"** Isso sugere que **uma das condições é suficiente** para o acesso.\n\n### Análise:\n- O material [1] estabelece **regra estricta**: **credencial válida E supervisor presente** são **ambas necessárias**.\n- O excerto [E1] propõe uma **regra mais leniente**: **credencial válida OU supervisor presente** são **suficientes**.\n\n### Conclusão:\n- O material [1] é mais **preciso** e **consistente** com a realidade descrita, pois estabelece uma **regra de necessidade**.\n- O excerto [E1] pode ser **inconsistente** com o material, pois sugere uma **regra de suficiência** que não é mencionada no material.\n\n### Pergunta para o aluno:\n**Qual das regras é mais coerente com o material fornecido?**",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "0342703df4c044b3b6e4042aa1106a4c",
+              "chunk_id": "02689853-924a-490f-ba74-eea57a3010d7",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 4.975,
+          "usage": {
+            "completion_tokens": 303,
+            "prompt_tokens": 2415,
+            "total_tokens": 2718,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 484,
+            "prompt_ms": 1268.61,
+            "prompt_per_token_ms": 2.621095041322314,
+            "prompt_per_second": 381.5199312633512,
+            "predicted_n": 303,
+            "predicted_ms": 3447.006,
+            "predicted_per_token_ms": 11.41392715231788,
+            "predicted_per_second": 87.61226409237466
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "A afirmação no material [1] afirma que **\"O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.\"** Isso significa que **ambas as condições devem ser verdadeiras** para o acesso ser permitido.\n\nNo excerto externo [E1], a afirmação é **\"Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.\"** Isso sugere que **uma das condições é suficiente** para o acesso.\n\n### Análise:\n- O material [1] estabelece **regra estricta**: **credencial válida E supervisor presente** são **ambas necessárias**.\n- O excerto [E1] propõe uma **regra mais leniente**: **credencial válida OU supervisor presente** são **suficientes**.\n\n### Conclusão:\n- O material [1] é mais **preciso** e **consistente** com a realidade descrita, pois estabelece uma **regra de necessidade**.\n- O excerto [E1] pode ser **inconsistente** com o material, pois sugere uma **regra de suficiência** que não é mencionada no material.\n\n### Pergunta para o aluno:\n**Qual das regras é mais coerente com o material fornecido?**",
+              "usage": {
+                "completion_tokens": 303,
+                "prompt_tokens": 2415,
+                "total_tokens": 2718,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 484,
+                "prompt_ms": 1268.61,
+                "prompt_per_token_ms": 2.621095041322314,
+                "prompt_per_second": 381.5199312633512,
+                "predicted_n": 303,
+                "predicted_ms": 3447.006,
+                "predicted_per_token_ms": 11.41392715231788,
+                "predicted_per_second": 87.61226409237466
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "opening_temperature_holdout",
+      "holdout": true,
+      "model": "qwen3-1.7b-q8_0",
+      "repeat": 3,
+      "material": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas.",
+      "question": "Ensine este material",
+      "turns": [
+        {
+          "body": "Ensine este material",
+          "raw": "Aula guiada: Conceito → utilidade → exemplo → tentativa do aluno → correção fundamentada → aprofundamento.\n\n**Conceito:**  \nO trecho explica que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os valores de 2 e 8. Isso é uma regra lógica que se baseia na condição \"E\" (e), que exige que ambas as condições sejam verdadeiras.\n\n**Utilidade:**  \nEssa regra é usada para garantir que o produto esteja dentro de um intervalo de temperatura adequado para preservação. É comum em sistemas de armazenamento de alimentos, como refrigeradores e congeladores.\n\n**Exemplo:**  \nCom a temperatura de 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.\n\n**Tentativa do aluno:**  \nCom a temperatura de 3 graus, as duas condições são satisfeitas: 3 >= 2 e 3 <= 8. Portanto, o lote é aceito.\n\n**Correção fundamentada:**  \nA regra é válida porque ambas as condições são verdadeiras. O trecho não menciona nenhuma exceção, portanto, a regra se aplica diretamente.\n\n**Aprofundamento:**  \nPara regras com \"E\", é importante verificar que ambas as condições sejam verdadeiras. Se uma for falsa, a regra não se aplica. Isso é fundamental em sistemas de controle, segurança e validação de dados.",
+          "displayed": "Aula guiada: Conceito → utilidade → exemplo → tentativa do aluno → correção fundamentada → aprofundamento.\n\n**Conceito:**  \nO trecho explica que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os valores de 2 e 8. Isso é uma regra lógica que se baseia na condição \"E\" (e), que exige que ambas as condições sejam verdadeiras.\n\n**Utilidade:**  \nEssa regra é usada para garantir que o produto esteja dentro de um intervalo de temperatura adequado para preservação. É comum em sistemas de armazenamento de alimentos, como refrigeradores e congeladores.\n\n**Exemplo:**  \nCom a temperatura de 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.\n\n**Tentativa do aluno:**  \nCom a temperatura de 3 graus, as duas condições são satisfeitas: 3 >= 2 e 3 <= 8. Portanto, o lote é aceito.\n\n**Correção fundamentada:**  \nA regra é válida porque ambas as condições são verdadeiras. O trecho não menciona nenhuma exceção, portanto, a regra se aplica diretamente.\n\n**Aprofundamento:**  \nPara regras com \"E\", é importante verificar que ambas as condições sejam verdadeiras. Se uma for falsa, a regra não se aplica. Isso é fundamental em sistemas de controle, segurança e validação de dados.",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "c0f9bff68d9a48a5996dd77ddff9be4b",
+              "chunk_id": "431f94de-cd18-46da-9d26-e6c510a96fb4",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Um lote refrigerado é aceito se temperatura >= 2 E temperatura <= 8 graus. Com 5 graus, as duas condições são satisfeitas."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 4.955,
+          "usage": {
+            "completion_tokens": 362,
+            "prompt_tokens": 2185,
+            "total_tokens": 2547,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 254,
+            "prompt_ms": 766.184,
+            "prompt_per_token_ms": 3.0164724409448818,
+            "prompt_per_second": 331.51305691583224,
+            "predicted_n": 362,
+            "predicted_ms": 4069.405,
+            "predicted_per_token_ms": 11.272590027700831,
+            "predicted_per_second": 88.71075746945806
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "Aula guiada: Conceito → utilidade → exemplo → tentativa do aluno → correção fundamentada → aprofundamento.\n\n**Conceito:**  \nO trecho explica que um lote refrigerado é aceito se a temperatura estiver entre 2 e 8 graus, incluindo os valores de 2 e 8. Isso é uma regra lógica que se baseia na condição \"E\" (e), que exige que ambas as condições sejam verdadeiras.\n\n**Utilidade:**  \nEssa regra é usada para garantir que o produto esteja dentro de um intervalo de temperatura adequado para preservação. É comum em sistemas de armazenamento de alimentos, como refrigeradores e congeladores.\n\n**Exemplo:**  \nCom a temperatura de 5 graus, as duas condições são satisfeitas: 5 >= 2 e 5 <= 8. Portanto, o lote é aceito.\n\n**Tentativa do aluno:**  \nCom a temperatura de 3 graus, as duas condições são satisfeitas: 3 >= 2 e 3 <= 8. Portanto, o lote é aceito.\n\n**Correção fundamentada:**  \nA regra é válida porque ambas as condições são verdadeiras. O trecho não menciona nenhuma exceção, portanto, a regra se aplica diretamente.\n\n**Aprofundamento:**  \nPara regras com \"E\", é importante verificar que ambas as condições sejam verdadeiras. Se uma for falsa, a regra não se aplica. Isso é fundamental em sistemas de controle, segurança e validação de dados.",
+              "usage": {
+                "completion_tokens": 362,
+                "prompt_tokens": 2185,
+                "total_tokens": 2547,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 254,
+                "prompt_ms": 766.184,
+                "prompt_per_token_ms": 3.0164724409448818,
+                "prompt_per_second": 331.51305691583224,
+                "predicted_n": 362,
+                "predicted_ms": 4069.405,
+                "predicted_per_token_ms": 11.272590027700831,
+                "predicted_per_second": 88.71075746945806
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "comparison_lab_holdout",
+      "holdout": true,
+      "model": "qwen3-1.7b-q8_0",
+      "repeat": 3,
+      "material": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar.",
+      "question": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+      "turns": [
+        {
+          "body": "Compare as fontes: credencial válida sem supervisor presente permite entrar no laboratório?",
+          "raw": "A afirmação no material [1] afirma claramente que **credencial válida sem supervisor presente não permite entrar no laboratório**. \n\nA fonte externa [E1] apresenta uma versão **contrária** (credencial válida OU supervisor presente permite entrar), o que **contradiz** a informação do material. \n\nA diferença está na **logica lógica** utilizada: o material [1] usa a conjunção **E** (ambas as condições precisam ser verdadeiras), enquanto a fonte externa [E1] usa a disjunção **OU** (uma das condições basta).\n\nSe a regra for **E**, a credencial válida sem supervisor presente **não permite entrar**. Se a regra for **OU**, a credencial válida **permite entrar**.\n\nAgora, **tente responder**: se a regra fosse **OU**, qual seria o valor máximo de credencial válida que permite entrar?",
+          "displayed": "A afirmação no material [1] afirma claramente que **credencial válida sem supervisor presente não permite entrar no laboratório**. \n\nA fonte externa [E1] apresenta uma versão **contrária** (credencial válida OU supervisor presente permite entrar), o que **contradiz** a informação do material. \n\nA diferença está na **logica lógica** utilizada: o material [1] usa a conjunção **E** (ambas as condições precisam ser verdadeiras), enquanto a fonte externa [E1] usa a disjunção **OU** (uma das condições basta).\n\nSe a regra for **E**, a credencial válida sem supervisor presente **não permite entrar**. Se a regra for **OU**, a credencial válida **permite entrar**.\n\nAgora, **tente responder**: se a regra fosse **OU**, qual seria o valor máximo de credencial válida que permite entrar?",
+          "kind": "question",
+          "meta": {},
+          "lesson_before": null,
+          "lesson_after": null,
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "ce28d425ddd6468993f88aa3bbeca152",
+              "chunk_id": "27dfd9c0-594c-48eb-b028-5bd4a5ad444e",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "O acesso ao laboratório exige credencial válida E supervisor presente. Credencial válida sem supervisor presente não permite entrar."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Credencial válida OU supervisor presente permite entrar no laboratório, inclusive sem supervisor.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 3.474,
+          "usage": {
+            "completion_tokens": 212,
+            "prompt_tokens": 2415,
+            "total_tokens": 2627,
+            "prompt_tokens_details": {
+              "cached_tokens": 1931
+            }
+          },
+          "timings": {
+            "cache_n": 1931,
+            "prompt_n": 484,
+            "prompt_ms": 993.574,
+            "prompt_per_token_ms": 2.0528388429752065,
+            "prompt_per_second": 487.1302993033231,
+            "predicted_n": 212,
+            "predicted_ms": 2428.586,
+            "predicted_per_token_ms": 11.509886255924169,
+            "predicted_per_second": 86.88183165018658
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "A afirmação no material [1] afirma claramente que **credencial válida sem supervisor presente não permite entrar no laboratório**. \n\nA fonte externa [E1] apresenta uma versão **contrária** (credencial válida OU supervisor presente permite entrar), o que **contradiz** a informação do material. \n\nA diferença está na **logica lógica** utilizada: o material [1] usa a conjunção **E** (ambas as condições precisam ser verdadeiras), enquanto a fonte externa [E1] usa a disjunção **OU** (uma das condições basta).\n\nSe a regra for **E**, a credencial válida sem supervisor presente **não permite entrar**. Se a regra for **OU**, a credencial válida **permite entrar**.\n\nAgora, **tente responder**: se a regra fosse **OU**, qual seria o valor máximo de credencial válida que permite entrar?",
+              "usage": {
+                "completion_tokens": 212,
+                "prompt_tokens": 2415,
+                "total_tokens": 2627,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1931
+                }
+              },
+              "timings": {
+                "cache_n": 1931,
+                "prompt_n": 484,
+                "prompt_ms": 993.574,
+                "prompt_per_token_ms": 2.0528388429752065,
+                "prompt_per_second": 487.1302993033231,
+                "predicted_n": 212,
+                "predicted_ms": 2428.586,
+                "predicted_per_token_ms": 11.509886255924169,
+                "predicted_per_second": 86.88183165018658
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -93,7 +93,7 @@ def claim(value, allowed):
     if not isinstance(value, dict) or set(value) not in ({"text", "basis"}, {"text", "basis", "references"}):
         raise InvalidOutput("afirmacao_sem_base")
     body, basis = text(value["text"]), value["basis"]
-    if basis not in LABELS:
+    if not isinstance(basis, str) or basis not in LABELS:
         raise InvalidOutput("base_desconhecida")
     refs = check_refs(body, allowed)
     explicit = value.get("references", [])
