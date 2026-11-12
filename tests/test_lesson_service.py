@@ -113,7 +113,7 @@ class LessonServiceCase(unittest.TestCase):
         self.service.provider = lambda *args: json.dumps(explanation() | {"solution": "não passa"})
         result = self.send("Ensine esta regra")
         self.assertEqual(result["lesson"]["stage"], "explanation")
-        self.assertEqual(result["messages"][-1]["meta"]["interventions"], ["campos_da_etapa"])
+        self.assertIn("campos_da_etapa", result["messages"][-1]["meta"]["interventions"])
         self.service.provider = lambda model, instructions, messages: json.dumps(output_for(instructions))
         self.send("Ensine esta regra")
         for question in ("Com saldo 15 e retirada 18, 18 <= 15 é falso, logo não passa?",
@@ -132,6 +132,18 @@ class LessonServiceCase(unittest.TestCase):
         self.assertEqual(result["lesson"], before)
         self.assertNotIn("[99]", result["messages"][-1]["body"])
         self.assertIn("referencia_inexistente", result["messages"][-1]["meta"]["interventions"])
+
+    def test_one_model_revision_can_repair_attribution_without_app_inventing_citations(self):
+        invalid = explanation()
+        invalid["concept"]["text"] = "E exige ambas as condições."
+        replies = iter([json.dumps(invalid), json.dumps(explanation())])
+        self.service.provider = lambda *args: next(replies)
+        result = self.send("Ensine esta regra")
+        self.assertEqual(result["lesson"]["stage"], "exercise")
+        self.assertFalse(result["messages"][-1]["meta"]["safe_fallback"])
+        self.assertIn("revisao_aceita", result["messages"][-1]["meta"]["interventions"])
+        self.assertEqual(len(self.service.last_turn["raw_attempts"]), 2)
+        self.assertEqual(self.service.last_turn["raw_attempts"][1], json.dumps(explanation()))
 
     def test_invalid_or_missing_reference_never_gets_filled_in(self):
         self.store.set_mode(self.thread["id"], "duvida")

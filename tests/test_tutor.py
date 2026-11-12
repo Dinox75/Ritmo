@@ -20,7 +20,7 @@ from local_ai.runtime import ModelUnavailable
 from tutor.service import TutorService
 from tutor.external import ExternalSearch, ExternalUnavailable, plain_text
 from utils.config import load_config, save_config
-from tests.test_lesson_service import output_for, explanation
+from tests.test_lesson_service import output_for, explanation, c
 from storage.tutor_store import _guided_message_kind
 
 
@@ -109,7 +109,8 @@ class TutorCase(unittest.TestCase):
         seen = []
         def controlled(model, instructions, messages):
             seen.append((instructions, messages))
-            return "Não. A condição quantidade <= saldo falha para 18 e 15. [1]"
+            return json.dumps({"claims": [c("Não. A condição quantidade <= saldo falha para 18 e 15. [1]")],
+                               "limits": "Aplicação da regra recebida."})
         service = TutorService(self.db, config_path=self.config, provider=controlled)
         answer = service.send(thread["id"], "req-material-123", "Posso retirar 18 com saldo 15?")
         self.assertEqual(answer["messages"][-1]["basis"], "materials")
@@ -229,7 +230,7 @@ class TutorCase(unittest.TestCase):
         calls = []
         def controlled(*args):
             calls.append(args)
-            return "Resposta controlada"
+            return json.dumps({"claims": [c("Resposta controlada", "general")], "limits": "Sem fontes."})
         server = make_server(self.db, 0, config_path=self.config, tutor_provider=controlled)
         thread = threading.Thread(target=server.serve_forever)
         thread.start()

@@ -125,7 +125,7 @@ function renderTutorHistory() {
     renderCitedText(body, item); card.append(label, body);
     if (item.role === 'assistant') {
       const basis = document.createElement('small');
-      basis.textContent = item.meta?.interventions?.length ? 'O aplicativo usou uma saída segura; confira os excertos. A etapa foi preservada.' : item.basis === 'materials' ? 'Evidências recebidas dos materiais; o vínculo da citação não comprova a conclusão.' :
+      basis.textContent = item.meta?.safe_fallback ? 'O aplicativo usou uma saída segura; confira os excertos. A etapa foi preservada.' : item.meta?.interventions?.includes('revisao_aceita') ? 'Resposta revisada pelo modelo; o vínculo da citação não comprova a conclusão.' : item.basis === 'materials' ? 'Evidências recebidas dos materiais; o vínculo da citação não comprova a conclusão.' :
         item.basis === 'insufficient' ? 'Material selecionado sem trecho correspondente; confira a resposta' :
         'Sem material selecionado · conhecimento geral ou inferência';
       card.append(basis);

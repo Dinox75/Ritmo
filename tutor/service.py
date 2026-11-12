@@ -10,7 +10,7 @@ from storage.tutor_store import TutorStore
 from local_ai.runtime import LocalRuntime, ModelUnavailable
 from local_ai.knowledge import prompt_summary
 from utils.config import LOCAL_CONFIG, load_config, save_config
-from tutor.protocol import instruction, render, safe_answer, InvalidOutput
+from tutor.protocol import instruction, render, safe_answer, repair_instruction, InvalidOutput
 
 
 GUIDE = Path(__file__).with_name("guide.md")
@@ -166,6 +166,9 @@ class TutorService:
                                "Não há trecho relevante dos materiais selecionados; deixe isso explícito." if selected else
                                "Não há materiais selecionados; identifique conhecimento geral ou inferências."))
             instructions += instruction(task)
+            instructions += "\nReferências disponíveis: " + ", ".join(
+                [f"[{i}]" for i in range(1, len(sources)+1)] +
+                [f"[E{i}]" for i in range(1, len(external_sources)+1)])
             if not updates:
                 instructions += ("\n\nNenhuma atualização acadêmica ou de trabalho está cadastrada. "
                                  "Não afirme que uma tabela oficial existe, não existe ou já foi publicada; "
@@ -228,16 +231,29 @@ class TutorService:
             raw = (self.provider(model, instructions, messages) if self.provider else
                       self.runtime.complete(model, instructions, messages))
             interventions = []
+            raw_attempts = [raw]
+            fallback = False
             next_lesson = deepcopy(lesson)
             guarded = _grounding_guard(body, basis, external_sources, updates)
             if task == "explanation" and selected and not sources:
                 guarded = "Não há trecho relevante no material selecionado para iniciar esta aula. Escolha um material com texto ou faça uma pergunta de conhecimento geral sem essa seleção."
             if guarded:
                 answer = guarded
+                fallback = True
                 interventions.append("evidencia_insuficiente")
             else:
                 try:
-                    answer, structured = render(raw, task, sources, external_sources, lesson)
+                    try:
+                        answer, structured = render(raw, task, sources, external_sources, lesson)
+                    except InvalidOutput as first_error:
+                        interventions.append("revisao_solicitada:" + str(first_error))
+                        repair_messages = messages + [{"role": "assistant", "content": raw},
+                            {"role": "user", "content": repair_instruction(str(first_error))}]
+                        raw = (self.provider(model, instructions, repair_messages) if self.provider else
+                               self.runtime.complete(model, instructions, repair_messages))
+                        raw_attempts.append(raw)
+                        answer, structured = render(raw, task, sources, external_sources, lesson)
+                        interventions.append("revisao_aceita")
                     if task == "explanation":
                         next_lesson.update(stage="exercise", example=structured["example"]["text"],
                                            sources=sources, external_sources=external_sources)
@@ -249,15 +265,18 @@ class TutorService:
                     elif task == "deepening":
                         next_lesson["stage"] = "deepening"
                 except InvalidOutput as error:
+                    fallback = True
                     interventions.append(str(error))
                     answer = safe_answer(task, str(error), lesson)
-            self.last_turn = {"raw": raw, "displayed": answer, "task": task,
+            self.last_turn = {"raw": raw, "raw_attempts": raw_attempts, "displayed": answer, "task": task,
+                              "safe_fallback": fallback,
                               "stage_before": stage, "stage_after": next_lesson["stage"],
                               "interventions": interventions, "sources": sources,
                               "external_sources": external_sources}
             self.store.complete_message(user_message, answer, basis, sources, thread["mode"], external_sources,
                                         lesson_state=next_lesson if thread["mode"] == "aula" else None,
                                         meta={"task": task, "interventions": interventions,
+                                              "safe_fallback": fallback,
                                               "stage_before": stage, "stage_after": next_lesson["stage"]})
             return self.store.get_thread(thread_id)
         except Exception:
