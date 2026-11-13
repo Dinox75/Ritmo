@@ -1,15 +1,21 @@
 # Laboratório privado do tutor
 
 Este laboratório funciona separado do banco, configuração e aplicativo pessoal.
+Na [continuação da PR9](../../docs/qa-training-lab-two-stage.md), exercícios,
+gabaritos e tentativas são construídos por código em dez famílias. O modelo só
+gera intervenção e pergunta em campos separados. A comparação pareada local
+ficou0/30 para ambas as abordagens na rubrica comum; é necessário corrigir a
+qualidade pedagógica/avaliação antes de ampliar o corpus. Não houve treino.
 O comando avança sozinho até concluir ou registrar bloqueio. **Não há adaptador
-treinado nesta entrega**: a preparação real recusou todos os 12 candidatos.
+treinado nesta entrega**: o primeiro ensaio teve0/12 aprovados e a comparação seguinte
+recusou todos os30 candidatos novos; os históricos estão preservados.
 Veja [o relatório](../../docs/qa-training-lab.md) e [o guia Linux/GPU/custos](REMOTE.md).
 
 ## Fluxo
 
 `coletar → preparar → validar → diagnosticar → treinar → avaliar → relatório`
 
-O catálogo [catalog.json](catalog.json) contém dois documentos Python em português
+O catálogo [catalog.json](catalog.json) contém três documentos Python em português
 (matéria, PSF-2.0) e três documentos The Carpentries (didática, CC-BY-4.0).
 Downloads e evidências de licença precisam corresponder aos hashes registrados.
 Alterações na fonte interrompem a coleta daquela entrada; não atualizam o hash
@@ -33,7 +39,7 @@ variantes de números/nomes. A prova autoral CC0 é selada antes da geração;
 o caso hostil de `18 <= 15` é exclusivamente regressão. O gerador não recebe
 essa prova nem os gabaritos dela. Testes só entram depois do último checkpoint,
 nunca na escolha de checkpoint. Limiares 200/30/30 não são garantia estatística.
-As quatro famílias geradoras atuais são limitadas; não preenchem esses mínimos
+As dez famílias atuais são limitadas a30 intervenções; não preenchem esses mínimos
 sem ampliar a cobertura. Nunca multiplique exemplos para satisfazer contagens.
 
 ## Windows: comandos de reprodução
@@ -44,8 +50,8 @@ Na worktree `A:\Projetos & Estudos\Ritmo\TrainingLab`:
 $py = 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe'
 $models = 'A:\Projetos & Estudos\Ritmo\Modelos\RitmoModels'
 & $py -m training.lab.pipeline --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-preparacao' --mode prepare --limit 12 --model-root $models
-& $py -m training.lab.pipeline --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\novo-piloto' --mode pilot --limit 500 --model-root $models
-& $py -m training.lab.pipeline --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-longa' --mode long --limit 500 --model-root $models --pilot-proof 'A:\caminho\piloto\training\provenance.json'
+& $py -m training.lab.pipeline --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\novo-piloto' --mode pilot --limit 30 --model-root $models
+& $py -m training.lab.pipeline --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-longa' --mode long --limit 30 --model-root $models --pilot-proof 'A:\caminho\piloto\training\provenance.json'
 & $py -m training.lab.panel --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\validated-v2-20261113' --port 8765
 & $py scripts\qa_training_lab.py --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\validated-v2-20261113' --output 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-qa'
 & $py -m unittest discover -s tests -q

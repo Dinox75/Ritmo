@@ -69,6 +69,20 @@
       "sha256": "fed0d86bd29d29608f7fb50e90bccaf659db2944dcfe2838bd39cc0edc4a5cdf",
       "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
       "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    },
+    {
+      "id": "python-expressions",
+      "category": "matter",
+      "url": "https://docs.python.org/pt-br/3.14/reference/expressions.html",
+      "license": "PSF-2.0",
+      "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+      "author": "Python Software Foundation e colaboradores da tradução",
+      "title": "Expressões: comparações, operações booleanas e precedência",
+      "split": "validation",
+      "accessed": "2026-11-13",
+      "sha256": "0388d0050da06803e45335d268e3e47a725398c36851bc8005fa87f66ff3f360",
+      "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
     }
   ],
   "refused": [

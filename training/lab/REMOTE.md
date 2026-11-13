@@ -60,7 +60,7 @@ ambiente; o identificador enviado por API não certifica qual arquivo o servidor
 ## Comando único do fluxo e painel
 
 ```bash
-python -m training.lab.pipeline --run /workspace/runs/piloto --mode pilot --limit 500 \
+python -m training.lab.pipeline --run /workspace/runs/piloto --mode pilot --limit 30 \
   --generator-url http://127.0.0.1:8781 --judge-url http://127.0.0.1:8784
 python -m training.lab.panel --run /workspace/runs/piloto --port 8765
 ```
@@ -69,7 +69,7 @@ python -m training.lab.panel --run /workspace/runs/piloto --port 8765
 pesos de treino. `pilot` solicita no máximo 10 passos se os mínimos forem atingidos.
 `long` solicita até 10.000 passos, limitado a 7h50 de treino, e exige `--pilot-proof`
 com provenance.json de **retomada CUDA realmente exercitada** e corpus idêntico.
-Os quatro grupos atuais de geração são um piloto limitado, não garantem 200/30
+As dez famílias atuais de geração são um piloto limitado, não garantem 200/30
 exemplos únicos; ampliar o número solicitado não resolve falta de diversidade.
 Sem corpus suficiente o fluxo encerra bloqueado antes de baixar pesos.
 
@@ -82,7 +82,7 @@ sudo systemd-run --unit=ritmo-pilot --property=WorkingDirectory=/workspace/ritmo
   --property=RuntimeMaxSec=28800 --property=TimeoutStopSec=300 \
   --setenv=HF_HOME=/workspace/hf-cache --setenv=TMPDIR=/workspace/tmp \
   /workspace/venv/bin/python -m training.lab.pipeline --run /workspace/runs/piloto \
-  --mode pilot --limit 500 --generator-url http://127.0.0.1:8781 --judge-url http://127.0.0.1:8784
+  --mode pilot --limit 30 --generator-url http://127.0.0.1:8781 --judge-url http://127.0.0.1:8784
 sudo systemd-run --unit=ritmo-panel --property=WorkingDirectory=/workspace/ritmo-lab \
   /workspace/venv/bin/python -m training.lab.panel --run /workspace/runs/piloto --port 8765
 ```

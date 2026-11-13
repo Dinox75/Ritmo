@@ -36,7 +36,14 @@ def make_server(root, port=8765):
             for row in candidates:
                 for key in ('matter', 'pedagogy'):
                     if row.get('candidate', {}).get(key): row['candidate'][key].pop('text', None)
+            generation = load('generation-comparison.json', None)
+            if generation:
+                for pair in generation['pairs']:
+                    for method in ('legacy', 'two_stage'):
+                        for key in ('matter', 'pedagogy'):
+                            pair.get(method, {}).get('candidate', {}).get(key, {}).pop('text', None)
             payload = {'state': view(state), 'sources': sources, 'candidates': candidates,
+                       'generation': generation,
                        'training': load('training/progress.json', {}),
                        'comparison': load('training/comparison.json', None)}
             self.send(200, json.dumps(payload, ensure_ascii=False).encode())

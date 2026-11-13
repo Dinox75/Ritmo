@@ -212,7 +212,7 @@ def parser():
     p.add_argument('--catalog', type=Path, default=HERE / 'catalog.json')
     p.add_argument('--local-dir', type=Path, action='append', default=[])
     p.add_argument('--mode', choices=['prepare', 'pilot', 'long'], default='prepare')
-    p.add_argument('--limit', type=int, default=12)
+    p.add_argument('--limit', type=int, default=30)
     p.add_argument('--max-hours', type=float, default=8)
     p.add_argument('--model-root', type=Path)
     p.add_argument('--generator-url'); p.add_argument('--judge-url')
@@ -223,7 +223,7 @@ def parser():
 
 def main():
     args = parser().parse_args()
-    if not 1 <= args.limit <= 2000 or not 0.2 <= args.max_hours <= 8: raise ValueError('limites: 1..2000 candidatos e 0.2..8 horas')
+    if not 1 <= args.limit <= 30 or not 0.2 <= args.max_hours <= 8: raise ValueError('limites deste piloto: 1..30 casos distintos e 0.2..8 horas')
     run = execute(args)
     if run: print(json.dumps({'status': run.snapshot['status'], 'message': run.snapshot.get('message'), 'report': str(run.root / 'report.md')}, ensure_ascii=False))
     if run and run.snapshot['status'] in {'failed', 'interrupted', 'blocked'}:

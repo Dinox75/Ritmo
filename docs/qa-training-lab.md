@@ -1,5 +1,8 @@
 # Laboratório do tutor — 13/11/2026
 
+Continuação: [piloto pareado com geração em duas etapas](qa-training-lab-two-stage.md).
+O histórico0/12 e a prova ligados abaixo foram preservados integralmente.
+
 **Resultado: laboratório funcional para preparação/triagem e painel; treino
 real bloqueado por corpus insuficiente. Nenhum adaptador foi treinado, aprovado
 ou ativado. Não há evidência de que o tutor aprendeu a ensinar melhor.**

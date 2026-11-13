@@ -68,13 +68,19 @@ def screen(row, previous, judge):
     except (KeyError, TypeError, ValueError): reasons.append('expressao_invalida')
     question = normalized(row['prompt'])
     for old in previous:
-        if SequenceMatcher(None, question, normalized(old['prompt'])).ratio() >= .88:
+        same_task_type = row.get('schema_version') != 2 or old.get('kind') == row.get('kind')
+        if same_task_type and SequenceMatcher(None, question, normalized(old['prompt'])).ratio() >= .88:
             reasons.append('pergunta_duplicada')
         if old['split'] != row['split']:
             if old['family'] == row['family'] or signature(old) == signature(row): reasons.append('contaminacao_familia')
             if {row[k]['sha256'] for k in ('matter', 'pedagogy')} & {old[k]['sha256'] for k in ('matter', 'pedagogy')}:
                 reasons.append('contaminacao_documento')
     answer = normalized(row['answer'])
+    if row.get('schema_version') == 2:
+        from .pedagogy import check_fields
+        from .generation_results import exercise_preserved
+        if not exercise_preserved(row['prompt'], row): reasons.append('exercicio_nao_preservado_ou_nao_verificavel')
+        reasons.extend(check_fields(row, row.get('intervention'), row.get('verification_question')))
     if row.get('kind') == 'hint' and re.search(r'\b(verdadeir\w*|fals\w*|resposta e|resultado e|pode retirar|nao pode retirar|esta dentro|esta fora)\b', answer):
         reasons.append('dica_entrega_solucao')
     values = row.get('values', {})
