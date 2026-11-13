@@ -68,6 +68,18 @@ A [comparação de 12/11](docs/tutor-stages-evaluation.md) não aprovou nenhum m
 
 ## Executar
 
+O [laboratório privado do tutor](training/lab/README.md) prepara candidatos com
+fontes abertas e verifica o corpus antes de qualquer QLoRA. O [ensaio real de
+13/11](docs/qa-training-lab.md) recusou os 12 candidatos finais: **nenhum adaptador
+foi treinado ou aprovado**. Painel e treino ficam separados do aplicativo pessoal;
+não há ativação automática. Consulte limitações, comandos e proposta de GPU no relatório.
+
+A [comparação posterior em duas etapas](docs/qa-training-lab-two-stage.md) constrói
+exercícios e tentativas por código em dez famílias e pede ao modelo só a
+intervenção e a pergunta. A estrutura melhorou, mas a triagem comum ficou em
+0/30 nas duas abordagens. É necessário corrigir pedagogia e avaliação antes de
+ampliar o corpus; a referência0/12 e a prova selada foram preservadas.
+
 ### Desenvolvimento no Windows
 
 Requisitos: **Python 3.11**, Windows e **WebView2** para a janela própria. No PowerShell, dentro da raiz deste repositório:

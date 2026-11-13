@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "id": "python-types",
+      "category": "matter",
+      "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+      "license": "PSF-2.0",
+      "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+      "author": "Python Software Foundation e colaboradores da tradução",
+      "title": "Tipos embutidos: comparações e operações booleanas",
+      "split": "train",
+      "accessed": "2026-11-13",
+      "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+      "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    },
+    {
+      "id": "python-flow",
+      "category": "matter",
+      "url": "https://docs.python.org/pt-br/3.14/tutorial/controlflow.html",
+      "license": "PSF-2.0",
+      "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+      "author": "Python Software Foundation e colaboradores da tradução",
+      "title": "Mais ferramentas de controle de fluxo",
+      "split": "validation",
+      "accessed": "2026-11-13",
+      "sha256": "9445f234078a00d55a62a71971a418f517b20b61e91f6c6c0e0c5db4b2e565b4",
+      "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    },
+    {
+      "id": "carpentries-practice",
+      "category": "pedagogy",
+      "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+      "license": "CC-BY-4.0",
+      "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+      "author": "The Carpentries e colaboradores",
+      "title": "Building Skill With Practice",
+      "split": "train",
+      "accessed": "2026-11-13",
+      "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+      "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    },
+    {
+      "id": "carpentries-memory",
+      "category": "pedagogy",
+      "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/05-memory.md",
+      "license": "CC-BY-4.0",
+      "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+      "author": "The Carpentries e colaboradores",
+      "title": "Memory and Cognitive Load",
+      "split": "train",
+      "accessed": "2026-11-13",
+      "sha256": "b95ff9bd6f3f8c5e47250b315b6c086606188a0ae9b20a5ef1d5915274728f86",
+      "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    },
+    {
+      "id": "carpentries-feedback",
+      "category": "pedagogy",
+      "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/06-feedback.md",
+      "license": "CC-BY-4.0",
+      "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+      "author": "The Carpentries e colaboradores",
+      "title": "Building Skill With Feedback",
+      "split": "validation",
+      "accessed": "2026-11-13",
+      "sha256": "fed0d86bd29d29608f7fb50e90bccaf659db2944dcfe2838bd39cc0edc4a5cdf",
+      "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    },
+    {
+      "id": "python-expressions",
+      "category": "matter",
+      "url": "https://docs.python.org/pt-br/3.14/reference/expressions.html",
+      "license": "PSF-2.0",
+      "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+      "author": "Python Software Foundation e colaboradores da tradução",
+      "title": "Expressões: comparações, operações booleanas e precedência",
+      "split": "validation",
+      "accessed": "2026-11-13",
+      "sha256": "0388d0050da06803e45335d268e3e47a725398c36851bc8005fa87f66ff3f360",
+      "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+      "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos."
+    }
+  ],
+  "refused": [
+    {
+      "id": "openstax-python",
+      "url": "https://openstax.org/subjects/computer-science",
+      "reason": "Licença de cada edição e compatibilidade com artefatos derivados não confirmadas; fora do piloto."
+    }
+  ]
+}
