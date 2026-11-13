@@ -1,5 +1,13 @@
 # Ajuste opcional de pesos do tutor
 
+Atualização13/11/2026: existe um [laboratório privado](lab/README.md) com coleta,
+geração local real, triagem, painel e fluxo QLoRA experimental com retomada.
+**Nenhum adaptador foi treinado**: o corpus real foi recusado e ficou abaixo dos
+mínimos. O treinador agora aceita proveniência externa compatível e exige
+triagem independente para todos os registros, inclusive autorais; a prova
+selada fica separada. As restrições CC0 descritas abaixo são o histórico de26/10,
+não a regra atual. Veja [resultado e limitações](../docs/qa-training-lab.md).
+
 Em 26/10/2026 **nenhum adaptador foi treinado, incorporado ou ativado**. O conjunto [examples.jsonl](examples.jsonl) contém 18 exemplos de treino, 3 de validação e 6 de teste, escritos para esta etapa (proveniência `Ritmo authored`, licença `CC0-1.0`). Eles cobrem aula em etapas, resposta direta, dica gradual, erro conceitual, material insuficiente ou contraditório, personalização declarada, mercado, sensores e instrução hostil. Não contêm conversas, notas, arquivos ou telemetria do usuário. O conjunto é pequeno demais para justificar um ajuste de pesos; o script recusa iniciar o download do modelo de treino abaixo de 200/30/30 exemplos revisados. Esse limiar é um requisito de prudência deste projeto, não uma garantia estatística.
 
 O pipeline [train_qlora.py](train_qlora.py) fixa `Qwen/Qwen3-1.7B` na revisão `70d244cc86ccca08cf5af4e1e306ecf908b1ad5e`, usa quantização NF4 de 4 bits, LoRA de posto 8, alvo nas projeções de atenção, uma época e seed 42. Usa apenas divisões `train` e `validation`; a divisão `test` fica fora do `Trainer`. Modelo base e adaptador seriam mantidos fora do repositório, do executável e do banco. Execute em ambiente isolado somente após ampliar e revisar o corpus e medir recursos. O arquivo [requirements.txt](requirements.txt) delimita versões compatíveis, mas um experimento aceito deve registrar um lock completo (`pip freeze`), SHA-256 dos pesos de entrada, versões CUDA e driver, duração e picos de RAM/VRAM.
