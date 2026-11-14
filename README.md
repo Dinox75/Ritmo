@@ -88,6 +88,12 @@ conjunto pequeno, mas o juiz recusou todas as referências boas reservadas e
 confundiu critérios pedagógicos. **A avaliação ainda precisa de correção**;
 nenhum novo piloto gerador ou treino foi autorizado pelos resultados.
 
+Na [continuação com referência calculada](docs/qa-training-lab-guided-reference.md),
+um piloto observacional compara gerador, referência de código e reescrita em
+três famílias. O4B apenas observa: não decide aceitação. Oito reescritas copiaram
+integralmente a referência; uma ficou inconclusiva. A estrutura preservou fatos
+fechados, mas não validou prosa nova ou eficácia pedagógica. Nenhum item foi ao corpus.
+
 Requisitos: **Python 3.11**, Windows e **WebView2** para a janela própria. No PowerShell, dentro da raiz deste repositório:
 
 ```powershell

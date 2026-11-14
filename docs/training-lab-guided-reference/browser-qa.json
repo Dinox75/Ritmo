@@ -1,0 +1,32 @@
+[
+  {
+    "width": 390,
+    "result": "passed",
+    "versions": 27,
+    "tables": 3,
+    "overflow": false,
+    "js_errors": [],
+    "keyboard": "passed",
+    "refresh_state": "passed"
+  },
+  {
+    "width": 1366,
+    "result": "passed",
+    "versions": 27,
+    "tables": 3,
+    "overflow": false,
+    "js_errors": [],
+    "keyboard": "passed",
+    "refresh_state": "passed"
+  },
+  {
+    "width": 1920,
+    "result": "passed",
+    "versions": 27,
+    "tables": 3,
+    "overflow": false,
+    "js_errors": [],
+    "keyboard": "passed",
+    "refresh_state": "passed"
+  }
+]

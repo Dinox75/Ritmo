@@ -107,6 +107,13 @@ execução existente sem --resume. Artefatos e originais nunca devem ser colocad
 no diretório do banco pessoal. Não há exportação/ativação automática de adaptador.
 # Calibração do avaliador (14/11/2026)
 
+A [continuação observacional com referências de código](../../docs/qa-training-lab-guided-reference.md)
+usa `scripts/pilot_guided_reference.py` (freeze/run), depois
+`scripts/export_guided_reference.py` (auditoria suplementar nos mesmos brutos).
+O modelo1.7B gera/reformula, o4B só observa e todos permanecem fora do corpus.
+Não confundir identidade literal e gabarito calculado com aprovação pedagógica.
+O fluxo anterior e seus resultados permanecem arquivados, sem novo treino.
+
 Consulte [relatório e comandos](../../docs/qa-training-lab-calibration.md).
 `scripts/calibrate_lab_evaluator.py` separa freeze, baseline, development,
 lock, reserved e replay. Os arquivos de expectativas são criados antes da
