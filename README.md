@@ -82,6 +82,12 @@ ampliar o corpus; a referência0/12 e a prova selada foram preservadas.
 
 ### Desenvolvimento no Windows
 
+A [calibração de 14/11](docs/qa-training-lab-calibration.md) separou triagem e
+juiz em pares mínimos com expectativas registradas. As regras melhoraram neste
+conjunto pequeno, mas o juiz recusou todas as referências boas reservadas e
+confundiu critérios pedagógicos. **A avaliação ainda precisa de correção**;
+nenhum novo piloto gerador ou treino foi autorizado pelos resultados.
+
 Requisitos: **Python 3.11**, Windows e **WebView2** para a janela própria. No PowerShell, dentro da raiz deste repositório:
 
 ```powershell

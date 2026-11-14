@@ -3,6 +3,21 @@ const names = {collect:'Coletar',prepare:'Preparar',validate:'Validar',diagnose:
 const labels = {waiting:'Aguardando',running:'Trabalhando',blocked:'Bloqueado',stale:'Sem sinal recente',failed:'Falhou',completed:'Concluído',interrupted:'Interrompido'};
 function node(tag,text,cls){const el=document.createElement(tag);el.textContent=text;if(cls)el.className=cls;return el;}
 function pretty(value){return JSON.stringify(value,null,2);}
+function calibrationPanel(c){
+ if(!c)return;
+ let el=$('calibration');if(!el){el=node('article','','full');el.id='calibration';document.querySelector('.grid').prepend(el);}
+ const opened=new Set(Array.from(el.querySelectorAll('details[open]')).map(x=>x.dataset.id));
+ el.replaceChildren(node('h2','Calibração da avaliação · sem treino'),node('p',c.decision||'Em andamento'),node('p','Resultados por critério. FP: defeito-alvo aceito; FN: qualidade-alvo bloqueada. Isso difere da aprovação integral. Triagem e juiz recebem todos os mesmos casos.'),node('p',c.baseline_scope));
+ for(const limitation of c.limitations||[])el.append(node('p',limitation));
+ el.append(node('p',c.source_restoration_scope));
+ for(const [phase,report] of Object.entries(c.phases||{})){
+  el.append(node('h3',phase));for(const [evaluator,counts] of Object.entries(report.full_acceptance||{}))el.append(node('p',`${evaluator} · aprovação integral: boas ${counts.good_accepted}/${counts.good_total}; ruins ${counts.bad_accepted}/${counts.bad_total}`));const table=node('table',''),head=node('tr','');for(const label of ['Critério','Triagem FP / FN','Juiz bruto FP / FN','Juiz com veto lógico FP / FN'])head.append(node('th',label));table.append(head);
+  for(const [criterion,counts] of Object.entries(report.confusion||{})){const tr=node('tr','');tr.append(node('td',criterion));for(const evaluator of ['screen','judge_raw','judge_effective'])tr.append(node('td',`${counts[evaluator].false_positive||0} / ${counts[evaluator].false_negative||0}`));table.append(tr);}el.append(table);
+  for(const row of report.rows||[]){const d=node('details','');d.dataset.id=phase+row.id;d.open=opened.has(d.dataset.id);d.append(node('summary',row.id+' · esperado '+row.expected+' · triagem '+row.screen+' · juiz '+row.judge_effective),node('pre',pretty(row)));el.append(d);}
+ }
+ el.append(node('h3','Reavaliação dos 60 textos preservados'),node('p','Mudanças de regra e de juiz são registradas separadamente. Ser medido agora não significa melhora do gerador.'));
+ for(const row of c.replay?.rows||[]){const d=node('details','');d.dataset.id=row.id;d.open=opened.has(row.id);d.append(node('summary',row.family+' / '+row.kind+' / '+row.method+' · '+row.old_accepted+' → '+row.accepted),node('p','Intervenção original: '+row.intervention),node('p','Pergunta original: '+row.verification_question),node('p','Triagem adicionou: '+row.screen_added.join(', ')+'; retirou: '+row.screen_removed.join(', ')),node('p','Juiz: '+row.judge.reason),node('pre',pretty({origin:row.decision_origin,old_judge:row.old_judge,effective:row.effective_judge,screen:row.screen_reasons,raw_sha256:row.raw_sha256,task:row.task,evidence:row.evidence})));el.append(d);}
+}
 const kindNames={hint:'Dica',correction:'Correção',explanation:'Explicação'};
 const reasonNames={pergunta_sem_verificacao_contextual:'Pergunta genérica, repetitiva ou sem pedir raciocínio',juiz_nao_executado_pretriagem:'Juiz não chamado: falha em regra anterior',explicacao_sem_exemplo_distinto:'Explicação sem exemplo distinto',correcao_sem_acerto_e_limite:'Correção sem reconhecer acerto e limite',correcao_sem_identificar_erro:'Correção sem identificar o erro',correcao_sem_fundamento:'Correção sem explicar por quê',dica_entrega_solucao:'Possível antecipação da resposta (detector conservador)',correcao_sem_acerto_especifico:'Correção sem reconhecer o acerto específico',correcao_sem_acerto_parcial:'Correção sem reconhecer a parte correta',regra_logica_incorreta:'Regra lógica incorreta',juiz_nao_aprovou:'Verificador não aprovou; confira a justificativa',exercicio_nao_preservado_ou_nao_verificavel:'Exercício alterado ou sem preservação verificável',tamanho_campos_invalido:'Campos ausentes ou com tamanho inadequado',campos_intervencao_pergunta_misturados:'Intervenção e pergunta misturadas'};
 function generationPanel(g){
@@ -40,6 +55,7 @@ async function refresh(){try{
  $('sources').replaceChildren(table,...data.sources.refused.map(x=>node('p',`Recusada: ${x.id} — ${x.reason}`)));
  $('reasons').textContent=pretty(c.reasons||{});
  generationPanel(data.generation);
+ calibrationPanel(data.calibration);
  const openedCandidates=new Set(Array.from(document.querySelectorAll('#candidates details[open]')).map(x=>x.dataset.id));
  $('candidates').replaceChildren(...data.candidates.map(item=>{const d=node('details','');d.dataset.id=String(item.index);d.open=openedCandidates.has(d.dataset.id);d.append(node('summary',`#${item.index+1} · ${item.accepted==null?'Aguardando triagem':item.accepted?'Aprovado na triagem':'Descartado'} · ${item.seconds}s · ${(item.reasons||[]).join(', ')}`));d.append(node('pre',pretty({candidate:item.candidate,judge:item.judge,raw:item.raw})));return d;}));
  if(data.comparison){$('comparison').replaceChildren(...data.comparison.pairs.map(pair=>{const d=node('details','');d.append(node('summary',`${pair.id} · ${pair.category} · ${pair.change||'inconclusivo'}`),node('p',pair.prompt),node('p','Esperado: '+pair.expected));const grid=node('div','','pair');for(const key of ['base','adapter']){const col=node('div','');col.append(node('h3',key==='base'?'Modelo base':'Adaptador'),node('pre',pair[key]?.raw||'Não executado'),node('p',pretty(pair[key]?.judgment)));grid.append(col);}d.append(grid);return d;}));}

@@ -81,7 +81,7 @@ def screen(row, previous, judge):
         from .generation_results import exercise_preserved
         if not exercise_preserved(row['prompt'], row): reasons.append('exercicio_nao_preservado_ou_nao_verificavel')
         reasons.extend(check_fields(row, row.get('intervention'), row.get('verification_question')))
-    if row.get('kind') == 'hint' and re.search(r'\b(verdadeir\w*|fals\w*|resposta e|resultado e|pode retirar|nao pode retirar|esta dentro|esta fora)\b', answer):
+    if row.get('schema_version') != 2 and row.get('kind') == 'hint' and re.search(r'\b(verdadeir\w*|fals\w*|resposta e|resultado e|pode retirar|nao pode retirar|esta dentro|esta fora)\b', answer):
         reasons.append('dica_entrega_solucao')
     values = row.get('values', {})
     if {'x', 'lo', 'hi'} <= set(values):

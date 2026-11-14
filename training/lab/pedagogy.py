@@ -13,11 +13,16 @@ def check_fields(task, intervention, question):
         reasons.append('campos_intervencao_pergunta_misturados')
     # 'interpretada como' is a comparison, not an interrogative demand for reasoning.
     cognitive = re.search(r'(?:^|[.!]\s+|,\s+)(?:como|por que|qual|quais|o que|em que|que diferen[cç]a)\b', question.strip(), re.I)
-    generic = re.search(r'entendeu|tudo certo|faz sentido|qual e a resposta|qual (?:e )?o resultado|gostou|alguma duvida', q)
+    generic = re.search(r'entendeu|tudo certo|faz sentido|qual e a resposta|qual (?:e )?o (?:resultado|valor)|gostou|alguma duvida', q)
     cues = any(normalized(cue) in q if re.search(r'\w', cue) else cue in question for cue in task['cues'])
     if not cognitive or generic or not cues: reasons.append('pergunta_sem_verificacao_contextual')
     # A question containing the answer is a spoiler too. No automatic '?' insertion.
-    if task['kind'] == 'hint' and re.search(r'\b(verdadeir\w*|fals\w*|true|false|esta dentro|esta fora|resultado e|resposta e|condicao e satisfeita|nao e satisfeita)\b', normalized(text)):
+    # Exempt only exact input assignments, not every occurrence of their value.
+    non_input = text
+    for name, value in task['values'].items():
+        if type(value) is bool:
+            non_input = re.sub(r'\b' + re.escape(name) + r'\s*=\s*' + str(value) + r'\b', name + ' [entrada]', non_input)
+    if task['kind'] == 'hint' and re.search(r'\b(verdadeir\w*|fals\w*|true|false|esta dentro|esta fora|resultado e|resposta e|condicao e satisfeita|nao e satisfeita)\b', normalized(non_input)):
         reasons.append('dica_entrega_solucao')
     if task['kind'] == 'correction':
         if not re.search(r'acert|corret|parte certa|bem observado', answer): reasons.append('correcao_sem_acerto_parcial')
@@ -27,13 +32,23 @@ def check_fields(task, intervention, question):
             reasons.append('correcao_sem_fundamento')
         if not re.search(r'mas|porem|entretanto|erro|equivoc|confund|na verdade|diferenca', answer):
             reasons.append('correcao_sem_identificar_erro')
-    if task['kind'] == 'explanation' and not re.search(r'exemplo|por exemplo', answer): reasons.append('explicacao_sem_exemplo_distinto')
+    if task['kind'] == 'explanation':
+        distinct = False
+        for name, value in task['values'].items():
+            for match in re.finditer(r"['\"]?\b" + re.escape(name) + r"['\"]?\s*[:=]\s*(True|False|-?\d+)(?![\d.])", intervention):
+                other = {'True': True, 'False': False}.get(match[1], match[1])
+                if isinstance(other, str): other = int(other)
+                if type(other) is type(value) and other != value: distinct = True
+        if not re.search(r'exemplo|por exemplo', answer) or not distinct: reasons.append('explicacao_sem_exemplo_distinto')
     # Deterministic checks on explicit mathematical claims, not just the private result.
     pattern = r'(-?\d+)\s*(<=|>=|==|!=|<|>)\s*(-?\d+)\s*(?:é|e|resulta em|é igual a)?\s*(verdadeir\w*|fals\w*|True|False)'
     for m in re.finditer(pattern, text, re.I):
-        actual = solve(m[1] + m[2] + m[3], {})
+        actual = solve('left' + m[2] + 'right', {'left': int(m[1]), 'right': int(m[3])})
         stated = normalized(m[4]).startswith(('verdadeir', 'true'))
         if actual != stated: reasons.append('afirmacao_logica_incorreta')
+    for m in re.finditer(r'(?:resultado final|resultado da express[aã]o)\s*(?:[ée]|=)\s*(True|False|verdadeiro|falso)', text, re.I):
+        if normalized(m[1]).startswith(('true', 'verdadeiro')) != solve(task['expression'], task['values']):
+            reasons.append('afirmacao_logica_incorreta')
     bad_rules = [r'\be (?:exige|precisa de|basta) (?:apenas |so )?uma condicao',
                  r'\bou (?:exige|precisa de) (?:todas|ambas)', r'\bnao (?:mantem|preserva) o valor',
                  r'\b(?:operador and|operador e|and) (?:exclui|excluira|inclui|incluira) (?:a )?igualdade']

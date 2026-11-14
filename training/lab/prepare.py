@@ -80,16 +80,18 @@ def candidate_from_output(task, output, matter, pedagogy):
 
 
 def judge_candidate(row, task, judge):
-    payload = {'candidate': {k: row[k] for k in ('prompt', 'intervention', 'verification_question', 'result')},
-               'task': {**private_context(task, row['matter'], row['pedagogy']), 'expected': task['expected'],
-                        'solution': task['solution'], 'student': task['student']}}
-    raw = judge(JUDGE, json.dumps(payload, ensure_ascii=False))
+    from .calibration import CALIBRATED_JUDGE, constrain_verdict, judge_payload
+    from .pedagogy import check_fields
+    payload = judge_payload({'task': task, 'intervention': row['intervention'],
+                             'verification_question': row['verification_question'],
+                             'source': {k: row[k] for k in ('matter', 'pedagogy')}})
+    raw = judge(CALIBRATED_JUDGE, json.dumps(payload, ensure_ascii=False))
     verdict = parse(raw)
     required = ['support', 'logic_correct', 'question_useful']
     if task['kind'] == 'hint': required.append('hint')
     if task['kind'] == 'correction': required.append('partial_credit')
     if any(verdict.get(key) is not True for key in required) or not isinstance(verdict.get('reason'), str): verdict['approved'] = False
-    return raw, verdict
+    return raw, constrain_verdict(verdict, task, check_fields(task, row['intervention'], row['verification_question']))
 
 
 def prepare(sources, root, generator, judge, limit=12, progress=lambda **kw: None, stop=lambda: False):

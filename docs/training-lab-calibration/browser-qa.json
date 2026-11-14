@@ -1,0 +1,23 @@
+[
+  {
+    "width": 390,
+    "result": "passed",
+    "details": 96,
+    "js_errors": [],
+    "overflow": false
+  },
+  {
+    "width": 1366,
+    "result": "passed",
+    "details": 96,
+    "js_errors": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "result": "passed",
+    "details": 96,
+    "js_errors": [],
+    "overflow": false
+  }
+]

@@ -105,3 +105,12 @@ somente os downloads públicos fixados no catálogo acessam a internet.
 Use diretórios de execução fora do Git. O laboratório recusa escrita em uma
 execução existente sem --resume. Artefatos e originais nunca devem ser colocados
 no diretório do banco pessoal. Não há exportação/ativação automática de adaptador.
+# Calibração do avaliador (14/11/2026)
+
+Consulte [relatório e comandos](../../docs/qa-training-lab-calibration.md).
+`scripts/calibrate_lab_evaluator.py` separa freeze, baseline, development,
+lock, reserved e replay. Os arquivos de expectativas são criados antes da
+inferência, e a reserva exige regras congeladas. Bateria e referências são
+controles de avaliação, nunca dados de treino. A aprovação integral não é
+equivalente à aprovação de um critério isolado. O gate falhou no juiz 4B;
+não há autorização experimental para ampliar corpus ou gerar novos candidatos.

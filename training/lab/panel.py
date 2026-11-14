@@ -43,7 +43,7 @@ def make_server(root, port=8765):
                         for key in ('matter', 'pedagogy'):
                             pair.get(method, {}).get('candidate', {}).get(key, {}).pop('text', None)
             payload = {'state': view(state), 'sources': sources, 'candidates': candidates,
-                       'generation': generation,
+                       'generation': generation, 'calibration': load('calibration.json', None),
                        'training': load('training/progress.json', {}),
                        'comparison': load('training/comparison.json', None)}
             self.send(200, json.dumps(payload, ensure_ascii=False).encode())
