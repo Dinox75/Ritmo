@@ -1,0 +1,39 @@
+{
+  "tests": [
+    {
+      "width": 390,
+      "result": "passed",
+      "flows": 3,
+      "reopen": "passed",
+      "keyboard": "passed",
+      "outside_scope": "passed",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 1366,
+      "result": "passed",
+      "flows": 3,
+      "reopen": "passed",
+      "keyboard": "passed",
+      "outside_scope": "passed",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 1920,
+      "result": "passed",
+      "flows": 3,
+      "reopen": "passed",
+      "keyboard": "passed",
+      "outside_scope": "passed",
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "default_disabled": true,
+  "quit_button": true,
+  "port_released": true,
+  "temporary_database": true,
+  "student_learning_evidence": false
+}

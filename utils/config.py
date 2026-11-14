@@ -119,6 +119,12 @@ def validate_config(config):
         if type(experience[name]) is not bool:
             raise ValueError(f"{name} deve ser booleano")
     config["experience"] = experience
+    experiments = config.get("experiments", {})
+    if not isinstance(experiments, dict) or set(experiments) - {"boolean_lesson"}:
+        raise ValueError("experimento desconhecido")
+    if type(experiments.get("boolean_lesson", False)) is not bool:
+        raise ValueError("experiments.boolean_lesson deve ser booleano")
+    config["experiments"] = {"boolean_lesson": experiments.get("boolean_lesson", False)}
     return config
 
 

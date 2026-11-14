@@ -3,13 +3,14 @@ from PyInstaller.utils.hooks import collect_all
 
 web_data, web_bins, web_hidden = collect_all('webview')
 face_data, face_bins, face_hidden = collect_all('mediapipe')
+boolean_data = [('tutor/boolean_sources.json', 'tutor')]
 cvzone_data, cvzone_bins, cvzone_hidden = collect_all('cvzone')
 
 a = Analysis(
     ['desktop.py'],
     pathex=['.'],
     binaries=web_bins + face_bins + cvzone_bins,
-    datas=web_data + face_data + cvzone_data + [('web', 'web'), ('tutor/guide.md', 'tutor'), ('local_ai/models.json', 'local_ai'), ('local_ai/knowledge.json', 'local_ai'), ('config/config.json', 'config'), ('config/classificacao_apps.json', 'config'), ('assets/ritmo.ico', 'assets')],
+    datas=web_data + face_data + cvzone_data + boolean_data + [('web', 'web'), ('tutor/guide.md', 'tutor'), ('local_ai/models.json', 'local_ai'), ('local_ai/knowledge.json', 'local_ai'), ('config/config.json', 'config'), ('config/classificacao_apps.json', 'config'), ('assets/ritmo.ico', 'assets')],
     hiddenimports=web_hidden + face_hidden + cvzone_hidden,
     hookspath=[],
     hooksconfig={},

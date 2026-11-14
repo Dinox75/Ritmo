@@ -4,6 +4,18 @@ let tutorPending = false, tutorLoadRevision = 0, tutorFailedDraft = '';
 let tutorFailedAction = null;
 let memoryItems = [], memoryEditing = null;
 let externalResults = [];
+let tutorSettingsSave = Promise.resolve();
+
+function saveTutorSettings(data) {
+  const id=tutorThread?.id;
+  if(!id)return Promise.reject(new Error('Escolha uma conversa.'));
+  tutorSettingsSave=tutorSettingsSave.catch(()=>{}).then(async()=>{
+    const updated=await api('/tutor/threads/'+id,'PATCH',data);
+    if(tutorThread?.id===id)tutorThread=updated;
+    return updated;
+  });
+  return tutorSettingsSave;
+}
 
 function renderExternalResults() {
   const container = $('external-results'); container.replaceChildren();
@@ -63,6 +75,8 @@ function renderCitedText(container, item) {
 }
 
 function renderTutorStatus(status) {
+  const experimentalEntry=document.getElementById('boolean-entry');
+  if(experimentalEntry)experimentalEntry.hidden=!status.boolean_lesson_enabled;
   $('tutor-model').value = status.model;
   $('tutor-model-root').value = status.model_root;
   $('tutor-config-status').textContent = status.configured
@@ -107,12 +121,13 @@ function renderTutorMaterials() {
   available.forEach(item => {
     const label = document.createElement('label'), check = document.createElement('input');
     check.type = 'checkbox'; check.value = item.id; check.checked = tutorThread.material_ids.includes(item.id);
+    check.disabled = tutorPending;
     const name = document.createElement('span'); name.textContent = `${item.name} · ${item.status === 'ready' ? 'texto disponível' : 'sem texto extraível'}`;
     label.append(check, name); options.append(label);
     check.onchange = async () => {
       const chosen = Array.from(options.querySelectorAll('input:checked')).map(element => element.value);
       if (chosen.length > 5) { check.checked = false; tutorError('Escolha até cinco materiais.'); return; }
-      try { tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH', {material_ids: chosen}); tutorError(''); }
+      try { await saveTutorSettings({material_ids: chosen}); tutorError(''); }
       catch (error) { check.checked = !check.checked; tutorError(error.message); }
     };
   });
@@ -181,6 +196,7 @@ function renderTutorThread() {
   $('tutor-message-kind-wrap').hidden = tutorThread?.mode !== 'aula';
   renderTutorThreads();
   $('tutor-mode').value = tutorThread?.mode || 'duvida';
+  $('tutor-mode').disabled = tutorPending;
   $('tutor-context').textContent = tutorThread?.session_id
     ? `Conversa ligada à sessão de ${localDate(tutorThread.session_started_at)}${tutorThread.session_status === 'complete' ? ' (histórica; o cronômetro não muda)' : ''}.`
     : 'Conversa da matéria, sem sessão de estudo vinculada.';
@@ -234,11 +250,16 @@ async function sendTutor(lessonAction = null) {
   tutorFailedDraft = body; tutorPending = true; tutorError('');
   tutorFailedAction = lessonAction;
   $('tutor-send').disabled = $('tutor-retry').disabled = true;
+  $('tutor-mode').disabled = true;
+  document.querySelectorAll('#tutor-material-options input').forEach(input=>input.disabled=true);
   $('tutor-send').textContent = 'Aguardando resposta…';
   const started = performance.now();
   const phase = $('tutor-config-status').textContent.includes('Motor em execução') ? 'Gerando resposta' : 'Carregando modelo e gerando resposta';
   const elapsed = setInterval(() => { $('tutor-response-status').textContent = `${phase} · ${Math.round((performance.now() - started) / 1000)} s`; }, 500);
   try {
+    const expectedThread=tutorThread.id;
+    await tutorSettingsSave;
+    if(tutorThread?.id!==expectedThread)throw new Error('A conversa mudou; confira o destino antes de enviar.');
     const message_kind = tutorThread.mode === 'aula' ? $('tutor-message-kind').value || null : null;
     tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids, message_kind, lesson_action: lessonAction});
     $('tutor-message-kind').value = '';
@@ -254,6 +275,7 @@ async function sendTutor(lessonAction = null) {
   } finally {
     clearInterval(elapsed);
     tutorPending = false; $('tutor-send').disabled = $('tutor-retry').disabled = false;
+    $('tutor-mode').disabled = !tutorThread; renderTutorMaterials();
     $('tutor-send').textContent = 'Enviar ao tutor';
   }
 }
@@ -269,20 +291,20 @@ $('tutor-thread').onchange = async () => {
 };
 $('tutor-mode').onchange = async () => {
   if (!tutorThread) return;
-  try { tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH', {mode: $('tutor-mode').value}); renderTutorThread(); }
+  try { await saveTutorSettings({mode: $('tutor-mode').value}); renderTutorThread(); }
   catch (error) { tutorError(error.message); }
 };
 
 window.tutorStartMaterial = async materialId => {
+  if(tutorPending)throw new Error('Aguarde a resposta atual antes de abrir outra aula.');
   const material = materials.find(item => item.id === materialId);
   if (!material) return;
   tutorContextKey = '';
   await loadTutorContext(material.subject_id);
   if (!tutorThread.material_ids.includes(materialId)) {
-    tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH',
-      {material_ids: [...tutorThread.material_ids, materialId].slice(0, 5)});
+    await saveTutorSettings({material_ids: [...tutorThread.material_ids, materialId].slice(0, 5)});
   }
-  tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH', {mode: 'aula'});
+  await saveTutorSettings({mode: 'aula'});
   renderTutorThread();
   $('tutor-draft').value = `Quero uma aula guiada sobre ${material.name}.`;
   $('tutor-draft').focus();

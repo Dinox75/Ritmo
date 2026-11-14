@@ -151,7 +151,14 @@ class BrowserFlowCase(unittest.TestCase):
                     page.locator("#sensor-form details summary").click()
                     page.locator("#idle-threshold").fill("90")
                     page.locator("#save-sensors").click()
-                    expect(page.locator("#message")).to_contain_text("Sensores atualizados")
+                    try:
+                        expect(page.locator("#message")).to_contain_text("Sensores atualizados")
+                    except AssertionError:
+                        import json
+                        print(json.dumps({"sensor_error":page.locator("#sensor-error").inner_text(),
+                                          "save_button":page.locator("#save-sensors").inner_text(),
+                                          "camera_status":page.locator("#camera-status").inner_text()},ensure_ascii=True))
+                        raise
                     self.assertEqual(load_config(config_path)["idle_tracker"]["threshold_seconds"], 90)
                     self.assertEqual(load_config(config_path)["presence_detector"]["camera_index"], 3)
                     page.locator("#backup-btn").click()

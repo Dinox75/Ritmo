@@ -94,6 +94,12 @@ três famílias. O4B apenas observa: não decide aceitação. Oito reescritas co
 integralmente a referência; uma ficou inconclusiva. A estrutura preservou fatos
 fechados, mas não validou prosa nova ou eficácia pedagógica. Nenhum item foi ao corpus.
 
+A [aula booleana experimental](docs/qa-boolean-lesson.md) usa texto estruturado
+diretamente: conceito, exemplo, tentativa, dica, nova tentativa, correção e
+transferência próxima. Fica desligada por padrão e abre em uma instância isolada
+com banco próprio. Verifica representações booleanas; não avalia prosa livre nem
+comprova aprendizagem com estudantes. Não requer modelo para esse modo.
+
 Requisitos: **Python 3.11**, Windows e **WebView2** para a janela própria. No PowerShell, dentro da raiz deste repositório:
 
 ```powershell
