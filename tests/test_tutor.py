@@ -238,7 +238,7 @@ class TutorCase(unittest.TestCase):
         def call(path, method="GET", body=None):
             request = urllib.request.Request(base + path, method=method,
                 data=json.dumps(body).encode() if body is not None else None,
-                headers={"Content-Type": "application/json"})
+                headers={"Content-Type": "application/json", "Authorization":"Bearer " + server.session.token})
             with urllib.request.urlopen(request, timeout=6) as response:
                 return json.load(response)
         try:

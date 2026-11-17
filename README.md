@@ -2,6 +2,11 @@
 
 # Ritmo
 
+**Distribuição em preparação:** a [PR #11](https://github.com/Dinox75/Ritmo/pull/11)
+trata os bloqueios da primeira prévia. Consulte [distribuição](docs/distribuicao.md),
+[segurança e reporte privado](SECURITY.md) e os relatórios antes de usar um pacote
+de teste sobre dados existentes.
+
 **Um espaço de estudo pessoal para organizar matérias, manter o foco e praticar com retorno sobre o raciocínio.** O aplicativo executa e guarda seus dados no computador.
 
 [Começar](#começar) · [Gerar o aplicativo](#gerar-o-aplicativo) · [Como funciona](#como-funciona) · [Documentação](docs/README.md) · [Roadmap](docs/roadmap.md)

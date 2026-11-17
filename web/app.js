@@ -17,6 +17,7 @@ async function api(path, method = 'GET', data) {
     body: data === undefined ? undefined : JSON.stringify(data)
   });
   const result = await response.json();
+  if (response.status === 401) location.replace('/authorize.html');
   if (!response.ok) throw new Error(result.error || 'Erro ao comunicar com o Ritmo');
   return result;
 }
@@ -1092,12 +1093,12 @@ $('open-data-folder').onclick = () => busy($('open-data-folder'), 'Abrindo…',
   async () => { await api('/app/open-data-folder', 'POST', {}); });
 $('erase-data').onclick = () => {
   if (!confirm('Apagar permanentemente matérias, sessões, notas, eventos e configurações deste aplicativo?')) return;
-  const confirmation = prompt('Digite APAGAR para confirmar. Uma cópia antiga no checkout WorkWatch, se existir, será preservada.');
+  const confirmation = prompt('Digite APAGAR para solicitar a confirmação na janela nativa. Banco, materiais, notas, conversas, configuração e backups internos serão removidos; guarde antes uma cópia externa.');
   if (confirmation === null) return;
   fieldError('erase-error', '');
   busy($('erase-data'), 'Encerrando…', async () => {
     await api('/app/erase', 'POST', {confirmation});
-    message('Encerrando e apagando os dados do aplicativo…');
+    message('Confirme ou cancele na janela nativa. Cancelar preserva os dados e mantém o aplicativo aberto.');
   }, text => fieldError('erase-error', text));
 };
 $('quit-btn').onclick = () => busy($('quit-btn'), 'Saindo…', async () => {

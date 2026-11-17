@@ -22,7 +22,19 @@ EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 def launch(executable, folder):
     environment = os.environ.copy()
     environment["LOCALAPPDATA"] = str(folder)
+    # QA-only CDP lets the test reuse the credential already granted to the
+    # real native window, in memory. Never expose an unauthenticated API bypass.
+    existing_debug = environment.get('WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS', '')
+    import re
+    match = re.search(r'--remote-debugging-port=(\d+)', existing_debug)
+    if match:
+        debug_port = int(match.group(1))
+    else:
+        with socket.socket() as sock:
+            sock.bind(('127.0.0.1', 0)); debug_port = sock.getsockname()[1]
+        environment['WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS'] = existing_debug + f' --remote-debugging-port={debug_port} --remote-debugging-address=127.0.0.1'
     process = subprocess.Popen([str(executable)], env=environment)
+    process.qa_debug_port = debug_port
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     deadline = time.monotonic() + 90
     try:
@@ -50,6 +62,20 @@ def launch(executable, folder):
             process.terminate()
             process.wait(timeout=15)
         raise
+
+
+def authorize(page, process, port):
+    """Copy native-window session to QA browser; secrets stay in process memory."""
+    native = page.context.browser.browser_type.connect_over_cdp(f'http://127.0.0.1:{process.qa_debug_port}')
+    deadline = time.monotonic() + 15
+    while time.monotonic() < deadline:
+        cookies = [cookie for context in native.contexts for cookie in context.cookies()
+                   if cookie['name'] == 'ritmo_session']
+        if cookies:
+            page.context.add_cookies(cookies)
+            return
+        time.sleep(.1)
+    raise RuntimeError('A janela nativa não autorizou a sessão de QA')
 
 
 def quit_and_verify(page, process, port):
@@ -86,6 +112,7 @@ def main():
                 process, port = launch(executable, folder)
                 page = browser.new_page(viewport={"width": 1366, "height": 800})
                 page.set_default_timeout(10000)
+                authorize(page, process, port)
                 page.goto(f"http://127.0.0.1:{port}/")
                 try:
                     expect(page.locator("#view-inicio")).to_be_visible(timeout=4000)
@@ -172,6 +199,7 @@ def main():
 
                 process, reopened_port = launch(executable, folder)
                 page = browser.new_page()
+                authorize(page, process, reopened_port)
                 page.goto(f"http://127.0.0.1:{reopened_port}/")
                 expect(page.locator("#view-estudar")).to_be_visible()
                 expect(page.locator("#session-status")).to_have_text("Em pausa")

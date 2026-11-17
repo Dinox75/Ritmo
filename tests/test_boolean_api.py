@@ -25,7 +25,7 @@ class BooleanAPITests(unittest.TestCase):
             server=make_server(db,0,config_path=root/'config.json');thread=threading.Thread(target=server.serve_forever);thread.start()
             base=f'http://127.0.0.1:{server.server_port}';opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
             def call(path='',data=None,origin=None):
-                headers={'Content-Type':'application/json'}
+                headers={'Content-Type':'application/json','Authorization':'Bearer '+server.session.token}
                 if origin:headers['Origin']=origin
                 request=urllib.request.Request(base+'/api/boolean-lesson'+path,json.dumps(data).encode() if data is not None else None,headers)
                 with opener.open(request) as response:return json.load(response)

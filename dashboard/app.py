@@ -5,6 +5,7 @@ import logging
 import os
 import sqlite3
 import threading
+import hashlib
 from datetime import datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -20,10 +21,13 @@ from local_ai.runtime import LocalRuntime, ModelUnavailable
 from tutor.service import TutorService
 from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import DATA_DIR, FROZEN, LOCAL_CONFIG, LOG_FILE, load_config, save_config
+from dashboard.session import AppSession
 
 
 WEB = Path(__file__).resolve().parents[1] / "web"
 STATIC = {
+    "/authorize.html": ("authorize.html", "text/html; charset=utf-8"),
+    "/authorize.js": ("authorize.js", "text/javascript; charset=utf-8"),
     "/": ("index.html", "text/html; charset=utf-8"),
     "/app.js": ("app.js", "text/javascript; charset=utf-8"),
     "/tutor.js": ("tutor.js", "text/javascript; charset=utf-8"),
@@ -95,17 +99,44 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 raise ValueError("objeto JSON esperado")
             return data
 
+        def _deny(self, status, message):
+            # Drain small rejected bodies before closing: otherwise Windows may
+            # reset the connection instead of delivering the explicit 401/403.
+            try:
+                size = int(self.headers.get('Content-Length','0'))
+                if 0 < size <= 8_000_000:
+                    self.connection.settimeout(3)
+                    self.rfile.read(size)
+            except (OSError, ValueError):
+                pass
+            self._send(status, {'error':message})
+
         def _dispatch(self):
             expected_host = f"127.0.0.1:{self.server.server_port}"
             if self.headers.get("Host") != expected_host:
-                self._send(403, {"error": "acesso local inválido"})
+                self._deny(403, "acesso local inválido")
                 return
             origin = self.headers.get("Origin")
             if origin and origin != f"http://{expected_host}":
-                self._send(403, {"error": "origem não permitida"})
+                self._deny(403, "origem não permitida")
                 return
             path = urlparse(self.path).path
             parts = [part for part in path.split("/") if part]
+            if path == '/api/session' and self.command == 'POST':
+                if not self.server.session.exchange(self._body().get('code')):
+                    self._send(401, {'error':'Código inválido, já usado ou expirado. Reabra pelo lançador.'})
+                    return
+                self.send_response(200)
+                self.send_header('Set-Cookie',self.server.session.cookie())
+                self.send_header('Content-Type','application/json')
+                self.send_header('Content-Length','2')
+                self.send_header('Cache-Control','no-store')
+                self.end_headers(); self.wfile.write(b'{}')
+                return
+            public_status = path == '/api/app/status' and self.command == 'GET'
+            if path.startswith('/api/') and not public_status and not self.server.session.valid(self.headers):
+                self._deny(401, 'Autorize esta janela pelo lançador do Ritmo.')
+                return
             if self.command == "GET" and path in STATIC:
                 filename, content_type = STATIC[path]
                 content = (WEB / filename).read_bytes()
@@ -135,7 +166,6 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
             if self.command == "GET":
                 if parts == ["api", "boolean-lesson"]:
                     from tutor.boolean_lesson import scenarios
-                    import hashlib
                     result = {"enabled": load_config(config_path)["experiments"]["boolean_lesson"],
                               "instance_id": hashlib.sha256(str(database.path.resolve()).encode()).hexdigest(),
                               "scenarios": [{"id": value["family"], "label": value["label"], "context": value["context"]} for value in scenarios().values()]}
@@ -197,7 +227,8 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                               "log": log_lines, "data_dir": str(DATA_DIR),
                               "database": str(database.path), "packaged": FROZEN}
                 elif parts == ["api", "app", "status"]:
-                    result = {"name": "Ritmo", "ready": True, "packaged": FROZEN}
+                    result = {"name": "Ritmo", "ready": True, "packaged": FROZEN,
+                              "instance_id": hashlib.sha256(str(database.path.resolve()).encode()).hexdigest()}
                 else:
                     self._send(404, {"error": "rota não encontrada"})
                     return
@@ -265,7 +296,7 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 elif parts == ["api", "import-legacy"]:
                     result = import_legacy_text(database, data.get("content"), data.get("name", "arquivo.csv"))
                 elif parts == ["api", "backup"]:
-                    result = database.create_backup()
+                    result = database.create_backup(config_path=config_path or LOCAL_CONFIG)
                 elif parts == ["api", "app", "quit"]:
                     self._send(200, {"closing": True})
                     callback = on_quit or self.server.shutdown
@@ -277,7 +308,7 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                         return
                     if data.get("confirmation") != "APAGAR":
                         raise ValueError("digite APAGAR para confirmar")
-                    self._send(200, {"closing": True})
+                    self._send(200, {"confirmation_requested": True})
                     threading.Thread(target=on_erase, name="app_erase", daemon=True).start()
                     return
                 elif parts == ["api", "app", "open-data-folder"]:
@@ -417,6 +448,7 @@ def make_server(database, port=8765, *, agent=None, on_quit=None, on_erase=None,
                                  make_handler(database, agent, on_quit, on_erase, config_path,
                                               tutor_provider, tutor_runtime, install_manager, external_search))
     server.tutor_runtime = tutor_runtime
+    server.session = AppSession()
     server.daemon_threads = True
     return server
 
@@ -426,7 +458,8 @@ def serve(database, port=8765):
     agent = SensorAgent(database)
     agent.start(load_config())
     server = make_server(database, port, agent=agent)
-    print(f"Ritmo disponível em http://127.0.0.1:{server.server_port}")
+    print(f"Ritmo disponível em http://127.0.0.1:{server.server_port}/authorize.html")
+    print("Código de autorização desta instância (5 min, uso único):", server.session.issue_code())
     try:
         server.serve_forever()
     except KeyboardInterrupt:

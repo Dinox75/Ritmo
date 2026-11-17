@@ -129,7 +129,7 @@ class MaterialCase(unittest.TestCase):
         def call(route, method="GET", body=None):
             request = urllib.request.Request(base + route,
                 data=json.dumps(body).encode() if body is not None else None,
-                headers={"Content-Type": "application/json"}, method=method)
+                headers={"Content-Type": "application/json", "Authorization":"Bearer " + server.session.token}, method=method)
             with urllib.request.urlopen(request) as response:
                 return json.load(response)
 
@@ -137,7 +137,7 @@ class MaterialCase(unittest.TestCase):
             item = call("/api/materials", "POST", {"subject_id": self.subject["id"],
                 "name": "Texto", "filename": "x.txt", "content_base64": base64.b64encode(b"Trecho de teste").decode()})
             self.assertEqual(call("/api/materials")[0]["id"], item["id"])
-            with urllib.request.urlopen(base + "/api/materials/" + item["id"] + "/original") as response:
+            with urllib.request.urlopen(urllib.request.Request(base + "/api/materials/" + item["id"] + "/original", headers={"Authorization":"Bearer " + server.session.token})) as response:
                 self.assertEqual(response.read(), b"Trecho de teste")
                 self.assertIn("attachment", response.headers["Content-Disposition"])
             with self.assertRaises(urllib.error.HTTPError) as error:

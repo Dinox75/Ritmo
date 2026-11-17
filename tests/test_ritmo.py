@@ -273,7 +273,7 @@ class DatabaseCase(unittest.TestCase):
         def call(path, method="GET", body=None):
             payload = json.dumps(body).encode() if body is not None else None
             request = urllib.request.Request(base + path, data=payload, method=method,
-                                             headers={"Content-Type": "application/json"})
+                                             headers={"Content-Type": "application/json", "Authorization":"Bearer " + server.session.token})
             with urllib.request.urlopen(request) as response:
                 return json.load(response)
         try:
@@ -329,7 +329,7 @@ class DatabaseCase(unittest.TestCase):
                 call("/api/app/erase", "POST", {"confirmation": "não"})
             self.assertEqual(error.exception.code, 400)
             self.assertFalse(erased.is_set())
-            self.assertTrue(call("/api/app/erase", "POST", {"confirmation": "APAGAR"})["closing"])
+            self.assertTrue(call("/api/app/erase", "POST", {"confirmation": "APAGAR"})["confirmation_requested"])
             self.assertTrue(erased.wait(2))
             request = urllib.request.Request(base + "/api/subjects", method="GET",
                                              headers={"Origin": "http://evil.example"})

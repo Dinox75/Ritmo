@@ -24,6 +24,7 @@ class TutorSettingsRaceTests(unittest.TestCase):
                     browser=pw.chromium.launch(executable_path=str(BROWSER),headless=True)
                     try:
                         page=browser.new_page();page.add_init_script("""const original=window.fetch;window.fetch=async function(input,init){const response=await original(input,init);if(init?.method==='PATCH'&&JSON.parse(init.body||'{}').mode){await new Promise(r=>setTimeout(r,1500));}return response;};""")
+                        server.session.authorize_browser(page, server.server_port)
                         page.goto(f'http://127.0.0.1:{server.server_port}');page.locator('nav a[data-view-target="estudar"]').click()
                         page.wait_for_function("document.querySelector('#tutor-thread').value.length>0")
                         page.locator('#tutor-mode').select_option('aula');page.locator('#tutor-draft').fill('Ensine lógica booleana');page.locator('#tutor-send').click()

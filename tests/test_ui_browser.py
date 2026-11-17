@@ -43,6 +43,7 @@ class BrowserFlowCase(unittest.TestCase):
                     page.set_default_timeout(8000)
                     errors = []
                     page.on("pageerror", lambda error: errors.append(str(error)))
+                    server.session.authorize_browser(page, server.server_port)
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     expect(page.locator("#view-inicio")).to_be_visible()
                     expect(page.locator("#home-primary")).to_be_hidden()
@@ -93,6 +94,7 @@ class BrowserFlowCase(unittest.TestCase):
                     page.reload()
                     expect(page.locator("#pause-btn")).to_have_text("Retomar")
                     reopened_page = browser.new_page(viewport={"width": 1366, "height": 800})
+                    server.session.authorize_browser(reopened_page, server.server_port)
                     reopened_page.goto(f"http://127.0.0.1:{server.server_port}/")
                     expect(reopened_page.locator("#pause-btn")).to_have_text("Retomar")
                     page.close(); page = reopened_page
@@ -215,6 +217,7 @@ class BrowserFlowCase(unittest.TestCase):
                 with sync_playwright() as playwright:
                     browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
+                    server.session.authorize_browser(page, server.server_port)
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     expect(page.locator("#view-evolucao")).to_be_visible()
                     self.assertEqual(len(database.list_notes()), 3)

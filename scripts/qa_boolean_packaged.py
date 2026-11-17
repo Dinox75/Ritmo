@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from playwright.sync_api import expect, sync_playwright
-from qa_packaged_windows import EDGE, launch, quit_and_verify
+from qa_packaged_windows import EDGE, launch, quit_and_verify, authorize
 from tutor.boolean_lesson import scenarios
 
 
@@ -33,9 +33,11 @@ def run(executable, output):
                 page = browser.new_page()
                 errors = []
                 page.on("pageerror", lambda error: errors.append(str(error)))
+                authorize(page, process, port)
                 page.goto(f"http://127.0.0.1:{port}/boolean-lesson.html")
                 expect(page.locator("#availability")).to_contain_text("Modo desligado")
                 expect(page.locator("#controls")).to_be_hidden()
+                authorize(page, process, port)
                 page.goto(f"http://127.0.0.1:{port}/")
                 quit_and_verify(page, process, port)
                 process = None
@@ -45,6 +47,7 @@ def run(executable, output):
                 process, port = launch(executable, root)
                 for width in (390, 1366, 1920):
                     page.set_viewport_size({"width": width, "height": 1000})
+                    authorize(page, process, port)
                     page.goto(f"http://127.0.0.1:{port}/boolean-lesson.html")
                     for key, task in scenarios().items():
                         page.locator("#scenario").select_option(task["family"])
@@ -84,6 +87,7 @@ def run(executable, output):
                         report["flows"].append({"width": width, "scenario": key, "passed": True})
                     page.screenshot(path=str(output / f"boolean-packaged-{width}.png"), full_page=True)
                 assert not errors, errors
+                authorize(page, process, port)
                 page.goto(f"http://127.0.0.1:{port}/")
                 quit_and_verify(page, process, port)
                 process = None

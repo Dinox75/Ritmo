@@ -22,11 +22,11 @@ def main():
             with sync_playwright() as pw:
                 browser=pw.chromium.launch(channel='msedge',headless=True)
                 try:
-                    page=browser.new_page();page.goto(f'http://127.0.0.1:{server.server_port}/boolean-lesson.html');expect(page.locator('#availability')).to_contain_text('Modo desligado');expect(page.locator('#controls')).to_be_hidden();page.close()
+                    page=browser.new_page();server.session.authorize_browser(page,server.server_port);page.goto(f'http://127.0.0.1:{server.server_port}/boolean-lesson.html');expect(page.locator('#availability')).to_contain_text('Modo desligado');expect(page.locator('#controls')).to_be_hidden();page.close()
                     config['experiments']={'boolean_lesson':True};save_config(config,root/'config.json')
                     for width in (390,1366,1920):
                         page=browser.new_page(viewport={'width':width,'height':1000});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-                        page.goto(f'http://127.0.0.1:{server.server_port}/boolean-lesson.html');expect(page.locator('#controls')).to_be_visible()
+                        server.session.authorize_browser(page,server.server_port);page.goto(f'http://127.0.0.1:{server.server_port}/boolean-lesson.html');expect(page.locator('#controls')).to_be_visible()
                         for key,t in scenarios().items():
                             page.locator('#scenario').select_option(t['family']);page.locator('#start').click();expect(page.locator('#stage')).to_contain_text('Conceito')
                             page.locator('#continue').focus();page.keyboard.press('Enter');expect(page.locator('#stage')).to_contain_text('Exemplo curto')

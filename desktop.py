@@ -18,6 +18,16 @@ from utils.config import DATA_DIR, LOCAL_CONFIG, LOG_FILE, MIGRATION_DISABLED, l
 from utils.logger import configure_logging
 
 
+def confirm_erase_native(window=None):
+    message = ('Apagar permanentemente o banco de estudos, matérias, sessões, notas, '
+               'conversas, memória do tutor, materiais originais, configuração e backups internos?\n\n'
+               'Para recuperar depois, guarde antes um backup fora da pasta de dados do Ritmo. '
+               'Modelos e cópias externas não serão apagados. Esta ação não pode ser desfeita.')
+    if window is not None:
+        return bool(window.create_confirmation_dialog('Ritmo · apagar dados pessoais', message))
+    return ctypes.windll.user32.MessageBoxW(None, message, 'Ritmo · apagar dados pessoais', 0x134) == 6
+
+
 class DesktopApp:
     def __init__(self):
         self.database = Database()
@@ -52,7 +62,8 @@ class DesktopApp:
                     raise RuntimeError("interface local não respondeu")
             for route in ("/app.js", "/tutor.js", "/desktop.css", "/ux.css", "/api/config",
                           "/api/diagnostics", "/api/materials", "/api/tutor/config"):
-                with urllib.request.urlopen(url + route, timeout=5) as response:
+                request = urllib.request.Request(url + route, headers={'Authorization':'Bearer ' + self.server.session.token})
+                with urllib.request.urlopen(request, timeout=5) as response:
                     if response.status != 200 or not response.read(1):
                         raise RuntimeError(f"recurso local indisponível: {route}")
             logging.info("Interface local pronta na porta %s", self.server.server_port)
@@ -74,16 +85,25 @@ class DesktopApp:
             self.server.shutdown()
 
     def request_erase(self):
+        if not confirm_erase_native(self.window):
+            return
         self.erase_requested = True
         self.request_close()
 
     def show(self, url):
         try:
             import webview
-            window = webview.create_window("Ritmo · estudo pessoal", url,
+            window = webview.create_window("Ritmo · estudo pessoal", url + '/authorize.html',
                                            width=1440, height=900, min_size=(760, 560),
                                            background_color="#f5f3eb")
             self.window = window
+            code = self.server.session.issue_code()
+            def authorize():
+                # Injected into this native window's memory, never a static file/URL.
+                if window.get_current_url() == url + '/authorize.html':
+                    window.evaluate_js("fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:"
+                                       + json.dumps(code) + "})}).then(r=>{if(r.ok)location.replace('/')})")
+            window.events.loaded += authorize
             webview.start(gui="edgechromium", private_mode=True,
                           storage_path=str(DATA_DIR / "webview"))
         except Exception:
@@ -97,7 +117,7 @@ class DesktopApp:
         import tkinter as tk
         from tkinter import ttk
 
-        webbrowser.open(url)
+        webbrowser.open(url + '/authorize.html')
         root = tk.Tk()
         self.fallback_root = root
         root.title("Ritmo · controle")
@@ -108,6 +128,9 @@ class DesktopApp:
                   font=("Segoe UI", 13, "bold")).pack(pady=(26, 10))
         ttk.Label(root, text="Mantenha esta janela aberta durante o estudo.\n"
                   "Fechá-la encerra o servidor e os sensores.", justify="center").pack()
+        ttk.Label(root, text='Código de autorização (uso único, 5 min):').pack()
+        entry = ttk.Entry(root, width=45)
+        entry.insert(0, self.server.session.issue_code()); entry.pack()
         buttons = ttk.Frame(root)
         buttons.pack(pady=19)
         ttk.Button(buttons, text="Abrir interface", command=lambda: webbrowser.open(url)).pack(side="left", padx=5)
