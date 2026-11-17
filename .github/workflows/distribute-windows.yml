@@ -11,6 +11,9 @@ on:
         required: true
 permissions:
   contents: read
+concurrency:
+  group: ritmo-build-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: windows-2025
