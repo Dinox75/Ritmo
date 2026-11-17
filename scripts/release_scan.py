@@ -181,7 +181,7 @@ def scan_bundle(assets, out, commit, run_id, tools_python, timeout=1800, databas
     if database:
         shutil.copyfile(database, snapshot)
         report['supplied_database_sha256'] = file_sha(snapshot)
-    common = [str(tools_python), '-m', 'cve_bin_tool.cli', '--nvd-api-key', 'no', '--disable-version-check', '--format', 'json2']
+    common = [str(tools_python), '-m', 'cve_bin_tool.cli', '--nvd-api-key', 'no', '--disable-version-check', '--report', '--format', 'json2']
     for name, inputs in (('native-binaries', [str(extracted / 'Ritmo')]), ('native-identities', ['--input-file', str(assets / 'native-components.csv')])):
         output = out / (name + '.json')
         update = ['--update', 'never', '--offline'] if database or name == 'native-identities' else ['--update', 'latest']

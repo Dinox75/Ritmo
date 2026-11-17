@@ -120,8 +120,8 @@ class RuntimeIntegrityCase(unittest.TestCase):
             try:
                 engine.start("test")
                 self.assertIs(engine.process, child)
-                self.assertEqual(launch.call_args.args[0][0], str(self.runtime / "llama-server.exe"))
-                self.assertEqual(launch.call_args.kwargs["cwd"], self.runtime)
+                self.assertEqual(launch.call_args.args[0][0], str((self.runtime / "llama-server.exe").resolve()))
+                self.assertEqual(launch.call_args.kwargs["cwd"], self.runtime.resolve())
             finally:
                 engine.stop()
             self.assertTrue(child.exited)

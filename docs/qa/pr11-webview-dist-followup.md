@@ -54,3 +54,8 @@ python scripts/qa_accessibility_packaged.py <Ritmo.exe> accessibility
 ```
 
 Os comandos de build nesta rodada não usam `-Install`. Resultados do novo candidato, scanners, cobertura e bloqueios finais serão registrados abaixo depois da execução. Não há release nem aprovação de publicação enquanto esses critérios estiverem pendentes.
+
+## Histórico dos novos runs
+
+- [44154620521](https://github.com/Dinox75/Ritmo/actions/runs/44154620521), head `7283ca7`: 168 testes, 64,826 s, uma falha na comparação textual do caminho temporário `RUNNER~1` com seu nome Windows canônico `runneradmin`. O runtime já selecionava o caminho canônico correto; o teste agora compara o launcher e o diretório com a raiz resolvida, mantendo os testes de redirecionamento/adulteração. Esse run parou antes de construir o novo ZIP e não fornece aprovação de pacote.
+- A CLI real de cve-bin-tool 3.4 foi inspecionada: acrescentado `--report` para produzir evidência também quando não há achados, sem tratar a ausência de arquivo como resultado limpo. O teste do comando falhou antes dessa correção e passou depois.

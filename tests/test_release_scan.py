@@ -60,6 +60,7 @@ class ReleaseScanTests(unittest.TestCase):
             self.assertEqual(report['result'],'coverage_review_required')
             self.assertEqual(report['coverage']['unmapped_native'],['Ritmo.exe','_internal/vendor.dll'])
             self.assertEqual(len([args for args in calls if 'cve_bin_tool.cli' in args]),2)
+            self.assertTrue(all('--report' in args for args in calls if 'cve_bin_tool.cli' in args))
             self.assertEqual(len([args for args in calls if 'pip_audit' in args]),0)
             self.assertTrue((root/'scan/scan-report.json').is_file())
             self.assertTrue((root/'scan/extracted/Ritmo/_internal/vendor.dll').is_file())
