@@ -1,0 +1,67 @@
+[
+  {
+    "run": 0,
+    "request_queue_size": 5,
+    "failures": [
+      {
+        "url": "http://127.0.0.1:60120/api/progress",
+        "error": "net::ERR_CONNECTION_REFUSED"
+      }
+    ],
+    "initial_error": true
+  },
+  {
+    "run": 1,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 2,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 3,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 4,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 5,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 6,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 7,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 8,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  },
+  {
+    "run": 9,
+    "request_queue_size": 5,
+    "failures": [],
+    "initial_error": false
+  }
+]

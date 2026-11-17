@@ -1,6 +1,7 @@
 """Leitor e chat reais no Edge com provedor controlado e dados temporários."""
 
 import base64
+import json
 import os
 import tempfile
 import threading
@@ -14,7 +15,9 @@ from storage.database import Database
 from storage.materials import import_material
 from storage.tutor_store import TutorStore
 from local_ai.runtime import ModelUnavailable
+from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import load_config, save_config
+from tests.test_lesson_service import output_for, c
 
 try:
     from playwright.sync_api import expect, sync_playwright
@@ -22,11 +25,65 @@ except ImportError:
     expect = sync_playwright = None
 
 
-EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+from tests.browser_target import BROWSER
 
 
-@unittest.skipUnless(sync_playwright and EDGE.exists(), "QA visual requer Edge e Playwright")
+@unittest.skipUnless(sync_playwright and BROWSER, "QA visual requer Edge e Playwright")
 class TutorBrowserCase(unittest.TestCase):
+    def test_external_query_preview_contradiction_and_unavailable_source(self):
+        with tempfile.TemporaryDirectory(prefix="ritmo-external-ui-") as folder:
+            root = Path(folder)
+            db = Database(root / "ritmo.db"); db.initialize()
+            db.create_subject("Matéria sintética")
+            config = root / "config.json"; save_config(load_config(), config)
+            sent = []
+            def searcher(query):
+                sent.append(query)
+                if query == "fonte indisponível":
+                    raise ExternalUnavailable("Fonte indisponível")
+                return [{"title": "Fonte um", "url": "https://pt.wikipedia.org/wiki/Fonte_um",
+                         "excerpt": "O material diz A. <img src=x onerror=alert(1)>",
+                         "provider": "Wikipédia em português", "accessed_at": "2026-10-28T12:00:00+00:00",
+                         "license": "CC BY-SA 4.0"},
+                        {"title": "Fonte dois", "url": "https://pt.wikipedia.org/wiki/Fonte_dois",
+                         "excerpt": "O material diz B.", "provider": "Wikipédia em português",
+                         "accessed_at": "2026-10-28T12:00:00+00:00", "license": "CC BY-SA 4.0"}]
+            server = make_server(db, 0, config_path=config,
+                                 external_search=ExternalSearch(searcher),
+                                 tutor_provider=lambda *args: json.dumps({"claims": [c("As fontes divergem [E1] [E2]; não posso confirmar.", "external")], "limits": "Falta verificar o contexto."}))
+            worker = threading.Thread(target=server.serve_forever); worker.start()
+            try:
+                with sync_playwright() as playwright:
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
+                    page = browser.new_page(viewport={"width": 1366, "height": 850})
+                    page.goto(f"http://127.0.0.1:{server.server_port}/")
+                    page.locator('nav a[data-view-target="estudar"]').click()
+                    page.locator("#external-research summary").click()
+                    page.locator("#external-query").fill("consulta privada")
+                    expect(page.locator("#external-preview")).to_have_text("consulta privada")
+                    self.assertEqual(sent, [])
+                    page.locator("#external-query").fill("saldo 15")
+                    self.assertEqual(sent, [])
+                    page.locator("#external-submit").click()
+                    expect(page.locator("#external-results label")).to_have_count(2)
+                    self.assertEqual(sent, ["saldo 15"])
+                    self.assertEqual(page.locator("#external-results img").count(), 0)
+                    page.locator(".external-choice").first.check()
+                    page.locator(".external-choice").last.check()
+                    page.wait_for_function("document.querySelector('#tutor-thread').value.length > 0")
+                    page.locator("#tutor-draft").fill("Compare estas fontes")
+                    page.locator("#tutor-send").click()
+                    expect(page.locator("#tutor-history .assistant .tutor-sources a[target='_blank']")).to_have_count(2)
+                    expect(page.locator("#tutor-history .inline-citation")).to_have_count(2)
+                    expect(page.locator("#tutor-history .assistant")).to_contain_text("As fontes divergem")
+                    page.locator("#external-query").fill("fonte indisponível")
+                    page.locator("#external-submit").click()
+                    expect(page.locator("#external-status")).to_contain_text("Fonte indisponível")
+                    self.assertEqual(sent, ["saldo 15", "fonte indisponível"])
+                    browser.close()
+            finally:
+                server.shutdown(); server.server_close(); worker.join()
+
     def test_search_across_chunks_and_escaped_file_text(self):
         with tempfile.TemporaryDirectory(prefix="ritmo-tutor-chunks-") as folder:
             root = Path(folder)
@@ -43,7 +100,7 @@ class TutorBrowserCase(unittest.TestCase):
             worker.start()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="materiais"]').click()
@@ -89,7 +146,7 @@ class TutorBrowserCase(unittest.TestCase):
                 return result
             try:
                 with patch.object(TutorStore, "create_thread", delayed_subject), sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="estudar"]').click()
@@ -141,14 +198,22 @@ class TutorBrowserCase(unittest.TestCase):
                 if "falha" in messages[-1]["content"] and fail_once["value"]:
                     fail_once["value"] = False
                     raise ModelUnavailable("indisponibilidade controlada")
-                return ("Conceito: a retirada exige comparar o valor com o saldo. "
-                        "Com 15, 18 excede o limite. Tente explicar a segunda condição. [1]")
+                value = output_for(instructions)
+                if "etapa: explanation." in instructions:
+                    value["example"] = c("Com saldo 12, retirar 5 passa; 18 excede o saldo 15. [1]", "inference")
+                if "etapa: exercise." in instructions:
+                    value["question"] = "Com saldo 20 e retirada 25, a operação passa?"
+                if "etapa: correction." in instructions:
+                    value = {"correct": c("Você tentou comparar os valores.", "inference"),
+                             "revise": c("25 é maior que 20. [1]", "inference"),
+                             "reason": c("A regra exige valor <= saldo; 25 <= 20 é falso. [1]")}
+                return json.dumps(value)
             server = make_server(db, 0, config_path=config, tutor_provider=controlled)
             worker = threading.Thread(target=server.serve_forever)
             worker.start()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page(viewport={"width": 1366, "height": 850})
                     page.set_default_timeout(10000)
                     errors = []
@@ -197,24 +262,39 @@ class TutorBrowserCase(unittest.TestCase):
                     page.locator("#tutor-send").click()
                     expect(page.locator("#tutor-history .assistant")).to_contain_text("18 excede")
                     expect(page.locator("#tutor-history .tutor-sources a")).to_contain_text("operadores")
+                    page.locator("#tutor-history .inline-citation").first.click()
+                    expect(page.locator("#material-chunks mark.citation-highlight")).to_contain_text("retirada 18")
+                    page.locator('nav a[data-view-target="estudar"]').click()
+                    page.locator("#lesson-continue").click()
+                    expect(page.locator("#lesson-status")).to_contain_text("Aguardando sua tentativa")
+                    page.reload()
+                    page.locator('nav a[data-view-target="estudar"]').click()
+                    expect(page.locator("#lesson-exercise")).to_contain_text("saldo 20")
                     self.assertEqual(db.get_session(active["id"])["status"], "focus")
                     page.locator("#tutor-draft").fill("Minha tentativa: falha")
                     page.locator("#tutor-send").click()
                     expect(page.locator("#tutor-error")).to_contain_text("indisponibilidade controlada")
                     self.assertEqual(page.locator("#tutor-draft").input_value(), "Minha tentativa: falha")
                     page.locator("#tutor-retry").click()
-                    expect(page.locator("#tutor-history .assistant")).to_have_count(2)
-                    self.assertEqual(len(calls), 3)
+                    expect(page.locator("#tutor-history .assistant")).to_have_count(3)
+                    self.assertEqual(len(calls), 4)
                     page.locator("#tutor-history .tutor-sources a").first.click()
                     expect(page.locator("#view-materiais")).to_be_visible()
                     expect(page.locator("#material-chunks")).to_contain_text("retirada 18")
+                    expect(page.locator("#material-chunks mark.citation-highlight")).to_contain_text("retirada 18")
+                    page.evaluate("() => openMaterial(currentMaterial.id, currentMaterial.chunks[0].id, 'saldo')")
+                    expect(page.locator("#reader-error")).to_contain_text("Não foi possível identificar")
+                    self.assertEqual(page.locator("#material-chunks mark.citation-highlight").count(), 0)
+                    page.locator("#material-search").fill("saldo")
+                    expect(page.locator("#material-chunks mark.current-match")).to_be_visible()
+                    page.locator("#material-search").fill("")
                     page.locator("#material-guided").click()
                     expect(page.locator("#view-estudar")).to_be_visible()
                     expect(page.locator("#tutor-mode")).to_have_value("aula")
                     expect(page.locator("#tutor-material-options input").first).to_be_checked()
                     expect(page.locator("#tutor-draft")).to_have_value("Quero uma aula guiada sobre operadores.")
                     shots = os.environ.get("RITMO_QA_SCREENSHOTS")
-                    for width, height, label in ((1366, 850, "notebook"), (390, 844, "mobile")):
+                    for width, height, label in ((1366, 850, "notebook"), (1920, 1080, "wide"), (390, 844, "mobile")):
                         page.set_viewport_size({"width": width, "height": height})
                         for view in ("materiais", "estudar"):
                             page.locator(f'nav a[data-view-target="{view}"]').click()
@@ -226,7 +306,7 @@ class TutorBrowserCase(unittest.TestCase):
                                 page.screenshot(path=str(Path(shots) / f"tutor-{label}-{view}.png"), full_page=True)
                     page.reload()
                     page.locator('nav a[data-view-target="estudar"]').click()
-                    expect(page.locator("#tutor-history .assistant")).to_have_count(2)
+                    expect(page.locator("#tutor-history .assistant")).to_have_count(3)
                     self.assertFalse(errors, errors)
                     browser.close()
             finally:

@@ -20,7 +20,10 @@ class ModelUnavailable(RuntimeError):
 
 
 class LocalRuntime:
-    def __init__(self, root=None):
+    def __init__(self, root=None, *, gpu_layers=99):
+        if type(gpu_layers) is not int or not 0 <= gpu_layers <= 99:
+            raise ValueError('gpu_layers deve estar entre 0 e 99')
+        self.gpu_layers = gpu_layers
         self.root = validate_root(root or default_root())
         self.process = None
         self.port = None
@@ -84,7 +87,7 @@ class LocalRuntime:
             self.api_key = secrets.token_urlsafe(32)
             self._recent_log.clear()
             args = [str(executable), "--model", str(model), "--host", "127.0.0.1",
-                    "--port", str(self.port), "--ctx-size", "4096", "--n-gpu-layers", "99",
+                    "--port", str(self.port), "--ctx-size", "4096", "--n-gpu-layers", str(self.gpu_layers),
                     "--threads", "6", "--parallel", "1", "--no-webui",
                     "--cors-origins", "localhost", "--no-cors-credentials"]
             flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)

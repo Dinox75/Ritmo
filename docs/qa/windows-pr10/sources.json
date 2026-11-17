@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "pausa e retomada por teclado com rótulos acessíveis",
+    "escolha acessível de pergunta ou tentativa na aula",
+    "referência abre e destaca excerto único",
+    "trecho ambíguo abre bloco com aviso, sem destaque enganoso",
+    "busca, seleção e nota funcionam depois da referência",
+    "pesquisa envia somente consulta revisada após clique",
+    "fontes reais exibem link, identificação e acesso",
+    "fechamento libera a porta"
+  ],
+  "external": {
+    "status": "5 resultado(s). Confira o conteúdo e escolha as fontes.",
+    "results": 5
+  }
+}

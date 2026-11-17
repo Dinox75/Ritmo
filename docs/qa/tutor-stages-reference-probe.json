@@ -1,0 +1,432 @@
+{
+  "label": "57e3bdb-probe",
+  "guide_sha256": "4701b4aac4ca93531035e28adc7c202dfd78a3eaf1f464cb9640e1fdfd2cb8fc",
+  "parameters": {
+    "temperature": 0.3,
+    "max_tokens": 420,
+    "enable_thinking": false,
+    "seed": "runtime default; repetitions are not independent statistical evidence"
+  },
+  "repeats": 1,
+  "models": [
+    {
+      "model": "qwen3-4b-q4_k_m",
+      "load_seconds": 8.622,
+      "runtime": "llama.cpp-b11896-cuda12.4-win64"
+    }
+  ],
+  "rows": [
+    {
+      "case": "opening",
+      "holdout": false,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 1,
+      "material": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma. Com saldo 12, retirar 5 passa porque 5 > 0 e 5 <= 12.",
+      "question": "Ensine esta regra",
+      "turns": [
+        {
+          "body": "Ensine esta regra",
+          "raw": "{\"concept\": {\"text\": \"Uma retirada é permitida se a quantidade solicitada for maior que zero e menor ou igual ao saldo disponível.\", \"basis\": \"material\", \"references\": [\"1\"]}, \"usefulness\": {\"text\": \"Ajuda a determinar se uma operação de retirada é válida com base nas condições de quantidade e saldo.\", \"basis\": \"general\", \"references\": []}, \"example\": {\"text\": \"Com saldo 12, retirar 5 é permitido porque 5 > 0 e 5 <= 12.\", \"basis\": \"inference\", \"references\": [\"1\"]}}",
+          "displayed": "Conceito — Material de estudo: Uma retirada é permitida se a quantidade solicitada for maior que zero e menor ou igual ao saldo disponível. [1]\n\nUtilidade — Conhecimento geral: Ajuda a determinar se uma operação de retirada é válida com base nas condições de quantidade e saldo.\n\nExemplo resolvido — Inferência: Com saldo 12, retirar 5 é permitido porque 5 > 0 e 5 <= 12. [1]",
+          "kind": "question",
+          "meta": {
+            "task": "explanation",
+            "interventions": [],
+            "safe_fallback": false,
+            "stage_before": "explanation",
+            "stage_after": "exercise"
+          },
+          "lesson_before": {
+            "stage": "explanation",
+            "exercise": "",
+            "attempts": 0
+          },
+          "lesson_after": {
+            "stage": "exercise",
+            "exercise": "",
+            "attempts": 0
+          },
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "f40e91e46cda4cf38182bfbeb0726f4d",
+              "chunk_id": "ba05512e-6e59-49a3-a4f4-090a3e910f34",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma. Com saldo 12, retirar 5 passa porque 5 > 0 e 5 <= 12."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 12.464,
+          "usage": {
+            "completion_tokens": 136,
+            "prompt_tokens": 2332,
+            "total_tokens": 2468,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            }
+          },
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 2332,
+            "prompt_ms": 10226.676,
+            "prompt_per_token_ms": 4.385367066895369,
+            "prompt_per_second": 228.03108263134573,
+            "predicted_n": 136,
+            "predicted_ms": 2168.351,
+            "predicted_per_token_ms": 16.06185925925926,
+            "predicted_per_second": 62.25929289123393
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "{\"concept\": {\"text\": \"Uma retirada é permitida se a quantidade solicitada for maior que zero e menor ou igual ao saldo disponível.\", \"basis\": \"material\", \"references\": [\"1\"]}, \"usefulness\": {\"text\": \"Ajuda a determinar se uma operação de retirada é válida com base nas condições de quantidade e saldo.\", \"basis\": \"general\", \"references\": []}, \"example\": {\"text\": \"Com saldo 12, retirar 5 é permitido porque 5 > 0 e 5 <= 12.\", \"basis\": \"inference\", \"references\": [\"1\"]}}",
+              "usage": {
+                "completion_tokens": 136,
+                "prompt_tokens": 2332,
+                "total_tokens": 2468,
+                "prompt_tokens_details": {
+                  "cached_tokens": 0
+                }
+              },
+              "timings": {
+                "cache_n": 0,
+                "prompt_n": 2332,
+                "prompt_ms": 10226.676,
+                "prompt_per_token_ms": 4.385367066895369,
+                "prompt_per_second": 228.03108263134573,
+                "predicted_n": 136,
+                "predicted_ms": 2168.351,
+                "predicted_per_token_ms": 16.06185925925926,
+                "predicted_per_second": 62.25929289123393
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        },
+        {
+          "body": "Preparar o exercício",
+          "raw": "{\"question\": \"Com base na regra, crie um exemplo diferente onde uma retirada é permitida e explique por quê.\"}",
+          "displayed": "Não consegui preparar um exercício sem antecipar a solução. Use Continuar para tentar novamente; a aula não avançou.",
+          "kind": "question",
+          "meta": {
+            "task": "exercise",
+            "interventions": [
+              "revisao_solicitada:exercicio_com_solucao_ou_multiplas_perguntas",
+              "exercicio_com_solucao_ou_multiplas_perguntas"
+            ],
+            "safe_fallback": true,
+            "stage_before": "exercise",
+            "stage_after": "exercise"
+          },
+          "lesson_before": {
+            "stage": "exercise",
+            "exercise": "",
+            "attempts": 0
+          },
+          "lesson_after": {
+            "stage": "exercise",
+            "exercise": "",
+            "attempts": 0
+          },
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "f40e91e46cda4cf38182bfbeb0726f4d",
+              "chunk_id": "ba05512e-6e59-49a3-a4f4-090a3e910f34",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma. Com saldo 12, retirar 5 passa porque 5 > 0 e 5 <= 12."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 5.157,
+          "usage": {
+            "completion_tokens": 30,
+            "prompt_tokens": 2617,
+            "total_tokens": 2647,
+            "prompt_tokens_details": {
+              "cached_tokens": 2456
+            }
+          },
+          "timings": {
+            "cache_n": 2456,
+            "prompt_n": 161,
+            "prompt_ms": 957.4,
+            "prompt_per_token_ms": 5.946583850931677,
+            "prompt_per_second": 168.16377689575936,
+            "predicted_n": 30,
+            "predicted_ms": 468.536,
+            "predicted_per_token_ms": 16.156413793103447,
+            "predicted_per_second": 61.894923762528386
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "{\"question\": \"Com base na regra, crie um exemplo diferente onde uma retirada é permitida e explique por quê.\"}",
+              "usage": {
+                "completion_tokens": 30,
+                "prompt_tokens": 2460,
+                "total_tokens": 2490,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1834
+                }
+              },
+              "timings": {
+                "cache_n": 1834,
+                "prompt_n": 626,
+                "prompt_ms": 3184.334,
+                "prompt_per_token_ms": 5.086795527156549,
+                "prompt_per_second": 196.58741827961515,
+                "predicted_n": 30,
+                "predicted_ms": 467.377,
+                "predicted_per_token_ms": 16.11644827586207,
+                "predicted_per_second": 62.04841059786853
+              },
+              "finish_reason": "stop"
+            },
+            {
+              "raw": "{\"question\": \"Com base na regra, crie um exemplo diferente onde uma retirada é permitida e explique por quê.\"}",
+              "usage": {
+                "completion_tokens": 30,
+                "prompt_tokens": 2617,
+                "total_tokens": 2647,
+                "prompt_tokens_details": {
+                  "cached_tokens": 2456
+                }
+              },
+              "timings": {
+                "cache_n": 2456,
+                "prompt_n": 161,
+                "prompt_ms": 957.4,
+                "prompt_per_token_ms": 5.946583850931677,
+                "prompt_per_second": 168.16377689575936,
+                "predicted_n": 30,
+                "predicted_ms": 468.536,
+                "predicted_per_token_ms": 16.156413793103447,
+                "predicted_per_second": 61.894923762528386
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "partial",
+      "holdout": false,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 1,
+      "material": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma. Com saldo 12, retirar 5 passa porque 5 > 0 e 5 <= 12.",
+      "question": "18 é positivo, então posso retirar 18 com saldo 15",
+      "turns": [
+        {
+          "body": "18 é positivo, então posso retirar 18 com saldo 15",
+          "raw": "{\"correct\": {\"text\": \"18 é positivo\", \"basis\": \"inference\", \"references\": []}, \"revise\": {\"text\": \"quantidade <= saldo\", \"basis\": \"material\", \"references\": [\"1\"]}, \"reason\": {\"text\": \"A regra exige que a quantidade seja menor ou igual ao saldo\", \"basis\": \"material\", \"references\": [\"1\"]}}",
+          "displayed": "O que você acertou — Inferência: 18 é positivo\n\nO que precisa mudar — Material de estudo: quantidade <= saldo [1]\n\nPor quê — Material de estudo: A regra exige que a quantidade seja menor ou igual ao saldo [1]",
+          "kind": "attempt",
+          "meta": {
+            "task": "correction",
+            "interventions": [],
+            "safe_fallback": false,
+            "stage_before": "waiting_attempt",
+            "stage_after": "correction"
+          },
+          "lesson_before": {
+            "stage": "waiting_attempt",
+            "exercise": "Com saldo 15 e retirada 18, a regra permite a operação?",
+            "attempts": 0
+          },
+          "lesson_after": {
+            "stage": "correction",
+            "exercise": "Com saldo 15 e retirada 18, a regra permite a operação?",
+            "attempts": 1
+          },
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "4e2c61a44382437a9290959bd1d24931",
+              "chunk_id": "5f8e2a1e-e19b-4595-9c96-3390e576624f",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma. Com saldo 12, retirar 5 passa porque 5 > 0 e 5 <= 12."
+            }
+          ],
+          "external_sources": [],
+          "seconds": 4.77,
+          "usage": {
+            "completion_tokens": 87,
+            "prompt_tokens": 2483,
+            "total_tokens": 2570,
+            "prompt_tokens_details": {
+              "cached_tokens": 1834
+            }
+          },
+          "timings": {
+            "cache_n": 1834,
+            "prompt_n": 649,
+            "prompt_ms": 3337.766,
+            "prompt_per_token_ms": 5.142936825885979,
+            "prompt_per_second": 194.44143178401362,
+            "predicted_n": 87,
+            "predicted_ms": 1386.507,
+            "predicted_per_token_ms": 16.12217441860465,
+            "predicted_per_second": 62.02637274820826
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "{\"correct\": {\"text\": \"18 é positivo\", \"basis\": \"inference\", \"references\": []}, \"revise\": {\"text\": \"quantidade <= saldo\", \"basis\": \"material\", \"references\": [\"1\"]}, \"reason\": {\"text\": \"A regra exige que a quantidade seja menor ou igual ao saldo\", \"basis\": \"material\", \"references\": [\"1\"]}}",
+              "usage": {
+                "completion_tokens": 87,
+                "prompt_tokens": 2483,
+                "total_tokens": 2570,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1834
+                }
+              },
+              "timings": {
+                "cache_n": 1834,
+                "prompt_n": 649,
+                "prompt_ms": 3337.766,
+                "prompt_per_token_ms": 5.142936825885979,
+                "prompt_per_second": 194.44143178401362,
+                "predicted_n": 87,
+                "predicted_ms": 1386.507,
+                "predicted_per_token_ms": 16.12217441860465,
+                "predicted_per_second": 62.02637274820826
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": "contradiction",
+      "holdout": false,
+      "model": "qwen3-4b-q4_k_m",
+      "repeat": 1,
+      "material": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma. Com saldo 12, retirar 5 passa porque 5 > 0 e 5 <= 12.",
+      "question": "Compare a regra local com a fonte externa sobre retirada 18 com saldo 15.",
+      "turns": [
+        {
+          "body": "Compare a regra local com a fonte externa sobre retirada 18 com saldo 15.",
+          "raw": "{\"claims\": [{\"text\": \"O material afirma que uma retirada exige que a quantidade seja maior que 0 e menor ou igual ao saldo.\", \"basis\": \"material\", \"references\": [\"1\"]}, {\"text\": \"A fonte externa afirma que retirar 18 com saldo 15 é permitido.\", \"basis\": \"external\", \"references\": [\"E1\"]}, {\"text\": \"A regra local e a fonte externa divergem sobre a permissibilidade da operação com os valores apresentados.\", \"basis\": \"inference\", \"references\": []}], \"limits\": \"A regra local exige que a quantidade seja menor ou igual ao saldo, enquanto a fonte externa permite a operação com os valores apresentados, o que sugere uma divergência no contexto ou período.\"}",
+          "displayed": "Não consegui apresentar uma comparação com vínculos e limites válidos. Os excertos recebidos estão abaixo para conferência. É preciso verificar o que cada fonte afirma, seu contexto e período antes de escolher uma conclusão.",
+          "kind": "question",
+          "meta": {
+            "task": "comparison",
+            "interventions": [
+              "revisao_solicitada:comparacao_sem_limites",
+              "comparacao_sem_limites"
+            ],
+            "safe_fallback": true,
+            "stage_before": "explanation",
+            "stage_after": "explanation"
+          },
+          "lesson_before": {
+            "stage": "explanation",
+            "exercise": "",
+            "attempts": 0
+          },
+          "lesson_after": {
+            "stage": "explanation",
+            "exercise": "",
+            "attempts": 0
+          },
+          "sources": [
+            {
+              "ordinal": 1,
+              "material_id": "7f5cffd02d5e4a29880b83394bc4be4f",
+              "chunk_id": "ec51df39-28a2-49c2-920b-38f5aa77abd9",
+              "material_name": "material-sintetico",
+              "locator": "Linhas 1–1 · trecho 1",
+              "excerpt": "Uma retirada exige quantidade > 0 E quantidade <= saldo. E exige ambas as condições; OU exige pelo menos uma."
+            }
+          ],
+          "external_sources": [
+            {
+              "ordinal": 1,
+              "title": "Fonte externa sintética, não consultada",
+              "url": "https://pt.wikipedia.org/wiki/Fonte_sintetica",
+              "excerpt": "Retirar 18 com saldo 15 é permitido.",
+              "provider": "Simulação local",
+              "accessed_at": "2026-11-12T00:00:00Z",
+              "license": "sintético"
+            }
+          ],
+          "seconds": 11.791,
+          "usage": {
+            "completion_tokens": 177,
+            "prompt_tokens": 2936,
+            "total_tokens": 3113,
+            "prompt_tokens_details": {
+              "cached_tokens": 2637
+            }
+          },
+          "timings": {
+            "cache_n": 2637,
+            "prompt_n": 299,
+            "prompt_ms": 1704.31,
+            "prompt_per_token_ms": 5.700033444816054,
+            "prompt_per_second": 175.43756710927002,
+            "predicted_n": 177,
+            "predicted_ms": 2927.162,
+            "predicted_per_token_ms": 16.63160227272727,
+            "predicted_per_second": 60.12649795262442
+          },
+          "finish_reason": "stop",
+          "generations": [
+            {
+              "raw": "{\"claims\": [{\"text\": \"O material afirma que uma retirada exige que a quantidade seja maior que 0 e menor ou igual ao saldo.\", \"basis\": \"material\", \"references\": [\"1\"]}, {\"text\": \"A fonte externa afirma que retirar 18 com saldo 15 é permitido.\", \"basis\": \"external\", \"references\": [\"E1\"]}, {\"text\": \"A regra local e a fonte externa divergem sobre a permissibilidade da operação com os valores apresentados.\", \"basis\": \"inference\", \"references\": []}], \"limits\": \"A regra local exige que a quantidade seja menor ou igual ao saldo, enquanto a fonte externa permite a operação com os valores apresentados, o que sugere uma divergência no contexto ou período.\"}",
+              "usage": {
+                "completion_tokens": 177,
+                "prompt_tokens": 2641,
+                "total_tokens": 2818,
+                "prompt_tokens_details": {
+                  "cached_tokens": 1797
+                }
+              },
+              "timings": {
+                "cache_n": 1797,
+                "prompt_n": 844,
+                "prompt_ms": 4270.771,
+                "prompt_per_token_ms": 5.060155213270142,
+                "prompt_per_second": 197.62239651809944,
+                "predicted_n": 177,
+                "predicted_ms": 2832.367,
+                "predicted_per_token_ms": 16.09299431818182,
+                "predicted_per_second": 62.13884005850936
+              },
+              "finish_reason": "stop"
+            },
+            {
+              "raw": "{\"claims\": [{\"text\": \"O material afirma que uma retirada exige que a quantidade seja maior que 0 e menor ou igual ao saldo.\", \"basis\": \"material\", \"references\": [\"1\"]}, {\"text\": \"A fonte externa afirma que retirar 18 com saldo 15 é permitido.\", \"basis\": \"external\", \"references\": [\"E1\"]}, {\"text\": \"A regra local e a fonte externa divergem sobre a permissibilidade da operação com os valores apresentados.\", \"basis\": \"inference\", \"references\": []}], \"limits\": \"A regra local exige que a quantidade seja menor ou igual ao saldo, enquanto a fonte externa permite a operação com os valores apresentados, o que sugere uma divergência no contexto ou período.\"}",
+              "usage": {
+                "completion_tokens": 177,
+                "prompt_tokens": 2936,
+                "total_tokens": 3113,
+                "prompt_tokens_details": {
+                  "cached_tokens": 2637
+                }
+              },
+              "timings": {
+                "cache_n": 2637,
+                "prompt_n": 299,
+                "prompt_ms": 1704.31,
+                "prompt_per_token_ms": 5.700033444816054,
+                "prompt_per_second": 175.43756710927002,
+                "predicted_n": 177,
+                "predicted_ms": 2927.162,
+                "predicted_per_token_ms": 16.63160227272727,
+                "predicted_per_second": 60.12649795262442
+              },
+              "finish_reason": "stop"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

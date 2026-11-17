@@ -17,8 +17,12 @@ def _fold(value):
 
 def _terms(question):
     values = re.findall(r"\w+", _fold(question), flags=re.UNICODE)
-    return list(dict.fromkeys(value for value in values if (len(value) >= 3 or value.isdigit())
-                              and value not in STOPWORDS))[:10]
+    terms = list(dict.fromkeys(value for value in values if (len(value) >= 3 or value.isdigit())
+                               and value not in STOPWORDS))
+    # E/OU são termos úteis só quando a pergunta os nomeia explicitamente.
+    if re.search(r"\bE\b", question) and re.search(r"\bOU\b", question):
+        terms = ["e", "ou", *terms]
+    return terms[:10]
 
 
 def _excerpt(body, terms, limit=650):
@@ -39,6 +43,7 @@ def search_chunks(database, subject_id, material_ids, question, *, limit=6):
     if not material_ids:
         return []
     terms = _terms(question)
+    operators_question = bool(re.search(r"\bE\b", question) and re.search(r"\bOU\b", question))
     if not terms:
         return []
     # Apenas tokens normalizados entre aspas entram na sintaxe MATCH.
@@ -56,6 +61,8 @@ def search_chunks(database, subject_id, material_ids, question, *, limit=6):
         results = []
         for row in rows:
             body_terms = set(re.findall(r"\w+", _fold(row["body"]), flags=re.UNICODE))
+            if operators_question and not {"e", "ou"}.issubset(body_terms):
+                continue
             overlap = len(set(terms) & body_terms)
             if overlap < (2 if len(terms) >= 4 else 1):
                 continue

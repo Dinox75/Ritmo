@@ -17,10 +17,10 @@ except ImportError:
     expect = sync_playwright = None
 
 
-EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+from tests.browser_target import BROWSER
 
 
-@unittest.skipUnless(sync_playwright and EDGE.exists(), "QA visual requer Playwright e Microsoft Edge")
+@unittest.skipUnless(sync_playwright and BROWSER, "QA visual requer Playwright e Microsoft Edge")
 class BrowserFlowCase(unittest.TestCase):
     def test_study_flow_navigation_reopen_and_note_retry(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -38,7 +38,7 @@ class BrowserFlowCase(unittest.TestCase):
             server, thread = start_server()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page(viewport={"width": 1366, "height": 800})
                     page.set_default_timeout(8000)
                     errors = []
@@ -151,7 +151,14 @@ class BrowserFlowCase(unittest.TestCase):
                     page.locator("#sensor-form details summary").click()
                     page.locator("#idle-threshold").fill("90")
                     page.locator("#save-sensors").click()
-                    expect(page.locator("#message")).to_contain_text("Sensores atualizados")
+                    try:
+                        expect(page.locator("#message")).to_contain_text("Sensores atualizados")
+                    except AssertionError:
+                        import json
+                        print(json.dumps({"sensor_error":page.locator("#sensor-error").inner_text(),
+                                          "save_button":page.locator("#save-sensors").inner_text(),
+                                          "camera_status":page.locator("#camera-status").inner_text()},ensure_ascii=True))
+                        raise
                     self.assertEqual(load_config(config_path)["idle_tracker"]["threshold_seconds"], 90)
                     self.assertEqual(load_config(config_path)["presence_detector"]["camera_index"], 3)
                     page.locator("#backup-btn").click()
@@ -206,7 +213,7 @@ class BrowserFlowCase(unittest.TestCase):
             server, thread = start_server()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     expect(page.locator("#view-evolucao")).to_be_visible()

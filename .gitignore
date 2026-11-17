@@ -44,6 +44,15 @@ source_checkout.txt
 *.zip
 RitmoModels/
 models/
+adapters/
+checkpoints/
+training/runs/
+training/corpus/
+training/sources/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
 runtime/
 downloads/
 installation.json

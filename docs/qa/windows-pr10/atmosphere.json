@@ -1,0 +1,168 @@
+{
+  "packaged": true,
+  "screens": [
+    {
+      "width": 390,
+      "view": "estudar",
+      "metrics": {
+        "viewport": 390,
+        "document": 390,
+        "theme": "dark",
+        "study_layout": {
+          "dockVisible": false,
+          "inDock": false,
+          "dockTop": 0,
+          "settingsBottom": 838,
+          "readerWidth": 362,
+          "tutorWidth": 362,
+          "sameRow": false,
+          "pauseIcon": "none"
+        }
+      },
+      "image": "ritmo-pr3-390-estudar.png",
+      "fixed_navigation": {
+        "before": 741,
+        "after": 741,
+        "scrolled": 400,
+        "position": "fixed",
+        "dim": "rgba(0, 0, 0, 0.15)",
+        "bodyFilter": "none"
+      },
+      "scrolled_image": "ritmo-pr3-390-estudar-scrolled.png"
+    },
+    {
+      "width": 390,
+      "view": "configuracoes",
+      "metrics": {
+        "viewport": 390,
+        "document": 390,
+        "theme": "dark"
+      },
+      "image": "ritmo-pr3-390-configuracoes.png",
+      "fixed_navigation": {
+        "before": 741,
+        "after": 741,
+        "scrolled": 400,
+        "position": "fixed",
+        "dim": "rgba(0, 0, 0, 0.15)",
+        "bodyFilter": "none"
+      },
+      "scrolled_image": "ritmo-pr3-390-configuracoes-scrolled.png"
+    },
+    {
+      "width": 1366,
+      "view": "estudar",
+      "metrics": {
+        "viewport": 1366,
+        "document": 1366,
+        "theme": "dark",
+        "study_layout": {
+          "dockVisible": true,
+          "inDock": true,
+          "dockTop": 438,
+          "settingsBottom": 422,
+          "readerWidth": 699,
+          "tutorWidth": 400,
+          "sameRow": true,
+          "pauseIcon": "\"Ⅱ\""
+        }
+      },
+      "image": "ritmo-pr3-1366-estudar.png",
+      "fixed_navigation": {
+        "before": 0,
+        "after": 0,
+        "scrolled": 400,
+        "position": "fixed",
+        "dim": "rgba(0, 0, 0, 0.15)",
+        "bodyFilter": "none"
+      },
+      "scrolled_image": "ritmo-pr3-1366-estudar-scrolled.png"
+    },
+    {
+      "width": 1366,
+      "view": "configuracoes",
+      "metrics": {
+        "viewport": 1366,
+        "document": 1366,
+        "theme": "dark"
+      },
+      "image": "ritmo-pr3-1366-configuracoes.png",
+      "fixed_navigation": {
+        "before": 0,
+        "after": 0,
+        "scrolled": 400,
+        "position": "fixed",
+        "dim": "rgba(0, 0, 0, 0.15)",
+        "bodyFilter": "none"
+      },
+      "scrolled_image": "ritmo-pr3-1366-configuracoes-scrolled.png"
+    },
+    {
+      "width": 1920,
+      "view": "estudar",
+      "metrics": {
+        "viewport": 1920,
+        "document": 1920,
+        "theme": "dark",
+        "study_layout": {
+          "dockVisible": true,
+          "inDock": true,
+          "dockTop": 438,
+          "settingsBottom": 422,
+          "readerWidth": 1253,
+          "tutorWidth": 400,
+          "sameRow": true,
+          "pauseIcon": "\"Ⅱ\""
+        }
+      },
+      "image": "ritmo-pr3-1920-estudar.png",
+      "fixed_navigation": {
+        "before": 0,
+        "after": 0,
+        "scrolled": 233,
+        "position": "fixed",
+        "dim": "rgba(0, 0, 0, 0.15)",
+        "bodyFilter": "none"
+      },
+      "scrolled_image": "ritmo-pr3-1920-estudar-scrolled.png"
+    },
+    {
+      "width": 1920,
+      "view": "configuracoes",
+      "metrics": {
+        "viewport": 1920,
+        "document": 1920,
+        "theme": "dark"
+      },
+      "image": "ritmo-pr3-1920-configuracoes.png",
+      "fixed_navigation": {
+        "before": 0,
+        "after": 0,
+        "scrolled": 400,
+        "position": "fixed",
+        "dim": "rgba(0, 0, 0, 0.15)",
+        "bodyFilter": "none"
+      },
+      "scrolled_image": "ritmo-pr3-1920-configuracoes-scrolled.png"
+    }
+  ],
+  "checks": [
+    "janela nativa WebView2 visível",
+    "cronômetro de foco avança",
+    "navegação fixa após rolagem em Estudar e Configurações a 85%, nas três larguras",
+    "contraste de rótulos no tema escuro",
+    "rain inicia, ajusta volume e para",
+    "brown inicia, ajusta volume e para",
+    "arquivo WAV local toca em loop e respeita volume zero",
+    "pausa congela foco e áudio; retomada continua ambos",
+    "tema e lembretes salvos em configuração temporária",
+    "lembretes de pausa e excesso; só o botão pausa",
+    "janela reaberta com sessão pausada e tema salvo",
+    "conclusão mostra resumo, para áudio e gera dois toques"
+  ],
+  "contrast": {
+    "legend": 10.019059694624149,
+    "settingsLabel": 10.019059694624149,
+    "historyBackground": "rgb(16, 38, 43)"
+  }
+}

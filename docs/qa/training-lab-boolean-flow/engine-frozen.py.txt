@@ -1,0 +1,175 @@
+"""Opt-in, deterministic Boolean lesson. No model calls or free-text grading."""
+import copy
+import ast
+import itertools
+import json
+import re
+from pathlib import Path
+from storage.database import ConflictError,new_id
+from training.lab.guided_reference import SPECS,reference
+from training.lab.exercises import contrast,trace
+from training.lab.validation import solve
+from training.lab.state import digest
+
+
+def scenarios():
+    definitions=[('negation_true',0,{'cadastro':True,'confirmado':False},None,
+                  'O cadastro não deve ter as duas confirmações ao mesmo tempo.',
+                  'not (porta and janela)',{'porta':True,'janela':True},
+                  'Um alarme dispara quando não é verdade que porta e janela estão ambas travadas.'),
+                 ('implication_false',1,{'ativo':True,'certificado':False},'ativo or certificado',
+                  'A política diz: se a conta está ativa, então precisa de certificado.',
+                  'not chove or capa',{'chove':False,'capa':False},
+                  'Outra política diz: se chove, então deve haver capa. A política foi cumprida neste caso?'),
+                 ('equivalence_false',2,{'a':False,'b':True,'autorizado':False},None,
+                  'Compare a existência de uma permissão A ou B com o indicador autorizado.',
+                  '(assinatura or cupom) == liberado',{'assinatura':True,'cupom':False,'liberado':True},
+                  'Uma promoção exige que ter assinatura ou cupom corresponda ao indicador liberado. Eles coincidem?')]
+    result={}
+    for key,index,values,mistake,context,expr,tvalues,tcontext in definitions:
+        spec=copy.deepcopy(SPECS[index]);spec.update(values=values,context=context)
+        if mistake:spec['mistake']=mistake
+        spec['expected']=solve(spec['expression'],values)
+        spec['example']=contrast(spec['expression'],values);spec['solution']=trace(spec['expression'],values)
+        name,value=next(iter(values.items()))
+        spec['student']={'correct_fact':f'{name} = {value}'}
+        spec['transfer']={'expression':expr,'values':tvalues,'context':tcontext,'expected':solve(expr,tvalues)}
+        spec['transfer']['rule']=spec['rule']
+        result[key]=spec
+    return result
+
+
+def sources(kind):
+    return json.loads(Path(__file__).with_name('boolean_sources.json').read_text(encoding='utf8'))[kind]
+
+
+def check(task,attempt):
+    if not isinstance(attempt,dict) or set(attempt)!={'fact_name','fact_value','expression','conclusion'}:
+        raise ValueError('Envie a entrada observada, expressão e conclusão nos campos estruturados.')
+    name=attempt['fact_name'];expr=attempt['expression']
+    if not isinstance(name,str) or name not in task['values'] or type(attempt['fact_value']) is not bool or type(attempt['conclusion']) is not bool:
+        raise ValueError('Entrada ou conclusão fora do domínio booleano.')
+    if not isinstance(expr,str) or not expr.strip():raise ValueError('Informe a expressão usada.')
+    if len(expr)>200:raise ValueError('Expressão longa demais.')
+    tree=ast.parse(expr,mode='eval')
+    if any(isinstance(n,ast.Constant) and type(n.value) is not bool or
+           isinstance(n,ast.Compare) and any(not isinstance(op,(ast.Eq,ast.NotEq)) for op in n.ops)
+           for n in ast.walk(tree)):
+        raise ValueError('Neste protótipo use somente entradas booleanas e and, or, not, == ou !=.')
+    actual=solve(expr,task['values'])  # Bounded interpreter; never eval or tools.
+    counterexample=None
+    for combo in itertools.product((False,True),repeat=len(task['values'])):
+        values=dict(zip(task['values'],combo))
+        if solve(expr,values)!=solve(task['expression'],values):
+            counterexample=values;break
+    return {'fact_correct':attempt['fact_value']==task['values'][name],
+            'conclusion_correct':attempt['conclusion']==task['expected'],
+            'consistent_with_own_expression':actual==attempt['conclusion'],
+            'equivalent':counterexample is None,'counterexample':counterexample,
+            'own_result':actual,'expected':task['expected']}
+
+
+def correction(task,attempt,checked):
+    name=attempt['fact_name'];good=[];bad=[]
+    if checked['fact_correct']:good.append(f'Você acertou a entrada {name} = {attempt["fact_value"]}.')
+    else:bad.append(f'A entrada {name} foi trocada: o enunciado fornece {task["values"][name]}, não {attempt["fact_value"]}.')
+    if checked['equivalent']:good.append('A expressão que você escreveu preserva a regra em todas as combinações booleanas destas variáveis.')
+    else:
+        bad.append(f'A transformação para {attempt["expression"]} não preserva {task["expression"]}.')
+        counter=checked['counterexample']
+        bad.append(f'Contraexemplo calculado: {counter}; sua expressão vale {solve(attempt["expression"],counter)} e a regra original vale {solve(task["expression"],counter)}.')
+    if checked['conclusion_correct']:good.append(f'A conclusão {attempt["conclusion"]} coincide com o gabarito deste caso.')
+    else:bad.append(f'Neste caso sua conclusão {attempt["conclusion"]} difere do resultado {task["expected"]}.')
+    if checked['consistent_with_own_expression']:good.append(f'A conclusão {attempt["conclusion"]} é consistente com a expressão que você calculou; isso por si só não garante que a transformação esteja certa.')
+    else:bad.append(f'Até a expressão que você escreveu resulta em {checked["own_result"]}, não em {attempt["conclusion"]}.')
+    return ('O que estava certo: '+(' '.join(good) if good else 'Não encontrei um passo correto verificável nos campos enviados.')+
+            '\nO que precisa mudar: '+(' '.join(bad) if bad else 'Não encontrei erro verificável nesta representação.')+
+            '\nRegra: '+task['rule']+'\nTraço calculado: '+json.dumps(trace(task['expression'],task['values']),ensure_ascii=False)+
+            '\nEsta verificação técnica não demonstra aprendizagem ou domínio do conteúdo.')
+
+
+class BooleanLesson:
+    def __init__(self,database,enabled=False):self.db=database;self.enabled=enabled
+    def require(self):
+        if not self.enabled:raise ValueError('Aula booleana experimental desligada nesta instância.')
+    @staticmethod
+    def public(state):
+        return {k:copy.deepcopy(v) for k,v in state.items() if not k.startswith('_')}
+    def start(self,scenario):
+        self.require()
+        if scenario not in scenarios():raise ValueError('Escolha um cenário booleano disponível.')
+        task=scenarios()[scenario]
+        state={'id':new_id(),'scenario':scenario,'stage':'concept','version':0,'attempts':0,
+               'messages':[{'role':'assistant','stage':'concept','body':task['concept']+'. '+task['rule']+
+                            ' Vamos aplicar a regra com passos separados, sem avaliar prosa livre.'}],
+               'sources':sources('hint'),'objective':task['question'],'exercise':None,
+               '_task':task,'_attempts':[],'_requests':{}}
+        with self.db.connect() as db:
+            db.execute('CREATE TABLE IF NOT EXISTS boolean_lessons (id TEXT PRIMARY KEY,state_json TEXT NOT NULL)')
+            db.execute('INSERT INTO boolean_lessons VALUES (?,?)',(state['id'],json.dumps(state,ensure_ascii=False)))
+        return self.public(state)
+    def get(self,lesson_id):
+        self.require()
+        with self.db.connect() as db:
+            if not db.execute("SELECT 1 FROM sqlite_master WHERE name='boolean_lessons'").fetchone():raise ValueError('Aula não encontrada.')
+            row=db.execute('SELECT state_json FROM boolean_lessons WHERE id=?',(lesson_id,)).fetchone()
+        if not row:raise ValueError('Aula não encontrada.')
+        return self.public(json.loads(row[0]))
+    def delete(self,lesson_id):
+        self.get(lesson_id)
+        with self.db.connect() as db:db.execute('DELETE FROM boolean_lessons WHERE id=?',(lesson_id,))
+        return {'deleted':True}
+    def turn(self,lesson_id,request):
+        self.get(lesson_id)
+        rid=request.get('request_id')
+        if not isinstance(rid,str) or not 8<=len(rid)<=100:raise ValueError('Identificador de ação inválido.')
+        signature=digest(request)
+        with self.db.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=db.execute('SELECT state_json FROM boolean_lessons WHERE id=?',(lesson_id,)).fetchone()
+            if not row:raise ValueError('Aula não encontrada.')
+            s=json.loads(row[0])
+            if rid in s['_requests']:
+                if s['_requests'][rid]!=signature:raise ConflictError('Identificador já usado com outros dados.')
+                return self.public(s)
+            if type(request.get('version')) is not int or request['version']!=s['version']:raise ConflictError('A aula mudou. Reabra antes de enviar novamente.')
+            if len(s['messages'])>=120:raise ValueError('Limite desta aula atingido; inicie outra.')
+            action=request.get('action');stage=s['stage'];t=s['_task'];body='';user=action
+            if action=='question':
+                user=request.get('body','')
+                if not isinstance(user,str) or not 1<=len(user)<=2000:raise ValueError('Escreva uma dúvida de até 2000 caracteres.')
+                body='Não consigo verificar respostas livres, probabilidades ou assuntos fora destas expressões booleanas. Não vou tratá-la como tentativa nem alterar o exercício. Este protótipo só verifica os campos estruturados; a dúvida permanece sem avaliação.'
+            elif action=='example' and stage=='concept':
+                rt={**t,'kind':'explanation'};body=reference(rt,sources('explanation'))['intervention'];s['stage']='example';s['sources']=sources('explanation')
+            elif action=='exercise' and stage=='example':
+                s['exercise']={k:t[k] for k in ('expression','values','context')};s['stage']='waiting_attempt'
+                body=t['context']+'\nCondição: '+t['expression']+'\nEntradas: '+str(t['values'])+'\nEnvie a expressão usada e a conclusão, com uma entrada que observou.'
+            elif action in ('attempt','transfer_attempt') and stage in ('waiting_attempt','retry','transfer_wait'):
+                if (stage=='transfer_wait')!=(action=='transfer_attempt'):raise ValueError('Tipo de tentativa incompatível com a etapa.')
+                attempt=request.get('attempt');current=t['transfer'] if stage=='transfer_wait' else t
+                user=json.dumps(attempt,ensure_ascii=False)
+                try:checked=check(current,attempt)
+                except (ValueError,TypeError,SyntaxError) as error:
+                    body='Não consigo verificar esta resposta no escopo booleano estruturado. '+str(error)+' A etapa foi preservada e nenhuma tentativa foi contabilizada.'
+                else:
+                    s['_attempts'].append({'stage':stage,'attempt':attempt,'check':checked});s['attempts']+=1
+                    if stage=='waiting_attempt':
+                        hint=reference({**t,'kind':'hint'},sources('hint'));body=hint['intervention']+'\n'+hint['verification_question'];s['stage']='retry'
+                    else:
+                        body=correction(current,attempt,checked)
+                        if stage=='retry':
+                            first=s['_attempts'][0]
+                            if not all(first['check'][k] for k in ('fact_correct','equivalent','conclusion_correct')):
+                                body='Retomando a primeira tentativa:\n'+correction(t,first['attempt'],first['check'])+'\n\nSua nova tentativa:\n'+body
+                        s['stage']='complete' if stage=='transfer_wait' else 'correction';s['sources']=sources('correction')
+            elif action=='transfer' and stage=='correction':
+                tr=t['transfer'];s['exercise']={k:tr[k] for k in ('expression','values','context')};s['stage']='transfer_wait'
+                s['objective']={'negation_true':'Explique como negar o grupo porta and janela.',
+                                'implication_false':'Explique o papel de negar o antecedente chove antes de usar OU.',
+                                'equivalence_false':'Explique a avaliação do grupo assinatura or cupom antes da igualdade com liberado.'}[s['scenario']]
+                body='Agora em outro contexto, sem copiar os valores anteriores: '+tr['context']+'\nCondição: '+tr['expression']+'\nEntradas: '+str(tr['values'])+'\nQual é a conclusão e qual regra a justifica?'
+            else:raise ValueError('Esta ação não é permitida na etapa atual.')
+            s['messages'] += [{'role':'user','stage':stage,'body':user},{'role':'assistant','stage':s['stage'],'body':body}]
+            s['version']+=1;s['_requests'][rid]=signature
+            db.execute('UPDATE boolean_lessons SET state_json=? WHERE id=?',(json.dumps(s,ensure_ascii=False),lesson_id))
+        return self.public(s)

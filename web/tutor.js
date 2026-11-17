@@ -1,11 +1,82 @@
 /* Chat do tutor local. Trechos importados entram apenas como nós de texto. */
 let tutorThread = null, tutorThreads = [], tutorContextKey = '', tutorRequestId = null;
 let tutorPending = false, tutorLoadRevision = 0, tutorFailedDraft = '';
+let tutorFailedAction = null;
 let memoryItems = [], memoryEditing = null;
+let externalResults = [];
+let tutorSettingsSave = Promise.resolve();
+
+function saveTutorSettings(data) {
+  const id=tutorThread?.id;
+  if(!id)return Promise.reject(new Error('Escolha uma conversa.'));
+  tutorSettingsSave=tutorSettingsSave.catch(()=>{}).then(async()=>{
+    const updated=await api('/tutor/threads/'+id,'PATCH',data);
+    if(tutorThread?.id===id)tutorThread=updated;
+    return updated;
+  });
+  return tutorSettingsSave;
+}
+
+function renderExternalResults() {
+  const container = $('external-results'); container.replaceChildren();
+  externalResults.forEach((source, index) => {
+    const row = document.createElement('div'), label = document.createElement('label');
+    const check = document.createElement('input'), link = document.createElement('a');
+    check.type = 'checkbox'; check.value = source.id; check.className = 'external-choice';
+    link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+    link.textContent = `[E${index + 1}] ${source.title}`;
+    const meta = document.createElement('small'), excerpt = document.createElement('p');
+    meta.textContent = `${source.provider} · acesso: ${source.accessed_at.slice(0, 10)} · ${source.license}`;
+    excerpt.textContent = source.excerpt;
+    label.append(check, link); row.append(label, meta, excerpt); container.append(row);
+  });
+  if (externalResults.length) {
+    const hint = document.createElement('p'); hint.className = 'hint';
+    hint.textContent = 'Marque até três fontes. Os excertos escolhidos serão usados somente na próxima resposta do tutor local.';
+    container.append(hint);
+  }
+}
+
+$('external-query').oninput = () => {
+  $('external-preview').textContent = $('external-query').value.trim() || '(vazia)';
+  externalResults = []; renderExternalResults(); $('external-status').textContent = '';
+};
+$('external-form').onsubmit = async event => {
+  event.preventDefault();
+  const query = $('external-query').value.trim();
+  if (query.length < 2) { $('external-status').textContent = 'Escreva uma consulta com pelo menos 2 caracteres.'; return; }
+  $('external-preview').textContent = query;
+  $('external-submit').disabled = true; $('external-status').textContent = 'Pesquisando somente a consulta exibida…';
+  try {
+    const response = await api('/external/search', 'POST', {query, confirmed: true});
+    externalResults = response.results; renderExternalResults();
+    $('external-status').textContent = externalResults.length ? `${externalResults.length} resultado(s). Confira o conteúdo e escolha as fontes.` : 'Nenhum resultado. O tutor local continua disponível.';
+  } catch (error) { externalResults = []; renderExternalResults(); $('external-status').textContent = error.message + ' O tutor local continua disponível.'; }
+  finally { $('external-submit').disabled = false; }
+};
 
 function tutorError(text) { $('tutor-error').textContent = text || ''; }
 
+function renderCitedText(container, item) {
+  const pattern = /\[(E?)(\d+)\]/g;
+  let offset = 0;
+  for (const match of item.body.matchAll(pattern)) {
+    container.append(document.createTextNode(item.body.slice(offset, match.index)));
+    const source = (match[1] ? item.external_sources : item.sources)?.find(s => s.ordinal === Number(match[2]));
+    if (source && (match[1] || (source.material_id && source.chunk_id))) {
+      const link = document.createElement('a'); link.textContent = match[0]; link.className = 'inline-citation';
+      if (match[1]) { link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer'; }
+      else { link.href = '#materiais'; link.onclick = () => setTimeout(() => openMaterial(source.material_id, source.chunk_id, source.excerpt), 0); }
+      container.append(link);
+    } else container.append(document.createTextNode(match[0]));
+    offset = match.index + match[0].length;
+  }
+  container.append(document.createTextNode(item.body.slice(offset)));
+}
+
 function renderTutorStatus(status) {
+  const experimentalEntry=document.getElementById('boolean-entry');
+  if(experimentalEntry)experimentalEntry.hidden=!status.boolean_lesson_enabled;
   $('tutor-model').value = status.model;
   $('tutor-model-root').value = status.model_root;
   $('tutor-config-status').textContent = status.configured
@@ -14,6 +85,10 @@ function renderTutorStatus(status) {
   $('tutor-availability').textContent = status.configured
     ? `Tutor local · ${status.model}. Conversa processada neste computador, sem custo de API.`
     : 'Tutor local ainda não instalado. Leitura, busca e anotações continuam disponíveis.';
+  if (status.model === 'qwen3-1.7b-q8_0') {
+    $('tutor-config-status').textContent += ' Modelo experimental: nos ensaios seguiu uma instrução hostil do material. Não aprovado como professor.';
+    $('tutor-availability').textContent += ' Modelo experimental; confira todas as respostas.';
+  }
 }
 
 async function loadTutorStatus() {
@@ -46,12 +121,13 @@ function renderTutorMaterials() {
   available.forEach(item => {
     const label = document.createElement('label'), check = document.createElement('input');
     check.type = 'checkbox'; check.value = item.id; check.checked = tutorThread.material_ids.includes(item.id);
+    check.disabled = tutorPending;
     const name = document.createElement('span'); name.textContent = `${item.name} · ${item.status === 'ready' ? 'texto disponível' : 'sem texto extraível'}`;
     label.append(check, name); options.append(label);
     check.onchange = async () => {
       const chosen = Array.from(options.querySelectorAll('input:checked')).map(element => element.value);
       if (chosen.length > 5) { check.checked = false; tutorError('Escolha até cinco materiais.'); return; }
-      try { tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH', {material_ids: chosen}); tutorError(''); }
+      try { await saveTutorSettings({material_ids: chosen}); tutorError(''); }
       catch (error) { check.checked = !check.checked; tutorError(error.message); }
     };
   });
@@ -65,10 +141,10 @@ function renderTutorHistory() {
     card.className = 'tutor-message ' + item.role;
     const eventNames = {question: 'Pergunta', attempt: 'Tentativa', feedback: 'Correção', lesson_prompt: 'Aula guiada', answer: 'Resposta'};
     label.textContent = `${item.role === 'user' ? 'Você' : 'Tutor'} · ${eventNames[item.kind] || item.kind}`;
-    body.textContent = item.body; card.append(label, body);
+    renderCitedText(body, item); card.append(label, body);
     if (item.role === 'assistant') {
       const basis = document.createElement('small');
-      basis.textContent = item.basis === 'materials' ? 'Trechos dos materiais selecionados' :
+      basis.textContent = item.meta?.safe_fallback ? 'O aplicativo usou uma saída segura; confira os excertos. A etapa foi preservada.' : item.meta?.interventions?.includes('revisao_aceita') ? 'Resposta revisada pelo modelo; o vínculo da citação não comprova a conclusão.' : item.basis === 'materials' ? 'Evidências recebidas dos materiais; o vínculo da citação não comprova a conclusão.' :
         item.basis === 'insufficient' ? 'Material selecionado sem trecho correspondente; confira a resposta' :
         'Sem material selecionado · conhecimento geral ou inferência';
       card.append(basis);
@@ -79,16 +155,27 @@ function renderTutorHistory() {
           link.textContent = `[${source.ordinal}] ${source.material_name} · ${source.locator}`;
           if (link.tagName === 'A') {
             link.href = '#materiais';
-            link.onclick = () => { setTimeout(() => openMaterial(source.material_id, source.chunk_id), 0); };
+            link.onclick = () => { setTimeout(() => openMaterial(source.material_id, source.chunk_id, source.excerpt), 0); };
           }
           const excerpt = document.createElement('small'); excerpt.textContent = source.excerpt;
           li.append(link, excerpt); sources.append(li);
         });
         card.append(sources);
       }
+      if (item.external_sources?.length) {
+        const sources = document.createElement('ul'); sources.className = 'tutor-sources';
+        item.external_sources.forEach(source => {
+          const li = document.createElement('li'), link = document.createElement('a'), excerpt = document.createElement('small');
+          link.href = source.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+          link.textContent = `[E${source.ordinal}] ${source.title}`;
+          excerpt.textContent = `${source.provider} · acesso: ${source.accessed_at.slice(0, 10)} · ${source.license} · ${source.excerpt}`;
+          li.append(link, excerpt); sources.append(li);
+        });
+        card.append(sources);
+      }
     } else if (item.status === 'failed') {
       const retry = document.createElement('button'); retry.type = 'button'; retry.className = 'text-button'; retry.textContent = 'Repetir esta pergunta';
-      retry.onclick = () => { $('tutor-draft').value = item.body; tutorRequestId = item.request_id; tutorFailedDraft = item.body; sendTutor(); };
+      retry.onclick = () => { $('tutor-draft').value = item.body; tutorRequestId = item.request_id; tutorFailedDraft = item.body; sendTutor(item.meta?.lesson_action || null); };
       card.append(retry);
     } else if (item.status === 'pending') {
       const status = document.createElement('small'); status.textContent = 'Aguardando resposta…'; card.append(status);
@@ -99,8 +186,17 @@ function renderTutorHistory() {
 }
 
 function renderTutorThread() {
+  const lesson = tutorThread?.lesson || {stage: 'explanation'};
+  $('lesson-panel').hidden = tutorThread?.mode !== 'aula';
+  const labels = {explanation: 'Explicação pendente', exercise: 'Explicação concluída; prepare o exercício quando quiser.', waiting_attempt: 'Aguardando sua tentativa. Uma nova pergunta preserva este exercício.', correction: 'Correção concluída; aprofunde quando quiser.', deepening: 'Aprofundamento concluído; você pode preparar outro exercício.'};
+  $('lesson-status').textContent = labels[lesson.stage] || '';
+  $('lesson-exercise').textContent = lesson.stage === 'waiting_attempt' ? lesson.exercise : '';
+  $('lesson-continue').hidden = !['exercise', 'correction', 'deepening'].includes(lesson.stage);
+  $('lesson-continue').textContent = lesson.stage === 'correction' ? 'Aprofundar' : 'Continuar para exercício';
+  $('tutor-message-kind-wrap').hidden = tutorThread?.mode !== 'aula';
   renderTutorThreads();
   $('tutor-mode').value = tutorThread?.mode || 'duvida';
+  $('tutor-mode').disabled = tutorPending;
   $('tutor-context').textContent = tutorThread?.session_id
     ? `Conversa ligada à sessão de ${localDate(tutorThread.session_started_at)}${tutorThread.session_status === 'complete' ? ' (histórica; o cronômetro não muda)' : ''}.`
     : 'Conversa da matéria, sem sessão de estudo vinculada.';
@@ -124,6 +220,8 @@ async function loadTutorContext(subjectId, preferredThreadId = null) {
   if (revision !== tutorLoadRevision) return;
   const loadedThreads = await api('/tutor/threads?subject_id=' + encodeURIComponent(subjectId));
   if (revision !== tutorLoadRevision) return;
+  if (current?.subject_id === subjectId && loaded.session_id !== current.id)
+    return loadTutorContext(subjectId);
   tutorThread = loaded;
   tutorThreads = loadedThreads;
   renderTutorThread();
@@ -141,21 +239,33 @@ window.refreshTutorContext = () => {
     .catch(error => { tutorError(error.message); });
 };
 
-async function sendTutor() {
+async function sendTutor(lessonAction = null) {
   if (tutorPending) return;
-  const draft = $('tutor-draft'), body = draft.value.trim();
+  const draft = $('tutor-draft'), body = lessonAction ? (lessonAction === 'deepen' ? 'Aprofundar a correção' : 'Preparar o exercício') : draft.value.trim();
   if (!body) { tutorError('Escreva sua pergunta ou tentativa.'); draft.focus(); return; }
   if (!tutorThread) { tutorError('Escolha uma matéria antes de enviar.'); return; }
+  const external_source_ids = Array.from(document.querySelectorAll('.external-choice:checked')).map(item => item.value);
+  if (external_source_ids.length > 3) { tutorError('Escolha até três fontes externas.'); return; }
   if (!tutorRequestId || tutorFailedDraft !== body) tutorRequestId = crypto.randomUUID();
   tutorFailedDraft = body; tutorPending = true; tutorError('');
+  tutorFailedAction = lessonAction;
   $('tutor-send').disabled = $('tutor-retry').disabled = true;
+  $('tutor-mode').disabled = true;
+  document.querySelectorAll('#tutor-material-options input').forEach(input=>input.disabled=true);
   $('tutor-send').textContent = 'Aguardando resposta…';
   const started = performance.now();
   const phase = $('tutor-config-status').textContent.includes('Motor em execução') ? 'Gerando resposta' : 'Carregando modelo e gerando resposta';
   const elapsed = setInterval(() => { $('tutor-response-status').textContent = `${phase} · ${Math.round((performance.now() - started) / 1000)} s`; }, 500);
   try {
-    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body});
-    draft.value = ''; tutorRequestId = null; tutorFailedDraft = ''; $('tutor-retry').hidden = true;
+    const expectedThread=tutorThread.id;
+    await tutorSettingsSave;
+    if(tutorThread?.id!==expectedThread)throw new Error('A conversa mudou; confira o destino antes de enviar.');
+    const message_kind = tutorThread.mode === 'aula' ? $('tutor-message-kind').value || null : null;
+    tutorThread = await api('/tutor/threads/' + tutorThread.id + '/messages', 'POST', {request_id: tutorRequestId, body, external_source_ids, message_kind, lesson_action: lessonAction});
+    $('tutor-message-kind').value = '';
+    if (!lessonAction) draft.value = '';
+    tutorRequestId = null; tutorFailedDraft = ''; tutorFailedAction = null; $('tutor-retry').hidden = true;
+    externalResults = []; renderExternalResults(); $('external-status').textContent = 'Fontes usadas nesta resposta. Nova consulta é opcional.';
     renderTutorThread();
     $('tutor-response-status').textContent = `Resposta local em ${((performance.now() - started) / 1000).toFixed(1)} s.`;
     loadTutorStatus();
@@ -165,12 +275,14 @@ async function sendTutor() {
   } finally {
     clearInterval(elapsed);
     tutorPending = false; $('tutor-send').disabled = $('tutor-retry').disabled = false;
+    $('tutor-mode').disabled = !tutorThread; renderTutorMaterials();
     $('tutor-send').textContent = 'Enviar ao tutor';
   }
 }
 
 $('tutor-form').onsubmit = event => { event.preventDefault(); sendTutor(); };
-$('tutor-retry').onclick = sendTutor;
+$('tutor-retry').onclick = () => sendTutor(tutorFailedAction);
+$('lesson-continue').onclick = () => sendTutor(tutorThread?.lesson?.stage === 'correction' ? 'deepen' : 'exercise');
 $('tutor-draft').oninput = () => { if ($('tutor-draft').value.trim() !== tutorFailedDraft) { tutorRequestId = null; $('tutor-retry').hidden = true; } };
 $('tutor-subject').onchange = () => { tutorContextKey = ''; loadTutorContext($('tutor-subject').value).catch(error => tutorError(error.message)); };
 $('tutor-thread').onchange = async () => {
@@ -179,20 +291,20 @@ $('tutor-thread').onchange = async () => {
 };
 $('tutor-mode').onchange = async () => {
   if (!tutorThread) return;
-  try { tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH', {mode: $('tutor-mode').value}); renderTutorThread(); }
+  try { await saveTutorSettings({mode: $('tutor-mode').value}); renderTutorThread(); }
   catch (error) { tutorError(error.message); }
 };
 
 window.tutorStartMaterial = async materialId => {
+  if(tutorPending)throw new Error('Aguarde a resposta atual antes de abrir outra aula.');
   const material = materials.find(item => item.id === materialId);
   if (!material) return;
   tutorContextKey = '';
   await loadTutorContext(material.subject_id);
   if (!tutorThread.material_ids.includes(materialId)) {
-    tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH',
-      {material_ids: [...tutorThread.material_ids, materialId].slice(0, 5)});
+    await saveTutorSettings({material_ids: [...tutorThread.material_ids, materialId].slice(0, 5)});
   }
-  tutorThread = await api('/tutor/threads/' + tutorThread.id, 'PATCH', {mode: 'aula'});
+  await saveTutorSettings({mode: 'aula'});
   renderTutorThread();
   $('tutor-draft').value = `Quero uma aula guiada sobre ${material.name}.`;
   $('tutor-draft').focus();

@@ -1,0 +1,26 @@
+[
+  {
+    "width": 390,
+    "result": "passed",
+    "complete_messages": 81,
+    "overflow": false,
+    "errors": [],
+    "details_state": "passed"
+  },
+  {
+    "width": 1366,
+    "result": "passed",
+    "complete_messages": 81,
+    "overflow": false,
+    "errors": [],
+    "details_state": "passed"
+  },
+  {
+    "width": 1920,
+    "result": "passed",
+    "complete_messages": 81,
+    "overflow": false,
+    "errors": [],
+    "details_state": "passed"
+  }
+]

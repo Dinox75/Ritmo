@@ -1,0 +1,1947 @@
+{
+  "cases": [
+    {
+      "id": "development-hint-good",
+      "split": "development",
+      "pair": "hint",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "hint",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "hint",
+      "expected": true,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-hint-bad",
+      "split": "development",
+      "pair": "hint",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "hint",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente. O resultado final é True.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "hint",
+      "expected": false,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-input_boolean-good",
+      "split": "development",
+      "pair": "input_boolean",
+      "task": {
+        "family": "negation_gate",
+        "label": "NÃO: inversão",
+        "split": "train",
+        "expression": "not bloqueado",
+        "values": {
+          "bloqueado": false
+        },
+        "mistake": "bloqueado",
+        "concept": "NÃO inverte o valor lógico da condição",
+        "cues": [
+          "nao",
+          "not",
+          "inver",
+          "negac",
+          "bloqueado"
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 9,
+        "kind": "hint",
+        "exercise": "Condição: not bloqueado. Valores: {'bloqueado': False}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "bloqueado = False",
+          "expression": "bloqueado",
+          "conclusion": false,
+          "text": "Observei corretamente bloqueado = False. Apliquei bloqueado e concluí False."
+        },
+        "student_attempt": "Observei corretamente bloqueado = False. Apliquei bloqueado e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "not bloqueado",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "not bloqueado",
+          "values": {
+            "bloqueado": true
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "not bloqueado",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "O dado bloqueado = False já foi fornecido. Examine a negação antes de combinar as condições.",
+      "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?",
+      "criterion": "hint",
+      "expected": true,
+      "reference": {
+        "intervention": "O dado bloqueado = False já foi fornecido. Examine a negação antes de combinar as condições.",
+        "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "NÃO inverte o valor lógico da condição. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-input_boolean-bad",
+      "split": "development",
+      "pair": "input_boolean",
+      "task": {
+        "family": "negation_gate",
+        "label": "NÃO: inversão",
+        "split": "train",
+        "expression": "not bloqueado",
+        "values": {
+          "bloqueado": false
+        },
+        "mistake": "bloqueado",
+        "concept": "NÃO inverte o valor lógico da condição",
+        "cues": [
+          "nao",
+          "not",
+          "inver",
+          "negac",
+          "bloqueado"
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 9,
+        "kind": "hint",
+        "exercise": "Condição: not bloqueado. Valores: {'bloqueado': False}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "bloqueado = False",
+          "expression": "bloqueado",
+          "conclusion": false,
+          "text": "Observei corretamente bloqueado = False. Apliquei bloqueado e concluí False."
+        },
+        "student_attempt": "Observei corretamente bloqueado = False. Apliquei bloqueado e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "not bloqueado",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "not bloqueado",
+          "values": {
+            "bloqueado": true
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "not bloqueado",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "O dado bloqueado = False já foi fornecido. O resultado final é True.",
+      "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?",
+      "criterion": "hint",
+      "expected": false,
+      "reference": {
+        "intervention": "O dado bloqueado = False já foi fornecido. Examine a negação antes de combinar as condições.",
+        "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "NÃO inverte o valor lógico da condição. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-question-good",
+      "split": "development",
+      "pair": "question",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "hint",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "question_useful",
+      "expected": true,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-question-bad",
+      "split": "development",
+      "pair": "question",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "hint",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+      "verification_question": "Qual é o valor de t >= lo and t <= hi?",
+      "criterion": "question_useful",
+      "expected": false,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-credit-good",
+      "split": "development",
+      "pair": "credit",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "correction",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou t = 2. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "partial_credit",
+      "expected": true,
+      "reference": {
+        "intervention": "Você acertou t = 2. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-credit-bad",
+      "split": "development",
+      "pair": "credit",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "correction",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou, muito bem. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "partial_credit",
+      "expected": false,
+      "reference": {
+        "intervention": "Você acertou t = 2. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-example-good",
+      "split": "development",
+      "pair": "example",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "explanation",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Por exemplo, t >= lo and t <= hi, com valores {'t': 2, 'lo': 0, 'hi': 0}: compare separadamente os dois limites antes de combinar.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "new_example",
+      "expected": true,
+      "reference": {
+        "intervention": "Por exemplo, t >= lo and t <= hi, com valores {'t': 2, 'lo': 0, 'hi': 0}: compare separadamente os dois limites antes de combinar.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-example-bad",
+      "split": "development",
+      "pair": "example",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "explanation",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Por exemplo, t >= lo and t <= hi, com valores {'t': 2, 'lo': 2, 'hi': 8}: compare separadamente os dois limites antes de combinar.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "new_example",
+      "expected": false,
+      "reference": {
+        "intervention": "Por exemplo, t >= lo and t <= hi, com valores {'t': 2, 'lo': 0, 'hi': 0}: compare separadamente os dois limites antes de combinar.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-logic-good",
+      "split": "development",
+      "pair": "logic",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "correction",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou t = 2. Mas revise a regra porque 7 > 3 é verdadeiro.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "logic_correct",
+      "expected": true,
+      "reference": {
+        "intervention": "Você acertou t = 2. Mas revise a regra porque 7 > 3 é verdadeiro.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "development-logic-bad",
+      "split": "development",
+      "pair": "logic",
+      "task": {
+        "family": "inclusive_range",
+        "label": "Limites inclusivos",
+        "split": "train",
+        "expression": "t >= lo and t <= hi",
+        "values": {
+          "t": 2,
+          "lo": 2,
+          "hi": 8
+        },
+        "mistake": "t > lo and t < hi",
+        "concept": ">= e <= incluem igualdade nas fronteiras",
+        "cues": [
+          "limite",
+          "igualdade",
+          ">=",
+          "<="
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 0,
+        "kind": "correction",
+        "exercise": "Condição: t >= lo and t <= hi. Valores: {'t': 2, 'lo': 2, 'hi': 8}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "t = 2",
+          "expression": "t > lo and t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente t = 2. Apliquei t > lo and t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "t >= lo and t <= hi",
+            "result": true
+          },
+          {
+            "expression": "t >= lo",
+            "result": true
+          },
+          {
+            "expression": "t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "t >= lo and t <= hi",
+          "values": {
+            "t": 2,
+            "lo": 0,
+            "hi": 0
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "t >= lo and t <= hi",
+              "result": false
+            },
+            {
+              "expression": "t >= lo",
+              "result": true
+            },
+            {
+              "expression": "t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou t = 2. Mas revise a regra porque 7 > 3 é falso.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "logic_correct",
+      "expected": false,
+      "reference": {
+        "intervention": "Você acertou t = 2. Mas revise a regra porque 7 > 3 é verdadeiro.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": ">= e <= incluem igualdade nas fronteiras. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-hint-good",
+      "split": "reserved",
+      "pair": "hint",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "hint",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "hint",
+      "expected": true,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-hint-bad",
+      "split": "reserved",
+      "pair": "hint",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "hint",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente. O resultado final é True.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "hint",
+      "expected": false,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-input_boolean-good",
+      "split": "reserved",
+      "pair": "input_boolean",
+      "task": {
+        "family": "conjunction_three",
+        "label": "E: todas as condições",
+        "split": "train",
+        "expression": "a and b and not c",
+        "values": {
+          "a": true,
+          "b": true,
+          "c": true
+        },
+        "mistake": "a or b or not c",
+        "concept": "E exige todas as condições, inclusive a terceira condição negada",
+        "cues": [
+          "terceira",
+          "todas",
+          "conjun",
+          "operador e",
+          " and ",
+          "condicoes"
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 6,
+        "kind": "hint",
+        "exercise": "Condição: a and b and not c. Valores: {'a': True, 'b': True, 'c': True}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "a = True",
+          "expression": "a or b or not c",
+          "conclusion": true,
+          "text": "Observei corretamente a = True. Apliquei a or b or not c e concluí True."
+        },
+        "student_attempt": "Observei corretamente a = True. Apliquei a or b or not c e concluí True.",
+        "expected": false,
+        "solution": [
+          {
+            "expression": "a and b and (not c)",
+            "result": false
+          },
+          {
+            "expression": "not c",
+            "result": false
+          }
+        ],
+        "example": {
+          "expression": "a and b and not c",
+          "values": {
+            "a": true,
+            "b": true,
+            "c": false
+          },
+          "expected": true,
+          "trace": [
+            {
+              "expression": "a and b and (not c)",
+              "result": true
+            },
+            {
+              "expression": "not c",
+              "result": true
+            }
+          ]
+        }
+      },
+      "intervention": "O dado a = True já foi fornecido. Examine a negação antes de combinar as condições.",
+      "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?",
+      "criterion": "hint",
+      "expected": true,
+      "reference": {
+        "intervention": "O dado a = True já foi fornecido. Examine a negação antes de combinar as condições.",
+        "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?"
+      },
+      "logic_key": false,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "E exige todas as condições, inclusive a terceira condição negada. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-input_boolean-bad",
+      "split": "reserved",
+      "pair": "input_boolean",
+      "task": {
+        "family": "conjunction_three",
+        "label": "E: todas as condições",
+        "split": "train",
+        "expression": "a and b and not c",
+        "values": {
+          "a": true,
+          "b": true,
+          "c": true
+        },
+        "mistake": "a or b or not c",
+        "concept": "E exige todas as condições, inclusive a terceira condição negada",
+        "cues": [
+          "terceira",
+          "todas",
+          "conjun",
+          "operador e",
+          " and ",
+          "condicoes"
+        ],
+        "source_terms": [
+          "Operações booleanas"
+        ],
+        "index": 6,
+        "kind": "hint",
+        "exercise": "Condição: a and b and not c. Valores: {'a': True, 'b': True, 'c': True}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "a = True",
+          "expression": "a or b or not c",
+          "conclusion": true,
+          "text": "Observei corretamente a = True. Apliquei a or b or not c e concluí True."
+        },
+        "student_attempt": "Observei corretamente a = True. Apliquei a or b or not c e concluí True.",
+        "expected": false,
+        "solution": [
+          {
+            "expression": "a and b and (not c)",
+            "result": false
+          },
+          {
+            "expression": "not c",
+            "result": false
+          }
+        ],
+        "example": {
+          "expression": "a and b and not c",
+          "values": {
+            "a": true,
+            "b": true,
+            "c": false
+          },
+          "expected": true,
+          "trace": [
+            {
+              "expression": "a and b and (not c)",
+              "result": true
+            },
+            {
+              "expression": "not c",
+              "result": true
+            }
+          ]
+        }
+      },
+      "intervention": "O dado a = True já foi fornecido. O resultado final é False.",
+      "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?",
+      "criterion": "hint",
+      "expected": false,
+      "reference": {
+        "intervention": "O dado a = True já foi fornecido. Examine a negação antes de combinar as condições.",
+        "verification_question": "Como a negação transforma a condição antes de combinar todas as condições?"
+      },
+      "logic_key": false,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "E exige todas as condições, inclusive a terceira condição negada. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-question-good",
+      "split": "reserved",
+      "pair": "question",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "hint",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "question_useful",
+      "expected": true,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-question-bad",
+      "split": "reserved",
+      "pair": "question",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "hint",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+      "verification_question": "Qual é o valor de lo < t <= hi?",
+      "criterion": "question_useful",
+      "expected": false,
+      "reference": {
+        "intervention": "Compare cada limite separadamente antes de combinar as condições.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-credit-good",
+      "split": "reserved",
+      "pair": "credit",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "correction",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou lo = 2. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "partial_credit",
+      "expected": true,
+      "reference": {
+        "intervention": "Você acertou lo = 2. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-credit-bad",
+      "split": "reserved",
+      "pair": "credit",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "correction",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou, muito bem. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "partial_credit",
+      "expected": false,
+      "reference": {
+        "intervention": "Você acertou lo = 2. Mas confundiu a igualdade no limite; compare os sinais porque eles determinam a inclusão.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-example-good",
+      "split": "reserved",
+      "pair": "example",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "explanation",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Por exemplo, lo < t <= hi, com valores {'lo': 2, 't': 6, 'hi': 3}: compare separadamente os dois limites antes de combinar.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "new_example",
+      "expected": true,
+      "reference": {
+        "intervention": "Por exemplo, lo < t <= hi, com valores {'lo': 2, 't': 6, 'hi': 3}: compare separadamente os dois limites antes de combinar.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-example-bad",
+      "split": "reserved",
+      "pair": "example",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "explanation",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Por exemplo, lo < t <= hi, com valores {'lo': 2, 't': 6, 'hi': 6}: compare separadamente os dois limites antes de combinar.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "new_example",
+      "expected": false,
+      "reference": {
+        "intervention": "Por exemplo, lo < t <= hi, com valores {'lo': 2, 't': 6, 'hi': 3}: compare separadamente os dois limites antes de combinar.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-logic-good",
+      "split": "reserved",
+      "pair": "logic",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "correction",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou lo = 2. Mas revise a regra porque 7 > 3 é verdadeiro.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "logic_correct",
+      "expected": true,
+      "reference": {
+        "intervention": "Você acertou lo = 2. Mas revise a regra porque 7 > 3 é verdadeiro.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    },
+    {
+      "id": "reserved-logic-bad",
+      "split": "reserved",
+      "pair": "logic",
+      "task": {
+        "family": "chained_boundary",
+        "label": "Comparação encadeada e fronteira mista",
+        "split": "validation",
+        "expression": "lo < t <= hi",
+        "values": {
+          "lo": 2,
+          "t": 6,
+          "hi": 6
+        },
+        "mistake": "lo < t < hi",
+        "concept": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo",
+        "cues": [
+          "limite superior",
+          "encade",
+          "dois lados",
+          "<=",
+          "igualdade"
+        ],
+        "source_terms": [
+          "Comparações"
+        ],
+        "index": 24,
+        "kind": "correction",
+        "exercise": "Condição: lo < t <= hi. Valores: {'lo': 2, 't': 6, 'hi': 6}. A condição é satisfeita? Explique o raciocínio.",
+        "student": {
+          "correct_fact": "lo = 2",
+          "expression": "lo < t < hi",
+          "conclusion": false,
+          "text": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False."
+        },
+        "student_attempt": "Observei corretamente lo = 2. Apliquei lo < t < hi e concluí False.",
+        "expected": true,
+        "solution": [
+          {
+            "expression": "lo < t <= hi",
+            "result": true
+          }
+        ],
+        "example": {
+          "expression": "lo < t <= hi",
+          "values": {
+            "lo": 2,
+            "t": 6,
+            "hi": 3
+          },
+          "expected": false,
+          "trace": [
+            {
+              "expression": "lo < t <= hi",
+              "result": false
+            }
+          ]
+        }
+      },
+      "intervention": "Você acertou lo = 2. Mas revise a regra porque 7 > 3 é falso.",
+      "verification_question": "Como a igualdade no limite altera a comparação e por quê?",
+      "criterion": "logic_correct",
+      "expected": false,
+      "reference": {
+        "intervention": "Você acertou lo = 2. Mas revise a regra porque 7 > 3 é verdadeiro.",
+        "verification_question": "Como a igualdade no limite altera a comparação e por quê?"
+      },
+      "logic_key": true,
+      "source": {
+        "id": "ritmo-calibration-authored",
+        "license": "CC0-1.0",
+        "text": "Comparação encadeada exige os dois lados; só o limite superior é inclusivo. E exige todas; OU admite ambas; NÃO inverte. Uma pista orienta sem solucionar; pergunta pede raciocínio; correção reconhece o fato correto específico; exemplo muda os dados."
+      }
+    }
+  ],
+  "preserved": {
+    "docs/training-lab-results/validated.json": "7b7e0ed692383624c43ff60e8edffd9851b060f65b216c01d2d5bc95d70db9de",
+    "docs/training-lab-results/proof.json": "b44193f38c791eaad62e4229521b9f97334d6b245792bcdb1262d5cdae3cfe3b",
+    "docs/training-lab-two-stage/results.json": "af3e5b92be4d22d2855843db4fc6be9629ec9ae1556d1228b9a35b37d64a8a2d",
+    "docs/training-lab-two-stage/metrics.json": "59cb31c45681b5bdeafe2b5bbf4b905230681e545592259639e69c39674a4d1c"
+  },
+  "gate": "Reserved: zero false positives and >=90% good accepted for BOTH screen and effective judge; no raw target contradiction. No tuning after reserve."
+}

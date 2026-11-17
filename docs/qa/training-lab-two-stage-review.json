@@ -1,0 +1,31 @@
+{
+  "review_kind": "Revisão amostral pelo agente, não por um avaliador humano independente. Não altera a decisão do corpus.",
+  "recommendation": "Corrigir a intervenção pedagógica, o contexto didático e a confiabilidade da triagem/juiz antes de ampliar o corpus. A estrutura melhorou, mas ambas as abordagens ficaram em 0/30 na rubrica comum. Não treinar nem contratar GPU.",
+  "observations": [
+    {
+      "family": "precedence_or_and", "kind": "correction",
+      "label": "Acerto parcial de conteúdo; candidato descartado",
+      "reason": "A intervenção cita corretamente a precedência de and sobre or. Porém não reconhece o acerto específico da tentativa e só pergunta o resultado de outra expressão. Isso não demonstra uma correção pedagógica útil."
+    },
+    {
+      "family": "exclusive_range", "kind": "explanation",
+      "label": "Erro lógico real; candidato descartado",
+      "reason": "O modelo atribui ao operador and a exclusão da igualdade. Quem inclui ou exclui a fronteira é o operador de comparação, não and. Também trata a fórmula equivocada do aluno como correta."
+    },
+    {
+      "family": "chained_boundary", "kind": "hint",
+      "label": "Falso positivo do juiz corrigido pela triagem",
+      "reason": "O juiz aprovou a pergunta 'A condição ... foi interpretada como ...?'. Ela repete o equívoco e aceita sim/não, sem pedir explicação. A palavra como não era interrogativa. Regressão adicionada e todas as mesmas respostas reavaliadas, sem substituir os brutos."
+    },
+    {
+      "family": "inclusive_range", "kind": "hint",
+      "label": "Juízo inconsistente; não aprovado",
+      "reason": "O 4B afirma que a conclusão falsa do aluno seria correta, confundindo o resultado da fórmula errada com o alvo inclusivo. O alvo com t=lo satisfaz o limite inclusivo. A estimativa do juiz não permite certificar nem rejeitar a lógica dessa pista só por sua justificativa; a intervenção também é genérica. Mantido fora do corpus."
+    },
+    {
+      "family": "de_morgan", "kind": "hint",
+      "label": "Possível falso positivo do detector de spoiler",
+      "reason": "A marcação conservadora encontra False/True que já estavam nos dados do exercício. Repetir um dado fornecido não equivale necessariamente a antecipar a solução. O candidato também falha na pergunta de verificação; não foi aprovado nem se afrouxou a regra para aumentar contagens. Separar dados dados e conclusão é trabalho necessário antes de escalar a triagem."
+    }
+  ]
+}

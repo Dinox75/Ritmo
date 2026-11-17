@@ -18,6 +18,7 @@ from local_ai.manager import InstallManager
 from local_ai.knowledge import catalog as knowledge_catalog
 from local_ai.runtime import LocalRuntime, ModelUnavailable
 from tutor.service import TutorService
+from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import DATA_DIR, FROZEN, LOCAL_CONFIG, LOG_FILE, load_config, save_config
 
 
@@ -26,20 +27,54 @@ STATIC = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/app.js": ("app.js", "text/javascript; charset=utf-8"),
     "/tutor.js": ("tutor.js", "text/javascript; charset=utf-8"),
+    "/boolean-lesson.html": ("boolean-lesson.html", "text/html; charset=utf-8"),
+    "/boolean-lesson.js": ("boolean-lesson.js", "text/javascript; charset=utf-8"),
     "/style.css": ("style.css", "text/css; charset=utf-8"),
     "/progress.css": ("progress.css", "text/css; charset=utf-8"),
     "/desktop.css": ("desktop.css", "text/css; charset=utf-8"),
     "/ux.css": ("ux.css", "text/css; charset=utf-8"),
+    "/atmosphere.css": ("atmosphere.css", "text/css; charset=utf-8"),
     "/manifest.json": ("manifest.json", "application/manifest+json"),
     "/sw.js": ("sw.js", "text/javascript; charset=utf-8"),
     "/icon.svg": ("icon.svg", "image/svg+xml"),
 }
 
 
+def recent_log_lines(path, *, lines=50, max_bytes=128 * 1024):
+    """Read a bounded suffix; discard an incomplete first line."""
+    try:
+        with path.open("rb") as log:
+            size = log.seek(0, os.SEEK_END)
+            start = max(0, size - max_bytes)
+            log.seek(start - bool(start))
+            suffix = log.read(size - start + bool(start))
+    except FileNotFoundError:
+        return []
+    if start:
+        boundary = suffix.find(b"\n")
+        if boundary == -1:
+            return []
+        suffix = suffix[boundary + 1:]
+    return suffix.decode("utf-8", errors="replace").splitlines()[-lines:]
+
+
+class LocalHTTPServer(ThreadingHTTPServer):
+    # Browser startup issues several simultaneous requests. The default backlog
+    # of five intermittently refused local connections on the tested Windows host.
+    request_queue_size = 32
+
+
 def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=None,
-                 tutor_provider=None, tutor_runtime=None, install_manager=None):
-    tutor = TutorService(database, config_path=config_path, provider=tutor_provider, runtime=tutor_runtime)
+                 tutor_provider=None, tutor_runtime=None, install_manager=None, external_search=None):
+    external = external_search or ExternalSearch()
+    tutor = TutorService(database, config_path=config_path, provider=tutor_provider, runtime=tutor_runtime,
+                         external=external)
     installer = install_manager or InstallManager()
+    def public_boolean(value):
+        # Scenario IDs shown to students must not encode the private True/False key.
+        from tutor.boolean_lesson import scenarios
+        value["scenario"] = scenarios()[value["scenario"]]["family"]
+        return value
     class Handler(BaseHTTPRequestHandler):
         def _send(self, status, data):
             body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -98,7 +133,16 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 return
             query = parse_qs(urlparse(self.path).query)
             if self.command == "GET":
-                if parts == ["api", "subjects"]:
+                if parts == ["api", "boolean-lesson"]:
+                    from tutor.boolean_lesson import scenarios
+                    import hashlib
+                    result = {"enabled": load_config(config_path)["experiments"]["boolean_lesson"],
+                              "instance_id": hashlib.sha256(str(database.path.resolve()).encode()).hexdigest(),
+                              "scenarios": [{"id": value["family"], "label": value["label"], "context": value["context"]} for value in scenarios().values()]}
+                elif len(parts) == 3 and parts[:2] == ["api", "boolean-lesson"]:
+                    from tutor.boolean_lesson import BooleanLesson
+                    result = public_boolean(BooleanLesson(database, load_config(config_path)["experiments"]["boolean_lesson"]).get(parts[2]))
+                elif parts == ["api", "subjects"]:
                     result = database.list_subjects(query.get("archived", ["0"])[0] == "1")
                 elif parts == ["api", "sessions"]:
                     result = database.list_sessions()
@@ -109,7 +153,8 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 elif parts == ["api", "materials"]:
                     result = database.list_materials(query.get("subject_id", [None])[0])
                 elif parts == ["api", "tutor", "config"]:
-                    result = tutor.status()
+                    config = load_config(config_path)
+                    result = {**tutor.status(config), "boolean_lesson_enabled": config["experiments"]["boolean_lesson"]}
                 elif parts == ["api", "tutor", "install"]:
                     result = installer.status()
                 elif parts == ["api", "tutor", "knowledge"]:
@@ -141,9 +186,11 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                     result = database.get_ui_state()
                 elif parts == ["api", "config"]:
                     result = load_config(config_path)
+                elif parts == ["api", "experience"]:
+                    result = load_config(config_path)["experience"]
                 elif parts == ["api", "diagnostics"]:
                     events = database.list_events(20)
-                    log_lines = LOG_FILE.read_text(encoding="utf-8", errors="replace").splitlines()[-50:] if LOG_FILE.exists() else []
+                    log_lines = recent_log_lines(LOG_FILE)
                     result = {"sensors": database.health(),
                               "events": [{key: event[key] for key in ("at", "sensor", "state")}
                                          for event in events],
@@ -158,7 +205,16 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 return
             data = self._body()
             if self.command == "POST":
-                if parts == ["api", "subjects"]:
+                if parts[:2] == ["api", "boolean-lesson"]:
+                    from tutor.boolean_lesson import BooleanLesson, scenarios
+                    lesson = BooleanLesson(database, load_config(config_path)["experiments"]["boolean_lesson"])
+                    if len(parts) == 2:
+                        selected = next((key for key,value in scenarios().items() if value["family"] == data.get("scenario")), None)
+                        result = lesson.start(selected)
+                    elif len(parts) == 3: result = lesson.turn(parts[2], data)
+                    else: raise ValueError("rota experimental inválida")
+                    result = public_boolean(result)
+                elif parts == ["api", "subjects"]:
                     result = database.create_subject(data.get("name", ""))
                 elif parts == ["api", "sessions"]:
                     result = database.start_session(data.get("subject_id"))
@@ -199,8 +255,11 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                                                         progress_observed=data.get("progress_observed", ""))
                 elif parts == ["api", "tutor", "knowledge-updates"]:
                     result = database.add_knowledge_update(data)
+                elif parts == ["api", "external", "search"]:
+                    result = external.search(data.get("query"), data.get("confirmed"))
                 elif len(parts) == 5 and parts[:3] == ["api", "tutor", "threads"] and parts[4] == "messages":
-                    result = tutor.send(parts[3], data.get("request_id"), data.get("body"))
+                    result = tutor.send(parts[3], data.get("request_id"), data.get("body"),
+                                        data.get("external_source_ids"), data.get("message_kind"), data.get("lesson_action"))
                 elif parts == ["api", "cameras", "test"]:
                     result = test_camera(data.get("index"))
                 elif parts == ["api", "import-legacy"]:
@@ -234,6 +293,10 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                     self._send(404, {"error": "rota não encontrada"})
                     return
                 self._send(201, result)
+                return
+            if self.command == "DELETE" and len(parts) == 3 and parts[:2] == ["api", "boolean-lesson"]:
+                from tutor.boolean_lesson import BooleanLesson
+                self._send(200, BooleanLesson(database, load_config(config_path)["experiments"]["boolean_lesson"]).delete(parts[2]))
                 return
             if len(parts) == 3 and parts[:2] == ["api", "notes"]:
                 if self.command == "PATCH":
@@ -274,8 +337,15 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                     agent.restart(config)
                 self._send(200, config)
                 return
+            if parts == ["api", "experience"] and self.command == "PATCH":
+                config = load_config(config_path)
+                if set(data) - set(config["experience"]):
+                    raise ValueError("opção desconhecida da experiência")
+                config["experience"].update(data)
+                self._send(200, save_config(config, config_path or LOCAL_CONFIG)["experience"])
+                return
             if parts == ["api", "tutor", "config"] and self.command == "PATCH":
-                self._send(200, tutor.configure(data))
+                self._send(200, {**tutor.configure(data), "boolean_lesson_enabled": load_config(config_path)["experiments"]["boolean_lesson"]})
                 return
             if len(parts) == 4 and parts[:3] == ["api", "tutor", "threads"] and self.command == "PATCH":
                 if "mode" in data:
@@ -325,6 +395,8 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 self._send(409, {"error": str(error)})
             except ModelUnavailable as error:
                 self._send(503, {"error": str(error)})
+            except ExternalUnavailable as error:
+                self._send(503, {"error": str(error)})
             except (ValueError, KeyError, TypeError, json.JSONDecodeError, sqlite3.IntegrityError) as error:
                 self._send(400, {"error": str(error)})
             except Exception:
@@ -339,11 +411,11 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
 
 
 def make_server(database, port=8765, *, agent=None, on_quit=None, on_erase=None, config_path=None,
-                tutor_provider=None, tutor_runtime=None, install_manager=None):
+                tutor_provider=None, tutor_runtime=None, install_manager=None, external_search=None):
     tutor_runtime = tutor_runtime or LocalRuntime(load_config(config_path)["tutor"]["model_root"])
-    server = ThreadingHTTPServer(("127.0.0.1", port),
+    server = LocalHTTPServer(("127.0.0.1", port),
                                  make_handler(database, agent, on_quit, on_erase, config_path,
-                                              tutor_provider, tutor_runtime, install_manager))
+                                              tutor_provider, tutor_runtime, install_manager, external_search))
     server.tutor_runtime = tutor_runtime
     server.daemon_threads = True
     return server

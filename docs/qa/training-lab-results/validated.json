@@ -1,0 +1,1297 @@
+{
+  "state": {
+    "fingerprint": "24d203fc51598bce99e7f8abc4e2f7d1a48afdcb6aca8b6d009b828cae33e81f",
+    "config": {
+      "catalog": "8c3321f9cda5b29825c5f9f30d4ab8f745cc39b1acb1a9efa5326c9cc3699567",
+      "local_inputs": {},
+      "mode": "prepare",
+      "limit": 12,
+      "seed": 42,
+      "generator": "qwen3-1.7b",
+      "judge": "qwen3-4b",
+      "code": "394e7bc682dd10536c1a9f6a7caf3dfd7a06ba277badbddb224371285963687d",
+      "model_root": "A:\\Projetos & Estudos\\Ritmo\\Modelos\\RitmoModels",
+      "generator_url": null,
+      "judge_url": null,
+      "base_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+      "max_hours": 8,
+      "pilot_proof": null,
+      "generation": {
+        "temperature": 0.2,
+        "seed": 42,
+        "max_tokens": 700,
+        "enable_thinking": false
+      },
+      "model_files": {
+        "qwen3-4b-q4_k_m": {
+          "id": "Qwen/Qwen3-4B-GGUF",
+          "revision": "bc640142c66e1fdd12af0bd68f40445458f3869b",
+          "filename": "Qwen3-4B-Q4_K_M.gguf",
+          "quantization": "Q4_K_M",
+          "bytes": 2497280256,
+          "sha256": "7485fe6f11af29433bc51cab58009521f205840f5b4ae3a32fa7f92e8534fdf5",
+          "license": "Apache-2.0",
+          "source": "https://huggingface.co/Qwen/Qwen3-4B-GGUF",
+          "url": "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/bc640142c66e1fdd12af0bd68f40445458f3869b/Qwen3-4B-Q4_K_M.gguf?download=true"
+        },
+        "qwen3-1.7b-q8_0": {
+          "id": "Qwen/Qwen3-1.7B-GGUF",
+          "revision": "90862c4b9d2787eaed51d12237eafdfe7c5f6077",
+          "filename": "Qwen3-1.7B-Q8_0.gguf",
+          "quantization": "Q8_0",
+          "bytes": 1834426016,
+          "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+          "license": "Apache-2.0",
+          "source": "https://huggingface.co/Qwen/Qwen3-1.7B-GGUF",
+          "url": "https://huggingface.co/Qwen/Qwen3-1.7B-GGUF/resolve/90862c4b9d2787eaed51d12237eafdfe7c5f6077/Qwen3-1.7B-Q8_0.gguf?download=true"
+        }
+      }
+    },
+    "started": 1794607258.346696,
+    "heartbeat": 1794607340.2124977,
+    "status": "blocked",
+    "phase": "train",
+    "counts": {
+      "sources_read": 5,
+      "sources_refused": 1,
+      "generated": 12,
+      "approved": 0,
+      "rejected": 12,
+      "missing": {
+        "train": 200,
+        "validation": 30,
+        "test": 0
+      },
+      "reasons": {
+        "falta_pergunta_unica_de_verificacao": 12,
+        "juiz_nao_executado_pretriagem": 12,
+        "correcao_sem_acerto_e_limite": 4,
+        "explicacao_sem_exemplo_distinto": 2,
+        "dica_entrega_solucao": 1,
+        "gabarito_incorreto": 2
+      },
+      "splits": {}
+    },
+    "phases": {
+      "collect": "completed",
+      "prepare": "completed",
+      "validate": "completed",
+      "diagnose": "completed",
+      "train": "blocked",
+      "report": "completed"
+    },
+    "training_real": false,
+    "approval": "inconclusivo",
+    "message": "Corpus insuficiente. Não duplicar candidatos para preencher a meta; ampliar famílias/fontes e qualidade.",
+    "proof_sha256": "60ced5f2c8c06dc6cc09854c2b0c782a8d7498ca133f2b64f3f65b593bc98b97",
+    "source_hash": "00e096d2c7d5ca41616c966048747f2e422ce34bbe57a45d3a3623c95bb013d7",
+    "resources": {
+      "gpu": "NVIDIA GeForce GTX 1660 SUPER, 6144 MiB, 1042 MiB, 610.88",
+      "dependencies": {
+        "torch": false,
+        "transformers": false,
+        "peft": false,
+        "bitsandbytes": false,
+        "accelerate": false
+      },
+      "cuda_training_tested": false,
+      "note": "nvidia-smi não comprova compatibilidade de treino. Diagnóstico não baixa pesos."
+    },
+    "action": "Veja faltantes e motivos da triagem. Nenhum peso baixado ou treinado."
+  },
+  "candidates": [
+    {
+      "index": 0,
+      "task": {
+        "index": 0,
+        "family": "and-interval",
+        "split": "train",
+        "expression": "x >= lo and x <= hi",
+        "values": {
+          "x": 5,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\"prompt\":\"Como posso garantir que o valor de x esteja entre 2 e 8, incluindo os limites?\", \"answer\":\"Verifique se o valor de x é maior ou igual a 2 e menor ou igual a 8. Isso pode ser feito com a expressão x >= 2 and x <= 8.\", \"result\":true}",
+      "candidate": {
+        "prompt": "Como posso garantir que o valor de x esteja entre 2 e 8, incluindo os limites?",
+        "answer": "Verifique se o valor de x é maior ou igual a 2 e menor ou igual a 8. Isso pode ser feito com a expressão x >= 2 and x <= 8.",
+        "result": true,
+        "index": 0,
+        "family": "and-interval",
+        "split": "train",
+        "expression": "x >= lo and x <= hi",
+        "values": {
+          "x": 5,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "bfe495a3d5f062ad",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 8.522
+    },
+    {
+      "index": 1,
+      "task": {
+        "index": 1,
+        "family": "not-enabled",
+        "split": "train",
+        "expression": "not enabled",
+        "values": {
+          "enabled": false
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\n  \"prompt\": \"Como podemos garantir que os valores são inteiros e que a condição seja atendida?\",\n  \"answer\": \"O tutor pode sugerir que a condição seja verificada antes de aplicar a operação, garantindo que os valores sejam inteiros.\",\n  \"result\": true\n}",
+      "candidate": {
+        "prompt": "Como podemos garantir que os valores são inteiros e que a condição seja atendida?",
+        "answer": "O tutor pode sugerir que a condição seja verificada antes de aplicar a operação, garantindo que os valores sejam inteiros.",
+        "result": true,
+        "index": 1,
+        "family": "not-enabled",
+        "split": "train",
+        "expression": "not enabled",
+        "values": {
+          "enabled": false
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "81b0cb7f075593fc",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "correcao_sem_acerto_e_limite",
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 1.745
+    },
+    {
+      "index": 2,
+      "task": {
+        "index": 2,
+        "family": "and-equality",
+        "split": "train",
+        "expression": "x == y and ready",
+        "values": {
+          "x": 4,
+          "y": 4,
+          "ready": true
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\"prompt\":\"Como a operação 'x == y and ready' funciona com os valores x=4, y=4 e ready=True?\", \"answer\":\"A operação 'x == y and ready' avalia primeiro 'x == y', que é verdadeiro (4 == 4), e depois 'ready', que é verdadeiro (True). Como ambos são verdadeiros, o resultado final é verdadeiro.\", \"result\":true}",
+      "candidate": {
+        "prompt": "Como a operação 'x == y and ready' funciona com os valores x=4, y=4 e ready=True?",
+        "answer": "A operação 'x == y and ready' avalia primeiro 'x == y', que é verdadeiro (4 == 4), e depois 'ready', que é verdadeiro (True). Como ambos são verdadeiros, o resultado final é verdadeiro.",
+        "result": true,
+        "index": 2,
+        "family": "and-equality",
+        "split": "train",
+        "expression": "x == y and ready",
+        "values": {
+          "x": 4,
+          "y": 4,
+          "ready": true
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "d7f99757e16d4eb9",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "explicacao_sem_exemplo_distinto",
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 1.953
+    },
+    {
+      "index": 3,
+      "task": {
+        "index": 3,
+        "family": "or-boundary",
+        "split": "validation",
+        "expression": "x < lo or x > hi",
+        "values": {
+          "x": 8,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\"prompt\":\"Como posso verificar se o valor de x está dentro do intervalo [2, 8]?\", \"answer\":\"Verifique se x é maior ou igual a 2 e menor ou igual a 8.\", \"result\":false}",
+      "candidate": {
+        "prompt": "Como posso verificar se o valor de x está dentro do intervalo [2, 8]?",
+        "answer": "Verifique se x é maior ou igual a 2 e menor ou igual a 8.",
+        "result": false,
+        "index": 3,
+        "family": "or-boundary",
+        "split": "validation",
+        "expression": "x < lo or x > hi",
+        "values": {
+          "x": 8,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "3a71480108a9956d",
+        "matter": {
+          "id": "python-flow",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/tutorial/controlflow.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Mais ferramentas de controle de fluxo",
+          "split": "validation",
+          "accessed": "2026-11-13",
+          "sha256": "9445f234078a00d55a62a71971a418f517b20b61e91f6c6c0e0c5db4b2e565b4",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-flow.html",
+          "excerpt": "Instruções if¶\n\nProvavelmente a mais conhecida instrução de controle de fluxo é o if. Por exemplo:\n\n>>> x = int(input(\"Insira um número inteiro: \"))\nInsira um número inteiro: 42\n>>> if x < 0:\n...     x = 0\n...     print('Negativo alterado para zero')\n... elif x == 0:\n...     print('Zero')\n... elif x == 1:\n...     print('Um')\n... else:\n...     print('Mais')\n...\nMais\n\nPode haver zero ou mais partes elif, e a parte else é opcional. A palavra-chave ‘elif’ é uma abreviação para ‘else if’, e é útil para evitar indentação excessiva. Uma sequência if … elif … elif … substitui as instruções switch ou case, encontrados em outras linguagens.\n\nSe você está comparando o mesmo valor com várias constantes, ou verificando por tipos ou atributos específicos, você também pode achar a instrução match útil. Para mais detalhes veja Instruções match.\n\n4.2. Instruções for¶\n\nA instrução for em Python é um pouco diferente do que costuma ser em C ou Pascal. Ao invés de sempre iterar sobre uma progressão aritmética de números (como no Pascal), ou permitir ao usuário definir o passo de iteração e a condição de "
+        },
+        "pedagogy": {
+          "id": "carpentries-feedback",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/06-feedback.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Feedback",
+          "split": "validation",
+          "accessed": "2026-11-13",
+          "sha256": "fed0d86bd29d29608f7fb50e90bccaf659db2944dcfe2838bd39cc0edc4a5cdf",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-feedback.md",
+          "excerpt": "formative assessment of learners during workshops to help track\nlearners' progress and adjust our approach to teaching the content as needed.\nBut formative assessment is not just for learners. As we will discuss in more detail\n[later](11-practice-teaching), teaching is also a skill that is improved\nthrough regular practice and feedback. We gather feedback from our learners\nat multiple points in the workshop and in different forms.\n\n## Surveys\n\nCarpentries learners fill out a survey before attending and immediately after a workshop.\nThese surveys include questions to help instructors get an idea of their attendees' prior\nexperience and backgrounds before the workshop starts. Using this information, instructors\ncan start to plan how they will approach the materials and what level of exercises\nare likely to be appropriate for their learners.\n\nYou can preview the surveys your learners will take at the links below:\n\n- [Pre-workshop survey](https://carpentries.typeform.com/to/wi32rS?__dangerous-disable-submissions)\n- [Post-workshop survey](https://carpentries.typeform.com/to/UgVdRQ?__dange"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 1.607
+    },
+    {
+      "index": 4,
+      "task": {
+        "index": 4,
+        "family": "and-interval",
+        "split": "train",
+        "expression": "x >= lo and x <= hi",
+        "values": {
+          "x": 6,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\n  \"prompt\": \"Como podemos garantir que os valores de x estejam dentro do intervalo [2, 8] em uma expressão booleana?\",\n  \"answer\": \"Para garantir que os valores de x estejam dentro do intervalo [2, 8], usamos a expressão booleana x >= lo and x <= hi. Neste caso, x deve ser maior ou igual a 2 e menor ou igual a 8.\",\n  \"result\": true\n}",
+      "candidate": {
+        "prompt": "Como podemos garantir que os valores de x estejam dentro do intervalo [2, 8] em uma expressão booleana?",
+        "answer": "Para garantir que os valores de x estejam dentro do intervalo [2, 8], usamos a expressão booleana x >= lo and x <= hi. Neste caso, x deve ser maior ou igual a 2 e menor ou igual a 8.",
+        "result": true,
+        "index": 4,
+        "family": "and-interval",
+        "split": "train",
+        "expression": "x >= lo and x <= hi",
+        "values": {
+          "x": 6,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "cb09641fedfcd968",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "correcao_sem_acerto_e_limite",
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 2.082
+    },
+    {
+      "index": 5,
+      "task": {
+        "index": 5,
+        "family": "not-enabled",
+        "split": "train",
+        "expression": "not enabled",
+        "values": {
+          "enabled": true
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\n  \"prompt\": \"Como os operadores booleanos e comparações afetam a avaliação de expressões em Python?\",\n  \"answer\": \"O operador 'or' avalia o segundo argumento apenas se o primeiro for falso, enquanto o 'and' avalia o segundo argumento apenas se o primeiro for verdadeiro. A operação 'not' inverte o valor lógico de um argumento. Exemplo: 'True or False' é True, 'True and False' é False, 'not True' é False.\",\n  \"result\": false\n}",
+      "candidate": {
+        "prompt": "Como os operadores booleanos e comparações afetam a avaliação de expressões em Python?",
+        "answer": "O operador 'or' avalia o segundo argumento apenas se o primeiro for falso, enquanto o 'and' avalia o segundo argumento apenas se o primeiro for verdadeiro. A operação 'not' inverte o valor lógico de um argumento. Exemplo: 'True or False' é True, 'True and False' é False, 'not True' é False.",
+        "result": false,
+        "index": 5,
+        "family": "not-enabled",
+        "split": "train",
+        "expression": "not enabled",
+        "values": {
+          "enabled": true
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "31dca051150d92b5",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 2.263
+    },
+    {
+      "index": 6,
+      "task": {
+        "index": 6,
+        "family": "and-equality",
+        "split": "train",
+        "expression": "x == y and ready",
+        "values": {
+          "x": 5,
+          "y": 4,
+          "ready": true
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\n  \"prompt\": \"Como a operação 'x == y and ready' funciona com os valores x=5, y=4 e ready=True?\",\n  \"answer\": \"A operação 'x == y and ready' avalia primeiro 'x == y', que é verdadeiro (5 == 4 é falso), e depois 'ready', que é verdadeiro. Portanto, o resultado é falso.\",\n  \"result\": false\n}",
+      "candidate": {
+        "prompt": "Como a operação 'x == y and ready' funciona com os valores x=5, y=4 e ready=True?",
+        "answer": "A operação 'x == y and ready' avalia primeiro 'x == y', que é verdadeiro (5 == 4 é falso), e depois 'ready', que é verdadeiro. Portanto, o resultado é falso.",
+        "result": false,
+        "index": 6,
+        "family": "and-equality",
+        "split": "train",
+        "expression": "x == y and ready",
+        "values": {
+          "x": 5,
+          "y": 4,
+          "ready": true
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "9e962f722cca7b53",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "dica_entrega_solucao",
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 2.052
+    },
+    {
+      "index": 7,
+      "task": {
+        "index": 7,
+        "family": "or-boundary",
+        "split": "validation",
+        "expression": "x < lo or x > hi",
+        "values": {
+          "x": 9,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\"prompt\":\"Como posso verificar se o valor x está dentro do intervalo [2, 8]?\", \"answer\":\"Verifique se x é maior ou igual a 2 e menor ou igual a 8.\", \"result\":true}",
+      "candidate": {
+        "prompt": "Como posso verificar se o valor x está dentro do intervalo [2, 8]?",
+        "answer": "Verifique se x é maior ou igual a 2 e menor ou igual a 8.",
+        "result": true,
+        "index": 7,
+        "family": "or-boundary",
+        "split": "validation",
+        "expression": "x < lo or x > hi",
+        "values": {
+          "x": 9,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "0b60b4a8985fa9d2",
+        "matter": {
+          "id": "python-flow",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/tutorial/controlflow.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Mais ferramentas de controle de fluxo",
+          "split": "validation",
+          "accessed": "2026-11-13",
+          "sha256": "9445f234078a00d55a62a71971a418f517b20b61e91f6c6c0e0c5db4b2e565b4",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-flow.html",
+          "excerpt": "Instruções if¶\n\nProvavelmente a mais conhecida instrução de controle de fluxo é o if. Por exemplo:\n\n>>> x = int(input(\"Insira um número inteiro: \"))\nInsira um número inteiro: 42\n>>> if x < 0:\n...     x = 0\n...     print('Negativo alterado para zero')\n... elif x == 0:\n...     print('Zero')\n... elif x == 1:\n...     print('Um')\n... else:\n...     print('Mais')\n...\nMais\n\nPode haver zero ou mais partes elif, e a parte else é opcional. A palavra-chave ‘elif’ é uma abreviação para ‘else if’, e é útil para evitar indentação excessiva. Uma sequência if … elif … elif … substitui as instruções switch ou case, encontrados em outras linguagens.\n\nSe você está comparando o mesmo valor com várias constantes, ou verificando por tipos ou atributos específicos, você também pode achar a instrução match útil. Para mais detalhes veja Instruções match.\n\n4.2. Instruções for¶\n\nA instrução for em Python é um pouco diferente do que costuma ser em C ou Pascal. Ao invés de sempre iterar sobre uma progressão aritmética de números (como no Pascal), ou permitir ao usuário definir o passo de iteração e a condição de "
+        },
+        "pedagogy": {
+          "id": "carpentries-feedback",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/06-feedback.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Feedback",
+          "split": "validation",
+          "accessed": "2026-11-13",
+          "sha256": "fed0d86bd29d29608f7fb50e90bccaf659db2944dcfe2838bd39cc0edc4a5cdf",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-feedback.md",
+          "excerpt": "formative assessment of learners during workshops to help track\nlearners' progress and adjust our approach to teaching the content as needed.\nBut formative assessment is not just for learners. As we will discuss in more detail\n[later](11-practice-teaching), teaching is also a skill that is improved\nthrough regular practice and feedback. We gather feedback from our learners\nat multiple points in the workshop and in different forms.\n\n## Surveys\n\nCarpentries learners fill out a survey before attending and immediately after a workshop.\nThese surveys include questions to help instructors get an idea of their attendees' prior\nexperience and backgrounds before the workshop starts. Using this information, instructors\ncan start to plan how they will approach the materials and what level of exercises\nare likely to be appropriate for their learners.\n\nYou can preview the surveys your learners will take at the links below:\n\n- [Pre-workshop survey](https://carpentries.typeform.com/to/wi32rS?__dangerous-disable-submissions)\n- [Post-workshop survey](https://carpentries.typeform.com/to/UgVdRQ?__dange"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "correcao_sem_acerto_e_limite",
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 1.651
+    },
+    {
+      "index": 8,
+      "task": {
+        "index": 8,
+        "family": "and-interval",
+        "split": "train",
+        "expression": "x >= lo and x <= hi",
+        "values": {
+          "x": 7,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\"prompt\":\"Como os operadores booleanos 'and' e 'or' funcionam em expressões como x >= lo and x <= hi?\", \"answer\":\"O operador 'and' avalia a condição de forma sequencial, onde apenas se ambas as condições são verdadeiras, o resultado é verdadeiro. O operador 'or' avalia a condição de forma sequencial, onde se qualquer uma das condições for verdadeira, o resultado é verdadeiro. Em expressões como x >= lo and x <= hi, o 'and' é usado para garantir que ambas as condições sejam verdadeiras.\", \"result\":true}",
+      "candidate": {
+        "prompt": "Como os operadores booleanos 'and' e 'or' funcionam em expressões como x >= lo and x <= hi?",
+        "answer": "O operador 'and' avalia a condição de forma sequencial, onde apenas se ambas as condições são verdadeiras, o resultado é verdadeiro. O operador 'or' avalia a condição de forma sequencial, onde se qualquer uma das condições for verdadeira, o resultado é verdadeiro. Em expressões como x >= lo and x <= hi, o 'and' é usado para garantir que ambas as condições sejam verdadeiras.",
+        "result": true,
+        "index": 8,
+        "family": "and-interval",
+        "split": "train",
+        "expression": "x >= lo and x <= hi",
+        "values": {
+          "x": 7,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "e43c9545444bc889",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "explicacao_sem_exemplo_distinto",
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 2.454
+    },
+    {
+      "index": 9,
+      "task": {
+        "index": 9,
+        "family": "not-enabled",
+        "split": "train",
+        "expression": "not enabled",
+        "values": {
+          "enabled": false
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\n  \"prompt\": \"Como posso verificar se os valores são inteiros e se uma condição é atendida?\",\n  \"answer\": \"Verifique se os valores são inteiros e se a condição é atendida com uma avaliação simples.\",\n  \"result\": true\n}",
+      "candidate": {
+        "prompt": "Como posso verificar se os valores são inteiros e se uma condição é atendida?",
+        "answer": "Verifique se os valores são inteiros e se a condição é atendida com uma avaliação simples.",
+        "result": true,
+        "index": 9,
+        "family": "not-enabled",
+        "split": "train",
+        "expression": "not enabled",
+        "values": {
+          "enabled": false
+        },
+        "kind": "hint",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "66459ae0e36a57ba",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "falta_pergunta_unica_de_verificacao",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 1.753
+    },
+    {
+      "index": 10,
+      "task": {
+        "index": 10,
+        "family": "and-equality",
+        "split": "train",
+        "expression": "x == y and ready",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "ready": true
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\n  \"prompt\": \"Como a operação 'x == y and ready' funciona com os valores x=6, y=4 e ready=True?\",\n  \"answer\": \"A operação 'x == y and ready' avalia primeiro 'x == y', que é verdadeiro (6 == 4 é falso), e depois 'ready', que é verdadeiro. Portanto, o resultado é falso.\",\n  \"result\": true\n}",
+      "candidate": {
+        "prompt": "Como a operação 'x == y and ready' funciona com os valores x=6, y=4 e ready=True?",
+        "answer": "A operação 'x == y and ready' avalia primeiro 'x == y', que é verdadeiro (6 == 4 é falso), e depois 'ready', que é verdadeiro. Portanto, o resultado é falso.",
+        "result": true,
+        "index": 10,
+        "family": "and-equality",
+        "split": "train",
+        "expression": "x == y and ready",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "ready": true
+        },
+        "kind": "correction",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "7059ae2d862e1d8c",
+        "matter": {
+          "id": "python-types",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/library/stdtypes.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Tipos embutidos: comparações e operações booleanas",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "f065b1f78d9a20fc7d0acca81ef0c38c0f5801518d36f193c68a4fdd73035b2b",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-types.html",
+          "excerpt": "Operações booleanas — and, or, not¶\n\nEsses são as operações booleanas, ordenados por prioridade ascendente:\n\nOperação\n\nResultado\n\nNotas\n\nx or y\n\nse x é true, então x, do contrário y\n\n(1)\n\nx and y\n\nse x é falso, então x, do contrário y\n\n(2)\n\nnot x\n\nse x é falso, então True, caso contrário False\n\n(3)\n\nNotas:\n\nEsse é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é falso.\n\nEste é um operador de curto-circuito, por isso só avalia o segundo argumento se o primeiro é verdadeiro.\n\nnot tem uma prioridade mais baixa do que operadores não booleanos, então not a == b é interpretado como not (a == b) e a == not b é um erro de sintaxe.\n\nComparações¶\n\nHá oito operadores comparativos no Python. Todos eles possuem a mesma prioridade (que é maior do que aquela das operações Booleanas). Comparações podem ser encadeadas arbitrariamente; por exemplo, x < y <= z é equivalente a x < y and y <= z, exceto que y é avaliado apenas uma vez (porém em ambos os casos z não é avaliado de todo quando x < y é sabido ser falso).\n\nEsta tabela resume as operações de comparação:\n\nOpe"
+        },
+        "pedagogy": {
+          "id": "carpentries-practice",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/02-practice-learning.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Practice",
+          "split": "train",
+          "accessed": "2026-11-13",
+          "sha256": "219304840e81c99e4b4076a384618296eaa55bac8945af56bd4fe5f32c8e3c25",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-practice.md",
+          "excerpt": "formative assessment to diagnose a broken mental model.\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\n:::::::::::::::::::::::::::::::::::::::: questions\n\n-   How do people learn?\n-   Who is a typical Carpentries learner?\n-   How can we help novices become competent practitioners?\n\n::::::::::::::::::::::::::::::::::::::::::::::::::\n\nWe will now get started with a discussion of how learning works. We will\nbegin with some key concepts from educational research and identify how\nthese principles are put into practice in Carpentries workshops.\n\n## The Carpentries Pedagogical Model\n\nThe Carpentries aims to teach computational competence to learners. We\ntake an applied approach, avoiding the theoretical and general in favour\nof the practical and specific. By showing learners how to solve specific\nproblems with specific tools and providing hands-on practice, we develop\nlearners' confidence and lay the foundation for future learning.\n\nA critical component of this process is that learners are able to\npractice what they are learning in real time, get feedback on what they\nare doing, and t"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "correcao_sem_acerto_e_limite",
+        "falta_pergunta_unica_de_verificacao",
+        "gabarito_incorreto",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 2.059
+    },
+    {
+      "index": 11,
+      "task": {
+        "index": 11,
+        "family": "or-boundary",
+        "split": "validation",
+        "expression": "x < lo or x > hi",
+        "values": {
+          "x": 10,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E."
+      },
+      "raw": "{\"prompt\":\"Como a instrução if em Python funciona com condições de verificação?\", \"answer\":\"A instrução if em Python verifica se uma condição é verdadeira. Se for, executa o bloco de código após o if. Se não for, continua para a próxima condição. Por exemplo, se x for menor que 0, ele é substituído por 0. Se x for maior que 0, ele é mantido como é.\", \"result\":false}",
+      "candidate": {
+        "prompt": "Como a instrução if em Python funciona com condições de verificação?",
+        "answer": "A instrução if em Python verifica se uma condição é verdadeira. Se for, executa o bloco de código após o if. Se não for, continua para a próxima condição. Por exemplo, se x for menor que 0, ele é substituído por 0. Se x for maior que 0, ele é mantido como é.",
+        "result": false,
+        "index": 11,
+        "family": "or-boundary",
+        "split": "validation",
+        "expression": "x < lo or x > hi",
+        "values": {
+          "x": 10,
+          "lo": 2,
+          "hi": 8
+        },
+        "kind": "explanation",
+        "student_attempt": "Acertei que os valores são inteiros; basta uma condição para E.",
+        "id": "ebcf87438f6bc692",
+        "matter": {
+          "id": "python-flow",
+          "category": "matter",
+          "url": "https://docs.python.org/pt-br/3.14/tutorial/controlflow.html",
+          "license": "PSF-2.0",
+          "license_url": "https://docs.python.org/pt-br/3.14/license.html",
+          "author": "Python Software Foundation e colaboradores da tradução",
+          "title": "Mais ferramentas de controle de fluxo",
+          "split": "validation",
+          "accessed": "2026-11-13",
+          "sha256": "9445f234078a00d55a62a71971a418f517b20b61e91f6c6c0e0c5db4b2e565b4",
+          "license_sha256": "a1001c9fccdebcb0c5fa061455245945d5b223a4755486fa82bd3fb9e250e728",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "python-flow.html",
+          "excerpt": "Instruções if¶\n\nProvavelmente a mais conhecida instrução de controle de fluxo é o if. Por exemplo:\n\n>>> x = int(input(\"Insira um número inteiro: \"))\nInsira um número inteiro: 42\n>>> if x < 0:\n...     x = 0\n...     print('Negativo alterado para zero')\n... elif x == 0:\n...     print('Zero')\n... elif x == 1:\n...     print('Um')\n... else:\n...     print('Mais')\n...\nMais\n\nPode haver zero ou mais partes elif, e a parte else é opcional. A palavra-chave ‘elif’ é uma abreviação para ‘else if’, e é útil para evitar indentação excessiva. Uma sequência if … elif … elif … substitui as instruções switch ou case, encontrados em outras linguagens.\n\nSe você está comparando o mesmo valor com várias constantes, ou verificando por tipos ou atributos específicos, você também pode achar a instrução match útil. Para mais detalhes veja Instruções match.\n\n4.2. Instruções for¶\n\nA instrução for em Python é um pouco diferente do que costuma ser em C ou Pascal. Ao invés de sempre iterar sobre uma progressão aritmética de números (como no Pascal), ou permitir ao usuário definir o passo de iteração e a condição de "
+        },
+        "pedagogy": {
+          "id": "carpentries-feedback",
+          "category": "pedagogy",
+          "url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/episodes/06-feedback.md",
+          "license": "CC-BY-4.0",
+          "license_url": "https://raw.githubusercontent.com/carpentries/instructor-training/65c2f39dddb8b0493aea58fba85bfa106c1c4eb0/LICENSE.md",
+          "author": "The Carpentries e colaboradores",
+          "title": "Building Skill With Feedback",
+          "split": "validation",
+          "accessed": "2026-11-13",
+          "sha256": "fed0d86bd29d29608f7fb50e90bccaf659db2944dcfe2838bd39cc0edc4a5cdf",
+          "license_sha256": "0c8fa42d7d7166e5b1127d93f847543dac03cabba94d5ab9f49b546e304098ff",
+          "changes": "Excertos selecionados e diálogos derivados em português; preservar atribuição e avisos completos.",
+          "file": "carpentries-feedback.md",
+          "excerpt": "formative assessment of learners during workshops to help track\nlearners' progress and adjust our approach to teaching the content as needed.\nBut formative assessment is not just for learners. As we will discuss in more detail\n[later](11-practice-teaching), teaching is also a skill that is improved\nthrough regular practice and feedback. We gather feedback from our learners\nat multiple points in the workshop and in different forms.\n\n## Surveys\n\nCarpentries learners fill out a survey before attending and immediately after a workshop.\nThese surveys include questions to help instructors get an idea of their attendees' prior\nexperience and backgrounds before the workshop starts. Using this information, instructors\ncan start to plan how they will approach the materials and what level of exercises\nare likely to be appropriate for their learners.\n\nYou can preview the surveys your learners will take at the links below:\n\n- [Pre-workshop survey](https://carpentries.typeform.com/to/wi32rS?__dangerous-disable-submissions)\n- [Post-workshop survey](https://carpentries.typeform.com/to/UgVdRQ?__dange"
+        },
+        "license": "derived; see matter/pedagogy",
+        "source": "dupla proveniência externa",
+        "changes": "Diálogo sintético em português derivado dos excertos; não é texto autoral CC0."
+      },
+      "judge": null,
+      "accepted": false,
+      "reasons": [
+        "falta_pergunta_unica_de_verificacao",
+        "gabarito_incorreto",
+        "juiz_nao_executado_pretriagem"
+      ],
+      "seconds": 2.12
+    }
+  ],
+  "metrics": [
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 80,
+        "prompt_tokens": 913,
+        "total_tokens": 993,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 913,
+        "prompt_ms": 1498.942,
+        "prompt_per_token_ms": 1.641776560788609,
+        "prompt_per_second": 609.0962825779784,
+        "predicted_n": 80,
+        "predicted_ms": 754.505,
+        "predicted_per_token_ms": 9.550696202531645,
+        "predicted_per_second": 104.70440885083597
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 72,
+        "prompt_tokens": 895,
+        "total_tokens": 967,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 662,
+        "prompt_ms": 1027.55,
+        "prompt_per_token_ms": 1.552190332326284,
+        "prompt_per_second": 644.2508880346455,
+        "predicted_n": 72,
+        "predicted_ms": 676.586,
+        "predicted_per_token_ms": 9.529380281690141,
+        "predicted_per_second": 104.93861829833902
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 90,
+        "prompt_tokens": 911,
+        "total_tokens": 1001,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 678,
+        "prompt_ms": 1071.027,
+        "prompt_per_token_ms": 1.5796858407079646,
+        "prompt_per_second": 633.0372623659348,
+        "predicted_n": 90,
+        "predicted_ms": 844.19,
+        "predicted_per_token_ms": 9.485280898876406,
+        "predicted_per_second": 105.4265035122425
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 52,
+        "prompt_tokens": 912,
+        "total_tokens": 964,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 679,
+        "prompt_ms": 1068.293,
+        "prompt_per_token_ms": 1.5733328424153166,
+        "prompt_per_second": 635.5934186594876,
+        "predicted_n": 52,
+        "predicted_ms": 487.207,
+        "predicted_per_token_ms": 9.55307843137255,
+        "predicted_per_second": 104.6782989571168
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 103,
+        "prompt_tokens": 914,
+        "total_tokens": 1017,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 681,
+        "prompt_ms": 1069.212,
+        "prompt_per_token_ms": 1.5700616740088105,
+        "prompt_per_second": 636.9176552451712,
+        "predicted_n": 103,
+        "predicted_ms": 973.714,
+        "predicted_per_token_ms": 9.546215686274511,
+        "predicted_per_second": 104.75355186430511
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 121,
+        "prompt_tokens": 895,
+        "total_tokens": 1016,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 662,
+        "prompt_ms": 1027.941,
+        "prompt_per_token_ms": 1.5527809667673715,
+        "prompt_per_second": 644.0058330195993,
+        "predicted_n": 121,
+        "predicted_ms": 1161.073,
+        "predicted_per_token_ms": 9.675608333333335,
+        "predicted_per_second": 103.35267463802879
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 94,
+        "prompt_tokens": 910,
+        "total_tokens": 1004,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 677,
+        "prompt_ms": 1085.787,
+        "prompt_per_token_ms": 1.6038212703101922,
+        "prompt_per_second": 623.5108727586534,
+        "predicted_n": 94,
+        "predicted_ms": 896.831,
+        "predicted_per_token_ms": 9.643344086021505,
+        "predicted_per_second": 103.69846715824943
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 51,
+        "prompt_tokens": 913,
+        "total_tokens": 964,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 680,
+        "prompt_ms": 1085.494,
+        "prompt_per_token_ms": 1.5963147058823528,
+        "prompt_per_second": 626.4428914392895,
+        "predicted_n": 51,
+        "predicted_ms": 496.234,
+        "predicted_per_token_ms": 9.92468,
+        "predicted_per_second": 100.75891615649068
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 133,
+        "prompt_tokens": 914,
+        "total_tokens": 1047,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 681,
+        "prompt_ms": 1087.481,
+        "prompt_per_token_ms": 1.5968883994126284,
+        "prompt_per_second": 626.2178373691127,
+        "predicted_n": 133,
+        "predicted_ms": 1309.405,
+        "predicted_per_token_ms": 9.919734848484849,
+        "predicted_per_second": 100.80914613889516
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 63,
+        "prompt_tokens": 894,
+        "total_tokens": 957,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 661,
+        "prompt_ms": 1034.818,
+        "prompt_per_token_ms": 1.565534039334342,
+        "prompt_per_second": 638.7596659509209,
+        "predicted_n": 63,
+        "predicted_ms": 671.851,
+        "predicted_per_token_ms": 10.836306451612904,
+        "predicted_per_second": 92.28236617940586
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 94,
+        "prompt_tokens": 912,
+        "total_tokens": 1006,
+        "prompt_tokens_details": {
+          "cached_tokens": 233
+        }
+      },
+      "timings": {
+        "cache_n": 233,
+        "prompt_n": 679,
+        "prompt_ms": 1076.576,
+        "prompt_per_token_ms": 1.5855316642120767,
+        "prompt_per_second": 630.7032666527956,
+        "predicted_n": 94,
+        "predicted_ms": 899.667,
+        "predicted_per_token_ms": 9.673838709677419,
+        "predicted_per_second": 103.37158081823607
+      },
+      "finish_reason": "stop"
+    },
+    {
+      "model": "qwen3-1.7b-q8_0",
+      "usage": {
+        "completion_tokens": 101,
+        "prompt_tokens": 915,
+        "total_tokens": 1016,
+        "prompt_tokens_details": {
+          "cached_tokens": 234
+        }
+      },
+      "timings": {
+        "cache_n": 234,
+        "prompt_n": 681,
+        "prompt_ms": 1095.898,
+        "prompt_per_token_ms": 1.6092481644640233,
+        "prompt_per_second": 621.4081967482375,
+        "predicted_n": 101,
+        "predicted_ms": 973.698,
+        "predicted_per_token_ms": 9.736979999999999,
+        "predicted_per_second": 102.701248230971
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "resume_check": {
+    "exit_code": 2,
+    "new_generations": 0,
+    "kind": "real preparation idempotent resume; not CUDA"
+  },
+  "note": "Synthetic candidates/public excerpts only; no real training."
+}
