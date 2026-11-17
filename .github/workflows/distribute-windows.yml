@@ -36,10 +36,14 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $env:RITMO_BUILD_ROOT = Join-Path $env:RUNNER_TEMP 'ritmo-build'
-          & ./scripts/build_windows.ps1
+          # Compile + smoke here; the exact ZIP is approved only by the separate
+          # clean-windows job. A build artifact alone never authorizes promotion.
+          & ./scripts/build_windows.ps1 -SkipBrowserQA
           if ($LASTEXITCODE -ne 0) { throw 'Build falhou' }
           $stages = @(Get-ChildItem $env:RITMO_BUILD_ROOT -Directory -Filter 'RitmoStage-*')
           if ($stages.Count -ne 1) { throw 'Pacote ambíguo' }
+          & ./.buildvenv/Scripts/python.exe -m pip install -r requirements-qa.txt
+          if ($LASTEXITCODE -ne 0) { throw 'QA dependencies failed' }
           & ./.buildvenv/Scripts/python.exe -m unittest discover -s tests -q
           if ($LASTEXITCODE -ne 0) { throw 'Suíte falhou' }
           & ./.buildvenv/Scripts/python.exe scripts/release_bundle.py pack --package (Join-Path $stages[0].FullName 'Ritmo') --out dist-release --version $env:VERSION --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID --analysis-toc (Join-Path $env:RITMO_BUILD_ROOT 'RitmoBuild/Ritmo/Analysis-00.toc')
@@ -55,6 +59,8 @@ jobs:
     needs: build
     runs-on: windows-2025
     timeout-minutes: 25
+    env:
+      WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: --disable-gpu
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -86,6 +92,10 @@ jobs:
           python scripts/qa_boolean_packaged.py $exe (Join-Path $env:RUNNER_TEMP 'boolean-qa')
           if ($LASTEXITCODE -ne 0) { throw 'QA booleano falhou' }
           New-Item -ItemType Directory qa-evidence | Out-Null
+          python scripts/qa_security_packaged.py $exe qa-evidence/security.json
+          if ($LASTEXITCODE -ne 0) { throw 'Native/API security QA failed' }
+          python scripts/qa_accessibility_packaged.py $exe qa-evidence/accessibility
+          if ($LASTEXITCODE -ne 0) { throw 'Contrast/keyboard QA failed' }
           @{
             source_commit=$facts.source_commit; archive_sha256=$facts.archive_sha256
             build_run_id=$facts.build_run_id; clean_windows=$true; result='passed'
