@@ -35,6 +35,7 @@ def launch(executable, folder):
         environment['WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS'] = existing_debug + f' --remote-debugging-port={debug_port} --remote-debugging-address=127.0.0.1'
     process = subprocess.Popen([str(executable)], env=environment)
     process.qa_debug_port = debug_port
+    process.qa_data_dir = Path(folder) / 'Ritmo'
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     deadline = time.monotonic() + 90
     try:
@@ -77,6 +78,11 @@ def authorize(page, process, port):
         except Exception:
             time.sleep(.2)
     if native is None:
+        log = process.qa_data_dir / 'ritmo.log'
+        if log.is_file():
+            import re
+            tail = log.read_text(encoding='utf8',errors='replace')[-6000:]
+            print('Diagnóstico sintético de WebView2:', re.sub(r'[A-Za-z0-9_-]{24,}', '<redacted>', tail), flush=True)
         raise RuntimeError('WebView2 não disponibilizou CDP para o QA nesta máquina. Verifique WebView2/.NET e o diagnóstico da instância temporária.')
     while time.monotonic() < deadline:
         cookies = []

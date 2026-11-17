@@ -1,11 +1,11 @@
-name: Ritmo Ã¢â‚¬Â¢ build Windows (sem publicaÃƒÂ§ÃƒÂ£o)
+name: Ritmo • build Windows (sem publicação)
 on:
   pull_request:
     paths-ignore: ['docs/**', '**.md']
   workflow_dispatch:
     inputs:
       version:
-        description: 'VersÃƒÂ£o de prÃƒÂ©via; build nunca publica'
+        description: 'Versão de prévia; build nunca publica'
         type: string
         default: v0.1.0-preview.1
         required: true
@@ -23,7 +23,10 @@ jobs:
         with:
           python-version: '3.11'
           architecture: x64
-      - name: Build sem instalar, suÃƒÂ­te e inventÃƒÂ¡rio
+      - name: Preparar WebView2 no runner descartavel
+        shell: pwsh
+        run: ./scripts/ensure_webview2_ci.ps1
+      - name: Build sem instalar, suíte e inventário
         shell: pwsh
         env:
           VERSION: ${{ inputs.version || 'v0.1.0-preview.1' }}
@@ -33,11 +36,11 @@ jobs:
           & ./scripts/build_windows.ps1
           if ($LASTEXITCODE -ne 0) { throw 'Build falhou' }
           $stages = @(Get-ChildItem $env:RITMO_BUILD_ROOT -Directory -Filter 'RitmoStage-*')
-          if ($stages.Count -ne 1) { throw 'Pacote ambÃƒÂ­guo' }
+          if ($stages.Count -ne 1) { throw 'Pacote ambíguo' }
           & ./.buildvenv/Scripts/python.exe -m unittest discover -s tests -q
-          if ($LASTEXITCODE -ne 0) { throw 'SuÃƒÂ­te falhou' }
+          if ($LASTEXITCODE -ne 0) { throw 'Suíte falhou' }
           & ./.buildvenv/Scripts/python.exe scripts/release_bundle.py pack --package (Join-Path $stages[0].FullName 'Ritmo') --out dist-release --version $env:VERSION --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID --analysis-toc (Join-Path $env:RITMO_BUILD_ROOT 'RitmoBuild/Ritmo/Analysis-00.toc')
-          if ($LASTEXITCODE -ne 0) { throw 'InventÃƒÂ¡rio falhou' }
+          if ($LASTEXITCODE -ne 0) { throw 'Inventário falhou' }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ritmo-distribuicao
@@ -65,9 +68,10 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           python -m pip install -r requirements-qa.txt psutil==7.1.3
+          & ./scripts/ensure_webview2_ci.ps1
           if ($LASTEXITCODE -ne 0) { throw 'QA dependencies failed' }
           python scripts/release_bundle.py verify --out release-assets --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID
-          if ($LASTEXITCODE -ne 0) { throw 'ZIP invÃƒÂ¡lido' }
+          if ($LASTEXITCODE -ne 0) { throw 'ZIP inválido' }
           $facts = Get-Content release-assets/build-info.json -Raw | ConvertFrom-Json
           $clean = Join-Path $env:RUNNER_TEMP 'ritmo-extracted'
           Expand-Archive -LiteralPath (Join-Path release-assets $facts.archive) -DestinationPath $clean
