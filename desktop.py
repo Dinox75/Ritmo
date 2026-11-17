@@ -23,9 +23,13 @@ def confirm_erase_native(window=None):
                'conversas, memória do tutor, materiais originais, configuração e backups internos?\n\n'
                'Para recuperar depois, guarde antes um backup fora da pasta de dados do Ritmo. '
                'Modelos e cópias externas não serão apagados. Esta ação não pode ser desfeita.')
-    if window is not None:
-        return bool(window.create_confirmation_dialog('Ritmo · apagar dados pessoais', message))
-    return ctypes.windll.user32.MessageBoxW(None, message, 'Ritmo · apagar dados pessoais', 0x134) == 6
+    native = ctypes.windll.user32
+    native.FindWindowW.restype = ctypes.c_void_p
+    owner = native.FindWindowW(None, window.title) if window is not None else None
+    # YES/NO, warning icon, and NO selected by default. pywebview's convenience
+    # dialog uses OK/Cancel with OK selected, unsuitable for destructive actions.
+    return native.MessageBoxW(ctypes.c_void_p(owner) if owner else None, message,
+                              'Ritmo · apagar dados pessoais', 0x134) == 6
 
 
 class DesktopApp:

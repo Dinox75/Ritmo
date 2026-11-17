@@ -6,7 +6,7 @@ import stat
 from pathlib import Path
 
 CATALOG_PATH = Path(__file__).with_name("runtime-integrity.json")
-REINSTALL = "O motor local falhou na verificação de integridade. Reinstale o motor em Configurações."
+REINSTALL = "O motor local falhou na verificação de integridade. Reinstale em Configurações escolhendo uma pasta nova de modelos. Preserve a pasta antiga para diagnóstico; não execute seus arquivos."
 
 
 class RuntimeIntegrityError(RuntimeError):

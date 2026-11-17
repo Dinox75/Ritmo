@@ -5,12 +5,23 @@ import unittest
 import urllib.request
 import urllib.error
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 from dashboard.app import make_server
 from storage.database import Database
 
 
 class SessionSecurityTests(unittest.TestCase):
+    def test_native_confirmation_defaults_to_no(self):
+        from desktop import confirm_erase_native
+        native=MagicMock();native.MessageBoxW.return_value=7;native.FindWindowW.return_value=123
+        window=MagicMock();window.title='Ritmo · estudo pessoal'
+        with patch('desktop.ctypes.windll.user32',native):
+            self.assertFalse(confirm_erase_native(window))
+        window.create_confirmation_dialog.assert_not_called()
+        args=native.MessageBoxW.call_args.args
+        self.assertEqual(args[-1],0x134)
+        self.assertIn('backups internos',args[1])
+
     def test_sensitive_routes_require_session_even_without_origin(self):
         with tempfile.TemporaryDirectory() as folder:
             db = Database(Path(folder) / 'qa.db'); db.initialize()

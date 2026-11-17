@@ -53,14 +53,25 @@ def promote(repo, assets, facts, visibility):
         # Fail closed for access/network errors; only a verified 404 is absence.
         if b'404' not in tag_result.stderr:
             raise ValueError('Cannot inspect tag')
-    release_result = subprocess.run(['gh', 'api', f'repos/{repo}/releases/tags/{version}'], capture_output=True)
-    if release_result.returncode:
-        if b'404' not in release_result.stderr:
-            raise ValueError('Cannot inspect release')
+    # The tags endpoint cannot discover a draft whose tag is still pending.
+    # A successful authenticated paginated listing distinguishes absence from
+    # permissions/network errors and also finds partially created drafts.
+    def find_release():
+        pages = json.loads(command('gh', 'api', '--paginate', '--slurp', f'repos/{repo}/releases?per_page=100'))
+        matches = [release for page in pages for release in page if release['tag_name'] == version]
+        if len(matches) > 1:
+            raise ValueError('Multiple releases for tag; inspect drafts before resuming')
+        return matches[0] if matches else None
+    release = find_release()
+    if release is None:
         command('gh', 'release', 'create', version, '--repo', repo, '--target', commit, '--draft', '--prerelease', '--title', f'Ritmo {version}', '--notes', f'Windows x64; extraia EXE e _internal juntos. Sem assinatura digital. Código: {commit}. OCI: {ref}')
-        release = json.loads(command('gh', 'api', f'repos/{repo}/releases/tags/{version}'))
-    else:
-        release = json.loads(release_result.stdout)
+        release = find_release()
+        if release is None:
+            raise ValueError('New draft not visible; inspect authenticated release list before resuming')
+    # A draft without a tag will create its tag from target_commitish at publish.
+    # Accept only the exact reviewed commit, never an unresolved branch name.
+    if release['draft'] and release.get('target_commitish') != commit:
+        raise ValueError('Existing draft target differs from approved source commit')
     existing = {a['name'] for a in release['assets']}
     allowed = {p.name for p in files}
     if existing - allowed:
