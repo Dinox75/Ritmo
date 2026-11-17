@@ -8,3 +8,5 @@
 | Acompanhar prioridades | [Roadmap](roadmap.md) |
 | Consultar testes, capturas e resultados históricos | [Relatórios de validação](qa/README.md) |
 | Reproduzir o laboratório isolado | [Laboratório](../training/lab/README.md) · [execução remota](../training/lab/REMOTE.md) |
+
+[AUDITORIA: qualidade, usabilidade, segurança e documentação](qa/auditoria-2026-11-17.md) · [Distribuição e critérios para publicar](distribuicao.md)

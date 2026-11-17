@@ -8,3 +8,5 @@
 - **Aula experimental:** [fluxo isolado e comparação](qa-boolean-lesson.md).
 
 Os relatórios e artefatos foram agrupados nesta pasta. Os links fixados em commits antigos continuam mostrando o arquivo no caminho original. Valores e resultados de cada ensaio se referem ao ambiente registrado.
+
+- **Auditoria técnica:** [achados, riscos e critérios de aceitação](auditoria-2026-11-17.md).

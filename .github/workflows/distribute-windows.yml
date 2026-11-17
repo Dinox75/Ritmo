@@ -1,0 +1,158 @@
+name: Ritmo • distribuição Windows
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Tag de prévia (ex.: v0.1.0-preview.1)'
+        type: string
+        required: true
+      publish:
+        description: 'Publicar no Releases e GHCR após os testes Windows'
+        type: boolean
+        default: false
+      reviewed_sha:
+        description: 'SHA completo da MAIN aprovado após auditoria; obrigatório para publicar'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ritmo-windows-distribution
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 35
+    env:
+      RITMO_VERSION: ${{ inputs.version }}
+      REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+      PUBLISH: ${{ inputs.publish }}
+    steps:
+      - name: Validar parâmetros
+        shell: pwsh
+        run: |
+          if ($env:RITMO_VERSION -cnotmatch '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)-preview\.[1-9][0-9]*$') {
+            throw 'Tag esperada: v0.1.0-preview.1'
+          }
+          if ($env:PUBLISH -eq 'true' -and ($env:GITHUB_REF -ne 'refs/heads/main' -or $env:REVIEWED_SHA -cne $env:GITHUB_SHA)) {
+            throw 'Publicação exige main e o SHA completo revisado desta execução.'
+          }
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - name: Compilar, validar e arquivar sem instalar
+        shell: pwsh
+        run: |
+          $env:RITMO_BUILD_ROOT = Join-Path $env:RUNNER_TEMP 'ritmo-build'
+          & ./scripts/build_windows.ps1
+          $stages = @(Get-ChildItem $env:RITMO_BUILD_ROOT -Directory -Filter 'RitmoStage-*')
+          if ($stages.Count -ne 1) { throw 'Esperado exatamente um pacote de build' }
+          $stage = $stages[0].FullName
+          $exe = Join-Path $stage 'Ritmo/Ritmo.exe'
+          if (!(Test-Path $exe -PathType Leaf) -or !(Test-Path (Join-Path $stage 'Ritmo/_internal') -PathType Container)) {
+            throw 'Pacote incompleto'
+          }
+          & ./.buildvenv/Scripts/python.exe -m unittest discover -s tests -q
+          if ($LASTEXITCODE -ne 0) { throw 'Suíte automatizada falhou' }
+          & ./.buildvenv/Scripts/python.exe scripts/qa_boolean_packaged.py $exe (Join-Path $stage 'boolean-qa')
+          if ($LASTEXITCODE -ne 0) { throw 'QA booleano empacotado falhou' }
+          $out = New-Item -ItemType Directory -Path 'dist-release'
+          $zip = "Ritmo-$($env:RITMO_VERSION)-windows-x64.zip"
+          $zipPath = Join-Path $out.FullName $zip
+          Compress-Archive -LiteralPath (Join-Path $stage 'Ritmo') -DestinationPath $zipPath
+          $files = Get-ChildItem (Join-Path $stage 'Ritmo') -File -Recurse -Force
+          $entries = @{
+            'Ritmo.exe' = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+            source_commit = $env:GITHUB_SHA
+            archive = $zip
+            archive_sha256 = (Get-FileHash $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+            packaged_files = @($files).Count
+          }
+          $entries | ConvertTo-Json | Set-Content -Encoding utf8 (Join-Path $out.FullName 'build-info.json')
+          "$($entries.archive_sha256)  $zip" | Set-Content -Encoding ascii (Join-Path $out.FullName 'SHA256SUMS.txt')
+          & ./.buildvenv/Scripts/python.exe -m pip freeze | Set-Content -Encoding utf8 (Join-Path $out.FullName 'build-dependencies.txt')
+          if ($LASTEXITCODE -ne 0) { throw 'Não foi possível listar as dependências do build' }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ritmo-distribuicao
+          path: dist-release/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+
+  publish:
+    if: inputs.publish && github.ref == 'refs/heads/main' && inputs.reviewed_sha == github.sha
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+      packages: write
+    env:
+      RITMO_VERSION: ${{ inputs.version }}
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: ritmo-distribuicao
+          path: release-assets
+      - uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1.2.4
+        with:
+          version: '1.2.3'
+      - name: Conferir e publicar os mesmos bytes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: release-assets
+        run: |
+          set -euo pipefail
+          zip="Ritmo-${RITMO_VERSION}-windows-x64.zip"
+          repo_name="${GITHUB_REPOSITORY,,}"
+          ref="ghcr.io/${repo_name}-windows:${RITMO_VERSION}"
+          sha256sum -c SHA256SUMS.txt
+          jq -e --arg commit "$GITHUB_SHA" --arg archive "$zip" '.source_commit == $commit and .archive == $archive' build-info.json >/dev/null
+          python - "$zip" <<'PY'
+          import hashlib
+          import json
+          import sys
+          import zipfile
+          from pathlib import Path
+          facts = json.loads(Path("build-info.json").read_text(encoding="utf-8-sig"))
+          with zipfile.ZipFile(sys.argv[1]) as archive:
+              files = [entry.filename for entry in archive.infolist() if not entry.is_dir()]
+              assert len(files) == len(set(files)) == facts["packaged_files"]
+              assert hashlib.sha256(archive.read("Ritmo/Ritmo.exe")).hexdigest() == facts["Ritmo.exe"]
+              assert archive.testzip() is None
+              assert "Ritmo/Ritmo.exe" in files and any(name.startswith("Ritmo/_internal/") for name in files)
+              assert all(name == "Ritmo/Ritmo.exe" or name.startswith("Ritmo/_internal/") for name in files)
+              assert all(not name.lower().endswith((".db", ".gguf", ".sqlite", ".safetensors", "source_checkout.txt")) for name in files)
+          PY
+          cat > notes.md <<EOF_NOTES
+          Prévia Windows x64 do Ritmo. Extraia o ZIP e execute Ritmo.exe mantendo a pasta _internal ao lado.
+          Aplicativo sem assinatura digital; o SHA-256 confere integridade do download, não substitui assinatura.
+          Pesos de IA não estão incluídos. A aula booleana experimental vem desligada por padrão.
+          Faça backup antes de abrir a prévia sobre dados existentes. Testes de software não medem aprendizagem.
+          Código: $GITHUB_SHA
+          OCI: $ref (arquivo Windows; não é uma imagem para executar com Docker).
+          EOF_NOTES
+          gh release create "$RITMO_VERSION" "$zip" SHA256SUMS.txt build-info.json build-dependencies.txt \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Ritmo $RITMO_VERSION" \
+            --notes-file notes.md --draft --prerelease
+          printf '%s' "$GH_TOKEN" | oras login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+          if oras manifest fetch "$ref" >/dev/null 2>&1; then
+            echo 'Tag OCI já existe; inspecione o rascunho antes de repetir.' >&2
+            exit 1
+          fi
+          oras push "$ref" --artifact-type application/vnd.ritmo.windows-x64.v1 \
+            --annotation "org.opencontainers.image.source=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
+            --annotation "org.opencontainers.image.revision=${GITHUB_SHA}" \
+            "$zip:application/zip" SHA256SUMS.txt:text/plain build-info.json:application/json
+          oras manifest fetch "$ref" | jq -e --arg digest "sha256:$(sha256sum "$zip" | cut -d' ' -f1)" \
+            '.layers | any(.digest == $digest)' >/dev/null
+          gh release edit "$RITMO_VERSION" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease
