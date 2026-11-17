@@ -6,7 +6,7 @@ geração local real, triagem, painel e fluxo QLoRA experimental com retomada.
 mínimos. O treinador agora aceita proveniência externa compatível e exige
 triagem independente para todos os registros, inclusive autorais; a prova
 selada fica separada. As restrições CC0 descritas abaixo são o histórico de26/10,
-não a regra atual. Veja [resultado e limitações](../docs/qa-training-lab.md).
+não a regra atual. Veja [resultado e limitações](../docs/qa/qa-training-lab.md).
 
 Em 26/10/2026 **nenhum adaptador foi treinado, incorporado ou ativado**. O conjunto [examples.jsonl](examples.jsonl) contém 18 exemplos de treino, 3 de validação e 6 de teste, escritos para esta etapa (proveniência `Ritmo authored`, licença `CC0-1.0`). Eles cobrem aula em etapas, resposta direta, dica gradual, erro conceitual, material insuficiente ou contraditório, personalização declarada, mercado, sensores e instrução hostil. Não contêm conversas, notas, arquivos ou telemetria do usuário. O conjunto é pequeno demais para justificar um ajuste de pesos; o script recusa iniciar o download do modelo de treino abaixo de 200/30/30 exemplos revisados. Esse limiar é um requisito de prudência deste projeto, não uma garantia estatística.
 

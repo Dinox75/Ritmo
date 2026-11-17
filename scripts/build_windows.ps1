@@ -1,16 +1,18 @@
-param([switch]$SkipShortcut, [switch]$SkipBrowserQA)
+param([switch]$Install, [switch]$SkipShortcut, [switch]$SkipBrowserQA)
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 Set-Location -LiteralPath $projectRoot
-if (Get-Process Ritmo -ErrorAction SilentlyContinue) { throw 'Feche o Ritmo antes de atualizar o executável.' }
+if ($Install -and (Get-Process Ritmo -ErrorAction SilentlyContinue)) { throw 'Feche o Ritmo antes de atualizar o executável.' }
 $python = Join-Path $projectRoot '.buildvenv\Scripts\python.exe'
 if (-not (Test-Path -LiteralPath $python)) {
     py -3.11 -m venv (Join-Path $projectRoot '.buildvenv')
     if ($LASTEXITCODE -ne 0) { throw 'Python 3.11 não disponível para o build.' }
 }
-& $python -m pip install --no-index --disable-pip-version-check --no-cache-dir -r requirements-desktop.txt -r requirements-windows.txt -r requirements-qa.txt
+$requirements = @('-r', 'requirements-desktop.txt', '-r', 'requirements-windows.txt')
+if (-not $SkipBrowserQA) { $requirements += @('-r', 'requirements-qa.txt') }
+& $python -m pip install --no-index --disable-pip-version-check @requirements
 if ($LASTEXITCODE -ne 0) {
-    & $python -m pip install --disable-pip-version-check --no-cache-dir -r requirements-desktop.txt -r requirements-windows.txt -r requirements-qa.txt
+    & $python -m pip install --disable-pip-version-check @requirements
     if ($LASTEXITCODE -ne 0) { throw 'Instalação das dependências falhou.' }
 }
 & $python scripts/make_icon.py
@@ -20,7 +22,7 @@ $portableHome = Split-Path -Parent $projectRoot
 $portableLayout = (Split-Path -Leaf $projectRoot) -in @('Codigo', 'Repositorio') -and
     (Test-Path -LiteralPath (Join-Path $portableHome 'Dados')) -and
     (Test-Path -LiteralPath (Join-Path $portableHome 'Modelos'))
-$scratchRoot = if ($env:RITMO_BUILD_ROOT) { [System.IO.Path]::GetFullPath($env:RITMO_BUILD_ROOT) } elseif ($portableLayout) { Join-Path $portableHome 'Build' } else { $localRoot }
+$scratchRoot = if ($env:RITMO_BUILD_ROOT) { [System.IO.Path]::GetFullPath($env:RITMO_BUILD_ROOT) } else { Join-Path $projectRoot 'build' }
 New-Item -ItemType Directory -Path $scratchRoot -Force | Out-Null
 $scratchRoot = (Resolve-Path -LiteralPath $scratchRoot).Path
 $env:TEMP = Join-Path $scratchRoot 'RitmoTemp'
@@ -28,8 +30,6 @@ $env:TMP = $env:TEMP
 New-Item -ItemType Directory -Path $env:TEMP -Force | Out-Null
 $packageRoot = if ($portableLayout) { Join-Path $portableHome 'Aplicativo' } else { Join-Path $localRoot 'RitmoApp' }
 $previousRoot = if ($portableLayout) { Join-Path $portableHome 'Versoes anteriores' } else { $localRoot }
-New-Item -ItemType Directory -Path $previousRoot -Force | Out-Null
-$previousRoot = (Resolve-Path -LiteralPath $previousRoot).Path
 $buildId = (Get-Date -Format 'yyyyMMddHHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 6)
 $stageRoot = Join-Path $scratchRoot "RitmoStage-$buildId"
 $workRoot = Join-Path $scratchRoot 'RitmoBuild'
@@ -37,8 +37,6 @@ $workRoot = Join-Path $scratchRoot 'RitmoBuild'
 if ($LASTEXITCODE -ne 0) { throw 'Empacotamento falhou.' }
 
 $exe = Join-Path $stageRoot 'Ritmo\Ritmo.exe'
-$pointer = Join-Path (Split-Path -Parent $exe) 'source_checkout.txt'
-[System.IO.File]::WriteAllText($pointer, $projectRoot, (New-Object System.Text.UTF8Encoding($false)))
 $report = Join-Path $stageRoot 'ritmo-smoke.json'
 & $python scripts/smoke_windows.py $exe $report
 if ($LASTEXITCODE -ne 0) { throw 'Executável falhou no teste de inicialização.' }
@@ -52,6 +50,17 @@ if (-not $SkipBrowserQA) {
     if ($LASTEXITCODE -ne 0) { throw 'Executável falhou no fluxo completo com dados temporários.' }
 }
 
+if (-not $Install) {
+    Write-Output "Pacote validado: $exe"
+    Write-Output "Relatório: $report"
+    return
+}
+
+# O caminho do checkout só é necessário para a migração da instalação explícita.
+$pointer = Join-Path (Split-Path -Parent $exe) 'source_checkout.txt'
+[System.IO.File]::WriteAllText($pointer, $projectRoot, (New-Object System.Text.UTF8Encoding($false)))
+New-Item -ItemType Directory -Path $previousRoot -Force | Out-Null
+$previousRoot = (Resolve-Path -LiteralPath $previousRoot).Path
 # A instalação atual só é movida depois que o pacote novo passou pelos testes.
 New-Item -ItemType Directory -Path $packageRoot -Force | Out-Null
 $packageRoot = (Resolve-Path -LiteralPath $packageRoot).Path

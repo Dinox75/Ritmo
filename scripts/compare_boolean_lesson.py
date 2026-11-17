@@ -30,7 +30,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--run',type=Path,required=True);p.add_argument('--model-root',type=Path,required=True);p.add_argument('--freeze',action='store_true');a=p.parse_args()
     repo=Path(__file__).resolve().parents[1];root=a.run.resolve();assert not root.is_relative_to(repo);root.mkdir(parents=True,exist_ok=True)
     def preserved():
-        names=subprocess.check_output(['git','ls-files','docs/training-lab-results','docs/training-lab-two-stage','docs/training-lab-calibration','docs/training-lab-guided-reference'],cwd=repo,text=True).splitlines()
+        names=subprocess.check_output(['git','ls-files','docs/qa/training-lab-results','docs/qa/training-lab-two-stage','docs/qa/training-lab-calibration','docs/qa/training-lab-guided-reference'],cwd=repo,text=True).splitlines()
         return {name:hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in names}
     def code():return {name:hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in ('tutor/boolean_lesson.py','tutor/boolean_sources.json','tutor/service.py','tutor/protocol.py','scripts/compare_boolean_lesson.py')}
     if a.freeze:

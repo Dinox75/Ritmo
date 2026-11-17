@@ -155,9 +155,9 @@ Set-Location 'A:\Projetos & Estudos\Ritmo\TrainingLab'
 $py = 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe'
 $models = 'A:\Projetos & Estudos\Ritmo\Modelos\RitmoModels'
 git worktree add --detach 'A:\Projetos & Estudos\Ritmo\TrainingLabBaseline8d02ce1' 8d02ce1
-& $py scripts\compare_lab_generation.py --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-comparacao' --model-root $models --baseline 'A:\Projetos & Estudos\Ritmo\TrainingLabBaseline8d02ce1' --limit 30 --judge-gpu-layers 24 --catalog docs\training-lab-two-stage\catalog-used.json
+& $py scripts\compare_lab_generation.py --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-comparacao' --model-root $models --baseline 'A:\Projetos & Estudos\Ritmo\TrainingLabBaseline8d02ce1' --limit 30 --judge-gpu-layers 24 --catalog docs\qa\training-lab-two-stage\catalog-used.json
 # Reaplicar aos mesmos60 brutos reais, sem novas gerações:
-& $py scripts\compare_lab_generation.py --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-revisao' --model-root $models --baseline 'A:\Projetos & Estudos\Ritmo\TrainingLabBaseline8d02ce1' --limit 30 --judge-gpu-layers 24 --catalog docs\training-lab-two-stage\catalog-used.json --replay-from 'A:\Projetos & Estudos\Ritmo\Laboratorio\two-stage-20261113'
+& $py scripts\compare_lab_generation.py --run 'A:\Projetos & Estudos\Ritmo\Laboratorio\nova-revisao' --model-root $models --baseline 'A:\Projetos & Estudos\Ritmo\TrainingLabBaseline8d02ce1' --limit 30 --judge-gpu-layers 24 --catalog docs\qa\training-lab-two-stage\catalog-used.json --replay-from 'A:\Projetos & Estudos\Ritmo\Laboratorio\two-stage-20261113'
 $env:TEMP = 'A:\Projetos & Estudos\Ritmo\Laboratorio\tmp-two-stage'
 $env:TMP = $env:TEMP
 & $py -m unittest discover -s tests -q

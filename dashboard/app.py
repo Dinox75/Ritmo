@@ -40,6 +40,24 @@ STATIC = {
 }
 
 
+def recent_log_lines(path, *, lines=50, max_bytes=128 * 1024):
+    """Read a bounded suffix; discard an incomplete first line."""
+    try:
+        with path.open("rb") as log:
+            size = log.seek(0, os.SEEK_END)
+            start = max(0, size - max_bytes)
+            log.seek(start - bool(start))
+            suffix = log.read(size - start + bool(start))
+    except FileNotFoundError:
+        return []
+    if start:
+        boundary = suffix.find(b"\n")
+        if boundary == -1:
+            return []
+        suffix = suffix[boundary + 1:]
+    return suffix.decode("utf-8", errors="replace").splitlines()[-lines:]
+
+
 class LocalHTTPServer(ThreadingHTTPServer):
     # Browser startup issues several simultaneous requests. The default backlog
     # of five intermittently refused local connections on the tested Windows host.
@@ -135,7 +153,8 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 elif parts == ["api", "materials"]:
                     result = database.list_materials(query.get("subject_id", [None])[0])
                 elif parts == ["api", "tutor", "config"]:
-                    result = {**tutor.status(), "boolean_lesson_enabled": load_config(config_path)["experiments"]["boolean_lesson"]}
+                    config = load_config(config_path)
+                    result = {**tutor.status(config), "boolean_lesson_enabled": config["experiments"]["boolean_lesson"]}
                 elif parts == ["api", "tutor", "install"]:
                     result = installer.status()
                 elif parts == ["api", "tutor", "knowledge"]:
@@ -171,7 +190,7 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                     result = load_config(config_path)["experience"]
                 elif parts == ["api", "diagnostics"]:
                     events = database.list_events(20)
-                    log_lines = LOG_FILE.read_text(encoding="utf-8", errors="replace").splitlines()[-50:] if LOG_FILE.exists() else []
+                    log_lines = recent_log_lines(LOG_FILE)
                     result = {"sensors": database.health(),
                               "events": [{key: event[key] for key in ("at", "sensor", "state")}
                                          for event in events],

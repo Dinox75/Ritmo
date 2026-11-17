@@ -1,7 +1,7 @@
 # Laboratório privado do tutor
 
 Este laboratório funciona separado do banco, configuração e aplicativo pessoal.
-Na [continuação da PR9](../../docs/qa-training-lab-two-stage.md), exercícios,
+Na [continuação da PR9](../../docs/qa/qa-training-lab-two-stage.md), exercícios,
 gabaritos e tentativas são construídos por código em dez famílias. O modelo só
 gera intervenção e pergunta em campos separados. A comparação pareada local
 ficou0/30 para ambas as abordagens na rubrica comum; é necessário corrigir a
@@ -9,7 +9,7 @@ qualidade pedagógica/avaliação antes de ampliar o corpus. Não houve treino.
 O comando avança sozinho até concluir ou registrar bloqueio. **Não há adaptador
 treinado nesta entrega**: o primeiro ensaio teve0/12 aprovados e a comparação seguinte
 recusou todos os30 candidatos novos; os históricos estão preservados.
-Veja [o relatório](../../docs/qa-training-lab.md) e [o guia Linux/GPU/custos](REMOTE.md).
+Veja [o relatório](../../docs/qa/qa-training-lab.md) e [o guia Linux/GPU/custos](REMOTE.md).
 
 ## Fluxo
 
@@ -107,14 +107,14 @@ execução existente sem --resume. Artefatos e originais nunca devem ser colocad
 no diretório do banco pessoal. Não há exportação/ativação automática de adaptador.
 # Calibração do avaliador (14/11/2026)
 
-A [continuação observacional com referências de código](../../docs/qa-training-lab-guided-reference.md)
+A [continuação observacional com referências de código](../../docs/qa/qa-training-lab-guided-reference.md)
 usa `scripts/pilot_guided_reference.py` (freeze/run), depois
 `scripts/export_guided_reference.py` (auditoria suplementar nos mesmos brutos).
 O modelo1.7B gera/reformula, o4B só observa e todos permanecem fora do corpus.
 Não confundir identidade literal e gabarito calculado com aprovação pedagógica.
 O fluxo anterior e seus resultados permanecem arquivados, sem novo treino.
 
-Consulte [relatório e comandos](../../docs/qa-training-lab-calibration.md).
+Consulte [relatório e comandos](../../docs/qa/qa-training-lab-calibration.md).
 `scripts/calibrate_lab_evaluator.py` separa freeze, baseline, development,
 lock, reserved e replay. Os arquivos de expectativas são criados antes da
 inferência, e a reserva exige regras congeladas. Bateria e referências são

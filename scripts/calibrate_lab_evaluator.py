@@ -20,7 +20,7 @@ def main():
     p.add_argument('--gpu-layers', type=int, choices=range(100), default=99)
     a = p.parse_args(); root = a.run; root.mkdir(parents=True, exist_ok=True)
     repo = Path(__file__).resolve().parents[1]
-    paths = ['docs/training-lab-results/validated.json', 'docs/training-lab-results/proof.json', 'docs/training-lab-two-stage/results.json', 'docs/training-lab-two-stage/metrics.json']
+    paths = ['docs/qa/training-lab-results/validated.json', 'docs/qa/training-lab-results/proof.json', 'docs/qa/training-lab-two-stage/results.json', 'docs/qa/training-lab-two-stage/metrics.json']
     preserved = {x: hashlib.sha256((repo / x).read_bytes()).hexdigest() for x in paths}
     def rules():
         return {x: hashlib.sha256((repo / x).read_bytes()).hexdigest() for x in ['training/lab/pedagogy.py', 'training/lab/validation.py', 'training/lab/calibration.py', 'training/lab/prepare.py', 'scripts/calibrate_lab_evaluator.py']}
@@ -70,7 +70,7 @@ def main():
         return verdict, metric
     try:
         if a.phase == 'replay':
-            original = json.loads((repo / 'docs/training-lab-two-stage/results.json').read_text(encoding='utf8'))
+            original = json.loads((repo / 'docs/qa/training-lab-two-stage/results.json').read_text(encoding='utf8'))
             from training.lab.validation import screen
             for pair in original['pairs']:
                 for method in ('legacy', 'two_stage'):

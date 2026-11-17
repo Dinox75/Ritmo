@@ -68,7 +68,7 @@ O primeiro ensaio geral expôs uma disputa de carregamentos da conversa ao inici
 ```powershell
 git worktree add -b feat/ritmo-tutor-consolidated 'A:\Projetos & Estudos\Ritmo\TutorIntegration' feat/ritmo-study-sources
 & 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe' -m unittest discover -s tests -q
-& 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe' -m scripts.evaluate_local_tutor --root 'A:\Projetos & Estudos\Ritmo\Modelos\RitmoModels' --output docs/tutor-eval-consolidated.json
+& 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe' -m scripts.evaluate_local_tutor --root 'A:\Projetos & Estudos\Ritmo\Modelos\RitmoModels' --output docs/qa/tutor-eval-consolidated.json
 & 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe' -m PyInstaller --noconfirm --distpath 'A:\Projetos & Estudos\Ritmo\BuildValidation\tutor-consolidated-20261109\dist' --workpath 'A:\Projetos & Estudos\Ritmo\BuildValidation\tutor-consolidated-20261109\work' Ritmo.spec
 & 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe' scripts\smoke_windows.py 'A:\Projetos & Estudos\Ritmo\BuildValidation\tutor-consolidated-20261109\dist\Ritmo\Ritmo.exe' 'A:\Projetos & Estudos\Ritmo\BuildValidation\tutor-consolidated-20261109\smoke-final.json'
 & 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe' scripts\qa_packaged_windows.py 'A:\Projetos & Estudos\Ritmo\BuildValidation\tutor-consolidated-20261109\dist\Ritmo\Ritmo.exe'

@@ -25,7 +25,7 @@ class TwoStageTests(unittest.TestCase):
         from pathlib import Path
         from training.lab.exercises import build_tasks
         from training.lab.validation import signature
-        proof = json.loads((Path(__file__).parents[1] / 'docs/training-lab-results/proof.json').read_text(encoding='utf8'))
+        proof = json.loads((Path(__file__).parents[1] / 'docs/qa/training-lab-results/proof.json').read_text(encoding='utf8'))
         reserved = {signature(c) for c in proof['cases']}
         for task in build_tasks():
             self.assertNotIn(signature(task), reserved)

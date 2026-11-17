@@ -45,7 +45,7 @@ def main():
     assert not root.is_relative_to(repo), 'execução fora do Git'
     root.mkdir(parents=True,exist_ok=True)
     def preserved():
-        files = subprocess.check_output(['git','ls-files','docs/training-lab-results','docs/training-lab-two-stage','docs/training-lab-calibration'],cwd=repo,text=True).splitlines()
+        files = subprocess.check_output(['git','ls-files','docs/qa/training-lab-results','docs/qa/training-lab-two-stage','docs/qa/training-lab-calibration'],cwd=repo,text=True).splitlines()
         return {name:hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in files}
     def code():
         return {name:hashlib.sha256((repo/name).read_bytes()).hexdigest() for name in

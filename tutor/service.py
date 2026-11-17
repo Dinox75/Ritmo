@@ -48,8 +48,9 @@ class TutorService:
         self.provider = provider
         self.external = external
 
-    def status(self):
-        config = load_config(self.config_path)
+    def status(self, config=None):
+        if config is None:
+            config = load_config(self.config_path)
         model = config["tutor"]["model"]
         if not self.runtime.process:
             self.runtime.root = Path(config["tutor"]["model_root"])

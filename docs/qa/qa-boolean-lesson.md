@@ -198,7 +198,7 @@ git status --short
 git rev-parse HEAD
 & $py scripts/compare_boolean_lesson.py --run $run --model-root $models --freeze
 & $py scripts/compare_boolean_lesson.py --run $run --model-root $models
-& $py scripts/report_boolean_lesson.py --run $run --view $view --publish docs/training-lab-boolean-flow
+& $py scripts/report_boolean_lesson.py --run $run --view $view --publish docs/qa/training-lab-boolean-flow
 $env:TEMP = 'A:\Projetos & Estudos\Ritmo\Laboratorio\tmp-two-stage'
 $env:TMP = $env:TEMP
 & $py -m unittest discover -s tests -q

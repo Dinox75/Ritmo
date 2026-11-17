@@ -45,6 +45,6 @@ Continuam pendentes uma estratégia confiável para não revelar a solução na 
 Reproduzir no Windows, com os dois modelos já instalados:
 
 ```powershell
-.\.venv\Scripts\python.exe -m scripts.evaluate_local_tutor --root "<pasta dos modelos instalados>" --output docs/tutor-eval-after.json
+.\.venv\Scripts\python.exe -m scripts.evaluate_local_tutor --root "<pasta dos modelos instalados>" --output docs/qa/tutor-eval-after.json
 .\.venv\Scripts\python.exe -m unittest discover -s tests -q
 ```

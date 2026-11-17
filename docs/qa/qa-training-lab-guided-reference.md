@@ -181,7 +181,7 @@ git status --short
 git rev-parse HEAD
 & $py scripts/pilot_guided_reference.py --phase freeze --run $run --originals $originals
 & $py scripts/pilot_guided_reference.py --phase run --run $run --model-root $models
-& $py scripts/export_guided_reference.py --run $run --view $view --publish docs/training-lab-guided-reference
+& $py scripts/export_guided_reference.py --run $run --view $view --publish docs/qa/training-lab-guided-reference
 $env:TEMP = 'A:\Projetos & Estudos\Ritmo\Laboratorio\tmp-two-stage'
 $env:TMP = $env:TEMP
 & $py -m unittest discover -s tests -q

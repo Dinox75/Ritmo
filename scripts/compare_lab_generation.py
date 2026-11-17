@@ -38,7 +38,7 @@ def main():
     old_file = args.baseline / 'training/lab/prepare.py'
     legacy_system = next(ast.literal_eval(n.value) for n in ast.parse(old_file.read_text(encoding='utf8')).body
                          if isinstance(n, ast.Assign) and any(isinstance(t, ast.Name) and t.id == 'SYSTEM' for t in n.targets))
-    preserved = [repo / 'docs/training-lab-results/validated.json', repo / 'docs/training-lab-results/proof.json']
+    preserved = [repo / 'docs/qa/training-lab-results/validated.json', repo / 'docs/qa/training-lab-results/proof.json']
     preserved_hashes = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in preserved}
     tasks = build_tasks(args.limit)
     from local_ai.runtime import LocalRuntime

@@ -77,8 +77,8 @@ git status --short --branch
 git worktree add --detach 'A:\Projetos & Estudos\Ritmo\TutorBaseline4ad48e9' 4ad48e9
 $ritmoPython = 'A:\Projetos & Estudos\Ritmo\Repositorio\.venv\Scripts\python.exe'
 $ritmoModels = 'A:\Projetos & Estudos\Ritmo\Modelos\RitmoModels'
-& $ritmoPython scripts\evaluate_tutor_stages.py --repo 'A:\Projetos & Estudos\Ritmo\TutorBaseline4ad48e9' --root $ritmoModels --label 4ad48e9 --repeats 3 --output docs/tutor-stages-before.json
-& $ritmoPython scripts\evaluate_tutor_stages.py --repo 'A:\Projetos & Estudos\Ritmo\TutorIntegration' --root $ritmoModels --label ca6a9c3 --repeats 3 --output docs/tutor-stages-after.json
+& $ritmoPython scripts\evaluate_tutor_stages.py --repo 'A:\Projetos & Estudos\Ritmo\TutorBaseline4ad48e9' --root $ritmoModels --label 4ad48e9 --repeats 3 --output docs/qa/tutor-stages-before.json
+& $ritmoPython scripts\evaluate_tutor_stages.py --repo 'A:\Projetos & Estudos\Ritmo\TutorIntegration' --root $ritmoModels --label ca6a9c3 --repeats 3 --output docs/qa/tutor-stages-after.json
 & $ritmoPython -m unittest discover -s tests -q
 git diff --check
 ```

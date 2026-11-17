@@ -51,7 +51,7 @@ instalação Windows, pesos ou atalho pessoal do Ritmo.
 
 ## Fontes reais e permissões
 
-Catálogo completo e hashes: [catalog.json](../training/lab/catalog.json).
+Catálogo completo e hashes: [catalog.json](../../training/lab/catalog.json).
 Os downloads guardam também os avisos completos de licença fora do Git.
 
 | Fonte | Categoria | Licença e evidência | Destino |
@@ -162,7 +162,7 @@ Abre/reabre o painel por pythonw, registra erro de inicialização e não treina
 Não altera o atalho do aplicativo pessoal. Execução real armazenada em
 `A:\Projetos & Estudos\Ritmo\Laboratorio\validated-v2-20261113`.
 
-Comandos completos: [README do laboratório](../training/lab/README.md).
+Comandos completos: [README do laboratório](../../training/lab/README.md).
 
 ```powershell
 # Executados a partir de A:\Projetos & Estudos\Ritmo\TrainingLab
@@ -197,6 +197,6 @@ prazo/teto de retenção de disco a confirmar. O watchdog de tempo não encerra
 cobrança; é necessário confirmar parada/terminação da instância no provedor.
 
 As instruções de Linux persistente, tmux/systemd, túnel SSH, salvamento com
-margem, retomada, cópia e desligamento estão em [REMOTE.md](../training/lab/REMOTE.md).
+margem, retomada, cópia e desligamento estão em [REMOTE.md](../../training/lab/REMOTE.md).
 Nada foi contratado/enviado a servidor. A instalação pessoal permanece intacta.
 Não foi gerado pacote Windows, não há hash de novo executável, merge ou release.

@@ -117,7 +117,7 @@ git rev-parse HEAD
 & $py scripts/calibrate_lab_evaluator.py --run $run --phase lock
 & $py scripts/calibrate_lab_evaluator.py --run $run --phase reserved --model-root $models
 & $py scripts/calibrate_lab_evaluator.py --run $run --phase replay --model-root $models
-& $py scripts/report_lab_calibration.py --run $run --originals 'A:\Projetos & Estudos\Ritmo\Laboratorio\two-stage-final-v3-20261113\originals' --publish docs/training-lab-calibration
+& $py scripts/report_lab_calibration.py --run $run --originals 'A:\Projetos & Estudos\Ritmo\Laboratorio\two-stage-final-v3-20261113\originals' --publish docs/qa/training-lab-calibration
 $env:TEMP = 'A:\Projetos & Estudos\Ritmo\Laboratorio\tmp-two-stage'
 $env:TMP = $env:TEMP
 & $py -m unittest discover -s tests -q
@@ -225,7 +225,7 @@ Comandos finais efetivamente usados (mesmos caminhos `$py`/`$models` acima):
 ```powershell
 $final = 'A:\Projetos & Estudos\Ritmo\Laboratorio\calibration-20261114-complete'
 & $py scripts/calibrate_lab_evaluator.py --run $final --phase replay --model-root $models
-& $py scripts/report_lab_calibration.py --run $final --originals 'A:\Projetos & Estudos\Ritmo\Laboratorio\two-stage-final-v3-20261113\originals' --publish docs/training-lab-calibration
+& $py scripts/report_lab_calibration.py --run $final --originals 'A:\Projetos & Estudos\Ritmo\Laboratorio\two-stage-final-v3-20261113\originals' --publish docs/qa/training-lab-calibration
 & $py scripts/qa_lab_calibration.py --run $final --output 'A:\Projetos & Estudos\Ritmo\Laboratorio\qa-calibration-20261114'
 & $py -m unittest discover -s tests -q
 & $py -m compileall -q training/lab scripts/calibrate_lab_evaluator.py scripts/report_lab_calibration.py scripts/qa_lab_calibration.py

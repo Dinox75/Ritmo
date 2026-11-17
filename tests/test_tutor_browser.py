@@ -25,10 +25,10 @@ except ImportError:
     expect = sync_playwright = None
 
 
-EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
+from tests.browser_target import BROWSER
 
 
-@unittest.skipUnless(sync_playwright and EDGE.exists(), "QA visual requer Edge e Playwright")
+@unittest.skipUnless(sync_playwright and BROWSER, "QA visual requer Edge e Playwright")
 class TutorBrowserCase(unittest.TestCase):
     def test_external_query_preview_contradiction_and_unavailable_source(self):
         with tempfile.TemporaryDirectory(prefix="ritmo-external-ui-") as folder:
@@ -54,7 +54,7 @@ class TutorBrowserCase(unittest.TestCase):
             worker = threading.Thread(target=server.serve_forever); worker.start()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page(viewport={"width": 1366, "height": 850})
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="estudar"]').click()
@@ -100,7 +100,7 @@ class TutorBrowserCase(unittest.TestCase):
             worker.start()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="materiais"]').click()
@@ -146,7 +146,7 @@ class TutorBrowserCase(unittest.TestCase):
                 return result
             try:
                 with patch.object(TutorStore, "create_thread", delayed_subject), sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="estudar"]').click()
@@ -213,7 +213,7 @@ class TutorBrowserCase(unittest.TestCase):
             worker.start()
             try:
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(executable_path=str(EDGE), headless=True)
+                    browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page(viewport={"width": 1366, "height": 850})
                     page.set_default_timeout(10000)
                     errors = []

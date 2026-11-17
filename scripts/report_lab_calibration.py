@@ -64,7 +64,7 @@ def main():
     passed = passed and all(not r['effective_judge']['overrides'] or r['effective_judge']['overrides'] == ['codigo_detectou_erro_logico'] for r in phases['reserved']['rows'])
     replay_file = root / 'replay.json'
     replay = json.loads(replay_file.read_text(encoding='utf8')) if replay_file.exists() else {'rows': [], 'complete': False}
-    original = json.loads((repo / 'docs/training-lab-two-stage/results.json').read_text(encoding='utf8'))
+    original = json.loads((repo / 'docs/qa/training-lab-two-stage/results.json').read_text(encoding='utf8'))
     expected_raws = {p['id'] + '-' + m: hashlib.sha256(p[m]['raw'].encode()).hexdigest() for p in original['pairs'] for m in ('legacy','two_stage')}
     originals = {p['id'] + '-' + m: (p['task'],p[m]['candidate']) for p in original['pairs'] for m in ('legacy','two_stage')}
     original_items = {p['id'] + '-' + m: p[m] for p in original['pairs'] for m in ('legacy','two_stage')}
