@@ -15,6 +15,12 @@ from local_ai.runtime import LocalRuntime, ModelUnavailable
 
 
 class RuntimeIntegrityCase(unittest.TestCase):
+    def test_empty_install_has_install_guidance_without_starting_process(self):
+        with tempfile.TemporaryDirectory() as folder, patch('local_ai.runtime.subprocess.Popen') as launch:
+            with self.assertRaisesRegex(ModelUnavailable, 'Instale o modelo'):
+                LocalRuntime(Path(folder)).start('test')
+            launch.assert_not_called()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(prefix="ritmo-integrity-")
         self.addCleanup(self.temp.cleanup)

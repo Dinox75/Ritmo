@@ -77,6 +77,8 @@ class LocalRuntime:
             if info is None:
                 raise ModelUnavailable("Modelo local desconhecido.")
             runtime_root = self.root / "runtime" / manifest()["runtime"]["version"]
+            if not runtime_root.exists():
+                raise ModelUnavailable("Instale o modelo local em Configurações antes de conversar.")
             try:
                 executable = verify_runtime(runtime_root, manifest()["runtime"])
             except RuntimeIntegrityError as error:

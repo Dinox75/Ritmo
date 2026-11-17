@@ -100,9 +100,13 @@ class DesktopApp:
             code = self.server.session.issue_code()
             def authorize():
                 # Injected into this native window's memory, never a static file/URL.
-                if window.get_current_url() == url + '/authorize.html':
-                    window.evaluate_js("fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:"
-                                       + json.dumps(code) + "})}).then(r=>{if(r.ok)location.replace('/')})")
+                try:
+                    if window.get_current_url() == url + '/authorize.html':
+                        window.evaluate_js("fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:"
+                                           + json.dumps(code) + "})}).then(r=>{if(r.ok)location.replace('/')})")
+                except Exception:
+                    # Do not log JS exception payloads that may contain the one-use code.
+                    logging.error('Não foi possível autorizar a janela nativa; reabra o Ritmo.')
             window.events.loaded += authorize
             webview.start(gui="edgechromium", private_mode=True,
                           storage_path=str(DATA_DIR / "webview"))

@@ -66,11 +66,33 @@ def launch(executable, folder):
 
 def authorize(page, process, port):
     """Copy native-window session to QA browser; secrets stay in process memory."""
-    native = page.context.browser.browser_type.connect_over_cdp(f'http://127.0.0.1:{process.qa_debug_port}')
-    deadline = time.monotonic() + 15
+    deadline = time.monotonic() + 30
+    native = None
     while time.monotonic() < deadline:
-        cookies = [cookie for context in native.contexts for cookie in context.cookies()
-                   if cookie['name'] == 'ritmo_session']
+        if process.poll() is not None:
+            raise RuntimeError('O executável encerrou antes de autorizar a janela nativa')
+        try:
+            native = page.context.browser.browser_type.connect_over_cdp(f'http://127.0.0.1:{process.qa_debug_port}', timeout=2000)
+            break
+        except Exception:
+            time.sleep(.2)
+    if native is None:
+        raise RuntimeError('WebView2 não disponibilizou CDP para o QA nesta máquina. Verifique WebView2/.NET e o diagnóstico da instância temporária.')
+    while time.monotonic() < deadline:
+        cookies = []
+        for context in native.contexts:
+            for window in context.pages:
+                if not window.url.startswith(f'http://127.0.0.1:{port}/'):
+                    continue
+                # WebView2 can return an empty Storage.getCookies response for
+                # its private profile. Network.getCookies is scoped to the page.
+                cdp = context.new_cdp_session(window)
+                try:
+                    actual = cdp.send('Network.getCookies', {'urls':[f'http://127.0.0.1:{port}/']})['cookies']
+                    cookies.extend({k:v for k,v in cookie.items() if k in ('name','value','domain','path','expires','httpOnly','secure','sameSite')}
+                                   for cookie in actual if cookie['name']=='ritmo_session')
+                finally:
+                    cdp.detach()
         if cookies:
             page.context.add_cookies(cookies)
             return
