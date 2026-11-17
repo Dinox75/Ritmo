@@ -1,0 +1,58 @@
+{
+  "temporary_data": true,
+  "student_learning_evidence": false,
+  "flows": [
+    {
+      "width": 390,
+      "scenario": "negation_true",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "scenario": "implication_false",
+      "passed": true
+    },
+    {
+      "width": 390,
+      "scenario": "equivalence_false",
+      "passed": true
+    },
+    {
+      "width": 1366,
+      "scenario": "negation_true",
+      "passed": true
+    },
+    {
+      "width": 1366,
+      "scenario": "implication_false",
+      "passed": true
+    },
+    {
+      "width": 1366,
+      "scenario": "equivalence_false",
+      "passed": true
+    },
+    {
+      "width": 1920,
+      "scenario": "negation_true",
+      "passed": true
+    },
+    {
+      "width": 1920,
+      "scenario": "implication_false",
+      "passed": true
+    },
+    {
+      "width": 1920,
+      "scenario": "equivalence_false",
+      "passed": true
+    }
+  ],
+  "executable": "A:\\Projetos & Estudos\\Ritmo\\PackageValidation10\\build\\RitmoStage-20261117101128-b7f304\\Ritmo\\Ritmo.exe",
+  "package_sha256": "6caf49617915661255dbdcf2c37abc42ce95de0f61f357e2422c743017e8a1e6",
+  "default_disabled": true,
+  "port_released": true,
+  "javascript_errors": [],
+  "keyboard": true,
+  "reload_at_retry": true
+}

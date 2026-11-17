@@ -95,6 +95,11 @@ def main():
                 page.locator("#subject-select").select_option(index=1)
                 page.locator("#start-btn").click()
                 expect(page.locator("#session-panel")).to_be_visible()
+                # The compact sidebar starts with its optional player collapsed.
+                player = page.locator("#session-audio")
+                if player.get_attribute("open") is None:
+                    player.locator("summary").click()
+                expect(page.locator("#focus-volume")).to_be_visible()
                 page.locator("#focus-volume").focus()
                 page.keyboard.press("End")
 

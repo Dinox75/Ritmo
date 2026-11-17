@@ -1,0 +1,6 @@
+{
+  "checked_files": 2747,
+  "changes": [],
+  "scope": "installation/data: SHA256, size, mtime; models: size, mtime",
+  "timestamp_normalization": "ISO timestamps parsed as DateTime normalized back to UTC o-format"
+}
