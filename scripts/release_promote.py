@@ -139,7 +139,8 @@ if __name__ == '__main__':
     facts = verify_bundle(assets, args.commit, args.run_id)
     approval = json.loads(Path('qa-evidence/clean-windows.json').read_text(encoding='utf-8-sig'))
     approval.update(license_review='approved', vulnerability_review='approved', reviewed_by=args.reviewer)
-    verify_approval(approval, facts)
+    native = json.loads(Path('qa-evidence/native-ui.json').read_text(encoding='utf-8-sig'))
+    verify_approval(approval, facts, native)
     receipt = dict(source_commit=args.commit, build_run_id=args.run_id, artifact_id=args.artifact_id, artifact_digest=args.artifact_digest, qa_artifact_id=args.qa_artifact_id, qa_artifact_digest=args.qa_artifact_digest, archive_sha256=facts['archive_sha256'], reviewer=args.reviewer, verification='passed')
     if args.publish:
         if not args.dry_run_receipt or json.loads(args.dry_run_receipt.read_text()) != receipt:

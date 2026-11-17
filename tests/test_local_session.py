@@ -11,6 +11,15 @@ from storage.database import Database
 
 
 class SessionSecurityTests(unittest.TestCase):
+    def test_bootstrap_expiry_and_instance_isolation(self):
+        import time
+        from dashboard.session import AppSession
+        a,b=AppSession(),AppSession()
+        code=a.issue_code();future=time.monotonic()+301
+        with patch('dashboard.session.time.monotonic',return_value=future):
+            self.assertFalse(a.exchange(code))
+        self.assertFalse(b.valid({'Authorization':'Bearer '+a.token}))
+
     def test_native_confirmation_defaults_to_no(self):
         from desktop import confirm_erase_native
         native=MagicMock();native.MessageBoxW.return_value=7;native.FindWindowW.return_value=123
@@ -26,7 +35,11 @@ class SessionSecurityTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             db = Database(Path(folder) / 'qa.db'); db.initialize()
             erased = threading.Event()
-            server = make_server(db, 0, on_erase=erased.set)
+            from utils.config import DEFAULT_CONFIG,save_config
+            config=json.loads(DEFAULT_CONFIG.read_text(encoding='utf8'))
+            config['tutor']['model_root']=str(Path(folder)/'no-models')
+            config_path=Path(folder)/'config.json';save_config(config,config_path)
+            server = make_server(db, 0, on_erase=erased.set,config_path=config_path)
             thread = threading.Thread(target=server.serve_forever); thread.start()
             base = f'http://127.0.0.1:{server.server_port}'
             def request(path, data=None, headers=None):
@@ -44,6 +57,9 @@ class SessionSecurityTests(unittest.TestCase):
                 auth = {'Authorization':'Bearer ' + server.session.token}
                 with self.assertRaises(urllib.error.HTTPError) as error:
                     request('/api/subjects',headers={**auth,'Origin':'https://evil.example'})
+                self.assertEqual(error.exception.code,403)
+                with self.assertRaises(urllib.error.HTTPError) as error:
+                    request('/api/subjects',headers={**auth,'Host':'evil.example'})
                 self.assertEqual(error.exception.code,403)
                 with request('/api/subjects',headers=auth) as response:self.assertEqual(json.load(response),[])
                 code = server.session.issue_code()

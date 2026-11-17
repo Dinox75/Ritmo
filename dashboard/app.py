@@ -22,6 +22,8 @@ from tutor.service import TutorService
 from tutor.external import ExternalSearch, ExternalUnavailable
 from utils.config import DATA_DIR, FROZEN, LOCAL_CONFIG, LOG_FILE, load_config, save_config
 from dashboard.session import AppSession
+from utils.capabilities import require_camera
+from utils.lifecycle import event as lifecycle
 
 
 WEB = Path(__file__).resolve().parents[1] / "web"
@@ -126,6 +128,7 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                 if not self.server.session.exchange(self._body().get('code')):
                     self._send(401, {'error':'Código inválido, já usado ou expirado. Reabra pelo lançador.'})
                     return
+                lifecycle('session_authorized','authorization','authorized')
                 self.send_response(200)
                 self.send_header('Set-Cookie',self.server.session.cookie())
                 self.send_header('Content-Type','application/json')
@@ -363,6 +366,9 @@ def make_handler(database, agent=None, on_quit=None, on_erase=None, config_path=
                                                       data.get("revision")))
                 return
             if parts == ["api", "config"] and self.command == "PATCH":
+                presence = data.get('presence_detector')
+                if isinstance(presence,dict) and presence.get('enabled'):
+                    require_camera()
                 config = save_config(data, config_path or LOCAL_CONFIG)
                 if agent is not None:
                     agent.restart(config)

@@ -30,6 +30,13 @@ O modo navegador usa `python main.py serve` e abre em [127.0.0.1:8765](http://12
 
 ## Gerar o aplicativo
 
+O perfil padrão `preview` exige **Python 3.14.10 x64** e não inclui câmera
+nem presença por webcam. A interface informa essa limitação; o estudo e os
+sensores opcionais de janela e entrada permanecem disponíveis. A cadeia antiga
+MediaPipe → protobuf fica restrita ao perfil de desenvolvimento `full` (Python
+3.11), que ainda não está aprovado para distribuição pública. Nenhum desses
+comandos altera a instalação sem `-Install`.
+
 No Windows, este comando compila e testa o executável com dados temporários. O pacote fica em **`build/RitmoStage-<id>/Ritmo/`** por padrão:
 
 ```powershell
@@ -48,7 +55,7 @@ Mantenha a pasta `_internal` junto ao `Ritmo.exe`. Use `-Install` somente quando
 | Aula booleana experimental | Dica sem resposta, nova tentativa, correção específica e exercício em outro contexto; desligada por padrão e sem modelo |
 | Laboratório | Preparação, avaliação e painel privado. Nenhum adaptador foi treinado ou aprovado |
 
-A interface chama uma API local, que guarda sessões e notas em SQLite e busca trechos com FTS5. Se você instalar um modelo, o Ritmo usa llama.cpp e Qwen3 locais, sem chave de API. A consulta à Wikipédia só envia a consulta revisada quando você a solicita. A câmera e os demais sensores começam desligados.
+A interface chama uma API local, que guarda sessões e notas em SQLite e busca trechos com FTS5. Se você instalar um modelo, o Ritmo usa llama.cpp e Qwen3 locais, sem chave de API. A consulta à Wikipédia só envia a consulta revisada quando você a solicita. Os sensores começam desligados; a prévia não contém o recurso de câmera.
 
 Veja [dados, backups e limites](docs/uso.md), [arquitetura e fundamentos](docs/arquitetura.md) e [resultados de validação](docs/qa/README.md). Testes de software e ensaios de modelos não comprovam aprendizagem com estudantes.
 

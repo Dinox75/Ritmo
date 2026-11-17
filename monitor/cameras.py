@@ -44,8 +44,12 @@ def windows_devices():
 
 
 def camera_options():
+    from utils.capabilities import camera_capability
+    capability = camera_capability()
+    if not capability["available"]:
+        return {**capability, "devices": [], "indexed": False, "indices": [], "mapping": capability["detail"]}
     indexed = _directshow_devices()
-    return {"devices": indexed if indexed is not None else windows_devices(),
+    return {**capability, "devices": indexed if indexed is not None else windows_devices(),
             "indexed": indexed is not None, "indices": list(range(6)),
             "mapping": "Nomes enumerados pelo DirectShow; confirme cada opção pelo teste de imagem." if indexed is not None
                        else "O Windows informou nomes sem associação confiável aos índices; teste a imagem."}
@@ -64,6 +68,8 @@ def _privacy_denied():
 
 
 def test_camera(index, *, names=None):
+    from utils.capabilities import require_camera
+    require_camera()
     if type(index) is not int or not 0 <= index <= 5:
         raise ValueError("índice de câmera deve estar entre 0 e 5")
     if _privacy_denied():

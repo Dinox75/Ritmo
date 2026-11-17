@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "components": [
+    {
+      "name": "Microsoft.Web.WebView2 SDK",
+      "version": "1.0.3856.49",
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.3856.49",
+      "license": "BSD-3-Clause",
+      "notices": [
+        {
+          "name": "webview2-license.txt",
+          "text": "Copyright (C) Microsoft Corporation. All rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are\nmet:\n\n   * Redistributions of source code must retain the above copyright\nnotice, this list of conditions and the following disclaimer.\n   * Redistributions in binary form must reproduce the above\ncopyright notice, this list of conditions and the following disclaimer\nin the documentation and/or other materials provided with the\ndistribution.\n   * The name of Microsoft Corporation, or the names of its contributors \nmay not be used to endorse or promote products derived from this\nsoftware without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\nLIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\nA PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\nOWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\nSPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT\nLIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\nDATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\nTHEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+          "sha256": "0af8f1b807512aae39c2ac1aa4d0cae65cabecb6fd554b8439a5162a0d6eca55",
+          "source_url": "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3856.49/microsoft.web.webview2.1.0.3856.49.nupkg",
+          "archive_member": "LICENSE.txt"
+        },
+        {
+          "name": "webview2-notice.txt",
+          "text": "NOTICES AND INFORMATION\nDo Not Translate or Localize\n\nThis software incorporates material from third parties. Microsoft makes certain\nopen source code available at https://3rdpartysource.microsoft.com, or you may\nsend a check or money order for US $5.00, including the product name, the open\nsource component name, and version number, to:\n\nSource Code Compliance Team\nMicrosoft Corporation\nOne Microsoft Way\nRedmond, WA 98052\nUSA\n\nNotwithstanding any other terms, you may reverse engineer this software to the\nextent required to debug changes to any libraries licensed under the GNU Lesser\nGeneral Public License.\n\n----------------------------------------------------------------\n\nAntlr3.Runtime 3.5.2-rc1 - BSD 3-Clause\n\n[The \"BSD license\"]\nCopyright (c) 2011 The ANTLR Project\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n 1. Redistributions of source code must retain the above copyright\n    notice, this list of conditions and the following disclaimer.\n 2. Redistributions in binary form must reproduce the above copyright\n    notice, this list of conditions and the following disclaimer in the\n    documentation and/or other materials provided with the distribution.\n 3. Neither the name of the copyright holder nor the names of its\n    contributors may be used to endorse or promote products derived from\n    this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\nIMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\nOF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\nIN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\nNOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\nDATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\nTHEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF\nTHIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n---------------------------------------------------------\n\n---------------------------------------------------------\n\nStringTemplate4 4.0.9-rc1 - BSD 3-Clause\n\n[The \"BSD license\"]\nCopyright (c) 2011 The ANTLR Project\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions\nare met:\n\n 1. Redistributions of source code must retain the above copyright\n    notice, this list of conditions and the following disclaimer.\n 2. Redistributions in binary form must reproduce the above copyright\n    notice, this list of conditions and the following disclaimer in the\n    documentation and/or other materials provided with the distribution.\n 3. Neither the name of the copyright holder nor the names of its\n    contributors may be used to endorse or promote products derived from\n    this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\nIMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\nOF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\nIN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\nNOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\nDATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\nTHEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF\nTHIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\n---------------------------------------------------------\n",
+          "sha256": "106423785c5b7eba0a8e61d1837f2132e9c828e20ad530f565d981c1df60dd90",
+          "source_url": "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3856.49/microsoft.web.webview2.1.0.3856.49.nupkg",
+          "archive_member": "NOTICE.txt"
+        }
+      ],
+      "file_hashes": [
+        "04814b2c59314c6452d61b821a4a3a5c5f8e8577b55b985f6a7a4b59f8907ec5",
+        "0937030efc718f3da77c5e0978fb5046e381d0bb7b01acaad31a535a1b588a33",
+        "8219a3135436c147f8eb02fb831e99596103eebc18b6d7b794ca93f4c67018a2",
+        "c48f8d729dc531288d2c53a6241effe7922ed1b947850b2442008a945c098c48",
+        "eb5335edeaa6f2122c044e82aab2351dc8c9b4e0fe5e578c71922fb61be285e7"
+      ],
+      "provenance": {
+        "basis": "Exact SHA-256 match to members of official Microsoft NuGet archive",
+        "source_url": "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3856.49/microsoft.web.webview2.1.0.3856.49.nupkg",
+        "archive_sha256": "bc0f76eb911b569838dc4aa8f8d325269b966bedb592863d26211aef3a099f1a",
+        "members": [
+          {
+            "wheel_file": "webview/lib/runtimes/win-arm64/native/WebView2Loader.dll",
+            "nuget_file": "build/native/arm64/WebView2Loader.dll",
+            "sha256": "0937030efc718f3da77c5e0978fb5046e381d0bb7b01acaad31a535a1b588a33"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x64/native/WebView2Loader.dll",
+            "nuget_file": "build/native/x64/WebView2Loader.dll",
+            "sha256": "eb5335edeaa6f2122c044e82aab2351dc8c9b4e0fe5e578c71922fb61be285e7"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x86/native/WebView2Loader.dll",
+            "nuget_file": "build/native/x86/WebView2Loader.dll",
+            "sha256": "04814b2c59314c6452d61b821a4a3a5c5f8e8577b55b985f6a7a4b59f8907ec5"
+          },
+          {
+            "wheel_file": "webview/lib/Microsoft.Web.WebView2.Core.dll",
+            "nuget_file": "lib/net462/Microsoft.Web.WebView2.Core.dll",
+            "sha256": "8219a3135436c147f8eb02fb831e99596103eebc18b6d7b794ca93f4c67018a2"
+          },
+          {
+            "wheel_file": "webview/lib/Microsoft.Web.WebView2.WinForms.dll",
+            "nuget_file": "lib/net462/Microsoft.Web.WebView2.WinForms.dll",
+            "sha256": "c48f8d729dc531288d2c53a6241effe7922ed1b947850b2442008a945c098c48"
+          },
+          {
+            "wheel_file": "webview/lib/Microsoft.Web.WebView2.Core.dll",
+            "nuget_file": "lib_manual/netcoreapp3.0/Microsoft.Web.WebView2.Core.dll",
+            "sha256": "8219a3135436c147f8eb02fb831e99596103eebc18b6d7b794ca93f4c67018a2"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-arm64/native/WebView2Loader.dll",
+            "nuget_file": "runtimes/win-arm64/native/WebView2Loader.dll",
+            "sha256": "0937030efc718f3da77c5e0978fb5046e381d0bb7b01acaad31a535a1b588a33"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x64/native/WebView2Loader.dll",
+            "nuget_file": "runtimes/win-x64/native/WebView2Loader.dll",
+            "sha256": "eb5335edeaa6f2122c044e82aab2351dc8c9b4e0fe5e578c71922fb61be285e7"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x86/native/WebView2Loader.dll",
+            "nuget_file": "runtimes/win-x86/native/WebView2Loader.dll",
+            "sha256": "04814b2c59314c6452d61b821a4a3a5c5f8e8577b55b985f6a7a4b59f8907ec5"
+          }
+        ],
+        "limitations": [
+          "SDK wrapper/loader version is not the external Evergreen Chromium runtime version. The runtime is not shipped in this ZIP."
+        ]
+      }
+    }
+  ]
+}

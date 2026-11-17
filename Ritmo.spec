@@ -1,22 +1,33 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
+import os
+
+profile = os.environ.get('RITMO_BUILD_PROFILE', 'preview')
+if profile not in ('preview', 'full'):
+    raise ValueError('RITMO_BUILD_PROFILE must be preview or full')
 
 web_data, web_bins, web_hidden = collect_all('webview')
-face_data, face_bins, face_hidden = collect_all('mediapipe')
+face_data, face_bins, face_hidden = collect_all('mediapipe') if profile == 'full' else ([], [], [])
 boolean_data = [('tutor/boolean_sources.json', 'tutor')]
 runtime_data = [('local_ai/runtime-integrity.json', 'local_ai')]
-cvzone_data, cvzone_bins, cvzone_hidden = collect_all('cvzone')
+cvzone_data, cvzone_bins, cvzone_hidden = collect_all('cvzone') if profile == 'full' else ([], [], [])
+profile_data = [(f'build_profiles/{profile}/capabilities.json', 'config')]
+preview_excludes = [
+    'cv2', 'mediapipe', 'cvzone', 'pygrabber', 'comtypes',
+    'jax', 'jaxlib', 'numpy', 'scipy', 'matplotlib', 'google.protobuf',
+    'PIL', 'Pythonwin', 'win32ui',
+]
 
 a = Analysis(
     ['desktop.py'],
     pathex=['.'],
     binaries=web_bins + face_bins + cvzone_bins,
-    datas=web_data + face_data + cvzone_data + boolean_data + runtime_data + [('web', 'web'), ('tutor/guide.md', 'tutor'), ('local_ai/models.json', 'local_ai'), ('local_ai/knowledge.json', 'local_ai'), ('config/config.json', 'config'), ('config/classificacao_apps.json', 'config'), ('assets/ritmo.ico', 'assets')],
+    datas=web_data + face_data + cvzone_data + boolean_data + runtime_data + profile_data + [('web', 'web'), ('tutor/guide.md', 'tutor'), ('local_ai/models.json', 'local_ai'), ('local_ai/knowledge.json', 'local_ai'), ('config/config.json', 'config'), ('config/classificacao_apps.json', 'config'), ('assets/ritmo.ico', 'assets')],
     hiddenimports=web_hidden + face_hidden + cvzone_hidden,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=preview_excludes if profile == 'preview' else [],
     noarchive=False,
 )
 pyz = PYZ(a.pure)

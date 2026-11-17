@@ -2,6 +2,13 @@
 
 O [build](../.github/workflows/distribute-windows.yml) só produz evidências. Ele não tem permissão de escrita em Releases/Packages e nunca publica. Em pull requests e execução manual, compila sem `-Install`, testa e arquiva `ritmo-distribuicao`. Um segundo job usa outro runner `windows-2025`, baixa o ZIP já produzido, verifica todos os hashes, extrai para uma pasta nova e executa smoke e QA essencial usando o runtime do EXE. Instala somente ferramentas de QA no Python do runner. Isso é isolamento de runner e dados; não é uma instalação Windows sem componentes pré-instalados de GitHub Actions.
 
+A prévia padrão omite câmera/MediaPipe/protobuf e usa Python 3.14.10 x64.
+O perfil `full` de desenvolvimento mantém a câmera, mas sua cadeia antiga não
+está aprovada para publicação. O novo QA separa EXE, janela, autorização e conexão
+da ferramenta; exige ações UIA na janela real, cancelamento e encerramento natural.
+Os diagnósticos são preservados mesmo na falha e não contêm credenciais. Veja o
+[acompanhamento de WebView2 e DIST-01](qa/pr11-webview-dist-followup.md).
+
 O ZIP contém `Ritmo/Ritmo.exe` e toda a pasta `Ritmo/_internal`. Distribuir só o EXE quebra o aplicativo. O empacotador rejeita nomes privados/perigosos, bancos, logs, ponteiros de checkout, formatos de pesos e caminhos do checkout/perfil embutidos nos arquivos. As verificações não substituem a inspeção do inventário e dos avisos: nenhum banco, preferências pessoais, credencial ou peso de IA deve entrar no ZIP.
 
 Cada build fornece:
@@ -18,6 +25,13 @@ Cada build fornece:
 ## Promover sem recompilar
 
 O [workflow de promoção](../.github/workflows/promote-windows.yml) é separado, manual e executado na `main`. Ele baixa um artefato anterior por **ID e SHA-256 de transporte**, verifica também o digest informado pelo GitHub e os hashes internos. Exige o run bem sucedido do workflow de build manual na main e o artefato `ritmo-clean-windows-qa` do mesmo run, também por ID e digest. O atestado precisa vincular exatamente commit/run/SHA-256 do ZIP e declarar os testes aprovados.
+
+Esse artefato deve incluir `native-ui.json`, vinculado também ao hash do EXE:
+janela gráfica e sessão autorizada por sua própria interface, criação sintética,
+cancelamento do apagamento, fechamento natural e porta liberada. CDP indisponível
+não reprova uma janela comprovada por UIA; API/navegador externo isoladamente
+nunca satisfazem esse requisito. Relatórios de outra máquina precisam de uma
+cadeia de artefatos verificável; não há opção para ignorar esse gate.
 
 1. Execute o build manual na main com a versão de prévia desejada. Anote run ID, commit completo, ID/digest dos dois artefatos. O build de PR permite validar antes do merge; o candidato publicável exige build manual bem sucedido na main.
 2. Revise QA, inventário, licenças/avisos e vulnerabilidades. Informe a identidade responsável em `reviewed_by` e marque `reviews_approved` somente com evidências suficientes. Essa identidade pode ser quem realizou a revisão autorizada; não há exigência adicional de aprovação pessoal do usuário nesta documentação.

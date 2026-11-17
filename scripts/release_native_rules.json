@@ -1,0 +1,491 @@
+{
+  "schema_version": 1,
+  "python_version": "3.14.10",
+  "license_review": "required",
+  "components": [
+    {
+      "name": "CPython",
+      "version": "3.14.10",
+      "patterns": [
+        "python3.dll",
+        "python314.dll",
+        "*.pyd"
+      ],
+      "license": "PSF-2.0",
+      "notices": [
+        {
+          "file": "python-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/LICENSE",
+          "sha256": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+        },
+        {
+          "file": "python-third-party.rst",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/Doc/license.rst",
+          "sha256": "8a7329b25131f64b2bea284155f0824876b1af9f4a2f970e6335751d97dfa6dd"
+        },
+        {
+          "file": "python-windows-crtlicense.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt",
+          "sha256": "3c71b3ae243121f6f227374cd1ef7c59ed07b1969b330d0e947f91a3a1b3fd73"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "CPython",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+          "sha256": "d7c7eaab773f853763edcfb4f3ba229fe30f016518d4eba0a15fe02acbbf3d00"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ],
+      "licensing_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt",
+          "sha256": "3c71b3ae243121f6f227374cd1ef7c59ed07b1969b330d0e947f91a3a1b3fd73"
+        },
+        {
+          "source_url": "https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution"
+        },
+        {
+          "source_url": "https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/"
+        }
+      ]
+    },
+    {
+      "name": "OpenSSL",
+      "version": "3.5.9",
+      "patterns": [
+        "libssl-3.dll",
+        "libcrypto-3.dll"
+      ],
+      "license": "Apache-2.0",
+      "notices": [
+        {
+          "file": "openssl-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/openssl-3.5.9/LICENSE.txt",
+          "sha256": "7d5450cb2d142651b8afa315b5f238efc805dad827d91ba367d8516bc9d49e7a"
+        },
+        {
+          "file": "openssl-copyright.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/openssl-3.5.9/AUTHORS.md",
+          "sha256": "b9f638dfc06b59c2d3b808186c3b30f713805a5db390f5b77b1703ac58acb83e",
+          "upstream_file_sha256": "b9f638dfc06b59c2d3b808186c3b30f713805a5db390f5b77b1703ac58acb83e",
+          "extract": "all"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/openssl.props",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "openssl",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/openssl.props",
+          "sha256": "31fddd41b4354300dab069726dd7a71c08580bac70ea642b490c39b18cc29f76"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "libffi",
+      "version": "3.4.4",
+      "patterns": [
+        "libffi-8.dll"
+      ],
+      "license": "MIT",
+      "notices": [
+        {
+          "file": "libffi-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/libffi-3.4.4/LICENSE",
+          "sha256": "2c9c2acb9743e6b007b91350475308aee44691d96aa20eacef8e199988c8c388"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_ctypes.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "libffi",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_ctypes.vcxproj",
+          "sha256": "0349e844da87a4244c13ac476ffc4c70b8dc0f18da770212825255e8912140af"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "bzip2",
+      "version": "1.0.8",
+      "patterns": [
+        "_bz2.pyd"
+      ],
+      "license": "bzip2-1.0.6",
+      "notices": [
+        {
+          "file": "bzip2-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/bzip2-1.0.8/LICENSE",
+          "sha256": "c6dbbf828498be844a89eaa3b84adbab3199e342eb5cb2ed2f0d4ba7ec0f38a3"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_bz2.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "bzip2",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_bz2.vcxproj",
+          "sha256": "c06825037ba88e3a9604ab68a1684823b6c90af39888204377227131c82efce9"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "XZ liblzma",
+      "version": "5.2.5",
+      "patterns": [
+        "_lzma.pyd"
+      ],
+      "license": "LicenseRef-XZ-Public-Domain",
+      "notices": [
+        {
+          "file": "xz-copying.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/xz-5.2.5/COPYING",
+          "sha256": "bcb02973ef6e87ea73d331b3a80df7748407f17efdb784b61b47e0e610d3bb5c"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_lzma.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "xz",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_lzma.vcxproj",
+          "sha256": "ecd55a553123a8c7754bd8a52c6e12369662afcbdf67d31827cf81b5201b115b"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "mpdecimal",
+      "version": "4.0.0",
+      "patterns": [
+        "_decimal.pyd"
+      ],
+      "license": "BSD-2-Clause",
+      "notices": [
+        {
+          "file": "mpdecimal-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/mpdecimal-4.0.0/COPYRIGHT.txt",
+          "sha256": "2713324211652ce4a60e6e21e54f9dc3004299e591b0933a352f1a89c5fb53c2"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_decimal.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "mpdecimal",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_decimal.vcxproj",
+          "sha256": "2b3accf48711cd6ecdb2024c811d0b046e8e1a54633647dd4660c0c618bf5b9a"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "zlib-ng",
+      "version": "2.2.4",
+      "patterns": [
+        "python314.dll"
+      ],
+      "license": "Zlib",
+      "notices": [
+        {
+          "file": "zlib-ng-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/zlib-ng-2.2.4/LICENSE.md",
+          "sha256": "6c9f0d975b41afaa34d22f55bb8986ce69e5cb7ad327cb2b28820cd425edf5ee"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "zlib-ng",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+          "sha256": "d7c7eaab773f853763edcfb4f3ba229fe30f016518d4eba0a15fe02acbbf3d00"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "Zstandard",
+      "version": "1.5.7",
+      "patterns": [
+        "_zstd.pyd"
+      ],
+      "license": "BSD-3-Clause",
+      "notices": [
+        {
+          "file": "zstd-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/zstd-1.5.7/LICENSE",
+          "sha256": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_zstd.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "zstd",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_zstd.vcxproj",
+          "sha256": "775c8eb6c130f62656607e3343e8582b993e399e22313f889eb73e09fe11e4cb"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "HACL*",
+      "version": "8ba599b2f6c9701b3dc961db895b0856a2210f76",
+      "patterns": [
+        "python314.dll"
+      ],
+      "license": "MIT",
+      "notices": [
+        {
+          "file": "hacl-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/Modules/_hacl/Hacl_Hash_SHA2.c",
+          "sha256": "998ce04fb8ad9dedb0bc1b44938f8c3dcf1089780fa105ce1c8c30fb5554d78c",
+          "upstream_file_sha256": "f8af382de7e29a73c726f9c70770498ddd99e2c4702489ed6e634f0b68597c95",
+          "extract": "comment"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj"
+      ],
+      "vendor_package": "hacl-star",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+          "sha256": "d7c7eaab773f853763edcfb4f3ba229fe30f016518d4eba0a15fe02acbbf3d00"
+        }
+      ]
+    },
+    {
+      "name": "Expat",
+      "version": "2.9.0",
+      "patterns": [
+        "pyexpat.pyd"
+      ],
+      "license": "MIT",
+      "notices": [
+        {
+          "file": "expat-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/Modules/expat/COPYING",
+          "sha256": "31b15de82aa19a845156169a17a5488bf597e561b2c318d159ed583139b25e87"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyexpat.vcxproj"
+      ],
+      "vendor_package": "expat",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyexpat.vcxproj",
+          "sha256": "85e707d098d4a6d9ea22044ab0fcbb774b05562e3aafdca46d0916bf8c2f99e1"
+        }
+      ]
+    },
+    {
+      "name": "SQLite",
+      "version": "3.50.4.0",
+      "patterns": [
+        "sqlite3.dll"
+      ],
+      "license": "LicenseRef-SQLite-Public-Domain",
+      "notices": [
+        {
+          "file": "sqlite-notice.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/sqlite-3.50.4.0/sqlite3.h",
+          "sha256": "85806d613cfda5901f848b3b5b4b04396c8c64e89c97c0af3706c42b0c44bb47",
+          "upstream_file_sha256": "abd1514e0351f79393d1be882830afdb40a8099e8257f311f0bfdf8486f11bea",
+          "extract": "initial license comment"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_sqlite3.vcxproj",
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+      ],
+      "vendor_package": "sqlite",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_sqlite3.vcxproj",
+          "sha256": "ceccb98e0c4b1aa31ec62280ecee03ef93190fbe59569a538bb16745620aec98"
+        },
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+          "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+        }
+      ]
+    },
+    {
+      "name": "Tcl",
+      "version": "9.0.4.0",
+      "patterns": [
+        "tcl90t.dll",
+        "tcl9.0.dll",
+        "tcl9*.dll"
+      ],
+      "license": "TCL",
+      "notices": [
+        {
+          "file": "tcl-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/license.terms",
+          "sha256": "c0a69a2bfd757361ec7e6143973b103c90409316b49e9c88db26ad6388e79f16"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props"
+      ],
+      "vendor_package": "tcl",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props",
+          "sha256": "4435d315f4218143e53b1ac24549435015fc4c4a714ca3e57d209bc1db49e2ad"
+        }
+      ]
+    },
+    {
+      "name": "Tk",
+      "version": "9.0.4.1",
+      "patterns": [
+        "tk90t.dll",
+        "tk9.0.dll",
+        "tk9*.dll"
+      ],
+      "license": "TCL",
+      "notices": [
+        {
+          "file": "tk-license.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/tk-9.0.4.1/license.terms",
+          "sha256": "2cde822b93ca16ae535c954b7dfe658b4ad10df2a193628d1b358f1765e8b198"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props"
+      ],
+      "vendor_package": "tk",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props",
+          "sha256": "4435d315f4218143e53b1ac24549435015fc4c4a714ca3e57d209bc1db49e2ad"
+        }
+      ]
+    },
+    {
+      "name": "Microsoft Visual C++ Runtime vcruntime140.dll",
+      "version": "NOASSERTION",
+      "patterns": [
+        "vcruntime140.dll"
+      ],
+      "license": "NOASSERTION",
+      "notices": [
+        {
+          "file": "python-windows-crtlicense.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt",
+          "sha256": "3c71b3ae243121f6f227374cd1ef7c59ed07b1969b330d0e947f91a3a1b3fd73"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props"
+      ],
+      "version_from": "pe",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props",
+          "sha256": "66f3622a0fa0d4c7e625758885625429369e4fa225f5ac0868ad4d56a55bbde9"
+        }
+      ],
+      "licensing_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt",
+          "sha256": "3c71b3ae243121f6f227374cd1ef7c59ed07b1969b330d0e947f91a3a1b3fd73"
+        },
+        {
+          "source_url": "https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution"
+        },
+        {
+          "source_url": "https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/"
+        }
+      ]
+    },
+    {
+      "name": "Microsoft Visual C++ Runtime vcruntime140_1.dll",
+      "version": "NOASSERTION",
+      "patterns": [
+        "vcruntime140_1.dll"
+      ],
+      "license": "NOASSERTION",
+      "notices": [
+        {
+          "file": "python-windows-crtlicense.txt",
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt",
+          "sha256": "3c71b3ae243121f6f227374cd1ef7c59ed07b1969b330d0e947f91a3a1b3fd73"
+        }
+      ],
+      "evidence_urls": [
+        "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props"
+      ],
+      "version_from": "pe",
+      "build_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props",
+          "sha256": "66f3622a0fa0d4c7e625758885625429369e4fa225f5ac0868ad4d56a55bbde9"
+        }
+      ],
+      "licensing_evidence": [
+        {
+          "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt",
+          "sha256": "3c71b3ae243121f6f227374cd1ef7c59ed07b1969b330d0e947f91a3a1b3fd73"
+        },
+        {
+          "source_url": "https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution"
+        },
+        {
+          "source_url": "https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/"
+        }
+      ]
+    }
+  ]
+}
