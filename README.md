@@ -9,7 +9,7 @@ de teste sobre dados existentes.
 
 **Um espaço de estudo pessoal para organizar matérias, manter o foco e praticar com retorno sobre o raciocínio.** O aplicativo executa e guarda seus dados no computador.
 
-[Começar](#começar) · [Gerar o aplicativo](#gerar-o-aplicativo) · [Como funciona](#como-funciona) · [Documentação](docs/README.md) · [Roadmap](docs/roadmap.md)
+[Versões e mudanças](CHANGELOG.md) · [Começar](#começar) · [Gerar o aplicativo](#gerar-o-aplicativo) · [Como funciona](#como-funciona) · [Documentação](docs/README.md) · [Roadmap](docs/roadmap.md)
 
 ## Começar
 
