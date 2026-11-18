@@ -1,0 +1,33 @@
+name: Histórico de releases de código-fonte
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docs/releases/catalog.json
+      - 'docs/releases/v*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-release-history
+  cancel-in-progress: false
+
+jobs:
+  publish-source-history:
+    if: github.repository == 'Dinox75/Ritmo' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Sincronizar as pré-releases de código-fonte
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/publish_source_history.py --publish

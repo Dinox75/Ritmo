@@ -1,0 +1,17 @@
+[
+  {
+    "tag": "v0.1.0-alpha.1.source",
+    "commit": "13f1f1963cdac3a9eb6ba6137a67ffdf23d44977",
+    "title": "Ritmo v0.1.0-alpha.1 · Fundação (código-fonte)"
+  },
+  {
+    "tag": "v0.1.0-alpha.2.source",
+    "commit": "2a319a30f853a3068ae51264f127db67f816e56a",
+    "title": "Ritmo v0.1.0-alpha.2 · Consolidação Windows (código-fonte)"
+  },
+  {
+    "tag": "v0.1.0-preview.1-source",
+    "commit": "7c69079b48bff6bb8be653b3283a35e646e432b0",
+    "title": "Ritmo v0.1.0-preview.1 · Segurança e distribuição (código-fonte)"
+  }
+]
