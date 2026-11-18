@@ -1,0 +1,19 @@
+{
+  "vulnerability_review": "required",
+  "runner": "windows-2025",
+  "build_run_id": "44210488562",
+  "result": "passed",
+  "license_review": "required",
+  "source_commit": "9ceaa6fbdbf67b9124210911ae489fbe6c8564eb",
+  "checks": [
+    "smoke",
+    "native-uia",
+    "packaged-windows",
+    "boolean-packaged",
+    "security",
+    "accessibility"
+  ],
+  "reviewed_by": "",
+  "clean_windows": true,
+  "archive_sha256": "5a2333e0eacfa371ef3d93c8aa813000d6cba919b5defebd3c72a0c24ebfc766"
+}

@@ -1,0 +1,764 @@
+{
+  "schema_version": 1,
+  "version": "v0.1.0-preview.1",
+  "source_commit": "9ceaa6fbdbf67b9124210911ae489fbe6c8564eb",
+  "build_run_id": "44210488562",
+  "archive": "Ritmo-v0.1.0-preview.1-windows-x64.zip",
+  "archive_sha256": "5a2333e0eacfa371ef3d93c8aa813000d6cba919b5defebd3c72a0c24ebfc766",
+  "executable_sha256": "e24c9bf55c68d96912d1c26a51350b2eea33b4b3fd66fa86e7084700307504da",
+  "files": [
+    {
+      "path": "_internal/_asyncio.pyd",
+      "sha256": "c833cfdab82da58163acdada02cdb2b92d42bc543e1b5519dbcbe4d3805a98fc",
+      "size": 79072
+    },
+    {
+      "path": "_internal/_bz2.pyd",
+      "sha256": "9590a3f4b7c0801cd379341d40bb89b5dc9a4e232c9498b6f3bc6b5e99d4ae7f",
+      "size": 87776
+    },
+    {
+      "path": "_internal/_cffi_backend.cp314-win_amd64.pyd",
+      "sha256": "9e99b2184c60f21a88cafc374386ded3559e8694ed7cf111f2869e066d303334",
+      "size": 181248
+    },
+    {
+      "path": "_internal/_ctypes.pyd",
+      "sha256": "adf71d85781a2fe937fcc44c0961498e2cf30849f9863ff7b5f7510817cea952",
+      "size": 143072
+    },
+    {
+      "path": "_internal/_decimal.pyd",
+      "sha256": "9605f332fb52636d77a3125abc7e42ba22b3838dcf136d81f37fe5875cbd62d6",
+      "size": 290016
+    },
+    {
+      "path": "_internal/_elementtree.pyd",
+      "sha256": "77707cb19dc91eb634d70f31b21022ee4c6ea5ce834c6952bc56ba00c6fd644d",
+      "size": 138976
+    },
+    {
+      "path": "_internal/_hashlib.pyd",
+      "sha256": "9052a85ac9947afbbdfdd62b0cad7501b668e6107832cefaa4b76377d710dae0",
+      "size": 68832
+    },
+    {
+      "path": "_internal/_lzma.pyd",
+      "sha256": "9ff9f63ad79f161722106e029b4c3afc6494848fd73f9bcc2ed5434a15c71bde",
+      "size": 160992
+    },
+    {
+      "path": "_internal/_multiprocessing.pyd",
+      "sha256": "7606f4044ffc923eac208f5bc5acb1dea14fe8edf2efe08a63e11177f4c7a016",
+      "size": 38624
+    },
+    {
+      "path": "_internal/_overlapped.pyd",
+      "sha256": "8f35ff35e76a2308ce0a50200fb01b55569f30952098239f7e000f3da1393a61",
+      "size": 58080
+    },
+    {
+      "path": "_internal/_queue.pyd",
+      "sha256": "51a3d8e40b061db4fc77f9a3b18e6c2f912c4edf467e46c95ac325d35f2be4df",
+      "size": 36576
+    },
+    {
+      "path": "_internal/_socket.pyd",
+      "sha256": "11f2ace2a37e59bf0f2fcfcc2523307408fa2e7f0aec561bc7531a8db130a83c",
+      "size": 87776
+    },
+    {
+      "path": "_internal/_sqlite3.pyd",
+      "sha256": "33e91d0de7924180012c86efb17611ec589b93f90b321ed9ec3c2f4c99fae5be",
+      "size": 133344
+    },
+    {
+      "path": "_internal/_ssl.pyd",
+      "sha256": "56fdbe70896e4b3c6d4e8897fad1d011129354172566832371289edca0d85a21",
+      "size": 193248
+    },
+    {
+      "path": "_internal/_tkinter.pyd",
+      "sha256": "2d90e065b82292f06a403383d94e7574ba5308ed3956184f554c04c54c4becb3",
+      "size": 70880
+    },
+    {
+      "path": "_internal/_uuid.pyd",
+      "sha256": "ad949327a9730feefc7f2c14db9b1b43f4351df1aad3688dc1e68e4a23f7e81c",
+      "size": 28384
+    },
+    {
+      "path": "_internal/_wmi.pyd",
+      "sha256": "c8f6705d2da1be12b10050a1311b7c865fd79f11404cfad1a70b3f8962051056",
+      "size": 40160
+    },
+    {
+      "path": "_internal/_zstd.pyd",
+      "sha256": "7a7b50c580428daf3d43c87b121988d2e8c7af9533fa2195f1aef8652fc2c489",
+      "size": 503520
+    },
+    {
+      "path": "_internal/assets/ritmo.ico",
+      "sha256": "795a763d7224bf9b1ca58f96f5a6fd604a595a5d07eaad8b030a0975b046f501",
+      "size": 18244
+    },
+    {
+      "path": "_internal/base_library.zip",
+      "sha256": "3137df1f354888bbfc655f5d1787b7565828057b79fe3b138642b51f19e877a7",
+      "size": 1396401
+    },
+    {
+      "path": "_internal/clr_loader/ffi/dlls/amd64/ClrLoader.dll",
+      "sha256": "07f62bcb1b70320f221ffb2cfc5ce6133815195f3e7cdb8d833222506188c2ac",
+      "size": 10752
+    },
+    {
+      "path": "_internal/clr_loader/ffi/dlls/x86/ClrLoader.dll",
+      "sha256": "3128381d133f4ff746add70100cfef713ce2d78f2b12c02ec24ec453c5dfab0d",
+      "size": 10752
+    },
+    {
+      "path": "_internal/config/capabilities.json",
+      "sha256": "5aa2b67a07d412b0f1abb9efaad6e27ab58a6f4208ebc60b7ff822934e610624",
+      "size": 41
+    },
+    {
+      "path": "_internal/config/classificacao_apps.json",
+      "sha256": "abc1e40ac62fef56fd4cc6a7cca747fc371036d06a272e58451708087abae31c",
+      "size": 235
+    },
+    {
+      "path": "_internal/config/config.json",
+      "sha256": "68498e300e3c9febbee9f5580fc07e27fd448e5ae6f7bb78beeb78cfea46bf11",
+      "size": 583
+    },
+    {
+      "path": "_internal/libcrypto-3.dll",
+      "sha256": "75495fe0e079ab00d49be740d3c710a0b94e3f74f9648cb7cc9f768fc7f52319",
+      "size": 6021880
+    },
+    {
+      "path": "_internal/libffi-8.dll",
+      "sha256": "eff52743773eb550fcc6ce3efc37c85724502233b6b002a35496d828bd7b280a",
+      "size": 39696
+    },
+    {
+      "path": "_internal/libssl-3.dll",
+      "sha256": "8957182a9c385bfd9f3f790921de2ddc614cf91f99edbed4e9e5446a46504e32",
+      "size": 1308920
+    },
+    {
+      "path": "_internal/libtommath.dll",
+      "sha256": "2d760fefb452665b6af8c8d9d29f3a8378f10fc0847cdd9938ea0cb5edf1d573",
+      "size": 81408
+    },
+    {
+      "path": "_internal/local_ai/knowledge.json",
+      "sha256": "bc7d7c3004d41bfb66a16b61ce707c7edb4fdf69942b9f2bbeea986a85425379",
+      "size": 3826
+    },
+    {
+      "path": "_internal/local_ai/models.json",
+      "sha256": "655076a6c96fd0c7e56c2ba2afe3c0b6ed902956ebb1d28a8b6e1d6ebd9fec48",
+      "size": 2023
+    },
+    {
+      "path": "_internal/local_ai/runtime-integrity.json",
+      "sha256": "7eb0abcd292281b955beaee79cb914c8078a6cd299ed775a39f936e8cfd24596",
+      "size": 8631
+    },
+    {
+      "path": "_internal/psutil/_psutil_windows.pyd",
+      "sha256": "039e4d17d9b8399162ceb7a40177e66a7bac46fcd0f722813670af11eeae5c22",
+      "size": 69120
+    },
+    {
+      "path": "_internal/pyexpat.pyd",
+      "sha256": "87b0f7401749bd19bddf8872c17965a99142928fdefab0b513ded9c116f3da6b",
+      "size": 202464
+    },
+    {
+      "path": "_internal/python3.dll",
+      "sha256": "7bb0a7df2d5cb829319dd8d122039843e2a762361bb5a61bb5d24ca34f4040b5",
+      "size": 73952
+    },
+    {
+      "path": "_internal/python314.dll",
+      "sha256": "d8a06cc6ca3348925ea29e343e1c5c5895fe0bb433ff913e1cee44caf358aa6a",
+      "size": 6816992
+    },
+    {
+      "path": "_internal/pythonnet/runtime/Python.Runtime.deps.json",
+      "sha256": "1df8757c717cda3d84ba1059d6c0c8d728a64013afcb2564f0edb5fe4582053f",
+      "size": 5984
+    },
+    {
+      "path": "_internal/pythonnet/runtime/Python.Runtime.dll",
+      "sha256": "2ebd4492e28442ef1f1af587afe5b3a090c2ebfa220758ded4f1450f2a27f13a",
+      "size": 451584
+    },
+    {
+      "path": "_internal/pythonnet/runtime/Python.Runtime.xml",
+      "sha256": "e4f896b8c692f79c55a766c4269c74d0bb2149a7fcef327c4eaf9faff8d28677",
+      "size": 189214
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/entry_points.txt",
+      "sha256": "f4b0b8e4f0af704f8a11ff469c43a04689bf75e2ec0b1a215163ac5dfe34287f",
+      "size": 64
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/INSTALLER",
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508",
+      "size": 4
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/licenses/LICENSE",
+      "sha256": "4a988dd3598832cd3653de20dc33cb677d0fb53ab5551c879ca31280ae653675",
+      "size": 1518
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/METADATA",
+      "sha256": "8e7f87b5e50b992bc44d9f1dc03fb5218f0b6da5d6c4b9f21f93916bf44569c7",
+      "size": 4937
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/RECORD",
+      "sha256": "9e2f7076906a976495e478180719d301bd1ba10674b9b6efa42861e24d7fd323",
+      "size": 8531
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/REQUESTED",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/top_level.txt",
+      "sha256": "7794a9695d720645a4ded6abf95ac4397f9b04cf635cf955755369379150af10",
+      "size": 8
+    },
+    {
+      "path": "_internal/pywebview-6.2.1.dist-info/WHEEL",
+      "sha256": "69e6228a0d35958183cc1812f07c565ce837b95eb51bd8a33acba9fa4f68d6c9",
+      "size": 91
+    },
+    {
+      "path": "_internal/pywin32_system32/pywintypes314.dll",
+      "sha256": "e62808f40462f8066c8d19811cebd15467de6992b1cb48be5f5903910f5395f7",
+      "size": 136704
+    },
+    {
+      "path": "_internal/release/os-prerequisites.json",
+      "sha256": "3cd08e7fa40118989c4ac45950edba2b325980fe28ccd2848bc777285fdbd95b",
+      "size": 14215
+    },
+    {
+      "path": "_internal/select.pyd",
+      "sha256": "0da869c017fd3231cfc1c1e4c4bef1bb7bf5cba38236e6d7bf1630c3507c5a1d",
+      "size": 33504
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/INSTALLER",
+      "sha256": "e6184ce10e266134fdcfa401e8f1a95005bcd4f18d16b62b757323e2833fe9a9",
+      "size": 2
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/licenses/LICENSE",
+      "sha256": "458502e12d97bbf64438606a20044aa85eb05fb0a8a807bb35dbec253fd1fc04",
+      "size": 10278
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/METADATA",
+      "sha256": "a3e38b9ee4326289d4864704f30e299ee769e2309ce9f4a75f0de1a50ad0a356",
+      "size": 4670
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/RECORD",
+      "sha256": "52a6b8ee0de15cf7fd99625f43b97cd2e3942ac86f16054ea90de48e66f29355",
+      "size": 1868
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/REQUESTED",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/top_level.txt",
+      "sha256": "08eddf0fdcb29403625e4acca38a872d5fe6a972f6b02e4914a82dd725804fe0",
+      "size": 19
+    },
+    {
+      "path": "_internal/setuptools/_vendor/importlib_metadata-8.7.1.dist-info/WHEEL",
+      "sha256": "ff309ddcdd65ebd02bc724dbf2bcc4a0ff53a5b61792a44548d383e4ebb19d3b",
+      "size": 91
+    },
+    {
+      "path": "_internal/setuptools/_vendor/jaraco/text/Lorem ipsum.txt",
+      "sha256": "37fedcffbf73c4eb9f058f47677cb33203a436ff9390e4d38a8e01c9dad28e0b",
+      "size": 1335
+    },
+    {
+      "path": "_internal/sqlite3.dll",
+      "sha256": "99c296ca2b4372418edbdcbd923ab0df2cdbcf406782694d7376f2b01e5010c9",
+      "size": 1584864
+    },
+    {
+      "path": "_internal/tcl90.dll",
+      "sha256": "a1fb45f963b05cb083a97df1449c2023b484eb921d40a463da7501b0f60e0f70",
+      "size": 3369299
+    },
+    {
+      "path": "_internal/tcl9tk90.dll",
+      "sha256": "31f625c52e65d29d126e710ed8bab2ec964cb770e4fc59bc329dfff02cb6ddcf",
+      "size": 2138360
+    },
+    {
+      "path": "_internal/tutor/boolean_sources.json",
+      "sha256": "9ae0a1cb9a00010b5366b7c8810abe1af7d7dc96e19d47e1a3ec117516268640",
+      "size": 16191
+    },
+    {
+      "path": "_internal/tutor/guide.md",
+      "sha256": "4701b4aac4ca93531035e28adc7c202dfd78a3eaf1f464cb9640e1fdfd2cb8fc",
+      "size": 5273
+    },
+    {
+      "path": "_internal/unicodedata.pyd",
+      "sha256": "4c4e9f9e71e299a7e0093830e79f955f2b12b4eb0a6bb45003d42256b6e5985d",
+      "size": 758496
+    },
+    {
+      "path": "_internal/VCRUNTIME140.dll",
+      "sha256": "d1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7",
+      "size": 178616
+    },
+    {
+      "path": "_internal/VCRUNTIME140_1.dll",
+      "sha256": "a7146c08f89fe5b04541ab507cdb59ff7b44534d4ba3c668a426c6450a03434e",
+      "size": 50112
+    },
+    {
+      "path": "_internal/web/app.js",
+      "sha256": "6ec71e11e8993379f607c312e8eea42c5ef67106f3ef8cde4286e8b4b1f68ae5",
+      "size": 68610
+    },
+    {
+      "path": "_internal/web/atmosphere.css",
+      "sha256": "7ac6ca468428c7aa6a64506f97bc2ef0b43bfe5cfbf69172cd0d420f61dcc23b",
+      "size": 13090
+    },
+    {
+      "path": "_internal/web/authorize.html",
+      "sha256": "b5d15e46e689f3d387b8a9b1ec35dc0afd6641b4061849fb8b0a4adcb4ff5eae",
+      "size": 673
+    },
+    {
+      "path": "_internal/web/authorize.js",
+      "sha256": "b4fb33d271cdd0142ea677de64479b7da04a09bb9224841b8aa8180366c4e730",
+      "size": 548
+    },
+    {
+      "path": "_internal/web/boolean-lesson.html",
+      "sha256": "13ddde57a07b29926df3caf61f854c2fc691b531200c02c0e409cf1ce9257de0",
+      "size": 3443
+    },
+    {
+      "path": "_internal/web/boolean-lesson.js",
+      "sha256": "8f24d4c7a668b03f680d72ca7850e26f8c39773dea8c2d41f5594ac94607442a",
+      "size": 4888
+    },
+    {
+      "path": "_internal/web/desktop.css",
+      "sha256": "d886a5d5a7e7e6ac523f4b716d33a1e8dfcf86458c9000c80b2d8ef1d7cb8332",
+      "size": 2782
+    },
+    {
+      "path": "_internal/web/icon.svg",
+      "sha256": "ccbb21544a1fed80d086f1d0bff7088a0b8ae1126b312e6f7d4cc0dda28693bb",
+      "size": 254
+    },
+    {
+      "path": "_internal/web/index.html",
+      "sha256": "8ec312bf5250f62dad5d099d4af294d75d96e96d98ab24e5f823fa709c3098ff",
+      "size": 32966
+    },
+    {
+      "path": "_internal/web/manifest.json",
+      "sha256": "6b9daa71db32474f9db30a83a649296969ce991db3d11ca7560e3620a20fb585",
+      "size": 256
+    },
+    {
+      "path": "_internal/web/progress.css",
+      "sha256": "beec80382a8d25e478c6b8f2163a993fc7404a168ce202498c67c558e78e997c",
+      "size": 1075
+    },
+    {
+      "path": "_internal/web/style.css",
+      "sha256": "982179ef96dab6805a96880ecf548dd079bc1e9367d1a818d8cd878b288c2235",
+      "size": 5040
+    },
+    {
+      "path": "_internal/web/sw.js",
+      "sha256": "171ffd461f7c78c26e89c3483be7cc1cce108916b1d1679e7c66f364dba856c7",
+      "size": 749
+    },
+    {
+      "path": "_internal/web/tutor.js",
+      "sha256": "51fe4077f6dae3922010cbc2502e8295c4e77b78f64b016442fb03a61e26558c",
+      "size": 29478
+    },
+    {
+      "path": "_internal/web/ux.css",
+      "sha256": "5524e66879c20704f4bfdfc1fb5554aecf43fbe2398598ee8eafeae43c92f977",
+      "size": 16025
+    },
+    {
+      "path": "_internal/webview/__init__.py",
+      "sha256": "53a631a579ce342fb45efbe4ef024b28deabb34f061bcf058fd818ce27aa7e80",
+      "size": 16979
+    },
+    {
+      "path": "_internal/webview/__pyinstaller/__init__.py",
+      "sha256": "f9ce19a3c9d018a026f3073f2c3b1cc4cb4aef3aff6216704670bd08caee5011",
+      "size": 72
+    },
+    {
+      "path": "_internal/webview/__pyinstaller/hook-webview.py",
+      "sha256": "d231eec5173e6327b138d17e27d4d61333c88a5b51de29144d4c1c8b916637ba",
+      "size": 295
+    },
+    {
+      "path": "_internal/webview/_version.py",
+      "sha256": "41462c31d385085b195788f1583cff83d60dbdb0a928210a41a9f301f63fc039",
+      "size": 520
+    },
+    {
+      "path": "_internal/webview/dom/__init__.py",
+      "sha256": "515e69981ea8ba2efea32d473a9f9061854501475c18c33d863501aca99e6fb5",
+      "size": 1162
+    },
+    {
+      "path": "_internal/webview/dom/classlist.py",
+      "sha256": "d44075bd70b819fd3de1fbbccbe0cd66a1b02f6615fb7c6dca682dc9ce73c814",
+      "size": 1495
+    },
+    {
+      "path": "_internal/webview/dom/dom.py",
+      "sha256": "9eb42c3fcf53d958a138cfda2f0950310f1d81528ebcb70dd6bf9024e4865b26",
+      "size": 2628
+    },
+    {
+      "path": "_internal/webview/dom/element.py",
+      "sha256": "b131a7e777187a057eb79f3950aede5dec6303aee213b9cc7f58465717621837",
+      "size": 15292
+    },
+    {
+      "path": "_internal/webview/dom/event.py",
+      "sha256": "d10e8bf78b1ec61bc09f4f2e0dedbeb3ef0af320bd6277e32df2d0d9bade8b03",
+      "size": 1089
+    },
+    {
+      "path": "_internal/webview/dom/propsdict.py",
+      "sha256": "0e70dd71a9d69e0cd9a4d5c9c25e65ce14eed66b849368cc9c3fe4409d54e4ce",
+      "size": 6178
+    },
+    {
+      "path": "_internal/webview/errors.py",
+      "sha256": "b319289c54650e4fe92313f798837858c567ddee39bc0cef49056ca528acc11f",
+      "size": 93
+    },
+    {
+      "path": "_internal/webview/event.py",
+      "sha256": "8af7dc603131e0ab3605ceb9d4545b749e052e0eb5ae9131a50b380e61f8babc",
+      "size": 2462
+    },
+    {
+      "path": "_internal/webview/guilib.py",
+      "sha256": "ac780f92dae8761dd77c4d30306b2d899b7596e6b16875a9d280c7ec17f82ff0",
+      "size": 3823
+    },
+    {
+      "path": "_internal/webview/http.py",
+      "sha256": "e2c1ba12e560b95918536991ec08ba4f468012527f396c435da27e8b5b902b28",
+      "size": 8192
+    },
+    {
+      "path": "_internal/webview/js/api.js",
+      "sha256": "cb68b8bed427fa356aea26376e497552f55d91329c093c026a65230d074e2b27",
+      "size": 8612
+    },
+    {
+      "path": "_internal/webview/js/customize.js",
+      "sha256": "ed14d0b594266dfe3834cc8565b44a8157420432aeef4f733ab505bd6ed89b8a",
+      "size": 4443
+    },
+    {
+      "path": "_internal/webview/js/finish.js",
+      "sha256": "751443083dd1d2b2ef4142692f25bc4f6e04f8de4d82c455c73473700f00c8cb",
+      "size": 357
+    },
+    {
+      "path": "_internal/webview/js/lib/dom_json.js",
+      "sha256": "70fae2a8a8ebc790dc616aa7976074cedd802275c173c90ad4bf3bd14163f9c4",
+      "size": 26097
+    },
+    {
+      "path": "_internal/webview/js/lib/polyfill.js",
+      "sha256": "481a08f5337a770acf49b38c2f58dd0c95f92bf9dbd92bf82b596836ea343ab5",
+      "size": 27434
+    },
+    {
+      "path": "_internal/webview/js/state.js",
+      "sha256": "68ee87ec01563cbcab77a57704a32f19b47436c9d5e254bfba9675a51c132075",
+      "size": 1828
+    },
+    {
+      "path": "_internal/webview/lib/Microsoft.Web.WebView2.Core.dll",
+      "sha256": "8219a3135436c147f8eb02fb831e99596103eebc18b6d7b794ca93f4c67018a2",
+      "size": 649800
+    },
+    {
+      "path": "_internal/webview/lib/Microsoft.Web.WebView2.WinForms.dll",
+      "sha256": "c48f8d729dc531288d2c53a6241effe7922ed1b947850b2442008a945c098c48",
+      "size": 39016
+    },
+    {
+      "path": "_internal/webview/lib/pywebview-android.jar",
+      "sha256": "3f9d3eeeda09ce58badbd742a981a463c067c339c8b4e70b404c00ebb4ec73a3",
+      "size": 14309
+    },
+    {
+      "path": "_internal/webview/lib/runtimes/win-arm64/native/WebView2Loader.dll",
+      "sha256": "0937030efc718f3da77c5e0978fb5046e381d0bb7b01acaad31a535a1b588a33",
+      "size": 147016
+    },
+    {
+      "path": "_internal/webview/lib/runtimes/win-x64/native/WebView2Loader.dll",
+      "sha256": "eb5335edeaa6f2122c044e82aab2351dc8c9b4e0fe5e578c71922fb61be285e7",
+      "size": 161864
+    },
+    {
+      "path": "_internal/webview/lib/runtimes/win-x86/native/WebView2Loader.dll",
+      "sha256": "04814b2c59314c6452d61b821a4a3a5c5f8e8577b55b985f6a7a4b59f8907ec5",
+      "size": 121928
+    },
+    {
+      "path": "_internal/webview/lib/WebBrowserInterop.x64.dll",
+      "sha256": "f6a646470f0e1058224a52e8e2e217501dca46939b30bfc9a5dd4dcdd43f088d",
+      "size": 7168
+    },
+    {
+      "path": "_internal/webview/lib/WebBrowserInterop.x86.dll",
+      "sha256": "4e527297fbea7c5a0419f3a6af307c2681787beb0bf0ef3fea849a7fd85a08dc",
+      "size": 7168
+    },
+    {
+      "path": "_internal/webview/localization.py",
+      "sha256": "310feaf4c4a0a99c72eae4c992e9745990ee24400169e1bc8a6b8ffd93ea96be",
+      "size": 926
+    },
+    {
+      "path": "_internal/webview/menu.py",
+      "sha256": "a37d9a6b24c84d9df989c113d8f4516203c1eba5f5f885ff6dd1c602186879e0",
+      "size": 721
+    },
+    {
+      "path": "_internal/webview/models.py",
+      "sha256": "1edc757df94f4cfc5902e93b7a6c1ba9c161747ab46334d747e9af484a5beaf5",
+      "size": 568
+    },
+    {
+      "path": "_internal/webview/platforms/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "_internal/webview/platforms/android/__init__.py",
+      "sha256": "e12c5ce7e96ee78bc5c6a81e5beae80a7bc74e2b99c8f18df06b98447ea22766",
+      "size": 18631
+    },
+    {
+      "path": "_internal/webview/platforms/android/app.py",
+      "sha256": "29bf3fa9be26b206e57b33c9c253ab88d4ece7ef398d7bb7f4ebc227b8a39607",
+      "size": 2352
+    },
+    {
+      "path": "_internal/webview/platforms/android/base.py",
+      "sha256": "bcd3f7db74594f98e62e384871b365c806f745b6df0c44171ff752013274da38",
+      "size": 1789
+    },
+    {
+      "path": "_internal/webview/platforms/android/event.py",
+      "sha256": "433969d3942f19f10cb73d467584e57bc87e01f61f7311a6c7bd6ec9adfee203",
+      "size": 2840
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/__init__.py",
+      "sha256": "ade3d200e0b23ce260a43b1208ce2b00eaf4d0d1d4834a042dad16100ed61c92",
+      "size": 989
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/app.py",
+      "sha256": "003403da223832fc31ab44ccf1b22cdcbb4301a71fe3279683d78068181d4df1",
+      "size": 11819
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/content.py",
+      "sha256": "e416b0d4ed6f8e318516679ad927da7a01517674b4080ffd4e2d24f39e09ab26",
+      "size": 901
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/net.py",
+      "sha256": "0711d68118e2deb19a7bc746816bdf7dfb0d71189a199d2da748c3948d4acec4",
+      "size": 1140
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/os.py",
+      "sha256": "124a6342d24a38b7de7a6aca39d0bb741108e4e2f8c3652de1cb504d0a358547",
+      "size": 976
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/view.py",
+      "sha256": "fb02c0d3b2dc041132cf31cfe1f1ead52b1f0bcab5fc82726eaf8e8c375e3ef2",
+      "size": 3822
+    },
+    {
+      "path": "_internal/webview/platforms/android/jclass/webkit.py",
+      "sha256": "a7ee2c6d997d49a8ec90eb2af8dfe6f48c5718a444494ca4eb3f732166e2a662",
+      "size": 18777
+    },
+    {
+      "path": "_internal/webview/platforms/android/jinterface/__init__.py",
+      "sha256": "f564b500241ac452ea6383c394d639e44dca59adc2e7904d75e2babedccfcc9a",
+      "size": 510
+    },
+    {
+      "path": "_internal/webview/platforms/android/jinterface/pywebview.py",
+      "sha256": "cc6d34094efd7e161b8879c96f88dbaffb182b76df69a0bf454ab2748135a831",
+      "size": 3598
+    },
+    {
+      "path": "_internal/webview/platforms/android/jinterface/view.py",
+      "sha256": "822bb2ea730f4cffb3b0e09795e9a0e2ed03d9eb47e41642501752865c34d631",
+      "size": 1793
+    },
+    {
+      "path": "_internal/webview/platforms/android/jinterface/webkit.py",
+      "sha256": "58301b16344cfa9126c204bbde84a20d1ad25710b62becf59a6b20ac5dcb7e9e",
+      "size": 2434
+    },
+    {
+      "path": "_internal/webview/platforms/cef.py",
+      "sha256": "a9ea3e5e3f597d645d3e237dd43a6d553845160e86b26e3524fe212bd3ee56e4",
+      "size": 10786
+    },
+    {
+      "path": "_internal/webview/platforms/cocoa.py",
+      "sha256": "27a5e95be0816f0bba7bed910eeda11b92de4598419a275f9346023e24ba27af",
+      "size": 61743
+    },
+    {
+      "path": "_internal/webview/platforms/edgechromium.py",
+      "sha256": "f3f9168ecb39f7447566112fd14c5ec55830eddf02053eafef0d86fac509a3a4",
+      "size": 14174
+    },
+    {
+      "path": "_internal/webview/platforms/gtk.py",
+      "sha256": "27803c780847139cb6230aae16ef2b9eed3f7944ca863f6a3f9751aa53ee648f",
+      "size": 35877
+    },
+    {
+      "path": "_internal/webview/platforms/mshtml.py",
+      "sha256": "27ee660d6485d75245e65e7f0be5b631b11d593023d40500a3b991eff44b5328",
+      "size": 8989
+    },
+    {
+      "path": "_internal/webview/platforms/qt.py",
+      "sha256": "0d78b132be416e9df3c562645e958d1be83e11e4518a19a861a2c573d4b0b61c",
+      "size": 39176
+    },
+    {
+      "path": "_internal/webview/platforms/win32.py",
+      "sha256": "c24de9c92278c9d4e48e13045d47225b6d3d6629b0898f2530883a74a5e522e2",
+      "size": 2932
+    },
+    {
+      "path": "_internal/webview/platforms/winforms.py",
+      "sha256": "e3962a59e74532d9266f08d1efb086519877b2d322ea83900036f59794db4b4d",
+      "size": 37327
+    },
+    {
+      "path": "_internal/webview/py.typed",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    {
+      "path": "_internal/webview/screen.py",
+      "sha256": "a6920538487256b022e726ebe87902cf60d6aa0c1471cc4bd9c979f8b6892479",
+      "size": 1228
+    },
+    {
+      "path": "_internal/webview/state.py",
+      "sha256": "79a47b4b6ec17c8ea3c377c3c6d3600c04227208bb737c0fa839cfbe087b862d",
+      "size": 4347
+    },
+    {
+      "path": "_internal/webview/util.py",
+      "sha256": "a652bd05bfb9a7a9521e8ab52f10425161fa6a84077a92ca5dcd255359b836a4",
+      "size": 17225
+    },
+    {
+      "path": "_internal/webview/window.py",
+      "sha256": "00de0b2155308a29e0af42d3e5c40221cd1ea1fb30d2be55a408ab1b314d5b03",
+      "size": 19106
+    },
+    {
+      "path": "_internal/win32/win32api.pyd",
+      "sha256": "9004920e2c7863c34d0b3c4183ab3e1482475817cfb64f4f198e1fdd43f48f4e",
+      "size": 139264
+    },
+    {
+      "path": "_internal/win32/win32evtlog.pyd",
+      "sha256": "0899fd11f626958ab4969bf4080156d45eb6257894e6f3217eccee354a0adecf",
+      "size": 75776
+    },
+    {
+      "path": "_internal/win32/win32process.pyd",
+      "sha256": "a8496f2c52ba78a611df98cbc62f6e8da969fbc9e398459ab6a0335ebbfcbcd8",
+      "size": 53760
+    },
+    {
+      "path": "_internal/zlib1.dll",
+      "sha256": "f07195206534ebb1fe75093d4ec6c54a7a9227281b0c09d2113465b71da9e900",
+      "size": 102912
+    },
+    {
+      "path": "Ritmo.exe",
+      "sha256": "e24c9bf55c68d96912d1c26a51350b2eea33b4b3fd66fa86e7084700307504da",
+      "size": 7621173
+    },
+    {
+      "path": "_internal/release/THIRD-PARTY-NOTICES.txt",
+      "sha256": "1b54c1e0d94c24a5058e7709d64d9034dfc2bd92a95c1fcd8fe4a7a246a18c36",
+      "size": 349628
+    },
+    {
+      "path": "_internal/release/source-manifest.json",
+      "sha256": "c1189a048d2805b689cd798ce498868de2d90c892c5ceb4bc634eccb676dacc8",
+      "size": 25019
+    },
+    {
+      "path": "_internal/release/VC-RUNTIME-TERMS.txt",
+      "sha256": "edef704485fc64352a28bb2122fb0938118c9990eb5883cf25a4f84195642c92",
+      "size": 3551
+    }
+  ],
+  "evidence_sha256": {
+    "bom.cdx.json": "a7cb9dd6d2d934970539a58965c44ddb60b3fd08bb99d91593b75875422aaf53",
+    "build-dependencies.json": "e5ffbfee9928fed22ff728ed340409bec738c082a3f76a0264677f36c9f46be8",
+    "native-components.csv": "2e8c390680058d014c3f684834675e2045e373308827274a17b3cc87820aac42",
+    "redistributed-requirements.txt": "7a7c99d4f5ff94186c8bb218eac8456dafacdd549e6c49748a36b4b8334ab8b3",
+    "sbom.json": "d7808b294a32c6f2d64eb2dde287739179991d5fbd6e505e37e81bc7c380ba24",
+    "THIRD-PARTY-NOTICES.txt": "1b54c1e0d94c24a5058e7709d64d9034dfc2bd92a95c1fcd8fe4a7a246a18c36"
+  }
+}

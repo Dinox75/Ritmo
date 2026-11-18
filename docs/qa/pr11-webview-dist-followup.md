@@ -77,3 +77,105 @@ O run [44207460719](https://github.com/Dinox75/Ritmo/actions/runs/44207460719), 
 O run [44208563133](https://github.com/Dinox75/Ritmo/actions/runs/44208563133), head `90dbdf4`, voltou a passar build e **clean-windows**. ZIP `0310391722d5d6b690d3c0ebd1b68b46ecc0272315a6b471f9a01fd84d255df2`, 20.507.355 bytes; EXE `7c6a2203079ba803b54f89a81b468ad0e507e6eb8239e2b8763c6b4b1273c118`, código de merge `2d8658dc20fbdbf94392d3d958b243fdb03affae`. Inventário: 149 arquivos, 49 binários, **zero binário sem correspondência**, 44 DLLs de compatibilidade excluídas e registradas. Isso não encerra a revisão de licenças/vulnerabilidades. O Grype no CI não iniciou porque o script de preparação só exportava seu caminho para o passo seguinte; a exportação foi corrigida também para o processo atual. O erro não foi contado como scan aprovado.
 
 Na repetição nativa no host do ZIP anterior `8d6bc5fd…`, houve falhas da ferramenta após as quatro etapas iniciais passarem. A árvore UIA deste Windows expunha campos de Configurações atrás do diálogo, e o prompt identifica a pergunta no próprio campo Edit, sem nó Text separado. O QA passou a preencher exclusivamente o campo cujo nome começa com “Digite APAGAR”, dentro dos processos próprios; não escreve no primeiro campo de fundo. A recusa IDNO usa UIA Invoke, evitando a dependência de ativação de BM_CLICK. Quatro regressões controladas cobrem seleção, ambiguidade e limite de processos. O ensaio host-v5 passou com escrita, cancelamento, fechamento natural e porta livre. As falhas anteriores foram preservadas e não atribuídas ao aplicativo ou a outro ZIP.
+
+## Candidato de encerramento — distribuição bloqueada
+
+[Run 44210488562](https://github.com/Dinox75/Ritmo/actions/runs/44210488562), head
+`a1aac5768ce69fc1f7c95900ea7944df5db548f9`, fonte de merge sintético
+`9ceaa6fbdbf67b9124210911ae489fbe6c8564eb`. Somente documentação/evidências
+foram acrescentadas depois deste código. [Manifesto completo](pr11-final-build-info.json).
+
+| Identidade | Valor |
+| --- | --- |
+| ZIP | `Ritmo-v0.1.0-preview.1-windows-x64.zip` · 20.507.869 bytes |
+| SHA-256 ZIP | `5a2333e0eacfa371ef3d93c8aa813000d6cba919b5defebd3c72a0c24ebfc766` |
+| SHA-256 EXE | `e24c9bf55c68d96912d1c26a51350b2eea33b4b3fd66fa86e7084700307504da` |
+| Artefato do build | `14386296233` · transporte `8b66977f0fc539dae3788d2d185c87a4a6490e889eb4a56bf99c9a4478917a9f` |
+| Artefato de QA | `14386072525` · transporte `8270b2513d80c8e3d064f3d6b8e95c84805658e5efb5df766cf290023c70f97e` |
+| Diagnósticos | `14385713372` · transporte `42d06334a41a20ead14ac3b56401cf7b1155a202160dba72990663bf6391a657` |
+| Scans | `14386172339` · transporte `ce138cb217c1c6ea69ff36a2f82ef03812361ae8570b2ecdb3a2a4b12c37bcdc` |
+
+Cópia local conferida e extraída em
+`A:\Projetos & Estudos\Ritmo\Laboratorio\pr11-run-44210488562\assets\` e
+`..\extracted\Ritmo\Ritmo.exe`. O ZIP local é o baixado do Actions, não uma
+recompilação local. Os artefatos do Actions expiram em 02/12/2026; os relatórios
+selecionados abaixo ficam preservados no Git, e a cópia local não foi removida.
+
+### O que passou
+
+- **179 testes locais em 51,423 s**, sem ignorados. **179 no Actions em 73,130 s**, OK.
+- Build sem `-Install`, smoke e verificação de todos os hashes. Inventário de
+  149 arquivos, 49 binários e 19 componentes Python; **zero binário sem origem
+  correspondente**. Sem protobuf/MediaPipe/cvzone ou pesos. [Componentes/versões/licenças](pr11-final-components.json).
+- `clean-windows`: [aceitação nativa](pr11-final-native-clean.json), Windows
+  10.0.26100, sessão gráfica 2. EXE, janela, autorização e UIA verdadeiros;
+  matéria criada pela janela; cancelamento manteve dados; WM_CLOSE encerrou
+  naturalmente e a porta foi liberada. **CDP indisponível**, sem substituir a
+  janela por navegador. [Captura real depois de cancelar](pr11-final-native-clean.png).
+- QA complementar do mesmo ZIP: sessão/pausa/retomada/conclusão/reabertura,
+  materiais/busca/notas vinculadas a trechos, backup/configuração e restauração numa pasta
+  separada, fluxos booleanos, [21 recusas de API e cancelamento](pr11-final-security.json),
+  [contraste/teclado](pr11-final-accessibility.json) em 390/1366/1920 e dois temas.
+  [Atestado técnico](pr11-final-clean-windows.json), com revisões de distribuição ainda requeridas.
+- Neste host, `qa_study_atmosphere_packaged.py` no ZIP final: [12 verificações](pr11-final-atmosphere.json),
+  janela WebView2 visível; cronômetro, player de chuva/ruído marrom/WAV, volume,
+  pausa/retomada, lembretes, reabertura e conclusão; navegação fixa nas três
+  larguras a 85%. É verificação de estado/sinal interno de áudio, sem medição
+  física dos alto-falantes nesta rodada.
+- Perfil sem câmera testado em UI/API e sem enumerar dispositivos. Perfil com
+  câmera testado com provedor controlado, sem capturar imagens nem validar hardware.
+
+### O que impede a publicação
+
+O job `distributed-components` **falhou corretamente**; build e `clean-windows`
+passaram. [Pip-audit](pr11-final-pip-audit.json): 19 componentes, nenhum achado,
+skip ou ausência. O cve-bin-tool continuou sem obter sua base pelo mirror;
+[falha/cobertura preservadas](pr11-final-legacy-scan.json), sem alegar scan nativo completo.
+
+O Grype 0.122.0 **concluiu** com a base de 17/11/2026 e controle positivo
+Heartbleed confirmado: **27 correspondências** — SQLite 14, Expat 5, CPython 4,
+XZ 3, zlib 1. [Resumo, cobertura e hash do banco](pr11-final-grype-summary.json)
+e [respostas completas do scanner](pr11-final-grype.json). O acréscimo sobre o
+candidato anterior é zlib 1.3.2, CVE-2026-85091, relacionado a `gz_write()` após
+erro de escrita. Não houve supressão automática para obter aprovação.
+
+Permanecem bloqueadores concretos de DIST-01:
+
+1. Revisar os requisitos de exploração dos CVEs do **SQLite 3.50.4/FTS5** e
+   **Expat 2.9.0** no fluxo de materiais/DOCX e recuperação. A presença do
+   componente não prova exploração do Ritmo, mas testes funcionais benignos
+   também não comprovam a ausência de risco. O caso SQLite CLI `.recover` é
+   distinto e não é usado como prova de vulnerabilidade no app.
+2. Verificar a cobertura do **fork libffi incorporado ao CFFI 2.1.1**: origem e
+   aviso MIT registrados, sem inventar uma versão upstream/CPE que não o representa.
+3. Concluir as condições aplicáveis de redistribuição de **VCRUNTIME140.dll e
+   VCRUNTIME140_1.dll 14.51.36247.0**. Os bytes estão ligados ao instalador PSF
+   verificado e os avisos estão incluídos; o inventário mantém `NOASSERTION` e
+   as duas pendências, em vez de converter a presença do aviso em aprovação.
+4. Classificar os alertas condicionais/restantes, inclusive zlib 1.3.2 e XZ,
+   usando as funções/entradas realmente expostas. A ressalva de FIPS em
+   CVE-2026-119170 e os casos específicos do CLI não justificam ignorar os demais.
+
+Consequência: **PR #11 permanece em rascunho. Não houve merge, ensaio real de
+promoção, tag, Release nem envio a Packages**. A tag `v0.1.0-preview.1` estava
+livre na consulta, mas as revisões não foram marcadas como aprovadas. Logo não
+há downloads de Releases/Packages para comparar; a igualdade entre canais não
+foi simulada. Os resultados anteriores continuam históricos, vinculados aos seus ZIPs.
+
+A instalação pessoal permaneceu com EXE
+`0bbf4346bab2ecd8e1237938c20bedbffc6a122f6b715521f94a43b3e35a926c`,
+mesmo hash antes/depois da conferência final. Banco, materiais, modelos,
+configuração e atalho pessoais não foram atualizados. Sem instalação, não foi
+necessário copiar o banco pessoal; todos os ensaios de recuperação usaram dados sintéticos.
+
+### Comandos finais adicionais
+
+```powershell
+python scripts/scan_grype_bundle.py --assets <assets-do-run-44210488562> --out <novo-diretorio> --commit 9ceaa6fbdbf67b9124210911ae489fbe6c8564eb --run-id 44210488562 --grype <Grype-0.122.0-verificado>
+python scripts/qa_study_atmosphere_packaged.py <EXE-extraido-do-ZIP> <capturas-temporarias> <relatorio.json>
+```
+
+O hash fixado do Grype, as opções do pip-audit/cve-bin-tool e a reprodução com
+snapshot estão no [relatório de distribuição](dist01-supply-chain.md). Limites:
+sem teste de aprendizagem, certificação ISO/WCAG, leitor de tela completo,
+hardware de câmera ou todos os sistemas Windows suportados.
