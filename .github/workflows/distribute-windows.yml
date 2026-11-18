@@ -1,0 +1,208 @@
+name: Ritmo • build Windows (sem publicação)
+on:
+  pull_request:
+    paths-ignore: ['docs/**', '**.md']
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versão de prévia; build nunca publica'
+        type: string
+        default: v0.1.0-preview.1
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: ritmo-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - name: Preparar WebView2 no runner descartavel
+        shell: pwsh
+        run: ./scripts/ensure_webview2_ci.ps1
+      - name: Suíte completa em ambiente de teste separado
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          python -m venv .buildvenv
+          & ./.buildvenv/Scripts/python.exe -m pip install -r requirements-desktop.txt -r requirements-windows.txt -r requirements-qa.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Dependências de teste falharam' }
+          $env:RITMO_MODEL_DIR = Join-Path $env:RUNNER_TEMP 'no-models'
+          & ./.buildvenv/Scripts/python.exe -m unittest discover -s tests -q
+          if ($LASTEXITCODE -ne 0) { throw 'Suíte falhou' }
+      - name: Toolchain PSF verificado somente no runner descartável
+        shell: pwsh
+        run: ./scripts/ensure_python_preview_ci.ps1
+      - name: Build sem instalar, suíte e inventário
+        shell: pwsh
+        env:
+          VERSION: ${{ inputs.version || 'v0.1.0-preview.1' }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:RITMO_BUILD_ROOT = Join-Path $env:RUNNER_TEMP 'ritmo-build'
+          # Compile + smoke here; the exact ZIP is approved only by the separate
+          # clean-windows job. A build artifact alone never authorizes promotion.
+          & ./scripts/build_windows.ps1 -Profile preview -SkipBrowserQA
+          if ($LASTEXITCODE -ne 0) { throw 'Build falhou' }
+          $stages = @(Get-ChildItem $env:RITMO_BUILD_ROOT -Directory -Filter 'RitmoStage-*')
+          if ($stages.Count -ne 1) { throw 'Pacote ambíguo' }
+          $base = & $env:RITMO_BUILD_PYTHON -c 'import sys; print(sys.base_prefix)'
+          & ./.previewvenv/Scripts/python.exe scripts/release_native_catalog.py --python-base $base --vendor-sbom $env:RITMO_PYTHON_SBOM --installer-receipt $env:RITMO_PYTHON_RECEIPT --out native-catalog.json
+          if ($LASTEXITCODE -ne 0) { throw 'Catálogo nativo falhou' }
+          & ./.previewvenv/Scripts/python.exe scripts/release_bundle.py pack --package (Join-Path $stages[0].FullName 'Ritmo') --out dist-release --version $env:VERSION --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID --analysis-toc (Join-Path $env:RITMO_BUILD_ROOT 'RitmoBuild-preview/Ritmo/Analysis-00.toc') --analysis-toc (Join-Path $env:RITMO_BUILD_ROOT 'RitmoBuild-preview/Ritmo/EXE-00.toc') --native-catalog native-catalog.json
+          if ($LASTEXITCODE -ne 0) { throw 'Inventário falhou' }
+          Copy-Item native-catalog.json dist-release/
+          Copy-Item $env:RITMO_PYTHON_RECEIPT dist-release/
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ritmo-distribuicao
+          path: dist-release/*
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
+  distributed-components:
+    needs: build
+    runs-on: windows-2025
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ritmo-distribuicao
+          path: release-assets
+      - name: Analisar bytes e componentes efetivamente distribuídos
+        shell: pwsh
+        run: |
+          python -m pip install -r requirements-release-scan.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Scanner indisponível' }
+          ./scripts/ensure_grype_ci.ps1
+          $toolsPython = (Get-Command python).Source
+          # The old CVE-bin-tool mirror may fail; retain its failure as evidence.
+          python scripts/release_scan.py --assets release-assets --out scan-evidence --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID --tools-python $toolsPython --timeout 600
+          python scripts/scan_grype_bundle.py --assets release-assets --out grype-evidence --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID --grype $env:RITMO_GRYPE --timeout 600
+          $grypeResult=$LASTEXITCODE
+          $pythonStatus=(Get-Content scan-evidence/scan-report.json -Raw | ConvertFrom-Json).checks.python.status
+          if ($pythonStatus -ne 'completed' -or $grypeResult -ne 0) { throw 'Achados, lacunas de cobertura ou erro de scanner impedem aprovação; consulte os dois relatórios' }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ritmo-distributed-components-scan
+          path: |
+            scan-evidence/*.json
+            scan-evidence/*.txt
+            grype-evidence/*.json
+            grype-evidence/*.txt
+          if-no-files-found: warn
+          retention-days: 14
+  clean-windows:
+    needs: build
+    runs-on: windows-2025
+    timeout-minutes: 25
+    env:
+      WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: --disable-gpu
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ritmo-distribuicao
+          path: release-assets
+      - name: Extrair ZIP em runner novo e testar runtime empacotado
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory qa-evidence -Force | Out-Null
+          @{
+            result='failed'; phase='clean-windows-prerequisites'; source_commit=$env:GITHUB_SHA; build_run_id=$env:GITHUB_RUN_ID
+            stages=@{executable=$false;native_window=$false;native_authorization=$false;qa_native_connection=$false}
+          } | ConvertTo-Json -Depth 3 | Set-Content -Encoding utf8 qa-evidence/native-ui.json
+          python -m pip install -r requirements-qa.txt -r requirements-native-qa.txt
+          & ./scripts/ensure_webview2_ci.ps1
+          if ($LASTEXITCODE -ne 0) { throw 'QA dependencies failed' }
+          python scripts/release_bundle.py verify --out release-assets --commit $env:GITHUB_SHA --run-id $env:GITHUB_RUN_ID
+          if ($LASTEXITCODE -ne 0) { throw 'ZIP inválido' }
+          $facts = Get-Content release-assets/build-info.json -Raw | ConvertFrom-Json
+          $clean = Join-Path $env:RUNNER_TEMP 'ritmo-extracted'
+          Expand-Archive -LiteralPath (Join-Path release-assets $facts.archive) -DestinationPath $clean
+          $exe = Join-Path $clean 'Ritmo/Ritmo.exe'
+          "RITMO_QA_EXE=$exe" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          python scripts/smoke_windows.py $exe (Join-Path $env:RUNNER_TEMP 'ritmo-smoke.json')
+          $smokeResult = $LASTEXITCODE
+          Copy-Item (Join-Path $env:RUNNER_TEMP 'ritmo-smoke.json') qa-evidence/smoke.json
+          if ($smokeResult -ne 0) { throw 'Smoke falhou; diagnóstico preservado' }
+      - name: Janela nativa real (independente de CDP)
+        if: always() && env.RITMO_QA_EXE != ''
+        id: native
+        continue-on-error: true
+        shell: pwsh
+        env:
+          QA_HEAD_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python scripts/qa_native_windows.py $env:RITMO_QA_EXE --bundle release-assets --output native-evidence --run-id $env:GITHUB_RUN_ID --head-commit $env:QA_HEAD_COMMIT
+          $result = $LASTEXITCODE
+          if (Test-Path native-evidence/native-ui.json) { Copy-Item native-evidence/native-ui.json qa-evidence/native-ui.json }
+          if ($result -ne 0) { throw 'Aceitação nativa falhou; consulte diagnóstico separado por etapa' }
+      - name: Fluxos complementares (não substituem janela nativa)
+        id: supplemental
+        shell: pwsh
+        run: |
+          $exe = $env:RITMO_QA_EXE
+          python scripts/qa_packaged_windows.py $exe
+          if ($LASTEXITCODE -ne 0) { throw 'QA essencial falhou' }
+          python scripts/qa_boolean_packaged.py $exe (Join-Path $env:RUNNER_TEMP 'boolean-qa')
+          if ($LASTEXITCODE -ne 0) { throw 'QA booleano falhou' }
+          python scripts/qa_security_packaged.py $exe qa-evidence/security.json
+          if ($LASTEXITCODE -ne 0) { throw 'Native/API security QA failed' }
+          python scripts/qa_accessibility_packaged.py $exe qa-evidence/accessibility
+          if ($LASTEXITCODE -ne 0) { throw 'Contrast/keyboard QA failed' }
+      - name: Aprovação técnica vinculada ao ZIP
+        if: always()
+        shell: pwsh
+        env:
+          NATIVE_OUTCOME: ${{ steps.native.outcome }}
+          SUPPLEMENTAL_OUTCOME: ${{ steps.supplemental.outcome }}
+        run: |
+          if ($env:NATIVE_OUTCOME -ne 'success' -or $env:SUPPLEMENTAL_OUTCOME -ne 'success') { throw 'Não aprovado; diagnósticos preservados mesmo na falha' }
+          $facts = Get-Content release-assets/build-info.json -Raw | ConvertFrom-Json
+          @{
+            source_commit=$facts.source_commit; archive_sha256=$facts.archive_sha256
+            build_run_id=$facts.build_run_id; clean_windows=$true; result='passed'
+            license_review='required'; vulnerability_review='required'; reviewed_by=''
+            runner='windows-2025'; checks=@('smoke', 'native-uia', 'packaged-windows', 'boolean-packaged', 'security', 'accessibility')
+          } | ConvertTo-Json | Set-Content -Encoding utf8 qa-evidence/clean-windows.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ritmo-clean-windows-qa
+          path: |
+            qa-evidence/*.json
+          if-no-files-found: warn
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ritmo-windows-diagnostics
+          path: |
+            native-evidence/*
+            qa-evidence/accessibility/*
+          if-no-files-found: warn
+          retention-days: 14

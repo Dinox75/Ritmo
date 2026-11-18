@@ -13,6 +13,7 @@ from xml.etree import ElementTree as ET
 MAX_FILE_BYTES = 5_000_000
 MAX_TEXT_CHARS = 1_000_000
 MAX_CHUNKS = 1200
+MAX_PDF_STREAM_BYTES = 8_000_000
 ALLOWED = {".pdf": "PDF", ".docx": "DOCX", ".txt": "TXT"}
 WORD = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
 
@@ -24,6 +25,22 @@ def _pieces(text, locator, *, preserve_lines=False):
 
 
 def _extract_pdf(content):
+    from pypdf import apply_configuration
+
+    # Context-local pypdf limits also apply during parsing/decompression, before
+    # extract_text can produce an oversized result. They are not a process quota.
+    with apply_configuration(
+        zlib_maximum_output_length=MAX_PDF_STREAM_BYTES,
+        lzw_maximum_output_length=MAX_PDF_STREAM_BYTES,
+        run_length_maximum_output_length=MAX_PDF_STREAM_BYTES,
+        brotli_maximum_output_length=MAX_PDF_STREAM_BYTES,
+        array_based_stream_maximum_output_length=MAX_PDF_STREAM_BYTES,
+        stream_decoding_work_maximum_length=32_000_000,
+    ):
+        return _extract_pdf_text(content)
+
+
+def _extract_pdf_text(content):
     from pypdf import PdfReader
 
     reader = PdfReader(io.BytesIO(content), strict=False)

@@ -9,6 +9,8 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
+from local_ai.integrity import reject_redirects, verify_runtime, RuntimeIntegrityError
+
 
 MANIFEST_PATH = Path(__file__).with_name("models.json")
 
@@ -45,7 +47,7 @@ def validate_root(path):
     expanded = Path(path).expanduser()
     if not expanded.is_absolute():
         raise ValueError("Escolha uma pasta absoluta para os modelos.")
-    root = expanded.resolve()
+    root = reject_redirects(expanded).resolve()
     from utils.config import DATA_DIR, ROOT
     if root == DATA_DIR.resolve() or DATA_DIR.resolve() in root.parents:
         raise ValueError("Os pesos devem ficar fora da pasta de dados pessoais do Ritmo.")
@@ -66,7 +68,7 @@ def installed(root, model_key):
     info = manifest()["models"][model_key]
     file = validate_root(root) / "models" / info["filename"]
     runtime = validate_root(root) / "runtime" / manifest()["runtime"]["version"]
-    return file.is_file() and file.stat().st_size == info["bytes"] and bool(list(runtime.rglob("llama-server.exe")))
+    return file.is_file() and file.stat().st_size == info["bytes"] and (runtime / "llama-server.exe").is_file()
 
 
 def download(item, destination, progress=None):
@@ -112,10 +114,20 @@ def download(item, destination, progress=None):
 
 
 def _extract_assets(paths, target):
-    target = Path(target)
-    if list(target.rglob("llama-server.exe")):
+    target = reject_redirects(target)
+    runtime = manifest()["runtime"]
+    if target.exists():
+        verify_runtime(target, runtime)
         return
+    # Verify inputs even when called outside install(); never enroll local bytes.
+    assets = runtime["assets"]
+    if len(paths) != len(assets):
+        raise RuntimeIntegrityError("Falha de integridade do pacote. Reinstale o motor.")
+    for path, asset in zip(paths, assets):
+        if Path(path).stat().st_size != asset["bytes"] or sha256(path) != asset["sha256"]:
+            raise RuntimeIntegrityError("Falha de integridade do pacote. Reinstale o motor.")
     staging = target.with_name(target.name + ".stage")
+    reject_redirects(staging)
     if staging.exists():
         resolved = staging.resolve()
         if resolved.parent != target.parent.resolve() or resolved.name != staging.name:
@@ -133,8 +145,7 @@ def _extract_assets(paths, target):
                     if destination != staging.resolve() and staging.resolve() not in destination.parents:
                         raise RuntimeError("pacote de runtime sai da pasta escolhida")
                 archive.extractall(staging)
-        if not list(staging.rglob("llama-server.exe")):
-            raise RuntimeError("pacote de runtime não contém llama-server.exe")
+        verify_runtime(staging, runtime)
         if target.exists():
             resolved = target.resolve()
             if resolved.parent != target.parent.resolve() or resolved.name != target.name:
@@ -156,7 +167,9 @@ def install(model_key, root=None, progress=None):
     model = catalog["models"][model_key]
     runtime = catalog["runtime"]
     runtime_target = root / "runtime" / runtime["version"]
-    needed = 0 if list(runtime_target.rglob("llama-server.exe")) else runtime["extracted_bytes"]
+    if runtime_target.exists():
+        verify_runtime(runtime_target, runtime)
+    needed = 0 if runtime_target.exists() else runtime["extracted_bytes"]
     model_file = root / "models" / model["filename"]
     if not (model_file.is_file() and model_file.stat().st_size == model["bytes"] and
             sha256(model_file) == model["sha256"]):

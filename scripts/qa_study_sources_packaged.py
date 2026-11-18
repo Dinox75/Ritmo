@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from playwright.sync_api import expect, sync_playwright
 
-from qa_packaged_windows import EDGE, launch, quit_and_verify
+from qa_packaged_windows import EDGE, launch, quit_and_verify, authorize
 from storage.database import Database
 from storage.materials import import_material
 from storage.tutor_store import TutorStore
@@ -46,6 +46,7 @@ def run(executable):
             try:
                 process, port = launch(executable, root)
                 page = browser.new_page(viewport={"width": 1366, "height": 850})
+                authorize(page, process, port)
                 page.goto(f"http://127.0.0.1:{port}/")
                 page.locator('nav a[data-view-target="estudar"]').click()
                 pause = page.locator("#pause-btn")

@@ -1,0 +1,2283 @@
+{
+  "representative_only": true,
+  "learning_evidence": false,
+  "cases": [
+    {
+      "theme": "light",
+      "width": 390,
+      "contrast": [
+        {
+          "text": "Ambiente de estudo",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tema",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Intensidade visual do aplicativo 85%",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ambiente inicial",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Volume inicial 35%",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Lembretes de pausa e tempo excedidoAvisos na interface. Não pausam a sessão automaticament",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sugerir pausa após (min)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Avisar tempo excedido após mais (min)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ao concluir a sessãoToque curto, somente se ativado.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar ambiente",
+          "ratio": 8.108865868374371,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sensores opcionais",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela ativaRegistra o programa quando a janela muda.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Título da janela Pode conter dados sensíveis; desligado por padrão.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Teclado e mouseRegistra apenas entrada recente ou ausência de entrada.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Este pacote de prévia não inclui câmera nem sensor de presença por webcam. O estudo, o sen",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "WebcamVerifica presença sem guardar imagens quando incluída no pacote.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera usada pelo sensor",
+          "ratio": 9.843651492844913,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera não incluída neste pacote.",
+          "ratio": 5.046524935526485,
+          "minimum": 4.5
+        },
+        {
+          "text": "O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identifi",
+          "ratio": 5.046524935526485,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas de janelaConta mudanças observadas, sem julgar distração.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: limiar (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Webcam: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: período (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: mínimo para aviso",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar sensores",
+          "ratio": 6.36465097012694,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tutor local",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Modelo",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Pasta dos modelos",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é e",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar escolha",
+          "ratio": 6.36465097012694,
+          "minimum": 4.5
+        },
+        {
+          "text": "Instalar modelo escolhido",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluíd",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Área",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Natureza",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Fonte",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "URL oficial gov.br",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Data de publicação",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Dados observados até",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Licença ou condição de uso verificada",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escopo e limitações",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Resumo próprio do que a fonte afirma",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Revisar e adicionar versão",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Manutenção e dados",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Estado dos sensores, eventos recentes e log de erros.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Atualizar diagnóstico",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "O original será preservado. Revise o relatório de linhas após importar.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Arquivo CSV (até 5 MB)",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Importar CSV",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é ma",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Criar backup",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de backups",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Remove banco, sessões, notas, conversas, materiais originais, configuração e backups inter",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de dados",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Apagar dados do aplicativo",
+          "ratio": 5.779156741109026,
+          "minimum": 4.5
+        }
+      ],
+      "failures": [],
+      "keyboard": [
+        {
+          "tag": "INPUT",
+          "id": "experience-brightness",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "SELECT",
+          "id": "experience-sound",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-volume",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-reminders",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-break",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-excess",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-completion",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "window-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "title-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "idle-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "multitask-enabled",
+          "outline": "solid",
+          "width": 3
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 1366,
+      "contrast": [
+        {
+          "text": "Ambiente de estudo",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tema",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Intensidade visual do aplicativo 85%",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ambiente inicial",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Volume inicial 35%",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Lembretes de pausa e tempo excedidoAvisos na interface. Não pausam a sessão automaticament",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sugerir pausa após (min)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Avisar tempo excedido após mais (min)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ao concluir a sessãoToque curto, somente se ativado.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sensores opcionais",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela ativaRegistra o programa quando a janela muda.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Título da janela Pode conter dados sensíveis; desligado por padrão.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Teclado e mouseRegistra apenas entrada recente ou ausência de entrada.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Este pacote de prévia não inclui câmera nem sensor de presença por webcam. O estudo, o sen",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "WebcamVerifica presença sem guardar imagens quando incluída no pacote.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera usada pelo sensor",
+          "ratio": 9.843651492844913,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera não incluída neste pacote.",
+          "ratio": 5.046524935526485,
+          "minimum": 4.5
+        },
+        {
+          "text": "O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identifi",
+          "ratio": 5.046524935526485,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas de janelaConta mudanças observadas, sem julgar distração.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: limiar (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Webcam: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: período (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: mínimo para aviso",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar sensores",
+          "ratio": 6.36465097012694,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tutor local",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Modelo",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Pasta dos modelos",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é e",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar escolha",
+          "ratio": 6.36465097012694,
+          "minimum": 4.5
+        },
+        {
+          "text": "Instalar modelo escolhido",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Catálogo versão 1, verificado em 2026-10-26.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluíd",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Adicione manualmente um resumo de fonte oficial. Cada registro ganha versão e data; não há",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Área",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Natureza",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Fonte",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "URL oficial gov.br",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Data de publicação",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Dados observados até",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Licença ou condição de uso verificada",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escopo e limitações",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Resumo próprio do que a fonte afirma",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Revisar e adicionar versão",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Manutenção e dados",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Estado dos sensores, eventos recentes e log de erros.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Atualizar diagnóstico",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "O original será preservado. Revise o relatório de linhas após importar.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Arquivo CSV (até 5 MB)",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Importar CSV",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é ma",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Criar backup",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de backups",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Remove banco, sessões, notas, conversas, materiais originais, configuração e backups inter",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de dados",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Apagar dados do aplicativo",
+          "ratio": 5.779156741109026,
+          "minimum": 4.5
+        }
+      ],
+      "failures": [],
+      "keyboard": [
+        {
+          "tag": "INPUT",
+          "id": "experience-brightness",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "SELECT",
+          "id": "experience-sound",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-volume",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-reminders",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-break",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-excess",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-completion",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "window-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "title-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "idle-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "multitask-enabled",
+          "outline": "solid",
+          "width": 3
+        }
+      ]
+    },
+    {
+      "theme": "light",
+      "width": 1920,
+      "contrast": [
+        {
+          "text": "Ambiente de estudo",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tema",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Intensidade visual do aplicativo 85%",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ambiente inicial",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Volume inicial 35%",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Lembretes de pausa e tempo excedidoAvisos na interface. Não pausam a sessão automaticament",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sugerir pausa após (min)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Avisar tempo excedido após mais (min)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ao concluir a sessãoToque curto, somente se ativado.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sensores opcionais",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela ativaRegistra o programa quando a janela muda.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Título da janela Pode conter dados sensíveis; desligado por padrão.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Teclado e mouseRegistra apenas entrada recente ou ausência de entrada.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Este pacote de prévia não inclui câmera nem sensor de presença por webcam. O estudo, o sen",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "WebcamVerifica presença sem guardar imagens quando incluída no pacote.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera usada pelo sensor",
+          "ratio": 9.843651492844913,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera não incluída neste pacote.",
+          "ratio": 5.046524935526485,
+          "minimum": 4.5
+        },
+        {
+          "text": "O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identifi",
+          "ratio": 5.046524935526485,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas de janelaConta mudanças observadas, sem julgar distração.",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: limiar (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Webcam: intervalo (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: período (s)",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: mínimo para aviso",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar sensores",
+          "ratio": 6.36465097012694,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tutor local",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Modelo",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Pasta dos modelos",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é e",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar escolha",
+          "ratio": 6.36465097012694,
+          "minimum": 4.5
+        },
+        {
+          "text": "Instalar modelo escolhido",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Catálogo versão 1, verificado em 2026-10-26.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluíd",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Adicione manualmente um resumo de fonte oficial. Cada registro ganha versão e data; não há",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Área",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Natureza",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Fonte",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "URL oficial gov.br",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Data de publicação",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Dados observados até",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Licença ou condição de uso verificada",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escopo e limitações",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Resumo próprio do que a fonte afirma",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Revisar e adicionar versão",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Manutenção e dados",
+          "ratio": 10.15923279546324,
+          "minimum": 3
+        },
+        {
+          "text": "Estado dos sensores, eventos recentes e log de erros.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Atualizar diagnóstico",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "O original será preservado. Revise o relatório de linhas após importar.",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Arquivo CSV (até 5 MB)",
+          "ratio": 10.15923279546324,
+          "minimum": 4.5
+        },
+        {
+          "text": "Importar CSV",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é ma",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Criar backup",
+          "ratio": 5.769613418878859,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de backups",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Remove banco, sessões, notas, conversas, materiais originais, configuração e backups inter",
+          "ratio": 5.20831336474982,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de dados",
+          "ratio": 6.811955424368977,
+          "minimum": 4.5
+        },
+        {
+          "text": "Apagar dados do aplicativo",
+          "ratio": 5.779156741109026,
+          "minimum": 4.5
+        }
+      ],
+      "failures": [],
+      "keyboard": [
+        {
+          "tag": "INPUT",
+          "id": "experience-brightness",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "SELECT",
+          "id": "experience-sound",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-volume",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-reminders",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-break",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-excess",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-completion",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "window-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "title-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "idle-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "multitask-enabled",
+          "outline": "solid",
+          "width": 3
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 390,
+      "contrast": [
+        {
+          "text": "Ambiente de estudo",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tema",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Intensidade visual do aplicativo 85%",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ambiente inicial",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Volume inicial 35%",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Lembretes de pausa e tempo excedidoAvisos na interface. Não pausam a sessão automaticament",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sugerir pausa após (min)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Avisar tempo excedido após mais (min)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ao concluir a sessãoToque curto, somente se ativado.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar ambiente",
+          "ratio": 7.377142050648504,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sensores opcionais",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela ativaRegistra o programa quando a janela muda.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Título da janela Pode conter dados sensíveis; desligado por padrão.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Teclado e mouseRegistra apenas entrada recente ou ausência de entrada.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Este pacote de prévia não inclui câmera nem sensor de presença por webcam. O estudo, o sen",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "WebcamVerifica presença sem guardar imagens quando incluída no pacote.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera usada pelo sensor",
+          "ratio": 8.502531659974904,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera não incluída neste pacote.",
+          "ratio": 6.007934521447338,
+          "minimum": 4.5
+        },
+        {
+          "text": "O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identifi",
+          "ratio": 6.007934521447338,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas de janelaConta mudanças observadas, sem julgar distração.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: limiar (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Webcam: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: período (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: mínimo para aviso",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar sensores",
+          "ratio": 6.249339484049668,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tutor local",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Modelo",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Pasta dos modelos",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é e",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar escolha",
+          "ratio": 6.249339484049668,
+          "minimum": 4.5
+        },
+        {
+          "text": "Instalar modelo escolhido",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluíd",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Adicione manualmente um resumo de fonte oficial. Cada registro ganha versão e data; não há",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Área",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Natureza",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Fonte",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "URL oficial gov.br",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Data de publicação",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Dados observados até",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Licença ou condição de uso verificada",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escopo e limitações",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Resumo próprio do que a fonte afirma",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Revisar e adicionar versão",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Manutenção e dados",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Estado dos sensores, eventos recentes e log de erros.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Atualizar diagnóstico",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "O original será preservado. Revise o relatório de linhas após importar.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Arquivo CSV (até 5 MB)",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Importar CSV",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é ma",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Criar backup",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de backups",
+          "ratio": 5.90427900634044,
+          "minimum": 4.5
+        },
+        {
+          "text": "Remove banco, sessões, notas, conversas, materiais originais, configuração e backups inter",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de dados",
+          "ratio": 5.90427900634044,
+          "minimum": 4.5
+        },
+        {
+          "text": "Apagar dados do aplicativo",
+          "ratio": 5.779156741109026,
+          "minimum": 4.5
+        }
+      ],
+      "failures": [],
+      "keyboard": [
+        {
+          "tag": "INPUT",
+          "id": "experience-brightness",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "SELECT",
+          "id": "experience-sound",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-volume",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-reminders",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-break",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-excess",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-completion",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "window-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "title-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "idle-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "multitask-enabled",
+          "outline": "solid",
+          "width": 3
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 1366,
+      "contrast": [
+        {
+          "text": "Ambiente de estudo",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tema",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Intensidade visual do aplicativo 85%",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ambiente inicial",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Volume inicial 35%",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Lembretes de pausa e tempo excedidoAvisos na interface. Não pausam a sessão automaticament",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sugerir pausa após (min)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Avisar tempo excedido após mais (min)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ao concluir a sessãoToque curto, somente se ativado.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sensores opcionais",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela ativaRegistra o programa quando a janela muda.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Título da janela Pode conter dados sensíveis; desligado por padrão.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Teclado e mouseRegistra apenas entrada recente ou ausência de entrada.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Este pacote de prévia não inclui câmera nem sensor de presença por webcam. O estudo, o sen",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "WebcamVerifica presença sem guardar imagens quando incluída no pacote.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera usada pelo sensor",
+          "ratio": 8.502531659974904,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera não incluída neste pacote.",
+          "ratio": 6.007934521447338,
+          "minimum": 4.5
+        },
+        {
+          "text": "O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identifi",
+          "ratio": 6.007934521447338,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas de janelaConta mudanças observadas, sem julgar distração.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: limiar (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Webcam: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: período (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: mínimo para aviso",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar sensores",
+          "ratio": 6.249339484049668,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tutor local",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Modelo",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Pasta dos modelos",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é e",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar escolha",
+          "ratio": 6.249339484049668,
+          "minimum": 4.5
+        },
+        {
+          "text": "Instalar modelo escolhido",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Catálogo versão 1, verificado em 2026-10-26.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluíd",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Adicione manualmente um resumo de fonte oficial. Cada registro ganha versão e data; não há",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Área",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Natureza",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Fonte",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "URL oficial gov.br",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Data de publicação",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Dados observados até",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Licença ou condição de uso verificada",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escopo e limitações",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Resumo próprio do que a fonte afirma",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Revisar e adicionar versão",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Manutenção e dados",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Estado dos sensores, eventos recentes e log de erros.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Atualizar diagnóstico",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "O original será preservado. Revise o relatório de linhas após importar.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Arquivo CSV (até 5 MB)",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Importar CSV",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é ma",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Criar backup",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de backups",
+          "ratio": 5.90427900634044,
+          "minimum": 4.5
+        },
+        {
+          "text": "Remove banco, sessões, notas, conversas, materiais originais, configuração e backups inter",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de dados",
+          "ratio": 5.90427900634044,
+          "minimum": 4.5
+        },
+        {
+          "text": "Apagar dados do aplicativo",
+          "ratio": 5.779156741109026,
+          "minimum": 4.5
+        }
+      ],
+      "failures": [],
+      "keyboard": [
+        {
+          "tag": "INPUT",
+          "id": "experience-brightness",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "SELECT",
+          "id": "experience-sound",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-volume",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-reminders",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-break",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-excess",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-completion",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "window-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "title-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "idle-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "multitask-enabled",
+          "outline": "solid",
+          "width": 3
+        }
+      ]
+    },
+    {
+      "theme": "dark",
+      "width": 1920,
+      "contrast": [
+        {
+          "text": "Ambiente de estudo",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Ajustes do Ritmo, sem alterar o brilho do monitor. Som e lembretes começam desligados.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tema",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Intensidade visual do aplicativo 85%",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ambiente inicial",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Volume inicial 35%",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Lembretes de pausa e tempo excedidoAvisos na interface. Não pausam a sessão automaticament",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sugerir pausa após (min)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Avisar tempo excedido após mais (min)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Som ao concluir a sessãoToque curto, somente se ativado.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Sensores opcionais",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Desligados por padrão. Nenhum sensor acrescenta tempo à sessão.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela ativaRegistra o programa quando a janela muda.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Título da janela Pode conter dados sensíveis; desligado por padrão.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Teclado e mouseRegistra apenas entrada recente ou ausência de entrada.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Este pacote de prévia não inclui câmera nem sensor de presença por webcam. O estudo, o sen",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "WebcamVerifica presença sem guardar imagens quando incluída no pacote.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera usada pelo sensor",
+          "ratio": 8.502531659974904,
+          "minimum": 4.5
+        },
+        {
+          "text": "Câmera não incluída neste pacote.",
+          "ratio": 6.007934521447338,
+          "minimum": 4.5
+        },
+        {
+          "text": "O índice pode não corresponder ao nome mostrado pelo Windows. Teste a imagem para identifi",
+          "ratio": 6.007934521447338,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas de janelaConta mudanças observadas, sem julgar distração.",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Janela: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Entrada: limiar (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Webcam: intervalo (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: período (s)",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Trocas: mínimo para aviso",
+          "ratio": 7.741767082691466,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar sensores",
+          "ratio": 6.249339484049668,
+          "minimum": 4.5
+        },
+        {
+          "text": "Tutor local",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "O modelo roda neste computador. A instalação inicial baixa aproximadamente 3,2 GB (runtime",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Modelo",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Pasta dos modelos",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escolha uma unidade com ao menos 6 GB livres. A pasta é criada ao instalar. O download é e",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Salvar escolha",
+          "ratio": 6.249339484049668,
+          "minimum": 4.5
+        },
+        {
+          "text": "Instalar modelo escolhido",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Catálogo versão 1, verificado em 2026-10-26.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "O catálogo contém resumos de fontes. Nenhuma estatística atual ou texto integral é incluíd",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Adicione manualmente um resumo de fonte oficial. Cada registro ganha versão e data; não há",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Área",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Natureza",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Fonte",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "URL oficial gov.br",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Data de publicação",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Dados observados até",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Licença ou condição de uso verificada",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Escopo e limitações",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Resumo próprio do que a fonte afirma",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Revisar e adicionar versão",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Manutenção e dados",
+          "ratio": 9.618127408695434,
+          "minimum": 3
+        },
+        {
+          "text": "Estado dos sensores, eventos recentes e log de erros.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Atualizar diagnóstico",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "O original será preservado. Revise o relatório de linhas após importar.",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Arquivo CSV (até 5 MB)",
+          "ratio": 9.618127408695434,
+          "minimum": 4.5
+        },
+        {
+          "text": "Importar CSV",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Cria um ZIP com banco SQLite, materiais originais e configuração local. A restauração é ma",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Criar backup",
+          "ratio": 7.590953702545759,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de backups",
+          "ratio": 5.90427900634044,
+          "minimum": 4.5
+        },
+        {
+          "text": "Remove banco, sessões, notas, conversas, materiais originais, configuração e backups inter",
+          "ratio": 6.7962204671815,
+          "minimum": 4.5
+        },
+        {
+          "text": "Abrir pasta de dados",
+          "ratio": 5.90427900634044,
+          "minimum": 4.5
+        },
+        {
+          "text": "Apagar dados do aplicativo",
+          "ratio": 5.779156741109026,
+          "minimum": 4.5
+        }
+      ],
+      "failures": [],
+      "keyboard": [
+        {
+          "tag": "INPUT",
+          "id": "experience-brightness",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "SELECT",
+          "id": "experience-sound",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-volume",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-reminders",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-break",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-excess",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "experience-completion",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "window-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "title-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "idle-enabled",
+          "outline": "solid",
+          "width": 3
+        },
+        {
+          "tag": "INPUT",
+          "id": "multitask-enabled",
+          "outline": "solid",
+          "width": 3
+        }
+      ]
+    }
+  ],
+  "port_released": true
+}

@@ -56,6 +56,7 @@ class TutorBrowserCase(unittest.TestCase):
                 with sync_playwright() as playwright:
                     browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page(viewport={"width": 1366, "height": 850})
+                    server.session.authorize_browser(page, server.server_port)
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="estudar"]').click()
                     page.locator("#external-research summary").click()
@@ -102,6 +103,7 @@ class TutorBrowserCase(unittest.TestCase):
                 with sync_playwright() as playwright:
                     browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
+                    server.session.authorize_browser(page, server.server_port)
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="materiais"]').click()
                     page.locator("#materials-list button").first.click()
@@ -148,6 +150,7 @@ class TutorBrowserCase(unittest.TestCase):
                 with patch.object(TutorStore, "create_thread", delayed_subject), sync_playwright() as playwright:
                     browser = playwright.chromium.launch(executable_path=str(BROWSER), headless=True)
                     page = browser.new_page()
+                    server.session.authorize_browser(page, server.server_port)
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     page.locator('nav a[data-view-target="estudar"]').click()
                     expect(page.locator("#subject-select option")).to_have_count(2)
@@ -218,6 +221,7 @@ class TutorBrowserCase(unittest.TestCase):
                     page.set_default_timeout(10000)
                     errors = []
                     page.on("pageerror", lambda error: errors.append(str(error)))
+                    server.session.authorize_browser(page, server.server_port)
                     page.goto(f"http://127.0.0.1:{server.server_port}/")
                     expect(page.locator("#view-inicio")).to_be_visible()
                     page.locator('nav a[data-view-target="materiais"]').click()

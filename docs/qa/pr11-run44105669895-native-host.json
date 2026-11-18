@@ -1,0 +1,79 @@
+{
+  "source_commit": "9a3e28e1a0693844b0f81d1db47fe6e1d358a748",
+  "pr_head_commit": "5c21c7a92cfc09ce7f35cdddd3d505f954e7286c",
+  "build_run_id": "44105669895",
+  "archive_sha256": "bcbc4513225417da6a567806ed97b0ddb630960ba0de90f2ffe9e04a4f86768d",
+  "executable_sha256": "c58a6e25e0bde020d5381ac5c7f5830ee506a315f5a4e2d6ab2d29d38afbb578",
+  "method": "native-uia",
+  "result": "passed",
+  "environment": {
+    "windows_version": "10.0.26300",
+    "qa_process_session_id": 1,
+    "window_station_visible": true,
+    "input_desktop_open": true
+  },
+  "stages": {
+    "executable": true,
+    "native_window": true,
+    "native_authorization": true,
+    "qa_native_connection": true
+  },
+  "native_cancel_preserved": true,
+  "natural_shutdown": true,
+  "port_released": true,
+  "cdp": {
+    "connected": true,
+    "status": 200
+  },
+  "native_window": {
+    "hwnd": 8325264,
+    "pid": 8236,
+    "title": "Ritmo · estudo pessoal",
+    "class": "WindowsForms10.Window.8.app.0.aec740_r24_ad1",
+    "visible": true,
+    "rect": [
+      182,
+      182,
+      1622,
+      1082
+    ]
+  },
+  "initial_screenshot": {
+    "captured": true,
+    "width": 1440,
+    "height": 900,
+    "sha256": "2c41f6d499ae6f49c10eb186a4712e0c225c52993659b58230d7f8d59755c2c9",
+    "nonuniform_pixels": true
+  },
+  "native_control_types": {
+    "Button": 6,
+    "Edit": 0,
+    "Hyperlink": 11,
+    "Document": 1,
+    "Pane": 16
+  },
+  "native_label_presence": {
+    "Criar matéria": true,
+    "Meu plano": true,
+    "Configurações": true,
+    "Autorizar esta janela": false
+  },
+  "native_write_verified": true,
+  "screenshot": {
+    "captured": true,
+    "width": 1440,
+    "height": 900,
+    "sha256": "fce67a585c17da699e05c247d40ebe981d25bd7f4e9e66177b854b5787a7a360",
+    "nonuniform_pixels": true
+  },
+  "dialog_step": 2,
+  "screenshot_after_cancel": {
+    "captured": true,
+    "width": 1440,
+    "height": 900,
+    "sha256": "8baef14529366acba56efb3c6e13b84cc07cbff7c0bdcc5213cdf29fe41f33f2",
+    "nonuniform_pixels": true
+  },
+  "lifecycle": [],
+  "windows_at_end": []
+}

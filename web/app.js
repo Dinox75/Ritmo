@@ -17,6 +17,7 @@ async function api(path, method = 'GET', data) {
     body: data === undefined ? undefined : JSON.stringify(data)
   });
   const result = await response.json();
+  if (response.status === 401) location.replace('/authorize.html');
   if (!response.ok) throw new Error(result.error || 'Erro ao comunicar com o Ritmo');
   return result;
 }
@@ -773,7 +774,6 @@ function renderConfig(config) {
   camera.replaceChildren();
   (cameraOptions?.indices || [0, 1, 2, 3, 4, 5]).forEach(index => camera.add(new Option(`Câmera ${index}`, String(index))));
   camera.value = previous;
-  renderCameraOptions();
   const values = {
     'window-enabled': config.window_tracker.enabled, 'title-enabled': config.window_tracker.capture_titles,
     'idle-enabled': config.idle_tracker.enabled, 'presence-enabled': config.presence_detector.enabled,
@@ -785,9 +785,22 @@ function renderConfig(config) {
   Object.entries(values).forEach(([id, value]) => {
     if ($(id).type === 'checkbox') $(id).checked = value; else $(id).value = value;
   });
+  renderCameraOptions();
 }
 
 function renderCameraOptions() {
+  const unavailable = cameraOptions?.available === false;
+  const notice = $('camera-capability');
+  notice.hidden = !unavailable;
+  notice.textContent = unavailable ? cameraOptions.detail : '';
+  ['presence-enabled', 'camera-index', 'camera-test', 'presence-interval'].forEach(id => { $(id).disabled = unavailable; });
+  if (unavailable) {
+    $('presence-enabled').checked = false;
+    $('camera-devices').textContent = 'Câmera não incluída neste pacote.';
+    $('camera-status').textContent = cameraOptions.detail;
+    $('camera-preview').hidden = true; $('camera-image').removeAttribute('src');
+    return;
+  }
   const named = cameraOptions?.devices || [];
   Array.from($('camera-index').options).forEach(option => {
     const index = Number(option.value);
@@ -805,8 +818,8 @@ function collectConfig() {
     ...sensorConfig,
     window_tracker: {enabled: checked('window-enabled'), capture_titles: checked('title-enabled'), interval_seconds: number('window-interval')},
     idle_tracker: {enabled: checked('idle-enabled'), interval_seconds: number('idle-interval'), threshold_seconds: number('idle-threshold')},
-    presence_detector: {enabled: checked('presence-enabled'), interval_seconds: number('presence-interval'),
-      camera_index: number('camera-index')},
+    presence_detector: {enabled: cameraOptions?.available === false ? false : checked('presence-enabled'), interval_seconds: number('presence-interval'),
+      camera_index: cameraOptions?.available === false ? sensorConfig.presence_detector.camera_index : number('camera-index')},
     multitask_analyzer: {enabled: checked('multitask-enabled'), observation_seconds: number('observation-seconds'), alert_switches: number('alert-switches')}
   };
 }
@@ -1092,12 +1105,12 @@ $('open-data-folder').onclick = () => busy($('open-data-folder'), 'Abrindo…',
   async () => { await api('/app/open-data-folder', 'POST', {}); });
 $('erase-data').onclick = () => {
   if (!confirm('Apagar permanentemente matérias, sessões, notas, eventos e configurações deste aplicativo?')) return;
-  const confirmation = prompt('Digite APAGAR para confirmar. Uma cópia antiga no checkout WorkWatch, se existir, será preservada.');
+  const confirmation = prompt('Digite APAGAR para solicitar a confirmação na janela nativa. Banco, materiais, notas, conversas, configuração e backups internos serão removidos; guarde antes uma cópia externa.');
   if (confirmation === null) return;
   fieldError('erase-error', '');
   busy($('erase-data'), 'Encerrando…', async () => {
     await api('/app/erase', 'POST', {confirmation});
-    message('Encerrando e apagando os dados do aplicativo…');
+    message('Confirme ou cancele na janela nativa. Cancelar preserva os dados e mantém o aplicativo aberto.');
   }, text => fieldError('erase-error', text));
 };
 $('quit-btn').onclick = () => busy($('quit-btn'), 'Saindo…', async () => {

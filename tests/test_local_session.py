@@ -1,0 +1,80 @@
+import json
+import tempfile
+import threading
+import unittest
+import urllib.request
+import urllib.error
+from pathlib import Path
+from unittest.mock import patch, MagicMock
+from dashboard.app import make_server
+from storage.database import Database
+
+
+class SessionSecurityTests(unittest.TestCase):
+    def test_bootstrap_expiry_and_instance_isolation(self):
+        import time
+        from dashboard.session import AppSession
+        a,b=AppSession(),AppSession()
+        code=a.issue_code();future=time.monotonic()+301
+        with patch('dashboard.session.time.monotonic',return_value=future):
+            self.assertFalse(a.exchange(code))
+        self.assertFalse(b.valid({'Authorization':'Bearer '+a.token}))
+
+    def test_native_confirmation_defaults_to_no(self):
+        from desktop import confirm_erase_native
+        native=MagicMock();native.MessageBoxW.return_value=7;native.FindWindowW.return_value=123
+        window=MagicMock();window.title='Ritmo · estudo pessoal'
+        with patch('desktop.ctypes.windll.user32',native):
+            self.assertFalse(confirm_erase_native(window))
+        window.create_confirmation_dialog.assert_not_called()
+        args=native.MessageBoxW.call_args.args
+        self.assertEqual(args[-1],0x134)
+        self.assertIn('backups internos',args[1])
+
+    def test_sensitive_routes_require_session_even_without_origin(self):
+        with tempfile.TemporaryDirectory() as folder:
+            db = Database(Path(folder) / 'qa.db'); db.initialize()
+            erased = threading.Event()
+            from utils.config import DEFAULT_CONFIG,save_config
+            config=json.loads(DEFAULT_CONFIG.read_text(encoding='utf8'))
+            config['tutor']['model_root']=str(Path(folder)/'no-models')
+            config_path=Path(folder)/'config.json';save_config(config,config_path)
+            server = make_server(db, 0, on_erase=erased.set,config_path=config_path)
+            thread = threading.Thread(target=server.serve_forever); thread.start()
+            base = f'http://127.0.0.1:{server.server_port}'
+            def request(path, data=None, headers=None):
+                return urllib.request.urlopen(urllib.request.Request(base + path,
+                    json.dumps(data).encode() if data is not None else None,
+                    {'Content-Type':'application/json', **(headers or {})}), timeout=5)
+            try:
+                for headers in ({}, {'Cookie':'ritmo_session=invalid'}, {'Authorization':'Bearer invalid'}):
+                    for path, data in [('/api/subjects',None),('/api/config',None),('/api/diagnostics',None),
+                                       ('/api/subjects',{'name':'attack'}),('/api/app/erase',{'confirmation':'APAGAR'})]:
+                        with self.assertRaises(urllib.error.HTTPError) as error:
+                            request(path,data,headers)
+                        self.assertEqual(error.exception.code,401)
+                self.assertFalse(erased.is_set()); self.assertEqual(db.list_subjects(),[])
+                auth = {'Authorization':'Bearer ' + server.session.token}
+                with self.assertRaises(urllib.error.HTTPError) as error:
+                    request('/api/subjects',headers={**auth,'Origin':'https://evil.example'})
+                self.assertEqual(error.exception.code,403)
+                with self.assertRaises(urllib.error.HTTPError) as error:
+                    request('/api/subjects',headers={**auth,'Host':'evil.example'})
+                self.assertEqual(error.exception.code,403)
+                with request('/api/subjects',headers=auth) as response:self.assertEqual(json.load(response),[])
+                code = server.session.issue_code()
+                with request('/api/session',{'code':code}) as response:
+                    cookie = response.headers['Set-Cookie']; self.assertIn('HttpOnly',cookie);self.assertIn('SameSite=Strict',cookie)
+                with request('/api/config',headers={'Cookie':cookie.split(';')[0]}) as response:self.assertEqual(response.status,200)
+                with self.assertRaises(urllib.error.HTTPError):request('/api/session',{'code':code})
+                with self.assertRaises(urllib.error.HTTPError):request('/api/session',{'code':server.session.issue_code()}, {'Origin':'https://evil.example'})
+            finally:server.shutdown();server.server_close();server.tutor_runtime.stop();thread.join()
+
+    def test_native_cancel_never_sets_erase_or_closes(self):
+        from desktop import DesktopApp
+        app = DesktopApp()
+        with patch('desktop.confirm_erase_native',return_value=False), patch.object(app,'request_close') as close:
+            app.request_erase()
+            self.assertFalse(app.erase_requested);close.assert_not_called()
+        with patch('desktop.confirm_erase_native',return_value=True),patch.object(app,'request_close') as close:
+            app.request_erase();self.assertTrue(app.erase_requested);close.assert_called_once()

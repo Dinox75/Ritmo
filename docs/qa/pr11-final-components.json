@@ -1,0 +1,857 @@
+{
+  "python_components": [
+    {
+      "name": "altgraph",
+      "version": "0.17.5",
+      "license": "MIT"
+    },
+    {
+      "name": "bottle",
+      "version": "0.13.4",
+      "license": "MIT"
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1",
+      "license": "MIT-0"
+    },
+    {
+      "name": "clr_loader",
+      "version": "0.3.1",
+      "license": "NOASSERTION"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3",
+      "license": "Apache-2.0 OR BSD-2-Clause"
+    },
+    {
+      "name": "pefile",
+      "version": "2024.8.26",
+      "license": "MIT"
+    },
+    {
+      "name": "proxy_tools",
+      "version": "0.1.0",
+      "license": "MIT"
+    },
+    {
+      "name": "psutil",
+      "version": "7.1.3",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "name": "pycparser",
+      "version": "3.12",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "name": "PyGetWindow",
+      "version": "0.0.9",
+      "license": "BSD"
+    },
+    {
+      "name": "pyinstaller",
+      "version": "6.22.3",
+      "license": "GPLv2-or-later with a special exception which allows to use PyInstaller to build and distribute non-free programs (including commercial ones)"
+    },
+    {
+      "name": "pypdf",
+      "version": "6.21.4",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "name": "PyRect",
+      "version": "0.2.0",
+      "license": "BSD"
+    },
+    {
+      "name": "pythonnet",
+      "version": "3.2.1",
+      "license": "MIT"
+    },
+    {
+      "name": "pywebview",
+      "version": "6.2.1",
+      "license": "BSD 3-Clause License\n\nCopyright (c) 2014-2017, Roman Sirokov\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n* Redistributions of source code must retain the above copyright notice, this\n  list of conditions and the following disclaimer.\n\n* Redistributions in binary form must reproduce the above copyright notice,\n  this list of conditions and the following disclaimer in the documentation\n  and/or other materials provided with the distribution.\n\n* Neither the name of the copyright holder nor the names of its\n  contributors may be used to endorse or promote products derived from\n  this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
+    },
+    {
+      "name": "pywin32",
+      "version": "312",
+      "license": "PSF"
+    },
+    {
+      "name": "pywin32-ctypes",
+      "version": "0.2.3",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "name": "setuptools",
+      "version": "84.2.1",
+      "license": "MIT"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license": "PSF-2.0"
+    }
+  ],
+  "native_components": [
+    {
+      "name": "Microsoft.Web.WebView2 SDK",
+      "version": "1.0.3856.49",
+      "license": "BSD-3-Clause",
+      "files": [
+        "_internal/webview/lib/Microsoft.Web.WebView2.Core.dll",
+        "_internal/webview/lib/Microsoft.Web.WebView2.WinForms.dll",
+        "_internal/webview/lib/runtimes/win-arm64/native/WebView2Loader.dll",
+        "_internal/webview/lib/runtimes/win-x64/native/WebView2Loader.dll",
+        "_internal/webview/lib/runtimes/win-x86/native/WebView2Loader.dll"
+      ],
+      "provenance": {
+        "basis": "Exact SHA-256 match to members of official Microsoft NuGet archive",
+        "source_url": "https://api.nuget.org/v3-flatcontainer/microsoft.web.webview2/1.0.3856.49/microsoft.web.webview2.1.0.3856.49.nupkg",
+        "archive_sha256": "bc0f76eb911b569838dc4aa8f8d325269b966bedb592863d26211aef3a099f1a",
+        "members": [
+          {
+            "wheel_file": "webview/lib/runtimes/win-arm64/native/WebView2Loader.dll",
+            "nuget_file": "build/native/arm64/WebView2Loader.dll",
+            "sha256": "0937030efc718f3da77c5e0978fb5046e381d0bb7b01acaad31a535a1b588a33"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x64/native/WebView2Loader.dll",
+            "nuget_file": "build/native/x64/WebView2Loader.dll",
+            "sha256": "eb5335edeaa6f2122c044e82aab2351dc8c9b4e0fe5e578c71922fb61be285e7"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x86/native/WebView2Loader.dll",
+            "nuget_file": "build/native/x86/WebView2Loader.dll",
+            "sha256": "04814b2c59314c6452d61b821a4a3a5c5f8e8577b55b985f6a7a4b59f8907ec5"
+          },
+          {
+            "wheel_file": "webview/lib/Microsoft.Web.WebView2.Core.dll",
+            "nuget_file": "lib/net462/Microsoft.Web.WebView2.Core.dll",
+            "sha256": "8219a3135436c147f8eb02fb831e99596103eebc18b6d7b794ca93f4c67018a2"
+          },
+          {
+            "wheel_file": "webview/lib/Microsoft.Web.WebView2.WinForms.dll",
+            "nuget_file": "lib/net462/Microsoft.Web.WebView2.WinForms.dll",
+            "sha256": "c48f8d729dc531288d2c53a6241effe7922ed1b947850b2442008a945c098c48"
+          },
+          {
+            "wheel_file": "webview/lib/Microsoft.Web.WebView2.Core.dll",
+            "nuget_file": "lib_manual/netcoreapp3.0/Microsoft.Web.WebView2.Core.dll",
+            "sha256": "8219a3135436c147f8eb02fb831e99596103eebc18b6d7b794ca93f4c67018a2"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-arm64/native/WebView2Loader.dll",
+            "nuget_file": "runtimes/win-arm64/native/WebView2Loader.dll",
+            "sha256": "0937030efc718f3da77c5e0978fb5046e381d0bb7b01acaad31a535a1b588a33"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x64/native/WebView2Loader.dll",
+            "nuget_file": "runtimes/win-x64/native/WebView2Loader.dll",
+            "sha256": "eb5335edeaa6f2122c044e82aab2351dc8c9b4e0fe5e578c71922fb61be285e7"
+          },
+          {
+            "wheel_file": "webview/lib/runtimes/win-x86/native/WebView2Loader.dll",
+            "nuget_file": "runtimes/win-x86/native/WebView2Loader.dll",
+            "sha256": "04814b2c59314c6452d61b821a4a3a5c5f8e8577b55b985f6a7a4b59f8907ec5"
+          }
+        ],
+        "limitations": [
+          "SDK wrapper/loader version is not the external Evergreen Chromium runtime version. The runtime is not shipped in this ZIP."
+        ],
+        "catalog_sha256": "97d223bc44d55d065ecc92a75390280c38e9aaf03f35c527b3a6f7ad23ea2789"
+      },
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.3856.49",
+      "cpe": null
+    },
+    {
+      "name": "CFFI vendored libffi x86_x64 fork",
+      "version": "CFFI-2.1.1-source-snapshot",
+      "license": "MIT",
+      "files": [
+        "_internal/_cffi_backend.cp314-win_amd64.pyd"
+      ],
+      "provenance": {
+        "basis": "Hosting binary exactly matches official CFFI 2.1.1 cp314 Windows amd64 wheel. Official setup compiles the vendored fork statically on Windows. This is not CPython libffi 3.4.4.",
+        "wheel_sha256": "3222ba5d678f80a030e6afbcc33dc1ae5cb45facabb61cee2c7016b8432fde48",
+        "source_urls": [
+          "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/setup.py",
+          "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/src/c/libffi_x86_x64/README",
+          "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/src/c/libffi_x86_x64/README.ctypes"
+        ],
+        "source_snapshot": "CFFI v2.1.1; README traces ancestor to CPython e04e1f253ed8 / GCC CVS 2004-01-27, with CFFI modifications",
+        "upstream_libffi_version": "NOASSERTION",
+        "vulnerability_review": "Required separately for this fork; a scan of current upstream libffi does not cover it",
+        "catalog_sha256": "97d223bc44d55d065ecc92a75390280c38e9aaf03f35c527b3a6f7ad23ea2789"
+      },
+      "purl": null,
+      "cpe": null
+    },
+    {
+      "name": "Lost.Compat.NullabilityAttributes embedded source",
+      "version": "0.0.4",
+      "license": "MIT",
+      "files": [
+        "_internal/pythonnet/runtime/Python.Runtime.dll"
+      ],
+      "provenance": {
+        "basis": "Official Python.NET v3.2.1 project references this source-only package; corresponding embedded nullable TypeDefs observed in the exact official wheel hosting DLL, not a separately shipped NuGet DLL.",
+        "project_url": "https://raw.githubusercontent.com/pythonnet/pythonnet/v3.2.1/src/runtime/Python.Runtime.csproj",
+        "host_wheel": "pythonnet 3.2.1",
+        "vulnerability_review": "Source-only attribute code; distinguish from a native executable runtime dependency",
+        "catalog_sha256": "97d223bc44d55d065ecc92a75390280c38e9aaf03f35c527b3a6f7ad23ea2789"
+      },
+      "purl": "pkg:nuget/Lost.Compat.NullabilityAttributes@0.0.4",
+      "cpe": null
+    },
+    {
+      "name": "CPython",
+      "version": "3.14.10",
+      "license": "PSF-2.0",
+      "files": [
+        "_internal/_asyncio.pyd",
+        "_internal/_bz2.pyd",
+        "_internal/_ctypes.pyd",
+        "_internal/_decimal.pyd",
+        "_internal/_elementtree.pyd",
+        "_internal/_hashlib.pyd",
+        "_internal/_lzma.pyd",
+        "_internal/_multiprocessing.pyd",
+        "_internal/_overlapped.pyd",
+        "_internal/_queue.pyd",
+        "_internal/_socket.pyd",
+        "_internal/_sqlite3.pyd",
+        "_internal/_ssl.pyd",
+        "_internal/_tkinter.pyd",
+        "_internal/_uuid.pyd",
+        "_internal/_wmi.pyd",
+        "_internal/_zstd.pyd",
+        "_internal/pyexpat.pyd",
+        "_internal/python3.dll",
+        "_internal/python314.dll",
+        "_internal/select.pyd",
+        "_internal/unicodedata.pyd"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-cpython",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+            "sha256": "d7c7eaab773f853763edcfb4f3ba229fe30f016518d4eba0a15fe02acbbf3d00"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "_asyncio.pyd",
+          "_bz2.pyd",
+          "_ctypes.pyd",
+          "_decimal.pyd",
+          "_elementtree.pyd",
+          "_hashlib.pyd",
+          "_lzma.pyd",
+          "_multiprocessing.pyd",
+          "_overlapped.pyd",
+          "_queue.pyd",
+          "_remote_debugging.pyd",
+          "_socket.pyd",
+          "_sqlite3.pyd",
+          "_ssl.pyd",
+          "_tkinter.pyd",
+          "_uuid.pyd",
+          "_wmi.pyd",
+          "_zoneinfo.pyd",
+          "_zstd.pyd",
+          "pyexpat.pyd",
+          "python3.dll",
+          "python314.dll",
+          "select.pyd",
+          "unicodedata.pyd",
+          "winsound.pyd"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:python:python:3.14.10:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "OpenSSL",
+      "version": "3.5.9",
+      "license": "Apache-2.0",
+      "files": [
+        "_internal/libcrypto-3.dll",
+        "_internal/libssl-3.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-openssl",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/openssl.props",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/openssl.props",
+            "sha256": "31fddd41b4354300dab069726dd7a71c08580bac70ea642b490c39b18cc29f76"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "libcrypto-3.dll",
+          "libssl-3.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:openssl:openssl:3.5.9:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "libffi",
+      "version": "3.4.4",
+      "license": "MIT",
+      "files": [
+        "_internal/libffi-8.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-libffi",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_ctypes.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_ctypes.vcxproj",
+            "sha256": "0349e844da87a4244c13ac476ffc4c70b8dc0f18da770212825255e8912140af"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "libffi-8.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:libffi_project:libffi:3.4.4:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "bzip2",
+      "version": "1.0.8",
+      "license": "bzip2-1.0.6",
+      "files": [
+        "_internal/_bz2.pyd"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-bzip2",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_bz2.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_bz2.vcxproj",
+            "sha256": "c06825037ba88e3a9604ab68a1684823b6c90af39888204377227131c82efce9"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "_bz2.pyd"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:bzip:bzip2:1.0.8:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "XZ liblzma",
+      "version": "5.2.5",
+      "license": "LicenseRef-XZ-Public-Domain",
+      "files": [
+        "_internal/_lzma.pyd"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-xz",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_lzma.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_lzma.vcxproj",
+            "sha256": "ecd55a553123a8c7754bd8a52c6e12369662afcbdf67d31827cf81b5201b115b"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "_lzma.pyd"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:tukaani:xz:5.2.5:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "mpdecimal",
+      "version": "4.0.0",
+      "license": "BSD-2-Clause",
+      "files": [
+        "_internal/_decimal.pyd"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-mpdecimal",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_decimal.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_decimal.vcxproj",
+            "sha256": "2b3accf48711cd6ecdb2024c811d0b046e8e1a54633647dd4660c0c618bf5b9a"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "_decimal.pyd"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:bytereef:mpdecimal:4.0.0:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "zlib-ng",
+      "version": "2.2.4",
+      "license": "Zlib",
+      "files": [
+        "_internal/python314.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-zlib-ng",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+            "sha256": "d7c7eaab773f853763edcfb4f3ba229fe30f016518d4eba0a15fe02acbbf3d00"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "python314.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:zlib-ng:zlib-ng:2.2.4:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "Zstandard",
+      "version": "1.5.7",
+      "license": "BSD-3-Clause",
+      "files": [
+        "_internal/_zstd.pyd"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-zstd",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_zstd.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_zstd.vcxproj",
+            "sha256": "775c8eb6c130f62656607e3343e8582b993e399e22313f889eb73e09fe11e4cb"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "_zstd.pyd"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:facebook:zstandard:1.5.7:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "HACL*",
+      "version": "8ba599b2f6c9701b3dc961db895b0856a2210f76",
+      "license": "MIT",
+      "files": [
+        "_internal/python314.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-hacl-star-8ba599b2f6c9701b3dc961db895b0856a2210f76",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pythoncore.vcxproj",
+            "sha256": "d7c7eaab773f853763edcfb4f3ba229fe30f016518d4eba0a15fe02acbbf3d00"
+          }
+        ],
+        "base_files": [
+          "python314.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:hacl-star:hacl-star:8ba599b2f6c9701b3dc961db895b0856a2210f76:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "Expat",
+      "version": "2.9.0",
+      "license": "MIT",
+      "files": [
+        "_internal/pyexpat.pyd"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-expat-2.9.0",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyexpat.vcxproj"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyexpat.vcxproj",
+            "sha256": "85e707d098d4a6d9ea22044ab0fcbb774b05562e3aafdca46d0916bf8c2f99e1"
+          }
+        ],
+        "base_files": [
+          "pyexpat.pyd"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:libexpat_project:libexpat:2.9.0:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "SQLite",
+      "version": "3.50.4.0",
+      "license": "LicenseRef-SQLite-Public-Domain",
+      "files": [
+        "_internal/sqlite3.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-sqlite",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_sqlite3.vcxproj",
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/_sqlite3.vcxproj",
+            "sha256": "ceccb98e0c4b1aa31ec62280ecee03ef93190fbe59569a538bb16745620aec98"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/python.props",
+            "sha256": "d925bc2b59c2bf3adb3b11eb9e8738f3b6e101981ba7d1564b293ae55dd9906c"
+          }
+        ],
+        "base_files": [
+          "sqlite3.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:sqlite:sqlite:3.50.4.0:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "Tcl",
+      "version": "9.0.4.0",
+      "license": "TCL",
+      "files": [
+        "_internal/tcl90.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-tcl",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props",
+            "sha256": "4435d315f4218143e53b1ac24549435015fc4c4a714ca3e57d209bc1db49e2ad"
+          }
+        ],
+        "base_files": [
+          "tcl90.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:tcl_tk:tcl_tk:9.0.4.0:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "Tk",
+      "version": "9.0.4.1",
+      "license": "TCL",
+      "files": [
+        "_internal/tcl9tk90.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": "SPDXRef-PACKAGE-tk",
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/tcltk.props",
+            "sha256": "4435d315f4218143e53b1ac24549435015fc4c4a714ca3e57d209bc1db49e2ad"
+          }
+        ],
+        "base_files": [
+          "tcl9tk90.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:tcl_tk:tcl_tk:9.0.4.1:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "Microsoft Visual C++ Runtime vcruntime140.dll",
+      "version": "14.51.36247.0",
+      "license": "NOASSERTION",
+      "files": [
+        "_internal/VCRUNTIME140.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": null,
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props",
+            "sha256": "66f3622a0fa0d4c7e625758885625429369e4fa225f5ac0868ad4d56a55bbde9"
+          }
+        ],
+        "base_files": [
+          "vcruntime140.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": null
+    },
+    {
+      "name": "Microsoft Visual C++ Runtime vcruntime140_1.dll",
+      "version": "14.51.36247.0",
+      "license": "NOASSERTION",
+      "files": [
+        "_internal/VCRUNTIME140_1.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": null,
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython/v3.14.10/PCbuild/pyproject.props",
+            "sha256": "66f3622a0fa0d4c7e625758885625429369e4fa225f5ac0868ad4d56a55bbde9"
+          }
+        ],
+        "base_files": [
+          "vcruntime140_1.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": null
+    },
+    {
+      "name": "LibTomMath",
+      "version": "1.3.0",
+      "license": "Unlicense",
+      "files": [
+        "_internal/libtommath.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": null,
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython-bin-deps/tcltk-9.0.4.0/amd64/bin/libtommath.dll",
+          "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/libtommath/makefile_include.mk"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython-bin-deps/tcltk-9.0.4.0/amd64/bin/libtommath.dll",
+            "sha256": "2d760fefb452665b6af8c8d9d29f3a8378f10fc0847cdd9938ea0cb5edf1d573"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/libtommath/makefile_include.mk",
+            "sha256": "38fd6d4b73ae47963c392c18d92bef2e662965689f7bbade1c2b26f84523bf33"
+          }
+        ],
+        "base_files": [
+          "libtommath.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:libtom:libtommath:1.3.0:*:*:*:*:*:*:*"
+    },
+    {
+      "name": "zlib",
+      "version": "1.3.2",
+      "license": "Zlib",
+      "files": [
+        "_internal/zlib1.dll"
+      ],
+      "provenance": {
+        "basis": "Exact hash of files in the verified PSF installer base; dependency identity from pinned upstream build rules",
+        "installer_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe",
+        "installer_sha256": "92480239264744fe0386a1bd8275786fefa126e3129e56a68e22b52c73329965",
+        "vendor_sbom_url": "https://www.python.org/ftp/python/3.14.10/python-3.14.10-amd64.exe.spdx.json",
+        "vendor_sbom_sha256": "631d10bf095ea6855a0d20fa0553d2de6f68288fc5b5ca943f1cb74d8dcc0b5c",
+        "vendor_package_id": null,
+        "evidence_urls": [
+          "https://raw.githubusercontent.com/python/cpython-bin-deps/tcltk-9.0.4.0/amd64/bin/zlib1.dll",
+          "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/compat/zlib/zlib.h"
+        ],
+        "build_evidence": [
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython-bin-deps/tcltk-9.0.4.0/amd64/bin/zlib1.dll",
+            "sha256": "f07195206534ebb1fe75093d4ec6c54a7a9227281b0c09d2113465b71da9e900"
+          },
+          {
+            "source_url": "https://raw.githubusercontent.com/python/cpython-source-deps/tcl-9.0.4.0/compat/zlib/zlib.h",
+            "sha256": "818667d6ab6a37fe7469cb06a7f0cb2c2cb2f2c948a03e5accf1a4a74bf3020a"
+          }
+        ],
+        "base_files": [
+          "zlib1.dll"
+        ],
+        "catalog_sha256": "0e82f4f0f188d3dfcab6a9a21afe19715cca8cdec809a5f349444f0726f65220"
+      },
+      "purl": null,
+      "cpe": "cpe:2.3:a:zlib:zlib:1.3.2:*:*:*:*:*:*:*"
+    }
+  ],
+  "unresolved_native": [],
+  "native_license_issues": [
+    {
+      "component": "Microsoft Visual C++ Runtime vcruntime140.dll",
+      "files": [
+        "_internal/VCRUNTIME140.dll"
+      ],
+      "reason": "License or complete notice evidence missing"
+    },
+    {
+      "component": "Microsoft Visual C++ Runtime vcruntime140_1.dll",
+      "files": [
+        "_internal/VCRUNTIME140_1.dll"
+      ],
+      "reason": "License or complete notice evidence missing"
+    }
+  ]
+}

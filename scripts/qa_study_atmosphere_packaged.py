@@ -13,7 +13,7 @@ from pathlib import Path
 
 from playwright.sync_api import expect, sync_playwright
 
-from qa_packaged_windows import EDGE, launch, quit_and_verify
+from qa_packaged_windows import EDGE, launch, quit_and_verify, authorize
 
 
 def seconds(label):
@@ -159,6 +159,7 @@ def run(executable, shots):
                 page.route("**/*", lambda route: route.continue_() if route.request.url.startswith(base) else route.abort())
                 errors = []
                 page.on("pageerror", lambda error: errors.append(str(error)))
+                authorize(page, process, port)
                 page.goto(base)
                 expect(page.locator("#view-inicio")).to_be_visible()
                 page.locator('nav a[data-view-target="plano"]').click()
@@ -266,6 +267,7 @@ def run(executable, shots):
                 assert_native_window(process.pid)
                 base = f"http://127.0.0.1:{port}"
                 page = browser.new_page(viewport={"width": 1366, "height": 850}, reduced_motion="reduce")
+                authorize(page, process, port)
                 page.goto(base)
                 expect(page.locator("#view-estudar")).to_be_visible()
                 expect(page.locator("#session-status")).to_have_text("Em pausa")

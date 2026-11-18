@@ -1,0 +1,5 @@
+# QA only, never collected into the desktop preview.
+pywinauto==0.6.9
+pywin32==312
+comtypes==1.5.0
+psutil==7.1.3

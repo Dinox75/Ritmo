@@ -9,6 +9,11 @@ import sys
 import tempfile
 import time
 import urllib.request
+import zipfile
+import hashlib
+import threading
+import msvcrt
+from http.cookies import SimpleCookie
 from contextlib import closing
 from pathlib import Path
 
@@ -19,10 +24,53 @@ from playwright.sync_api import expect, sync_playwright
 EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 
 
-def launch(executable, folder):
+def launch(executable, folder, *, grant_qa=True):
     environment = os.environ.copy()
     environment["LOCALAPPDATA"] = str(folder)
-    process = subprocess.Popen([str(executable)], env=environment)
+    # QA-only CDP lets the test reuse the credential already granted to the
+    # real native window, in memory. Never expose an unauthenticated API bypass.
+    existing_debug = environment.get('WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS', '')
+    if '--force-renderer-accessibility' not in existing_debug:
+        existing_debug += ' --force-renderer-accessibility'
+    import re
+    match = re.search(r'--remote-debugging-port=(\d+)', existing_debug)
+    if match:
+        debug_port = int(match.group(1))
+    else:
+        with socket.socket() as sock:
+            sock.bind(('127.0.0.1', 0)); debug_port = sock.getsockname()[1]
+        environment['WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS'] = existing_debug + f' --remote-debugging-port={debug_port} --remote-debugging-address=127.0.0.1'
+    if match:
+        environment['WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS'] = existing_debug
+    # An anonymous inherited handle grants only the launching QA process a
+    # one-use code. Native-only acceptance MUST call grant_qa=False.
+    read_fd=write_fd=None
+    options={}
+    command=[str(executable)]
+    if grant_qa:
+        read_fd,write_fd=os.pipe()
+        handle=msvcrt.get_osfhandle(write_fd)
+        os.set_handle_inheritable(handle,True)
+        startup=subprocess.STARTUPINFO();startup.lpAttributeList={'handle_list':[handle]}
+        options.update(startupinfo=startup,close_fds=True)
+        command.extend(['--authorization-pipe',str(handle)])
+    try:
+        process = subprocess.Popen(command, env=environment, **options)
+    except BaseException:
+        if read_fd is not None:os.close(read_fd)
+        raise
+    finally:
+        if write_fd is not None:os.close(write_fd)
+    process.qa_authorization_code=None
+    process.qa_session_cookie=None
+    if read_fd is not None:
+        def read_code():
+            try:process.qa_authorization_code=os.read(read_fd,512).decode('ascii').strip()
+            finally:os.close(read_fd)
+        process.qa_pipe_reader=threading.Thread(target=read_code,daemon=True)
+        process.qa_pipe_reader.start()
+    process.qa_debug_port = debug_port
+    process.qa_data_dir = Path(folder) / 'Ritmo'
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     deadline = time.monotonic() + 90
     try:
@@ -50,6 +98,62 @@ def launch(executable, folder):
             process.terminate()
             process.wait(timeout=15)
         raise
+
+
+def authorize(page, process, port):
+    """Authorize supplemental QA through its private launcher pipe.
+
+    Old packages fall back to the native CDP cookie. Neither method substitutes
+    for native acceptance, which launches with grant_qa=False.
+    """
+    if hasattr(process,'qa_pipe_reader'):
+        process.qa_pipe_reader.join(timeout=5)
+        if process.qa_session_cookie is None:
+            code=process.qa_authorization_code
+            if not code:raise RuntimeError('O pipe privado do lançador não entregou autorização')
+            request=urllib.request.Request(f'http://127.0.0.1:{port}/api/session',data=json.dumps({'code':code}).encode(),headers={'Content-Type':'application/json'})
+            with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(request,timeout=5) as response:
+                cookie=SimpleCookie();cookie.load(response.headers['Set-Cookie'])
+            process.qa_session_cookie={'name':'ritmo_session','value':cookie['ritmo_session'].value,'url':f'http://127.0.0.1:{port}', 'httpOnly':True,'sameSite':'Strict'}
+            process.qa_authorization_code=None
+        page.context.add_cookies([process.qa_session_cookie])
+        return
+    deadline = time.monotonic() + 30
+    native = None
+    while time.monotonic() < deadline:
+        if process.poll() is not None:
+            raise RuntimeError('O executável encerrou antes de autorizar a janela nativa')
+        try:
+            native = page.context.browser.browser_type.connect_over_cdp(f'http://127.0.0.1:{process.qa_debug_port}', timeout=2000)
+            break
+        except Exception:
+            time.sleep(.2)
+    if native is None:
+        log = process.qa_data_dir / 'ritmo.log'
+        if log.is_file():
+            from native_windows_evidence import lifecycle_records
+            print('Diagnóstico estruturado de WebView2:', json.dumps(lifecycle_records(log)), flush=True)
+        raise RuntimeError('WebView2 não disponibilizou CDP para o QA nesta máquina. Verifique WebView2/.NET e o diagnóstico da instância temporária.')
+    while time.monotonic() < deadline:
+        cookies = []
+        for context in native.contexts:
+            for window in context.pages:
+                if not window.url.startswith(f'http://127.0.0.1:{port}/'):
+                    continue
+                # WebView2 can return an empty Storage.getCookies response for
+                # its private profile. Network.getCookies is scoped to the page.
+                cdp = context.new_cdp_session(window)
+                try:
+                    actual = cdp.send('Network.getCookies', {'urls':[f'http://127.0.0.1:{port}/']})['cookies']
+                    cookies.extend({k:v for k,v in cookie.items() if k in ('name','value','domain','path','expires','httpOnly','secure','sameSite')}
+                                   for cookie in actual if cookie['name']=='ritmo_session')
+                finally:
+                    cdp.detach()
+        if cookies:
+            page.context.add_cookies(cookies)
+            return
+        time.sleep(.1)
+    raise RuntimeError('A janela nativa não autorizou a sessão de QA')
 
 
 def quit_and_verify(page, process, port):
@@ -86,6 +190,7 @@ def main():
                 process, port = launch(executable, folder)
                 page = browser.new_page(viewport={"width": 1366, "height": 800})
                 page.set_default_timeout(10000)
+                authorize(page, process, port)
                 page.goto(f"http://127.0.0.1:{port}/")
                 try:
                     expect(page.locator("#view-inicio")).to_be_visible(timeout=4000)
@@ -172,6 +277,7 @@ def main():
 
                 process, reopened_port = launch(executable, folder)
                 page = browser.new_page()
+                authorize(page, process, reopened_port)
                 page.goto(f"http://127.0.0.1:{reopened_port}/")
                 expect(page.locator("#view-estudar")).to_be_visible()
                 expect(page.locator("#session-status")).to_have_text("Em pausa")
@@ -201,7 +307,38 @@ def main():
                         raise RuntimeError(f"Intervalos inesperados após reabertura: {intervals}")
                 if len(list((data / "backups").glob("*.zip"))) != 1:
                     raise RuntimeError("Backup ZIP do pacote não foi criado")
-                print("Pacote instalado: pausa na reabertura, materiais, notas, backup e porta liberada.")
+                # Restore the actual packaged backup in a different data home.
+                restore_home = folder / 'restored-home'
+                restored = restore_home / 'Ritmo'; restored.mkdir(parents=True)
+                (restored / '.migration_disabled').write_text('1\n')
+                with zipfile.ZipFile(next((data / 'backups').glob('*.zip'))) as archive:
+                    assert archive.testzip() is None
+                    assert archive.read('config/config.json') == (data / 'config.json').read_bytes()
+                    (restored / 'config.json').write_bytes(archive.read('config/config.json'))
+                    (restored / 'ritmo.db').write_bytes(archive.read('database/ritmo.db'))
+                    for item in archive.namelist():
+                        if item.startswith('materials/'):
+                            name = item.removeprefix('materials/')
+                            assert Path(name).name == name
+                            target = restored / 'materials' / name; target.parent.mkdir(exist_ok=True)
+                            target.write_bytes(archive.read(item))
+                            assert hashlib.sha256(target.read_bytes()).digest() == hashlib.sha256((data / 'materials' / name).read_bytes()).digest()
+                with closing(sqlite3.connect(restored / 'ritmo.db')) as copy:
+                    assert copy.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'
+                process, restored_port = launch(executable, restore_home)
+                page = browser.new_page(); authorize(page, process, restored_port)
+                page.goto(f'http://127.0.0.1:{restored_port}/')
+                page.locator('nav a[data-view-target="anotacoes"]').click()
+                expect(page.locator('#notes-list')).to_contain_text('Nota vinculada do pacote')
+                page.locator('nav a[data-view-target="estudar"]').click()
+                page.locator('#subject-select').select_option(index=1)
+                page.locator('#start-btn').click()
+                expect(page.locator('#session-status')).to_have_text('Em foco')
+                page.locator('#pause-btn').click(); expect(page.locator('#session-status')).to_have_text('Em pausa')
+                page.locator('#pause-btn').click(); expect(page.locator('#session-status')).to_have_text('Em foco')
+                page.locator('#finish-btn').click(); expect(page.locator('#session-summary')).to_be_visible()
+                quit_and_verify(page, process, restored_port); process = None
+                print("Pacote validado: pausa/reabertura, materiais, notas, backup/configuração, restauração em pasta separada, sessão restaurada e porta liberada.")
             finally:
                 browser.close()
                 if process is not None and process.poll() is None:

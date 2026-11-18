@@ -1,0 +1,114 @@
+{
+  "synthetic": true,
+  "negative_requests": [
+    {
+      "client": "none",
+      "route": "/api/config",
+      "status": 401
+    },
+    {
+      "client": "none",
+      "route": "/api/subjects",
+      "status": 401
+    },
+    {
+      "client": "none",
+      "route": "/api/notes",
+      "status": 401
+    },
+    {
+      "client": "none",
+      "route": "/api/diagnostics",
+      "status": 401
+    },
+    {
+      "client": "none",
+      "route": "/api/backup",
+      "status": 401
+    },
+    {
+      "client": "none",
+      "route": "/api/app/quit",
+      "status": 401
+    },
+    {
+      "client": "none",
+      "route": "/api/app/erase",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/config",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/subjects",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/notes",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/diagnostics",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/backup",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/app/quit",
+      "status": 401
+    },
+    {
+      "client": "invalid",
+      "route": "/api/app/erase",
+      "status": 401
+    },
+    {
+      "client": "external",
+      "route": "/api/config",
+      "status": 403
+    },
+    {
+      "client": "external",
+      "route": "/api/subjects",
+      "status": 403
+    },
+    {
+      "client": "external",
+      "route": "/api/notes",
+      "status": 403
+    },
+    {
+      "client": "external",
+      "route": "/api/diagnostics",
+      "status": 403
+    },
+    {
+      "client": "external",
+      "route": "/api/backup",
+      "status": 403
+    },
+    {
+      "client": "external",
+      "route": "/api/app/quit",
+      "status": 403
+    },
+    {
+      "client": "external",
+      "route": "/api/app/erase",
+      "status": 403
+    }
+  ],
+  "native_confirmation": true,
+  "cancel_preserved_database": true,
+  "cancel_kept_app_open": true,
+  "port_released": true
+}

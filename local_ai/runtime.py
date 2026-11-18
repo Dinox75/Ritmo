@@ -13,6 +13,7 @@ import urllib.request
 from pathlib import Path
 
 from local_ai.installer import default_root, installed, manifest, validate_root, sha256
+from local_ai.integrity import verify_runtime, RuntimeIntegrityError
 
 
 class ModelUnavailable(RuntimeError):
@@ -75,13 +76,18 @@ class LocalRuntime:
             info = manifest()["models"].get(model_key)
             if info is None:
                 raise ModelUnavailable("Modelo local desconhecido.")
+            runtime_root = self.root / "runtime" / manifest()["runtime"]["version"]
+            if not runtime_root.exists():
+                raise ModelUnavailable("Instale o modelo local em Configurações antes de conversar.")
+            try:
+                executable = verify_runtime(runtime_root, manifest()["runtime"])
+            except RuntimeIntegrityError as error:
+                raise ModelUnavailable(str(error)) from error
             if not installed(self.root, model_key):
                 raise ModelUnavailable("Instale o modelo local em Configurações antes de conversar.")
             model = self.root / "models" / info["filename"]
             if sha256(model) != info["sha256"]:
                 raise ModelUnavailable("O modelo instalado falhou na verificação SHA-256. Reinstale-o.")
-            runtime_root = self.root / "runtime" / manifest()["runtime"]["version"]
-            executable = next(runtime_root.rglob("llama-server.exe"))
             self.port = self._free_port()
             self.model_key = model_key
             self.api_key = secrets.token_urlsafe(32)
@@ -94,6 +100,11 @@ class LocalRuntime:
             try:
                 child_env = os.environ.copy()
                 child_env["LLAMA_API_KEY"] = self.api_key
+                # Recheck after model hashing, immediately before process creation.
+                try:
+                    verify_runtime(runtime_root, manifest()["runtime"])
+                except RuntimeIntegrityError as error:
+                    raise ModelUnavailable(str(error)) from error
                 self.process = subprocess.Popen(args, cwd=executable.parent, stdin=subprocess.DEVNULL,
                                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                                 text=True, errors="replace", creationflags=flags, env=child_env)

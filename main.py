@@ -46,6 +46,7 @@ class SensorAgent:
         self.lock = threading.RLock()
 
     def start(self, config):
+        from utils.capabilities import camera_available, CAMERA_UNAVAILABLE
         from monitor.idle_tracker import monitorar_inatividade
         from monitor.presence_detector import monitorar_presenca
         from monitor.window_tracker import iniciar_monitoramento
@@ -67,13 +68,16 @@ class SensorAgent:
                   "observation_seconds": config["multitask_analyzer"]["observation_seconds"],
                   "alert_switches": config["multitask_analyzer"]["alert_switches"]}),
                 ("presence_detector", monitorar_presenca,
-                 (config["presence_detector"]["interval_seconds"],
-                  config["presence_detector"]["camera_index"]), {}),
+                 (config["presence_detector"]["interval_seconds"],),
+                 {"camera_index": config["presence_detector"]["camera_index"]}),
                 ("idle_tracker", monitorar_inatividade,
                  (config["idle_tracker"]["interval_seconds"],
                   config["idle_tracker"]["threshold_seconds"]), {}),
             )
             for name, target, args, kwargs in specs:
+                if name == "presence_detector" and not camera_available():
+                    writer.health(name, "unavailable", CAMERA_UNAVAILABLE)
+                    continue
                 if config[name]["enabled"]:
                     thread = threading.Thread(target=run_sensor,
                                               args=(name, target, writer, stop_event, *args),

@@ -1,5 +1,34 @@
 # Usar o Ritmo
 
+## Pré-requisitos e compatibilidade
+
+Pacote Windows x64, com WebView2 instalado. O QA local foi executado no Windows
+build 26300 com Edge/WebView2 e GPU NVIDIA GTX 1660 SUPER. Isso não demonstra
+compatibilidade com qualquer máquina. Os modelos não estão no ZIP: o catálogo
+atual usa llama.cpp Windows CUDA 12.4 e requer hardware compatível; estudo manual
+e aula booleana estruturada não exigem modelo. Android não está incluído nesta prévia.
+O programa ainda não tem assinatura digital. Leia [segurança](../SECURITY.md).
+
+No desktop, a janela se autoriza automaticamente. No modo navegador, informe o
+código de uso único mostrado no lançador/terminal. Reiniciar exige nova autorização;
+um cliente HTTP sem credencial não consegue ler seus dados.
+
+## Recuperar uma cópia de segurança
+
+O backup inclui SQLite consistente, originais e a configuração efetivamente
+usada. Pesos/runtime e áudio escolhido não entram. Antes de apagar dados, copie
+o ZIP para outra pasta/disco: backups internos também são apagados.
+
+Para restaurar, feche o Ritmo e preserve a pasta de dados atual. Extraia o ZIP
+numa pasta temporária separada e confira `database/ritmo.db`, `materials/` e
+`config/config.json`. No pacote, copie o banco para a pasta de dados efetiva e
+os originais para `materials/`; copie a configuração para `config.json` nessa
+pasta. No desenvolvimento, o destino da configuração é `config/local.json`
+no checkout, não `storage/config.json`. Confirme o diretório em Diagnóstico.
+Abra, confira matérias, notas, materiais e uma sessão; teste pausa/retomada antes
+de substituir a cópia de recuperação. Não abra o SQLite de dentro do ZIP.
+Não existe sincronização automática com outro computador ou celular.
+
 Em **Estudar**, selecione a matéria, defina a meta semanal e inicie o foco. Pause quando precisar: só o tempo de foco entra na meta. A sessão em andamento é lembrada ao reabrir. Use o leitor para buscar e anotar trechos de PDF, DOCX e TXT de até 5 MB. PDFs digitalizados sem texto precisam de OCR externo.
 
 Em **Configurações → Ambiente de estudo**, ajuste tema, intensidade da janela, volume e lembretes. Chuva e ruído marrom são gerados localmente; também é possível escolher áudio do computador. O arquivo de áudio não entra no backup. O som só começa quando você clicar em reproduzir.

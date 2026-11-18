@@ -1,0 +1,197 @@
+{
+  "source_commit": "2639ea63658e4a7fd1b6025a3fb0bb034c6e8124",
+  "pr_head_commit": "60492c031996ef9d8fbfa25f48d0bb76242a45af",
+  "build_run_id": "44155283583",
+  "archive_sha256": "0dc17d4a621fab5a089c42fef56bcba7ac2822f56c235c390feeb03a2065f880",
+  "executable_sha256": "5c3ca1bfc87923c28862cc65375146fbc44be639388fc97fc8b27a07ea5f75a8",
+  "method": "native-uia",
+  "result": "passed",
+  "environment": {
+    "windows_version": "10.0.26100",
+    "qa_process_session_id": 2,
+    "window_station_visible": true,
+    "input_desktop_open": true
+  },
+  "stages": {
+    "executable": true,
+    "native_window": true,
+    "native_authorization": true,
+    "qa_native_connection": true
+  },
+  "native_cancel_preserved": true,
+  "natural_shutdown": true,
+  "port_released": true,
+  "action": "completed",
+  "cdp": {
+    "connected": false,
+    "error_type": "URLError"
+  },
+  "native_window": {
+    "hwnd": 131446,
+    "pid": 7288,
+    "title": "Ritmo · estudo pessoal",
+    "class": "WindowsForms10.Window.8.app.0.aec740_r25_ad1",
+    "visible": true,
+    "rect": [
+      78,
+      78,
+      1122,
+      866
+    ]
+  },
+  "initial_screenshot": {
+    "captured": true,
+    "width": 1044,
+    "height": 788,
+    "sha256": "71ee249c255d4e268295b8da2dfc19542a73ced3a1db70124464155176af627d",
+    "nonuniform_pixels": true
+  },
+  "native_control_types": {
+    "Button": 3,
+    "Edit": 0,
+    "Hyperlink": 0,
+    "Document": 0,
+    "Pane": 16
+  },
+  "native_label_presence": {
+    "Criar matéria": false,
+    "Meu plano": false,
+    "Configurações": false,
+    "Autorizar esta janela": false
+  },
+  "native_write_verified": true,
+  "screenshot": {
+    "captured": true,
+    "width": 1044,
+    "height": 788,
+    "sha256": "8cef10726a03f213163fa9070b33897e15fb8e1d35fcb48ecb2a6ddd806baa8b",
+    "nonuniform_pixels": true
+  },
+  "dialog_step": 2,
+  "screenshot_after_cancel": {
+    "captured": true,
+    "width": 1044,
+    "height": 788,
+    "sha256": "efb8065c927f8addc2120cd5955ceba3591ca54284ebe844b51c9dbb14990497",
+    "nonuniform_pixels": true
+  },
+  "lifecycle": [
+    {
+      "event": "executable_entered",
+      "phase": "executable",
+      "state": "started",
+      "pid": 7288,
+      "elapsed_ms": 3
+    },
+    {
+      "event": "backend_ready",
+      "phase": "executable",
+      "state": "ready",
+      "pid": 7288,
+      "elapsed_ms": 281,
+      "port": 54801
+    },
+    {
+      "event": "native_import_started",
+      "phase": "native",
+      "state": "started",
+      "pid": 7288,
+      "elapsed_ms": 281
+    },
+    {
+      "event": "native_import_ready",
+      "phase": "native",
+      "state": "ready",
+      "pid": 7288,
+      "elapsed_ms": 299
+    },
+    {
+      "event": "native_object_created",
+      "phase": "native",
+      "state": "created",
+      "pid": 7288,
+      "elapsed_ms": 299,
+      "cdp_requested": true
+    },
+    {
+      "event": "native_loop_started",
+      "phase": "native",
+      "state": "started",
+      "pid": 7288,
+      "elapsed_ms": 301
+    },
+    {
+      "event": "native_before_show",
+      "phase": "native",
+      "state": "before_show",
+      "pid": 7288,
+      "elapsed_ms": 2055
+    },
+    {
+      "event": "native_shown",
+      "phase": "native",
+      "state": "shown",
+      "pid": 7288,
+      "elapsed_ms": 2073
+    },
+    {
+      "event": "native_loaded",
+      "phase": "native",
+      "state": "loaded",
+      "pid": 7288,
+      "elapsed_ms": 4367,
+      "surface": "authorization"
+    },
+    {
+      "event": "native_authorization_requested",
+      "phase": "authorization",
+      "state": "requested",
+      "pid": 7288,
+      "elapsed_ms": 4367
+    },
+    {
+      "event": "session_authorized",
+      "phase": "authorization",
+      "state": "authorized",
+      "pid": 7288,
+      "elapsed_ms": 4372
+    },
+    {
+      "event": "native_loaded",
+      "phase": "native",
+      "state": "loaded",
+      "pid": 7288,
+      "elapsed_ms": 4538,
+      "surface": "application"
+    },
+    {
+      "event": "native_erase_requested",
+      "phase": "native",
+      "state": "requested",
+      "pid": 7288,
+      "elapsed_ms": 7115
+    },
+    {
+      "event": "native_erase_cancelled",
+      "phase": "native",
+      "state": "ready",
+      "pid": 7288,
+      "elapsed_ms": 7536
+    },
+    {
+      "event": "shutdown_started",
+      "phase": "shutdown",
+      "state": "closing",
+      "pid": 7288,
+      "elapsed_ms": 8538
+    },
+    {
+      "event": "shutdown_closed",
+      "phase": "shutdown",
+      "state": "closed",
+      "pid": 7288,
+      "elapsed_ms": 9020
+    }
+  ],
+  "windows_at_end": []
+}

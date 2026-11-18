@@ -1,14 +1,29 @@
-param([switch]$Install, [switch]$SkipShortcut, [switch]$SkipBrowserQA)
+param(
+    [switch]$Install,
+    [switch]$SkipShortcut,
+    [switch]$SkipBrowserQA,
+    [ValidateSet('preview', 'full')][string]$Profile = 'preview',
+    [string]$Python = $env:RITMO_BUILD_PYTHON,
+    [string]$Venv = $env:RITMO_BUILD_VENV
+)
 $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 Set-Location -LiteralPath $projectRoot
 if ($Install -and (Get-Process Ritmo -ErrorAction SilentlyContinue)) { throw 'Feche o Ritmo antes de atualizar o executável.' }
-$python = Join-Path $projectRoot '.buildvenv\Scripts\python.exe'
-if (-not (Test-Path -LiteralPath $python)) {
-    py -3.11 -m venv (Join-Path $projectRoot '.buildvenv')
-    if ($LASTEXITCODE -ne 0) { throw 'Python 3.11 não disponível para o build.' }
+$version = if ($Profile -eq 'preview') { '3.14' } else { '3.11' }
+if (-not $Venv) { $Venv = Join-Path $projectRoot $(if ($Profile -eq 'preview') { '.previewvenv' } else { '.buildvenv' }) }
+$Venv = [System.IO.Path]::GetFullPath($Venv)
+$buildPython = Join-Path $Venv 'Scripts\python.exe'
+if (-not (Test-Path -LiteralPath $buildPython)) {
+    if ($Python) { & $Python -m venv $Venv } else { & py "-$version" -m venv $Venv }
+    if ($LASTEXITCODE -ne 0) { throw "Python $version não disponível para o build $Profile." }
 }
-$requirements = @('-r', 'requirements-desktop.txt', '-r', 'requirements-windows.txt')
+$python = $buildPython
+$actualVersion = & $python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")'
+if ($LASTEXITCODE -ne 0 -or $actualVersion.Trim() -ne $version) {
+    throw "O perfil $Profile exige Python $version; ambiente selecionado: $actualVersion. Use outro -Venv."
+}
+$requirements = if ($Profile -eq 'preview') { @('-r', 'requirements-preview.txt') } else { @('-r', 'requirements-desktop.txt', '-r', 'requirements-windows.txt') }
 if (-not $SkipBrowserQA) { $requirements += @('-r', 'requirements-qa.txt') }
 & $python -m pip install --no-index --disable-pip-version-check @requirements
 if ($LASTEXITCODE -ne 0) {
@@ -32,7 +47,8 @@ $packageRoot = if ($portableLayout) { Join-Path $portableHome 'Aplicativo' } els
 $previousRoot = if ($portableLayout) { Join-Path $portableHome 'Versoes anteriores' } else { $localRoot }
 $buildId = (Get-Date -Format 'yyyyMMddHHmmss') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 6)
 $stageRoot = Join-Path $scratchRoot "RitmoStage-$buildId"
-$workRoot = Join-Path $scratchRoot 'RitmoBuild'
+$workRoot = Join-Path $scratchRoot $(if ($Profile -eq 'preview') { 'RitmoBuild-preview' } else { 'RitmoBuild' })
+$env:RITMO_BUILD_PROFILE = $Profile
 & $python -m PyInstaller --noconfirm --distpath $stageRoot --workpath $workRoot Ritmo.spec
 if ($LASTEXITCODE -ne 0) { throw 'Empacotamento falhou.' }
 
@@ -51,7 +67,7 @@ if (-not $SkipBrowserQA) {
 }
 
 if (-not $Install) {
-    Write-Output "Pacote validado: $exe"
+    Write-Output "Pacote validado ($Profile): $exe"
     Write-Output "Relatório: $report"
     return
 }

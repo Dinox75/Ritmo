@@ -569,7 +569,10 @@ class Database:
                 "completed_sessions": completed,
                 "weekly_goal_minutes": self.preferences()["weekly_goal_minutes"]}
 
-    def create_backup(self):
+    def create_backup(self, config_path=None):
+        if config_path is None:
+            from utils.config import LOCAL_CONFIG
+            config_path = LOCAL_CONFIG
         folder = self.path.parent / "backups"
         folder.mkdir(parents=True, exist_ok=True)
         name = datetime.now(timezone.utc).strftime("Ritmo-%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6] + ".zip"
@@ -590,12 +593,14 @@ class Database:
                     if not original.is_file():
                         raise RuntimeError(f"original ausente: {stored_name}")
                     archive.write(original, "materials/" + stored_name)
-                config = self.path.parent / "config.json"
+                config = Path(config_path)
                 if config.is_file():
                     archive.write(config, "config/config.json")
                 archive.writestr("LEIA-ME.txt", "Backup local do Ritmo. Feche o aplicativo antes de restaurar. "
                                  "O banco fica em database/ritmo.db; os originais em materials/. "
-                                 "Copie ambos para a pasta de dados do Ritmo após guardar uma cópia atual.\n")
+                                 "Copie ambos para a pasta de dados do Ritmo após guardar uma cópia atual. "
+                                 "Se incluída, restaure config/config.json no caminho de configuração ativo: "
+                                 "config/local.json no desenvolvimento ou config.json na pasta de dados do aplicativo instalado.\n")
         except BaseException:
             if target.exists():
                 target.unlink()

@@ -1,0 +1,110 @@
+name: Ritmo • promover artefato Windows aprovado
+on:
+  workflow_dispatch:
+    inputs:
+      build_run_id:
+        description: 'Run ID bem sucedido do build na main'
+        required: true
+        type: string
+      source_commit:
+        description: 'SHA completo do código aprovado'
+        required: true
+        type: string
+      artifact_id:
+        description: 'ID do artefato ritmo-distribuicao existente'
+        required: true
+        type: string
+      artifact_digest:
+        description: 'SHA256 transporte do artefato (sem sha256:)'
+        required: true
+        type: string
+      qa_artifact_id:
+        description: 'ID do artefato ritmo-clean-windows-qa do mesmo run'
+        required: true
+        type: string
+      qa_artifact_digest:
+        description: 'SHA256 transporte do artefato QA (sem sha256:)'
+        required: true
+        type: string
+      reviewed_by:
+        description: 'Identidade de quem aprovou licenças, vulnerabilidades e QA'
+        required: true
+        type: string
+      reviews_approved:
+        description: 'Revisão de licenças nativas, vulnerabilidades e QA concluída'
+        required: true
+        type: boolean
+        default: false
+      publish:
+        description: 'Publicar? Primeiro execute false e revise o recibo'
+        type: boolean
+        default: false
+      dry_run_artifact:
+        description: 'Para publicar: ID:SHA256 do artefato de recibo do dry-run aprovado'
+        type: string
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: ritmo-windows-promotion
+  cancel-in-progress: false
+jobs:
+  promote:
+    if: github.ref == 'refs/heads/main' && inputs.reviews_approved
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: windows-release
+    permissions:
+      contents: write
+      actions: read
+      packages: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BUILD_RUN_ID: ${{ inputs.build_run_id }}
+      SOURCE_COMMIT: ${{ inputs.source_commit }}
+      ARTIFACT_ID: ${{ inputs.artifact_id }}
+      ARTIFACT_DIGEST: ${{ inputs.artifact_digest }}
+      QA_ARTIFACT_ID: ${{ inputs.qa_artifact_id }}
+      QA_ARTIFACT_DIGEST: ${{ inputs.qa_artifact_digest }}
+      REVIEWED_BY: ${{ inputs.reviewed_by }}
+      PUBLISH: ${{ inputs.publish }}
+      DRY_RUN_ARTIFACT: ${{ inputs.dry_run_artifact }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6
+        with:
+          version: '1.2.3'
+      - name: Verificar recibo anterior e promover sem recompilar
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=()
+          if [[ "$PUBLISH" == true ]]; then
+            python - <<'PY'
+          import json, os, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts')
+          from release_promote import fetch_artifact, command
+          artifact_id, digest = os.environ['DRY_RUN_ARTIFACT'].split(':', 1)
+          meta = fetch_artifact(os.environ['GITHUB_REPOSITORY'], artifact_id, digest, Path('prior-dry-run'))
+          run = json.loads(command('gh', 'api', f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{meta['workflow_run']['id']}"))
+          if meta['name'] != 'ritmo-promotion-dry-run' or run['path'] != '.github/workflows/promote-windows.yml' or run['conclusion'] != 'success' or run['head_branch'] != 'main':
+              raise ValueError('Recibo deve vir de dry-run bem sucedido na main')
+          PY
+            args+=(--publish --dry-run-receipt prior-dry-run/dry-run-receipt.json)
+            printf '%s' "$GH_TOKEN" | oras login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+          fi
+          python scripts/release_promote.py --repo "$GITHUB_REPOSITORY" --artifact-id "$ARTIFACT_ID" --artifact-digest "$ARTIFACT_DIGEST" --qa-artifact-id "$QA_ARTIFACT_ID" --qa-artifact-digest "$QA_ARTIFACT_DIGEST" --commit "$SOURCE_COMMIT" --run-id "$BUILD_RUN_ID" --reviewer "$REVIEWED_BY" --license-approved --vulnerabilities-approved "${args[@]}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: success() && !inputs.publish
+        with:
+          name: ritmo-promotion-dry-run
+          path: dry-run-receipt.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,32 @@
+Microsoft Distributable Code supplied with this Windows application
+
+The Microsoft code is licensed, not sold. Copying, using or redistributing that
+code is subject to its applicable Microsoft license terms and the PSF Windows
+binary-build notice reproduced below. If you do not accept those conditions,
+do not use or redistribute the Microsoft code.
+
+For that Microsoft code, recipients and redistributors must preserve copyright,
+trademark, patent and attribution notices; must not suggest Microsoft endorses
+Ritmo; must not distribute it for a non-Microsoft platform or in malicious,
+deceptive or unlawful programs; and must preserve applicable Microsoft
+restrictions and require downstream recipients to agree to protective terms.
+Do not redistribute Microsoft components marked Preview, Pre-release or Beta.
+Do not modify or distribute Microsoft source code in a way that subjects it to
+a license requiring source disclosure or rights to modify that Microsoft code.
+Except as permitted by applicable law or applicable third-party open-source
+terms, do not reverse engineer, decompile or disassemble the Microsoft code,
+remove its notices, or bypass its technical limitations.
+
+These conditions apply only to Microsoft Distributable Code. They do not
+change the separate licenses of Ritmo, Python or other third-party components.
+This notice is not an independent grant of Microsoft redistribution rights.
+See the exact component provenance, upstream notices and the applicable
+Microsoft Distributable Code terms before redistributing the package.
+
+References:
+https://raw.githubusercontent.com/python/cpython/v3.14.10/PC/crtlicense.txt
+https://visualstudio.microsoft.com/license-terms/vs2022-ga-community/
+https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution
+
+PSF notice (verbatim):
+

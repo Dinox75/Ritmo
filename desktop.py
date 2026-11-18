@@ -9,6 +9,7 @@ import shutil
 import threading
 import urllib.request
 import webbrowser
+from urllib.parse import urlparse
 from pathlib import Path
 
 from dashboard.app import make_server
@@ -16,6 +17,22 @@ from main import SensorAgent
 from storage.database import Database
 from utils.config import DATA_DIR, LOCAL_CONFIG, LOG_FILE, MIGRATION_DISABLED, load_config, migrate_for_desktop
 from utils.logger import configure_logging
+from utils.lifecycle import event as lifecycle
+from utils.capabilities import camera_available, camera_capability
+
+
+def confirm_erase_native(window=None):
+    message = ('Apagar permanentemente o banco de estudos, matérias, sessões, notas, '
+               'conversas, memória do tutor, materiais originais, configuração e backups internos?\n\n'
+               'Para recuperar depois, guarde antes um backup fora da pasta de dados do Ritmo. '
+               'Modelos e cópias externas não serão apagados. Esta ação não pode ser desfeita.')
+    native = ctypes.windll.user32
+    native.FindWindowW.restype = ctypes.c_void_p
+    owner = native.FindWindowW(None, window.title) if window is not None else None
+    # YES/NO, warning icon, and NO selected by default. pywebview's convenience
+    # dialog uses OK/Cancel with OK selected, unsuitable for destructive actions.
+    return native.MessageBoxW(ctypes.c_void_p(owner) if owner else None, message,
+                              'Ritmo · apagar dados pessoais', 0x134) == 6
 
 
 class DesktopApp:
@@ -52,10 +69,12 @@ class DesktopApp:
                     raise RuntimeError("interface local não respondeu")
             for route in ("/app.js", "/tutor.js", "/desktop.css", "/ux.css", "/api/config",
                           "/api/diagnostics", "/api/materials", "/api/tutor/config"):
-                with urllib.request.urlopen(url + route, timeout=5) as response:
+                request = urllib.request.Request(url + route, headers={'Authorization':'Bearer ' + self.server.session.token})
+                with urllib.request.urlopen(request, timeout=5) as response:
                     if response.status != 200 or not response.read(1):
                         raise RuntimeError(f"recurso local indisponível: {route}")
             logging.info("Interface local pronta na porta %s", self.server.server_port)
+            lifecycle('backend_ready','executable','ready',port=self.server.server_port)
             return url
         except BaseException:
             self.close()
@@ -74,19 +93,47 @@ class DesktopApp:
             self.server.shutdown()
 
     def request_erase(self):
+        lifecycle('native_erase_requested','native','requested')
+        if not confirm_erase_native(self.window):
+            lifecycle('native_erase_cancelled','native','ready')
+            return
+        lifecycle('native_erase_confirmed','native','closing')
         self.erase_requested = True
         self.request_close()
 
     def show(self, url):
         try:
+            lifecycle('native_import_started','native','started')
             import webview
-            window = webview.create_window("Ritmo · estudo pessoal", url,
+            lifecycle('native_import_ready','native','ready')
+            window = webview.create_window("Ritmo · estudo pessoal", url + '/authorize.html',
                                            width=1440, height=900, min_size=(760, 560),
                                            background_color="#f5f3eb")
             self.window = window
+            lifecycle('native_object_created','native','created',cdp_requested='--remote-debugging-port' in os.environ.get('WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS',''))
+            code = self.server.session.issue_code()
+            window.events.before_show += lambda: lifecycle('native_before_show','native','before_show')
+            window.events.shown += lambda: lifecycle('native_shown','native','shown')
+            def authorize():
+                # Injected into this native window's memory, never a static file/URL.
+                try:
+                    path = urlparse(window.get_current_url() or '').path
+                    surface = 'authorization' if path=='/authorize.html' else 'application' if path=='/' else 'other'
+                    lifecycle('native_loaded','native','loaded',surface=surface)
+                    if window.get_current_url() == url + '/authorize.html':
+                        lifecycle('native_authorization_requested','authorization','requested')
+                        window.evaluate_js("fetch('/api/session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:"
+                                           + json.dumps(code) + "})}).then(r=>{if(r.ok)location.replace('/')})")
+                except Exception as error:
+                    # Do not log JS exception payloads that may contain the one-use code.
+                    logging.error('Não foi possível autorizar a janela nativa; reabra o Ritmo.')
+                    lifecycle('native_authorization_failed','authorization','failed',error_type=type(error).__name__)
+            window.events.loaded += authorize
+            lifecycle('native_loop_started','native','started')
             webview.start(gui="edgechromium", private_mode=True,
                           storage_path=str(DATA_DIR / "webview"))
-        except Exception:
+        except Exception as error:
+            lifecycle('native_failed','native','failed',error_type=type(error).__name__)
             logging.exception("WebView2 indisponível; abrindo no navegador")
             self.window = None
             self._browser_fallback(url)
@@ -94,10 +141,11 @@ class DesktopApp:
             self.close()
 
     def _browser_fallback(self, url):
+        lifecycle('browser_fallback','native','fallback')
         import tkinter as tk
         from tkinter import ttk
 
-        webbrowser.open(url)
+        webbrowser.open(url + '/authorize.html')
         root = tk.Tk()
         self.fallback_root = root
         root.title("Ritmo · controle")
@@ -108,6 +156,9 @@ class DesktopApp:
                   font=("Segoe UI", 13, "bold")).pack(pady=(26, 10))
         ttk.Label(root, text="Mantenha esta janela aberta durante o estudo.\n"
                   "Fechá-la encerra o servidor e os sensores.", justify="center").pack()
+        ttk.Label(root, text='Código de autorização (uso único, 5 min):').pack()
+        entry = ttk.Entry(root, width=45)
+        entry.insert(0, self.server.session.issue_code()); entry.pack()
         buttons = ttk.Frame(root)
         buttons.pack(pady=19)
         ttk.Button(buttons, text="Abrir interface", command=lambda: webbrowser.open(url)).pack(side="left", padx=5)
@@ -121,6 +172,7 @@ class DesktopApp:
             if self._closed:
                 return
             self._closed = True
+        lifecycle('shutdown_started','shutdown','closing')
         if self.server is not None:
             self.server.shutdown()
             self.server.server_close()
@@ -129,6 +181,7 @@ class DesktopApp:
             self.server.tutor_runtime.stop()
         self.agent.stop()
         logging.info("Ritmo encerrado; porta e sensores liberados")
+        lifecycle('shutdown_closed','shutdown','closed')
 
     def erase_data(self):
         """Remove os dados usados pelo app após fechar HTTP, sensores e WebView2."""
@@ -173,8 +226,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--smoke-test", action="store_true")
     parser.add_argument("--smoke-report", type=Path)
+    parser.add_argument('--authorization-pipe',type=int,help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
     configure_logging()
+    lifecycle('executable_entered','executable','started')
     mutex = None
     app = None
     try:
@@ -184,18 +239,22 @@ def main(argv=None):
             return 0
         app = DesktopApp()
         url = app.start_backend()
+        if args.authorization_pipe is not None:
+            from utils.authorization_pipe import write_one_time_code
+            write_one_time_code(args.authorization_pipe,app.server.session)
         if args.smoke_test:
             # Carregamento tardio dos sensores deve funcionar no pacote instalado.
-            import cv2
-            import mediapipe
             import pygetwindow
             import psutil
             import win32process
             import pypdf
-            import comtypes
-            from pygrabber.dshow_graph import FilterGraph
+            if camera_available():
+                import cv2
+                import mediapipe
+                import comtypes
+                from pygrabber.dshow_graph import FilterGraph
+                from cvzone.FaceDetectionModule import FaceDetector
             from monitor.cameras import camera_options
-            from cvzone.FaceDetectionModule import FaceDetector
             from tutor.service import GUIDE
             from local_ai.installer import manifest
             from local_ai.knowledge import catalog
@@ -205,7 +264,7 @@ def main(argv=None):
                 raise RuntimeError("catálogo local do tutor não incluído no pacote")
             camera_options()
             report = {"ready": True, "port": app.server.server_port,
-                      "data_dir": str(DATA_DIR), "pid": os.getpid()}
+                      "data_dir": str(DATA_DIR), "pid": os.getpid(), "camera":camera_capability()}
             app.close()
             if args.smoke_report:
                 args.smoke_report.write_text(json.dumps(report, ensure_ascii=False), encoding="utf-8")
