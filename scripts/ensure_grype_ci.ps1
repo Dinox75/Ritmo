@@ -9,4 +9,5 @@ if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant
 Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $root 'tool')
 $exe=Join-Path $root 'tool/grype.exe'
 if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'd4c07a34bfd9aea9846d00f94093e909420bb1e59958a5907708f6b9f28209c3') { throw 'Official Grype executable checksum mismatch.' }
+$env:RITMO_GRYPE=$exe
 "RITMO_GRYPE=$exe" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8

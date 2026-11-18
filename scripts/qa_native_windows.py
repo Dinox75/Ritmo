@@ -14,6 +14,7 @@ import psutil
 from pywinauto import Desktop
 from qa_packaged_windows import launch
 from native_windows_evidence import environment, windows_for_pids, lifecycle_records, cdp_probe, capture_owned_window, port_released
+from native_dialogs import prompt_field
 
 
 def wait_for(work,seconds=20):
@@ -129,12 +130,21 @@ def run(executable,bundle,out,run_id,head_commit):
                     if kind=='native':
                         report['action']='cancel_native_erase'
                         no=user.GetDlgItem(ctypes.c_void_p(handle),7);assert no
-                        user.SendMessageW(ctypes.c_void_p(no),0x00F5,0,0)
-                        wait_for(lambda:not user.FindWindowW(None,native_title))
+                        # UIA Invoke works without relying on BM_CLICK activation
+                        # of a background dialog. The selected HWND is IDNO only.
+                        Desktop(backend='uia').window(handle=int(no)).wrapper_object().invoke()
+                        wait_for(lambda:not user.IsWindow(ctypes.c_void_p(handle)))
                         break
-                    edits=dialog.descendants(control_type='Edit')
-                    if edits:edits[0].set_edit_text('APAGAR')
-                    named(dialog,'OK',('Button',)).invoke()
+                    ok=wait_for(lambda:named(dialog,'OK',('Button',)))
+                    if _==1:
+                        # Embedded script dialogs can expose background form
+                        # fields too. Never select the first Edit on the page.
+                        allowed={process.pid,*[p.pid for p in psutil.Process(process.pid).children(recursive=True)]}
+                        field=wait_for(lambda:prompt_field(ok,allowed))
+                        field.iface_value.SetValue('APAGAR')
+                    elif _!=0:
+                        raise RuntimeError('Unexpected script dialog before native confirmation')
+                    wait_for(lambda:named(dialog,'OK',('Button',))).invoke()
                 else:raise RuntimeError('Native erase confirmation did not appear')
                 action.join(timeout=5)
                 report['action']='verify_cancel_preserved_data'
