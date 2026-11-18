@@ -35,7 +35,7 @@ a = Analysis(
 )
 if profile == 'preview':
     # CPython 3.14 targets Windows 10+. Do not redistribute the runner's OS
-    # API-set/UCRT DLLs. Refuse a same-named DLL from an unproven source.
+    # API-set/UCRT DLLs. Record all omissions without asserting unknown origins.
     sys.path.insert(0, os.path.join(SPECPATH, 'scripts'))
     from preview_system_dlls import separate_os_prerequisites
     a.binaries, os_prerequisites = separate_os_prerequisites(a.binaries, os.environ['WINDIR'])

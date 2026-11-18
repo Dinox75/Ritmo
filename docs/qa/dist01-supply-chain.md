@@ -106,10 +106,12 @@ como bibliotecas distribuídas sem evidência de presença no binário.
 Tcl/Tk foram separados por nomes exatos para impedir que `tcl9tk90.dll` fosse
 classificado como Tcl. LibTomMath 1.3.0 e zlib 1.3.2 receberam hashes comparados
 às DLLs oficiais de `python/cpython-bin-deps`, fontes e avisos próprios. As DLLs
-API-set/UCRT de `Windows/System32` passam a ser pré-requisitos do Windows 10/11,
-sem redistribuição. O build recusa a exclusão de um arquivo com mesmo
-nome oriundo de outra pasta; o manifesto registra nomes/hashes excluídos, sem
-caminhos pessoais. Cada mudança exige outro ZIP e outro ensaio nativo.
+API-set/UCRT passam a ser pré-requisitos do Windows 10/11, sem redistribuição.
+O manifesto registra cada nome/hash excluído e distingue System32 de outras
+pastas cuja origem não foi atestada, sem caminhos pessoais. Excluir esses bytes
+não os executa nem afirma que sejam autênticos: o requisito é usar os contratos
+fornecidos pelo Windows mínimo, comprovando a execução sem as cópias pelo QA.
+Cada mudança exige outro ZIP e outro ensaio nativo.
 
 No candidato `0dc17d4a…`, o Grype completou a consulta à base construída em
 2026-11-17T06:20:58Z, hash do SQLite da ferramenta

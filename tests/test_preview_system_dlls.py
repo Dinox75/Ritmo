@@ -21,12 +21,14 @@ class PreviewSystemDllTests(unittest.TestCase):
             self.assertTrue(all(len(x['sha256'])==64 for x in excluded))
             self.assertNotIn(str(root),str(excluded))
 
-    def test_same_name_from_non_os_directory_is_not_silently_removed(self):
+    def test_non_system_source_is_recorded_without_fabricating_its_origin(self):
         from preview_system_dlls import separate_os_prerequisites
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);path=root/'ucrtbase.dll';path.write_bytes(b'MZ')
-            with self.assertRaisesRegex(ValueError,'System32'):
-                separate_os_prerequisites([('ucrtbase.dll',str(path),'BINARY')],root/'Windows')
+            kept,excluded=separate_os_prerequisites([('ucrtbase.dll',str(path),'BINARY')],root/'Windows')
+            self.assertEqual(kept,[])
+            self.assertEqual(excluded[0]['origin'],'Outside System32; source directory not asserted')
+            self.assertNotIn(str(root),str(excluded))
 
 
 if __name__=='__main__':unittest.main()

@@ -69,3 +69,5 @@ Os comandos de build nesta rodada não usam `-Install`. Resultados do novo candi
   - Revisão encontrou DLLs API-set/UCRT do Windows copiadas, duas dependências de Tcl sem classificação e falta de aviso do fork libffi do CFFI. As correções subsequentes geram outro ZIP; este hash não recebe a aprovação do próximo e vice-versa.
 
 Após as correções adicionais, a suíte local passou **174 testes em 57,741 s, sem ignorados**. O novo candidato ainda precisa repetir build, inventário, scanners e aceitação nativa.
+
+O run [44206510696](https://github.com/Dinox75/Ritmo/actions/runs/44206510696), head `48502f1`, passou pela suíte e pelo toolchain, mas parou antes do ZIP: o filtro exigia que todo stub API-set/UCRT coletado viesse fisicamente de System32. Esse requisito era mais estreito que a decisão de não redistribuir os contratos fornecidos pelo Windows 10+. O filtro passou a registrar os hashes e a distinção de origem sem atribuir uma origem não comprovada. A aprovação continua exigindo execução real sem essas cópias. Nenhum resultado desse run foi apresentado como pacote aprovado.

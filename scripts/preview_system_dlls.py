@@ -12,10 +12,15 @@ def separate_os_prerequisites(binaries, windows_root):
         low=name.casefold()
         if kind=='BINARY' and (low=='ucrtbase.dll' or (low.startswith('api-ms-win-') and low.endswith('.dll'))):
             actual=Path(source).resolve()
-            if not actual.is_relative_to(system) or not actual.is_file():
-                raise ValueError('OS prerequisite name did not originate in Windows System32')
+            if not actual.is_file():
+                raise ValueError('Collected compatibility DLL is not a readable file')
             with actual.open('rb') as stream:digest=hashlib.file_digest(stream,'sha256').hexdigest()
-            excluded.append(dict(name=name,sha256=digest,origin='Windows/System32',
+            # Exclusion does not trust or execute the collected bytes. API-set
+            # contracts/UCRT are supplied by the minimum supported OS, regardless
+            # of whether the compiler collected a stub from System32 or elsewhere.
+            # Keep that distinction instead of claiming an unobserved origin.
+            origin='Windows/System32' if actual.is_relative_to(system) else 'Outside System32; source directory not asserted'
+            excluded.append(dict(name=name,sha256=digest,origin=origin,
                                  disposition='Not redistributed; supplied by supported Windows 10/11 x64 operating system'))
         else:kept.append(item)
     return kept,excluded
