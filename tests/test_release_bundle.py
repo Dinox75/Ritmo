@@ -149,6 +149,12 @@ class ReleaseBundleTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Embedded source'):
             bundle.verify_bundle(self.root / 'out', 'b'*40, '123')
 
+    def test_payload_evidence_in_release_folder_is_still_hashed_and_verified(self):
+        folder=self.package/'_internal/release';folder.mkdir()
+        (folder/'os-prerequisites.json').write_text('{"not_redistributed": []}')
+        self.create()
+        bundle.verify_bundle(self.root/'out','a'*40,'123')
+
     def test_redistributed_requirement_scan_input_excludes_unmapped_build_packages(self):
         self.create()
         self.assertEqual((self.root / 'out/redistributed-requirements.txt').read_text(), '')

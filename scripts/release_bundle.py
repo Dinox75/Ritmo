@@ -11,6 +11,10 @@ import zipfile
 from urllib.parse import quote
 from pathlib import Path, PurePosixPath
 
+GENERATED_EVIDENCE = {'_internal/release/source-manifest.json',
+                      '_internal/release/THIRD-PARTY-NOTICES.txt',
+                      '_internal/release/VC-RUNTIME-TERMS.txt'}
+
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
@@ -249,6 +253,7 @@ def create_bundle(package, out, version, commit, run_id, distributions=None, ana
     facts['evidence_sha256'] = {p.name: sha(p.read_bytes()) for p in out.iterdir() if p.name != archive}
     write_json(out / 'build-info.json', facts)
     (out / 'SHA256SUMS.txt').write_text(''.join(f"{sha(p.read_bytes())}  {p.name}\n" for p in sorted(out.iterdir()) if p.is_file()), encoding='ascii')
+    verify_bundle(out, commit, str(run_id))
     return facts
 
 
@@ -287,7 +292,7 @@ def verify_bundle(out, commit, run_id):
             embedded = json.loads(zipped.read(embedded_name))
             if any(embedded.get(key) != facts[key] for key in ('source_commit', 'build_run_id', 'version')):
                 raise ValueError('Embedded source manifest differs from external manifest')
-            payload = {item['path']: item for item in facts['files'] if not item['path'].startswith('_internal/release/')}
+            payload = {item['path']: item for item in facts['files'] if item['path'] not in GENERATED_EVIDENCE}
             if {item['path']: item for item in embedded['payload_files']} != payload:
                 raise ValueError('Embedded source payload manifest differs')
             if zipped.read('Ritmo/_internal/release/THIRD-PARTY-NOTICES.txt') != (out / 'THIRD-PARTY-NOTICES.txt').read_bytes():
