@@ -37,6 +37,11 @@ MediaPipe → protobuf fica restrita ao perfil de desenvolvimento `full` (Python
 3.11), que ainda não está aprovado para distribuição pública. Nenhum desses
 comandos altera a instalação sem `-Install`.
 
+O executável de prévia destina-se a Windows 10/11 x64 atualizados, com .NET
+Framework 4.8 e WebView2. As DLLs API-set/UCRT do sistema são pré-requisitos do
+Windows e não serão copiadas do runner para o ZIP. O relatório da PR #11 registra
+o sistema efetivamente testado e as pendências de distribuição.
+
 No Windows, este comando compila e testa o executável com dados temporários. O pacote fica em **`build/RitmoStage-<id>/Ritmo/`** por padrão:
 
 ```powershell

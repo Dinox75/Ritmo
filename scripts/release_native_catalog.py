@@ -58,6 +58,10 @@ def create_catalog(python_base, vendor_sbom, receipt, rules, resource_root=None)
         files = [p for p in native if any(fnmatch.fnmatchcase(p.name.casefold(), pattern.casefold()) for pattern in rule['patterns'])]
         if not files:
             continue
+        for path in files:
+            expected = rule.get('expected_file_hashes', {}).get(path.name.casefold())
+            if expected and file_sha(path) != expected:
+                raise ValueError('Native base file differs from pinned upstream bytes: ' + path.name)
         upstream = [p for p in vendor['packages'] if p['name'] == rule.get('vendor_package') and p.get('versionInfo') == rule.get('version')]
         if rule.get('vendor_package') and len(upstream) != 1:
             raise ValueError('Native rule does not match a unique vendor component: ' + rule['name'])
@@ -85,8 +89,9 @@ def create_catalog(python_base, vendor_sbom, receipt, rules, resource_root=None)
                 component['cpe'] = ref['referenceLocator']
             elif ref['referenceType'] == 'purl':
                 component['purl'] = ref['referenceLocator']
-        if rule.get('purl'):
-            component['purl'] = rule['purl']
+        for key in ('purl', 'cpe'):
+            if rule.get(key):
+                component[key] = rule[key]
         components.append(component)
         matched.update(files)
     return dict(schema_version=1, python_version=VERSION, installer_receipt_sha256=hashlib.sha256(json.dumps(receipt, sort_keys=True).encode()).hexdigest(),

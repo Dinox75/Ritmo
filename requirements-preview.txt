@@ -1,6 +1,8 @@
 # Camera-free preview on CPython 3.14. Build tools and Pillow stay out of runtime imports.
 pywebview==6.2.1
 pythonnet==3.2.1
+clr_loader==0.3.1
+cffi==2.1.1
 pyinstaller==6.22.3
 Pillow==13.0.0
 pypdf==6.21.4

@@ -84,6 +84,57 @@
           "SDK wrapper/loader version is not the external Evergreen Chromium runtime version. The runtime is not shipped in this ZIP."
         ]
       }
+    },
+    {
+      "name": "CFFI vendored libffi x86_x64 fork",
+      "version": "CFFI-2.1.1-source-snapshot",
+      "license": "MIT",
+      "notices": [
+        {
+          "name": "cffi-vendored-libffi-license.txt",
+          "text": "libffi - Copyright (c) 1996-2003  Red Hat, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of this software and associated documentation files (the\n``Software''), to deal in the Software without restriction, including\nwithout limitation the rights to use, copy, modify, merge, publish,\ndistribute, sublicense, and/or sell copies of the Software, and to\npermit persons to whom the Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright notice and this permission notice shall be included\nin all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS\nOR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\nIN NO EVENT SHALL CYGNUS SOLUTIONS BE LIABLE FOR ANY CLAIM, DAMAGES OR\nOTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,\nARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR\nOTHER DEALINGS IN THE SOFTWARE.\n",
+          "sha256": "40a537c7d74baeed3831304e92d1664ababd7ad8a3cf29f11a257c9e47145248",
+          "source_url": "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/src/c/libffi_x86_x64/LICENSE"
+        }
+      ],
+      "file_hashes": [
+        "9e99b2184c60f21a88cafc374386ded3559e8694ed7cf111f2869e066d303334"
+      ],
+      "provenance": {
+        "basis": "Hosting binary exactly matches official CFFI 2.1.1 cp314 Windows amd64 wheel. Official setup compiles the vendored fork statically on Windows. This is not CPython libffi 3.4.4.",
+        "wheel_sha256": "3222ba5d678f80a030e6afbcc33dc1ae5cb45facabb61cee2c7016b8432fde48",
+        "source_urls": [
+          "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/setup.py",
+          "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/src/c/libffi_x86_x64/README",
+          "https://raw.githubusercontent.com/python-cffi/cffi/v2.1.1/src/c/libffi_x86_x64/README.ctypes"
+        ],
+        "source_snapshot": "CFFI v2.1.1; README traces ancestor to CPython e04e1f253ed8 / GCC CVS 2004-01-27, with CFFI modifications",
+        "upstream_libffi_version": "NOASSERTION",
+        "vulnerability_review": "Required separately for this fork; a scan of current upstream libffi does not cover it"
+      }
+    },
+    {
+      "name": "Lost.Compat.NullabilityAttributes embedded source",
+      "version": "0.0.4",
+      "license": "MIT",
+      "purl": "pkg:nuget/Lost.Compat.NullabilityAttributes@0.0.4",
+      "notices": [
+        {
+          "name": "lost-compat-nullability-license.txt",
+          "text": "MIT License\r\n\r\nCopyright (c) 2021 Victor Nova\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.",
+          "sha256": "c63ddbd328422e8d574a1ac41d0d51b7eaa329deb674fc9a923d3963afd395e4",
+          "source_url": "https://api.nuget.org/v3-flatcontainer/lost.compat.nullabilityattributes/0.0.4/lost.compat.nullabilityattributes.0.0.4.nupkg"
+        }
+      ],
+      "file_hashes": [
+        "2ebd4492e28442ef1f1af587afe5b3a090c2ebfa220758ded4f1450f2a27f13a"
+      ],
+      "provenance": {
+        "basis": "Official Python.NET v3.2.1 project references this source-only package; corresponding embedded nullable TypeDefs observed in the exact official wheel hosting DLL, not a separately shipped NuGet DLL.",
+        "project_url": "https://raw.githubusercontent.com/pythonnet/pythonnet/v3.2.1/src/runtime/Python.Runtime.csproj",
+        "host_wheel": "pythonnet 3.2.1",
+        "vulnerability_review": "Source-only attribute code; distinguish from a native executable runtime dependency"
+      }
     }
   ]
 }

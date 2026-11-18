@@ -1,6 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 import os
+import json
+from pathlib import Path
+import sys
 
 profile = os.environ.get('RITMO_BUILD_PROFILE', 'preview')
 if profile not in ('preview', 'full'):
@@ -30,6 +33,17 @@ a = Analysis(
     excludes=preview_excludes if profile == 'preview' else [],
     noarchive=False,
 )
+if profile == 'preview':
+    # CPython 3.14 targets Windows 10+. Do not redistribute the runner's OS
+    # API-set/UCRT DLLs. Refuse a same-named DLL from an unproven source.
+    sys.path.insert(0, os.path.join(SPECPATH, 'scripts'))
+    from preview_system_dlls import separate_os_prerequisites
+    a.binaries, os_prerequisites = separate_os_prerequisites(a.binaries, os.environ['WINDIR'])
+    report = Path(os.environ.get('RITMO_BUILD_ROOT', Path(SPECPATH) / 'build')) / 'preview-os-prerequisites.json'
+    report.parent.mkdir(parents=True, exist_ok=True)
+    report.write_text(json.dumps({'minimum_platform':'Updated Windows 10/11 x64 with WebView2',
+                                  'not_redistributed':os_prerequisites}, indent=2), encoding='utf8')
+    a.datas.append(('release/os-prerequisites.json', str(report), 'DATA'))
 pyz = PYZ(a.pure)
 exe = EXE(
     pyz,

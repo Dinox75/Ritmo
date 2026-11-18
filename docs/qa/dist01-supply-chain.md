@@ -64,3 +64,67 @@ Erros de extração, utilitário ausente, saída inválida e falhas de atualiza�
 No CI, arquive os relatórios `*.json`, logs `*.txt` e `scan-report.json` mesmo após falha. Evite enviar recursivamente todo o diretório de scan: ele contém a cópia extraída e o cache de feeds. Se for necessário guardar o banco para reprodução, publique o snapshot como evidência separada, com hash e controle de tamanho. Nenhum desses caches deve entrar no ZIP do aplicativo.
 
 Referências das ferramentas: [pip-audit](https://github.com/pypa/pip-audit), [cve-bin-tool 3.4 no PyPI](https://pypi.org/project/cve-bin-tool/3.4/), [manual do CVE Binary Tool](https://cve-bin-tool.readthedocs.io/en/latest/MANUAL.html). A CLI instalada pinada é a autoridade sobre as opções efetivamente usadas nesta execução.
+
+## Continuação: scanner nativo independente e componentes internos
+
+O run 44155283583 concluiu o pip-audit dos 19 componentes Python distribuídos
+sem achados, mas o mirror `mirror.cveb.in` não respondeu ao cve-bin-tool. A falha
+foi preservada como falha, sem inventar zero CVEs.
+
+Foi usado também [Grype 0.122.0](https://github.com/anchore/grype/releases/tag/v0.122.0),
+ferramenta Apache-2.0, com [binário oficial Windows](https://oss.anchore.com/docs/installation/grype/).
+ZIP da ferramenta: `617017fbf9078bb9dff57c04c9e59e4dd7b9c93f861640e136fdd5af20263891`;
+EXE: `d4c07a34bfd9aea9846d00f94093e909420bb1e59958a5907708f6b9f28209c3`.
+Ele consulta localmente CPE/PURL do SBOM verificado usando a base pública gratuita
+da Anchore; baixa a base, sem enviar materiais, banco, conversas ou o SBOM.
+Não entra no ZIP do aplicativo. `scan_grype_bundle.py` exige o EXE pinado, vincula
+os resultados ao candidato e testa um controle positivo separado (OpenSSL 1.0.1f,
+Heartbleed). Seu relatório nunca aprova publicação automaticamente.
+
+```powershell
+python scripts/scan_grype_bundle.py --assets <assets> --out <novo-diretorio> `
+  --commit <commit> --run-id <run> --grype <grype.exe> `
+  --database-dir <cache-Grype-v6-revisado>
+```
+
+Sem `--database-dir`, a ferramenta baixa sua base no diretório novo. Com cache
+explícito, o auto-update fica desligado; o relatório guarda hash e metadados do
+banco. O CI exige pip-audit concluído e o scanner nativo independente sem achados
+nem lacunas; a falha do scanner antigo continua disponível, sem ser apresentada
+como aprovação. Encontrar um CVE significa correspondência a revisar, não prova
+de exploração do aplicativo.
+
+Na revisão do candidato, o fork libffi incorporado estaticamente em **CFFI
+2.1.1 para Windows x64** mostrou origem distinta de libffi 3.4.4 do CPython. Foram
+incluídos o aviso MIT desse fork e a origem exata do wheel/binário. Não se atribuiu
+ao fork uma versão upstream inventada; sua aplicabilidade de CVEs permanece
+pendente. Também foi incluído o aviso MIT de Lost.Compat.NullabilityAttributes
+0.0.4, código fonte de atributos incorporado ao Python.Runtime.dll. Dependências
+de compilação de CLR-loader (NXPorts/DNLib) não são automaticamente declaradas
+como bibliotecas distribuídas sem evidência de presença no binário.
+
+Tcl/Tk foram separados por nomes exatos para impedir que `tcl9tk90.dll` fosse
+classificado como Tcl. LibTomMath 1.3.0 e zlib 1.3.2 receberam hashes comparados
+às DLLs oficiais de `python/cpython-bin-deps`, fontes e avisos próprios. As DLLs
+API-set/UCRT de `Windows/System32` passam a ser pré-requisitos do Windows 10/11,
+sem redistribuição. O build recusa a exclusão de um arquivo com mesmo
+nome oriundo de outra pasta; o manifesto registra nomes/hashes excluídos, sem
+caminhos pessoais. Cada mudança exige outro ZIP e outro ensaio nativo.
+
+No candidato `0dc17d4a…`, o Grype completou a consulta à base construída em
+2026-11-17T06:20:58Z, hash do SQLite da ferramenta
+`303ba44739343769e0e15bd0d50af62e142491b256bb533a8cfaf13ab00ca1b7`.
+O controle positivo detectou CVE-2014-0160. Foram reportadas **26 correspondências**
+em CPython, SQLite, Expat e XZ. [Bruto](pr11-run44155283583-grype.json),
+[resumo/cobertura](pr11-run44155283583-grype-summary.json) e
+[controle positivo sintético](pr11-grype-positive-control.json).
+
+A revisão não aplica automaticamente o rótulo “vulnerável” ao Ritmo: o
+[aviso Python sobre CVE-2026-119170](https://github.com/python/cpython/issues/160923)
+limita o caso a OpenSSL em FIPS; a aplicação não declara conformidade FIPS. A
+[lista oficial SQLite](https://www.sqlite.org/cves.html) distingue CVE-2026-119586
+(CLI `.recover`, ausente no pacote) e CVE-2025-70873 (extensão zipfile do CLI) dos
+casos do motor/FTS. Já os requisitos dos CVEs de FTS5/Expat e a cobertura do fork
+CFFI precisam de revisão específica; não foram suprimidos para publicar. A
+correção “3.14.11” indicada para um caso não implica um instalador PSF já lançado:
+o release ainda retornou 404 na consulta desta rodada.
