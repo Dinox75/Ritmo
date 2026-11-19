@@ -1,0 +1,24 @@
+✔ real parsers extract synthetic TXT, DOCX and PDF (87.8126ms)
+✔ invalid, encrypted/empty, XML entities and expanded DOCX blocked (131.4825ms)
+✔ forged ZIP expansion size aborts before processing later entries (165.2801ms)
+✔ server events separate focus and pause, and keep running after disconnect (2.1664ms)
+✔ one active session, valid state transitions, bounds and ownership references (0.6267ms)
+✔ specific anchor must actually exist; plain text stays plain (0.2831ms)
+✔ event cap never traps an open session: finishing stays possible (1.7622ms)
+✔ restore freezes elapsed focus and excludes backup/restore downtime from pause (4.0793ms)
+✔ identity required, CSRF, private no-store and no wildcard CORS (2149.1065ms)
+✔ account isolation, idempotency hash and simultaneous tabs (2052.3305ms)
+✔ TXT, DOCX, PDF extraction and direct ID/private download (3173.3006ms)
+✔ notes anchored to real material text; hostile content is never executed (884.8566ms)
+✔ backup and restore separate account, checksums, remapping, empty-account CAS (1312.4384ms)
+✔ persist through worker restart and restore an open focus as frozen pause in another instance (8987.6398ms)
+✔ a delayed note confirmation never clears newer local edits (18840.4936ms)
+✔ subject cards cannot reassign a local draft to another subject (2864.0707ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 42911.4974

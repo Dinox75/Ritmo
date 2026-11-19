@@ -1,0 +1,64 @@
+{
+  "environment": "Windows, Edge headless, local synthetic QA identity only",
+  "widths": [
+    {
+      "width": 390,
+      "theme": "dark",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1366,
+      "theme": "dark",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1366,
+      "theme": "light",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1920,
+      "theme": "dark",
+      "views": 6,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1920,
+      "theme": "light",
+      "views": 6,
+      "horizontalOverflow": false
+    }
+  ],
+  "checks": [
+    "login simulation, subject/meta, session reload/pause/resume",
+    "TXT import, reading, search, selection, anchored note, highlight, inert hostile TXT",
+    "offline failure, retained draft, exact request retry",
+    "second tab conflict does not override state",
+    "ambient rain/brown/volume state, session audio suspension/completion; no acoustic measurement",
+    "keyboard focus reachable",
+    "backup UI download",
+    "logout removes account draft and requires login"
+  ],
+  "jsErrors": []
+}

@@ -1,3 +1,4 @@
 # Upstream license bytes are pinned by SHA-256; Windows checkout must not
 # normalize their line endings or trim the upstream text.
 scripts/release_licenses/* -text
+webapp/ui/third-party.txt -text -whitespace
