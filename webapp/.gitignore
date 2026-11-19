@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.wrangler/
+.qa/
+.sites-runtime/
+.openai/source-state.json
+.openai/workflow-state.json
+.dev.vars*
+outputs/
+.audit-local.json

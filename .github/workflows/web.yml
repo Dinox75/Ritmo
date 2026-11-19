@@ -1,0 +1,36 @@
+name: Web pilot
+on:
+  pull_request:
+    paths: ['webapp/**', 'docs/web/**', '.github/workflows/web.yml']
+  push:
+    branches: [main, feat/ritmo-web-pilot]
+    paths: ['webapp/**', 'docs/web/**', '.github/workflows/web.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  web:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: webapp
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+      - run: npm ci
+      - run: node scripts/notices.mjs
+      - run: node scripts/build.mjs
+      - run: node --test --test-concurrency=1 tests/*.test.mjs
+      - run: node scripts/qa-ui.mjs
+      - run: npm audit --audit-level=moderate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-local-qa
+          path: webapp/.qa
+          if-no-files-found: warn

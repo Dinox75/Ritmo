@@ -1,0 +1,8 @@
+{
+  "name": "ritmo-web", "version": "0.1.0", "private": true, "type": "module",
+  "engines": {"node": ">=24.0.0"},
+  "scripts": {"build":"node scripts/build.mjs", "test":"node --test --test-concurrency=1 tests/*.test.mjs", "dev":"node scripts/dev.mjs", "db:generate":"node node_modules/drizzle-kit/bin.cjs generate", "test:ui":"node scripts/qa-ui.mjs"},
+  "dependencies": {"unpdf":"2.2.1", "fflate":"0.8.3", "fast-xml-parser":"5.12.1"},
+  "devDependencies": {"esbuild":"0.28.2", "miniflare":"4.20260730.0", "drizzle-kit":"0.31.11", "drizzle-orm":"0.45.2", "@playwright/test":"1.65.1"},
+  "overrides":{"miniflare":{"undici":"8.12.4","sharp":"0.35.5"},"esbuild":"$esbuild"}
+}

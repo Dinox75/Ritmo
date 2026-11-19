@@ -2,6 +2,10 @@
 
 # Ritmo
 
+### Piloto web privado
+
+A versão web em [`webapp/`](webapp/README.md) usa backend independente, login ChatGPT gerenciado pelo Sites, banco D1 e armazenamento privado R2. Matérias, metas, sessões, materiais e notas não dependem do computador ligado. Requer internet; o tutor generativo está explicitamente indisponível e não há sincronização automática com o desktop. Veja [arquitetura](docs/web/architecture.md), [QA e limitações de verificação](docs/web/qa.md). A disponibilidade da URL e os testes reais de implantação são registrados nesse relatório, separados dos testes locais. DIST-01 continua aplicável ao pacote Windows, sem ser tratado como aprovação da versão web.
+
 **Distribuição em preparação:** a [PR #11](https://github.com/Dinox75/Ritmo/pull/11)
 trata os bloqueios da primeira prévia. Consulte [distribuição](docs/distribuicao.md),
 [segurança e reporte privado](SECURITY.md) e os relatórios antes de usar um pacote
