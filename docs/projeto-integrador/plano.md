@@ -23,10 +23,11 @@ Somente console.log perde consistência com commit e pode vazar conteúdo; coloc
 ## Sequência de verificação
 
 - [x] Baseline: 16 testes e UI, antes de editar código.
-- [ ] Testes RED para defeitos reproduzidos.
-- [ ] Correções pequenas e GREEN.
-- [ ] Auditoria: testes RED, migração nova e implementação transacional.
-- [ ] Suíte, migração anterior→nova, falhas induzidas, UI e revisão independente.
-- [ ] Documentos completos, relatório/PDF conferido, PR em rascunho.
+- [x] Testes RED para defeitos reproduzidos.
+- [x] Correções pequenas e GREEN.
+- [x] Auditoria: testes RED, migração nova e implementação transacional.
+- [x] Suíte, migração anterior→nova, falhas induzidas, UI e revisão independente.
+- [x] Documentos técnicos, relatório parcial/PDF conferido; prontidão para abrir PR em rascunho.
+- [ ] Ementas, decisão do orientador, avaliação humana, fotos e validação remota legítima (pendências externas; não bloqueiam esta entrega local).
 
 Revisão especial: erro após commit não pode apagar original R2 já confirmado; concorrência não pode gerar evento órfão; auditoria não deve ter campos de conteúdo; expiração de acesso simulada não prova cookies Sites; fotos/capturas e opinião de usuário não podem ser inventadas.

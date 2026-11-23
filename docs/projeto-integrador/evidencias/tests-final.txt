@@ -1,0 +1,39 @@
+✔ business audit is atomic, correlated and not duplicated by replay or conflict (1284.6465ms)
+✔ material, note deletion, prepared export and restore contain only technical metadata (124.9809ms)
+✔ audit failure rolls back state and receipt and cleans provisional R2 objects (107.4566ms)
+✔ audit is private, bounded and has stable pagination even for identical instants (78.6758ms)
+✔ audit hides expired rows and prunes to 200 upon a successful new write (712.6621ms)
+✔ concurrent distinct starts commit one business event and a completed session rejects changes (101.6221ms)
+✔ a reply lost after a real commit never deletes a referenced R2 original (1953.758ms)
+✔ real parsers extract synthetic TXT, DOCX and PDF (93.0718ms)
+✔ invalid, encrypted/empty, XML entities and expanded DOCX blocked (132.9806ms)
+✔ forged ZIP expansion size aborts before processing later entries (170.7702ms)
+✔ server events separate focus and pause, and keep running after disconnect (2.0646ms)
+✔ one active session, valid state transitions, bounds and ownership references (0.5984ms)
+✔ specific anchor must actually exist; plain text stays plain (0.2673ms)
+✔ event cap never traps an open session: finishing stays possible (1.775ms)
+✔ restore freezes elapsed focus and excludes backup/restore downtime from pause (3.9637ms)
+✔ identity required, CSRF, private no-store and no wildcard CORS (1177.5497ms)
+✔ account isolation, idempotency hash and simultaneous tabs (144.5419ms)
+✔ TXT, DOCX, PDF extraction and direct ID/private download (244.6725ms)
+✔ notes anchored to real material text; hostile content is never executed (41.6804ms)
+✔ backup and restore separate account, checksums, remapping, empty-account CAS (82.2648ms)
+✔ persist through worker restart and restore an open focus as frozen pause in another instance (3184.6042ms)
+✔ new audit migration preserves a legacy snapshot, receipt, original and linked note (2185.3027ms)
+✔ invalid JSON shapes return 400 instead of reporting a storage outage (1554.7966ms)
+✔ direct foreign note IDs and backup selectors never expose or delete another account (72.2697ms)
+✔ a delayed note confirmation never clears newer local edits (2692.3956ms)
+✔ subject cards cannot reassign a local draft to another subject (2353.5598ms)
+✔ a rejected upload reports completion of the failed attempt, not ongoing work (2502.9507ms)
+✔ a prepared backup is communicated as confirmed status, not an error (2456.5892ms)
+✔ own activity view labels retention and shows only technical entries (2368.9805ms)
+✔ a 503 after note commit preserves the exact request for safe replay (3115.0364ms)
+✔ material loading is explicit and search waits for confirmed text (2544.9077ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 35766.9757

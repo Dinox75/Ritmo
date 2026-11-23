@@ -1,6 +1,6 @@
 # Matriz de rastreabilidade
 
-Esta é a matriz inicial, produzida após diagnóstico e antes da implementação. Coluna de resultado será preenchida por execução; associação curricular **a confirmar pela ementa**. Não é declaração de certificação, benefício educacional ou estudo prévio de uma norma.
+Matriz inicialmente produzida após diagnóstico e antes da implementação; fechamento técnico abaixo, com evidências novas separadas. Associação curricular **a confirmar pela ementa**. Não é declaração de certificação, benefício educacional ou estudo prévio de uma norma.
 
 | Disciplina informada | Problema | Alteração/atividade planejada | Critério de aceitação | Evidência esperada |
 | --- | --- | --- | --- | --- |
@@ -30,3 +30,9 @@ Os pesos informados foram conferidos na p. 6: relatório 30%, coerência 25%, ex
 | Manual, p. 6, critérios | Pesos da avaliação | Organização dos documentos e evidências | Sem promessa de pontuação ou aprovação |
 
 Os vínculos específicos entre auditoria transacional, testes/feedback e as **três ementas** continuam **a confirmar pela ementa**. O manual sustenta o processo do PI, não o programa detalhado das disciplinas. Nenhuma norma técnica foi usada como certificação ou declaração de conformidade.
+
+## Fechamento técnico da rodada
+
+Problema → lógica → implementação → verificação: feedback contraditório → distinguir pendente/rejeitado/confirmado → UI pontual → regressões de upload/backup/carregamento e 503. Falta de correlação → evento de metadados no mesmo commit → audit.mjs + migração 0001 → testes de falha, replay e isolamento. Perda de resposta → confirmação pode já existir → recuperar recibo/preservar R2 → importação e restauração com batch real e retorno perdido. A base de sessão/CAS/backup foi validada, não recriada.
+
+Evidências finais: [31 testes](evidencias/tests-final.txt), [UI](evidencias/ui-final.json), [demonstração técnica](evidencias/demo.json) e [avaliação prática humana pendente](usabilidade.md). Código funcional `79aa55c`. A contagem não mede qualidade didática ou nota acadêmica.
