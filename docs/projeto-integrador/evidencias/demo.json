@@ -1,0 +1,53 @@
+{
+  "kind": "automated-technical-demonstration",
+  "participant": null,
+  "humanEvaluation": false,
+  "at": "2026-11-23T23:17:48.753Z",
+  "commit": "79aa55cf85347b8a634df5c7f931594e5c5662dd",
+  "workerSha256": "a91e7f0cbe310aaecb308755db99e5a25c7827a1b52caa7cf6acde25520a1524",
+  "environment": "Windows / Node 24 / Edge headless / loopback / synthetic auth / isolated D1-R2",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Create subject and weekly target",
+      "completed": true,
+      "automationMs": 161,
+      "observedHumanTime": null,
+      "humanErrors": null,
+      "humanAssistance": null,
+      "humanComments": null
+    },
+    {
+      "id": "T2",
+      "title": "Start, pause, resume, finish and locate in history",
+      "completed": true,
+      "automationMs": 612,
+      "observedHumanTime": null,
+      "humanErrors": null,
+      "humanAssistance": null,
+      "humanComments": null
+    },
+    {
+      "id": "T3",
+      "title": "Import TXT, find a word, save a linked note and reopen reference",
+      "completed": true,
+      "automationMs": 581,
+      "observedHumanTime": null,
+      "humanErrors": null,
+      "humanAssistance": null,
+      "humanComments": null
+    },
+    {
+      "id": "T4",
+      "title": "Export and restore in a separate empty synthetic account",
+      "completed": true,
+      "automationMs": 833,
+      "observedHumanTime": null,
+      "humanErrors": null,
+      "humanAssistance": null,
+      "humanComments": null
+    }
+  ],
+  "jsErrors": [],
+  "result": "passed"
+}

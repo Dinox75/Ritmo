@@ -13,6 +13,26 @@ privado, sem publicar detalhes exploráveis ou dados pessoais.
 
 ## Fronteira de proteção
 
+### Web privado (separado do desktop)
+
+O Worker em `webapp/` confia exclusivamente no dispatch Sites para identidade
+autenticada; os headers `oai-authenticated-*` **não** são um login alternativo
+fornecido pelo navegador. Não exponha o Worker sem esse proxy confiável. Cookies,
+HTTPS e ciclo de acesso são gerenciados pela plataforma. Origin exata e header
+próprio protegem mutações; cada consulta, referência e download usa o owner da
+conta. Testes sintéticos em localhost não aprovam o login Sites real.
+
+A continuação local do PI acrescenta auditoria técnica própria com retenção
+limitada, sem textos, email, cookies, tokens ou headers completos. Não é log
+inviolável. Rollback da auditoria impede confirmação da mutação. Resultado de
+commit desconhecido preserva originais; pode exigir reconciliação posterior de
+órfãos R2. Não há promessa de registrar falha no próprio banco indisponível.
+Veja [arquitetura web](docs/web/architecture.md) e [validação do PI](docs/projeto-integrador/validacao.md).
+Esta continuação não foi implantada no Site nesta etapa. DIST-01 trata a
+distribuição Windows e não atribui DLLs ao Worker.
+
+### Desktop local
+
 A API escuta apenas em 127.0.0.1 e exige uma credencial efêmera para rotas de
 dados/alteração. O status público informa somente prontidão, identificação opaca
 da instância e se é pacote. Host e Origin também são validados.

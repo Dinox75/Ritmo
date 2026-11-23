@@ -1,6 +1,6 @@
 # Ritmo web — piloto privado
 
-Data: 2026-11-19. Base: main `7815c54`. Decisões técnicas do implementador dentro do pedido de implementação e publicação; não implicam aprovação da logo #4 nem da distribuição Windows.
+Arquitetura inicial: 2026-11-19; revisão da continuação local do PI: 2026-11-23. Base inicial: main `7815c54`. Decisões técnicas do implementador dentro do pedido original; não implicam aprovação da logo #4 nem da distribuição Windows. Mudanças do PI nesta branch não foram implantadas no Site.
 
 ## Arquitetura escolhida antes da implementação
 
@@ -18,11 +18,17 @@ Decisão de implementação do piloto: registros de cada conta são um snapshot 
 
 ## Sessões, concorrência e rede
 
-Relógio servidor, estado e eventos persistidos; somente uma sessão aberta por proprietário (índice parcial). Cada ação carrega ID idempotente e versão esperada. Atualização condicional e evento ocorrem num batch D1 atômico. Conflito retorna 409 e exige recarregar o estado confirmado, sem sobrescrever outra aba. Foco continua enquanto desconectado, até pausa/conclusão confirmada; fechar aba não gera evento. UI mostra tempo estimado desde a última confirmação e mantém a indicação de rede. Rascunhos de notas são locais por conta e explicitamente não sincronizados, com aviso antes de sair; o status salvo só aparece após confirmação.
+Relógio servidor, estado e eventos persistidos; somente uma sessão aberta por proprietário. A regra é verificada no domínio sobre o snapshot e protegida pela atualização condicional da versão da conta (CAS); **não há índice parcial SQL de sessão única no web**. Cada ação carrega ID idempotente e versão esperada. Atualização condicional, recibo e, na continuação do PI, evento de auditoria ocorrem num batch D1 atômico. Conflito retorna 409 e exige recarregar o estado confirmado, sem sobrescrever outra aba. Foco continua enquanto desconectado, até pausa/conclusão confirmada; fechar aba não gera evento. UI mostra tempo estimado desde a última confirmação e mantém a indicação de rede. Rascunhos de notas são locais por conta e explicitamente não sincronizados, com aviso antes de sair; o status salvo só aparece após confirmação. A continuação local mantém o mesmo pedido pendente diante de 503/429 para reenvio exato, sem chamar resultado incerto de falha definitiva.
 
 ## Arquivos, limites e recuperação
 
-Piloto: 2 MiB por original, 100 páginas PDF, 120 mil caracteres extraídos, DOCX com expansão limitada a 8 MiB e 512 entradas, XML sem DTD/entidades, nomes seguros e sem HTML confiável. Processamento limitado dentro do isolate Worker, sem subprocesso/comando/rede externa; rejeitar formato inválido ou documento sem texto com erro claro. Sem OCR. Quota 20 MiB de originais/conta, 50 materiais, 50 matérias, 1000 notas, 2000 sessões. Extratores PDF/DOCX têm avaliação própria de dependências; custo CPU de documentos complexos pode impedir importação no plano gratuito e precisa ser medido no deploy.
+Piloto: 2 MiB por original, 100 páginas PDF, 120 mil caracteres extraídos, DOCX com expansão limitada a 8 MiB e 512 entradas, XML sem DTD/entidades, nomes seguros e sem HTML confiável. Processamento limitado dentro do isolate Worker, sem subprocesso/comando/rede externa; rejeitar formato inválido ou documento sem texto com erro claro. Sem OCR. Quota 20 MiB de originais/conta, 50 materiais, 50 matérias, **500 notas e 500 sessões**, conforme `LIMITS` do domínio. Extratores PDF/DOCX têm avaliação própria de dependências; custo CPU de documentos complexos pode impedir importação no plano gratuito e precisa ser medido no deploy.
+
+## Continuação do Projeto Integrador (local, sem deploy)
+
+A migração 0001 acrescenta `audit_events`, sem reescrever migrações anteriores. Sucesso do CAS e inserção efetiva do recibo condicionam a auditoria e seu expurgo: batch com UPDATE de zero linhas não é tratado como sucesso. A consulta tem escopo da própria conta, cursor estável por instante/ID, padrão 20/máximo 50. Retém até 200 registros e filtra 30 dias; limpeza física ocorre em novas gravações, sem cron prometido. Exportação registra preparação completa, na versão do snapshot serializado, não recebimento do download. Auditoria não integra backup de estudos nem é transplantada entre contas no restore.
+
+Falha de auditoria aborta a mutação. Se a resposta do commit se perder, o recibo permite recuperar o estado; chaves R2 já referenciadas são preservadas. Se nem a consulta do recibo for possível, o resultado é desconhecido: retorna 503 e preserva os objetos para reconciliação posterior. Pode sobrar objeto órfão, preferível a apagar um original possivelmente confirmado. Não há log inviolável, forense completo ou promessa de registrar no próprio banco sua indisponibilidade. [Detalhes e contrato](../projeto-integrador/endpoints.md).
 
 Backup explícito JSON versionado inclui registros e originais com hashes. Exportação usa uma leitura transacional e arquivos imutáveis. Restauração validada, em conta vazia, IDs novos e vínculos remapeados; arquivos são gravados antes de batch SQL e compensados em falha. Sessão aberta é restaurada pausada, sem contar tempo entre exportação e importação. Não é backup automático nem sincronização desktop. Testar restore em armazenamento isolado; não substituir dados existentes.
 
