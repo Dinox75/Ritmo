@@ -2,6 +2,10 @@
 
 # Ritmo
 
+### Projeto Integrador em andamento
+
+Continuação local em [docs/projeto-integrador](docs/projeto-integrador/README.md): diagnóstico, critérios, matriz das disciplinas, auditoria técnica e evidências separadas do histórico. Depende da PR #13; tema/ementas/avaliação humana e fotos têm pendências explícitas. Esta etapa não publica mudança no Site, não faz merge/release e não altera a instalação pessoal.
+
 ### Piloto web privado
 
 A versão web em [`webapp/`](webapp/README.md) usa backend independente, login ChatGPT gerenciado pelo Sites, banco D1 e armazenamento privado R2. Matérias, metas, sessões, materiais e notas não dependem do computador ligado. Requer internet; o tutor generativo está explicitamente indisponível e não há sincronização automática com o desktop. Veja [arquitetura](docs/web/architecture.md), [QA e limitações de verificação](docs/web/qa.md). A disponibilidade da URL e os testes reais de implantação são registrados nesse relatório, separados dos testes locais. DIST-01 continua aplicável ao pacote Windows, sem ser tratado como aprovação da versão web.

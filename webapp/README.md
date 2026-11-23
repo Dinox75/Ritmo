@@ -2,6 +2,8 @@
 
 Aplicação independente do servidor Windows. Backend Worker ES module, autenticação gerenciada Sites/ChatGPT, D1 para registros e R2 privado para originais e texto extraído. A primeira implantação começa vazia.
 
+Continuação local do Projeto Integrador (23/11/2026): auditoria técnica transacional, consulta própria em Configurações, validação JSON e feedback de operações/carregamento. A perda de resposta depois de um commit preserva arquivos confirmados; 503/429 mantém a chave para reenvio. Esta continuação **não foi publicada** no Site. [Escopo, critérios e evidências](../docs/projeto-integrador/README.md).
+
 ## Desenvolvimento (Node 24)
 
 ```powershell
@@ -25,6 +27,8 @@ Criar/editar matéria e meta; iniciar foco; pausar, retomar e concluir; importar
 O servidor calcula tempo a partir dos eventos; a tela apenas estima desde a última resposta. Fechar a aba ou perder conexão **mantém o foco em andamento** até uma pausa/conclusão confirmada. Duas abas usam uma versão global da conta: conflito retorna 409 e preserva o rascunho, sem sobrescrever a outra aba. Reenvio exato usa a mesma chave; alteração do corpo com chave antiga é recusada. Rascunhos são por conta, neste dispositivo, não sincronizados, e são removidos ao sair.
 
 Requer internet. Sem service worker, cache privado ou promessa offline. Tutor generativo explicitamente indisponível. Nenhum modelo local, API OpenAI ou servidor do PC é exposto; não há cobrança por chamada de IA. Inferência futura exige servidor próprio ou hospedagem de modelo aberto, com RAM/VRAM, custo e isolamento a avaliar. Aula booleana permanece no desktop; não se anuncia porte que não foi testado.
+
+Na continuação do PI, `GET /api/audit` lista apenas a própria conta, 20 eventos por padrão/50 no máximo e cursor por instante/ID. Guarda metadados de negócio, nunca conteúdo dos estudos. Até 200 eventos e 30 dias na consulta; limpeza física acontece em nova gravação bem-sucedida, sem cron. Auditoria acompanha estado/recibo no mesmo batch; falha aborta a mutação. Exportação registra preparação concluída, não recebimento do arquivo; não altera versão da conta. A trilha não é inviolável, não contém todas as falhas de acesso e não entra no backup de estudos. [Contrato completo](../docs/projeto-integrador/endpoints.md).
 
 ## Limites do piloto
 
